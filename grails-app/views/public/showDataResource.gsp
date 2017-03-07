@@ -134,19 +134,6 @@
                 <cl:dataCurrency date="${instance.dataCurrency}"/></p>
         </g:if>
 
-        <g:if test="${!grailsApplication.config.disableLoggerLinks.toBoolean() && (instance.resourceType == 'website' || instance.resourceType == 'records')}">
-            <div id='usage-stats'>
-                <h2><g:message code="public.sdr.usagestats.labe" /></h2>
-
-                <div id='usage'>
-                    <p><g:message code="public.usage.des" />...</p>
-                </div>
-                <g:if test="${instance.resourceType == 'website'}">
-                    <div id="usage-visualization" style="width: 600px; height: 200px;"></div>
-                </g:if>
-            </div>
-        </g:if>
-
         <g:if test="${instance.resourceType == 'records'}">
             <h2><g:message code="public.sdr.content.label09" /></h2>
 
@@ -171,7 +158,21 @@
                 <div id="charts"></div>
             </div>
         </g:if>
+
         <cl:lastUpdated date="${instance.lastUpdated}"/>
+
+        <g:if test="${!grailsApplication.config.disableLoggerLinks.toBoolean() && (instance.resourceType == 'website' || instance.resourceType == 'records')}">
+            <div id='usage-stats'>
+                <h2><g:message code="public.sdr.usagestats.labe" /></h2>
+
+                <div id='usage'>
+                    <p><g:message code="public.usage.des" />...</p>
+                </div>
+                <g:if test="${instance.resourceType == 'website'}">
+                    <div id="usage-visualization" style="width: 600px; height: 200px;"></div>
+                </g:if>
+            </div>
+        </g:if>
     </div><!--close column-one-->
     <div class="span4">
         <g:if test="${fieldValue(bean: instance, field: 'imageRef') && fieldValue(bean: instance, field: 'imageRef.file')}">
