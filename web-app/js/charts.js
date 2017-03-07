@@ -8,8 +8,6 @@
 //// an instance of a web app - used to display search results
 //var biocacheWebappUrl = "http://biocache.ala.org.au";  // should be overridden from config by the calling page
 
-console.debug('Is this thing on?');
-
 /**
  * Load Spring i18n messages into JS
  */
@@ -593,6 +591,10 @@ function initTaxonTree(treeOptions) {
           },
           dataType: 'jsonp',
           success: function(data) {
+              if(!data) {
+                  return [];
+              }
+
               var nodes = [];
               var rank = data.rank;
               $.each(data.taxa, function(i, obj) {
