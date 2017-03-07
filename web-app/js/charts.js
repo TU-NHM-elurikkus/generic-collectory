@@ -373,7 +373,7 @@ function drawTaxonomyChart(data, chartOptions, query) {
     });
 
     // resolve the chart options
-    var rango="";
+    var rango = "";
     var opts = $.extend({}, taxonomyPieChartOptions);
     opts = $.extend(true, opts, chartOptions);
     switch(data.rank) {
@@ -400,8 +400,8 @@ function drawTaxonomyChart(data, chartOptions, query) {
             break;
         default:
             rango=data.rank;
-     }
-    opts.title = opts.name ? opts.name + " " + jQuery.i18n.prop('charts.js.by') + " " + rango : jQuery.i18n.prop('charts.js.by') + " " + rango;
+    }
+    opts.title = opts.name ? opts.name + " " + jQuery.i18n.prop('charts.js.by').toLowerCase() + " " + rango : jQuery.i18n.prop('charts.js.by') + " " + rango;
 
     // create the outer div that will contain the chart and the additional links
     var $outerContainer = $('#taxa');

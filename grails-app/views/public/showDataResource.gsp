@@ -372,6 +372,7 @@
       }
 
       // species pages
+      /*
       $.ajax({
           url: bieServiceUrl + "/search.json?q=*&fq=uid:${instance.uid}",
           dataType: 'jsonp',
@@ -385,6 +386,7 @@
               }
           }
       });
+      */
 
       // records
       if (${instance.resourceType == 'records'}) {
