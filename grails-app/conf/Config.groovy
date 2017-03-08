@@ -170,7 +170,7 @@ grails.mime.types = [ html: ['text/html','application/xhtml+xml'],
 
 // What URL patterns should be processed by the resources plugin
 //grails.resources.uri.prefix = ''
-grails.resources.adhoc.patterns = ['/img/**', '/images/*', '/data/*', '/css/*', '/js/**', '/plugins/**']
+grails.resources.adhoc.patterns = ['/img/**', '/images/**', '/data/*', '/css/*', '/js/**', '/plugins/**']
 
 // The default codec used to encode data with ${}
 grails.views.default.codec="html" // none, html, base64
