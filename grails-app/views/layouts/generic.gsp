@@ -6,7 +6,7 @@
         <meta name="app.build" content="${g.meta(name:'app.build')}"/>
         <title><g:layoutTitle /></title>
         <g:render template="/layouts/global" plugin="collectory"/>
-        <r:require modules="jquery, jquery_migration, bootstrap, application, collectory" />
+        <r:require modules="jquery, jquery_migration, application, bootstrap, commons, generic" />
         <r:layoutResources/>
         <g:layoutHead />
     </head>
