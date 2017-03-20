@@ -304,12 +304,12 @@ function updateList(features) {
         var firstColl = collList[0];
         var content = "";
         if (firstColl.attributes.instName == null && firstColl.attributes.entityType == "Collection") {
-            content += "<li><span class='highlight'>" + jQuery.i18n.prop('collections.with.no.institution') + "</span><ul>";
+            content += "<li class='indented-list-item'><span class='highlight'>" + jQuery.i18n.prop('collections.with.no.institution') + "</span><ul>";
         } else if (firstColl.attributes.instName == null && firstColl.attributes.entityType == "DataProvider") {
-            content += "<li><span class='highlight'>" + jQuery.i18n.prop('dataproviders.list') + "</span><ul>";
+            content += "<li class='indented-list-item'><span class='highlight'>" + jQuery.i18n.prop('dataproviders.list') + "</span><ul>";
 
         } else {
-            content += "<li><a class='highlight' href='" + baseUrl + "/public/show/" + firstColl.attributes.instUid + "'>" +
+            content += "<li class='indented-list-item'><a class='highlight' href='" + baseUrl + "/public/show/" + firstColl.attributes.instUid + "'>" +
                     firstColl.attributes.instName + "</a><ul>";
         }
         // show each collection
@@ -319,7 +319,7 @@ function updateList(features) {
             if (coll.attributes.acronym != undefined) {
                 acronym = " (" + coll.attributes.acronym + ")"
             }
-            content += "<li>";
+            content += "<li class='indented-list-item'>";
             content += "<a href=" + baseUrl + "/public/show/" + coll.attributes.uid + ">" +
                     coll.attributes.name + acronym + "</a>";
             if (!coll.attributes.isMappable) {

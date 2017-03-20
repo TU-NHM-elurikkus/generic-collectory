@@ -4,3 +4,7 @@
 #main-content #resultsReturned .dropdown-menu {
     background-color: #fff;
 }
+
+.indented-list-item {
+    padding-left: 16px;
+}
