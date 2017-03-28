@@ -28,19 +28,19 @@
             <div class="col-3">
                 <ul id="adminNavMenu" class="nav flex-column">
                     <li class="nav-item">
-                        <a href="javascript:showSection('adminTools');" class="nav-link">
+                        <a href="javascript:showSection('adminTools');">
                             <i class="icon-chevron-right">&nbsp;</i> <g:message code="manage.list.li01" />
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a href="javascript:showSection('yourMetadata');" class="nav-link">
+                        <a href="javascript:showSection('yourMetadata');">
                             <i class="icon-chevron-right">&nbsp;</i> <g:message code="manage.list.li02" />
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a href="javascript:showSection('addCollection');" class="nav-link">
+                        <a href="javascript:showSection('addCollection');">
                             <i class="icon-chevron-right">&nbsp;</i> <g:message code="manage.list.li03" />
                         </a>
                     </li>
