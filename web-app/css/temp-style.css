@@ -17,12 +17,6 @@
     height:470px;
 }
 
-/* use child combinator to hide effect in IE6*/
-div > div#map-container {
-    background:transparent url(../images/map/map-shadow.png) right bottom no-repeat;
-    width: 100%;
-    height: 485px;
-}
 /********************************\
 * Styling for map filter buttons
 \********************************/
@@ -281,12 +275,14 @@ ul.facets {
 .category { font-weight:bold; min-width: 120px; }
 .category-large { font-weight:bold; min-width: 180px;  }
 
+/*
 .nav-stacked .icon-chevron-right {
     float: right;
     margin-top: 2px;
     margin-right: -6px;
     opacity: .25;
 }
+*/
 
 #adminNavMenu { margin-top:10px; }
 
