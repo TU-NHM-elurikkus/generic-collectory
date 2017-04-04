@@ -1575,7 +1575,7 @@ class CollectoryTagLib {
         if (isAuthorisedToEdit(attrs.uid, request.getUserPrincipal()?.attributes?.email)) {
             def paramsMap
             // anchor class
-            paramsMap = [class:'edit btn']
+            paramsMap = [class:'']
             // action
             paramsMap << [action: (attrs.containsKey('action')) ? attrs.remove('action').toString() : 'edit']
             // optional controller
@@ -1586,8 +1586,11 @@ class CollectoryTagLib {
             // add any remaining attrs as params
             paramsMap << [params: attrs]
 
-            out << "<div><span class='buttons'>"
-            out << link(paramsMap) {body() ?: 'Edit'}
+            out << '<div><span class="buttons">'
+            out << link(paramsMap) {
+                '<button class="erk-button erk-button--light">Edit</button>'
+            }
+            // out << link(paramsMap) {body() ?: 'Edit'}
             out << "</span></div>"
         } else {
             out << attrs.notAuthorisedMessage
