@@ -787,24 +787,6 @@ class CollectoryTagLib {
     /**
      * Takes the values as java list or JSON string and sets up checkboxes.
      */
-    // def checkboxSelect = {attrs ->
-    //     out << "<table class='span8'><tr>"
-    //     //log.info "attrs.value=${attrs.value}"
-    //     attrs.from.eachWithIndex { it, index ->
-    //         def checked
-    //         if (attrs.value instanceof String) {
-    //             checked = (attrs.value.indexOf(it) >= 0) ? "checked='checked'" : ""
-    //         } else {
-    //             checked = (it in attrs.value) ? "checked='checked'" : ""
-    //         }
-    //         out << "<td><input name='${attrs.name}' type='checkbox' ${checked}' value='${it}'/>${it}</td>"
-    //         if (index > 0 && ((index+1) % 6) == 0) {
-    //             out << "</tr>"
-    //         }
-    //     }
-    //     out << "</tr></table>"
-    // }
-
     def checkboxSelect = {attrs ->
         out << "<div>"
 
