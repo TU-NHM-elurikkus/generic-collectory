@@ -198,10 +198,6 @@ function loadDownloadStats(loggerServicesUrl, uid, name, eventType) {
     }
 
     var displayNameMap = {
-        //'thisMonth' : 'This month',
-        //'last3Months' : 'Last 3 months',
-        //'lastYear' : 'Last 12 months',
-        //'all' : 'All downloads'
         'thisMonth' : jQuery.i18n.prop('collectory.js.thismonth'),
         'last3Months' : jQuery.i18n.prop('collectory.js.last3month'),
         'lastYear' : jQuery.i18n.prop('collectory.js.last12month'),
@@ -211,6 +207,7 @@ function loadDownloadStats(loggerServicesUrl, uid, name, eventType) {
     $('div#usage').html(jQuery.i18n.prop('collectory.js.loadingstatistics'));
 
     var url = loggerServicesUrl + "/reasonBreakdown.json?eventId=" + eventType + "&entityUid=" + uid;
+
     $.ajax({
         url: url,
         dataType: 'jsonp',
@@ -222,25 +219,37 @@ function loadDownloadStats(loggerServicesUrl, uid, name, eventType) {
             $('div#usage').html('');
             $.each(displayNameMap, function( nameKey, displayString ) {
                 var value = data[nameKey];
-                var $usageDiv = $('<div class="usageDiv well"/>');
+                var $usageDiv = $('<div class="usageDiv card"/>');
+
                 var nonTestingRecords  = (value.reasonBreakdown["testing"] == undefined) ? value.records : value.records -  value.reasonBreakdown["testing"].records;
                 var nonTestingEvents   = (value.reasonBreakdown["testing"] == undefined) ? value.events  : value.events  -  value.reasonBreakdown["testing"].events;
-                $usageDiv.html('<h4><span>' + displayString + "</span><span class='pull-right'>" + addCommas(nonTestingRecords) + " " + jQuery.i18n.prop('collectory.js.recordsdownloaded') + " " +  addCommas(nonTestingEvents) + " downloads. </span></h4>");
+                $usageDiv.html('<div class="card-header"><h4><span>' + displayString + "</span><span class='float-right'>" + addCommas(nonTestingRecords) + " " + jQuery.i18n.prop('collectory.js.recordsdownloaded') + " " +  addCommas(nonTestingEvents) + " downloads. </span></h4></div>");
+
+                var $usageContent = $('<div class="card-block" />');
                 var $usageTable = $('<table class="table"/>');
-                reasons = sortKV(value['reasonBreakdown']);
+
+                var reasons = sortKV(value['reasonBreakdown']);
+
                 $.each(reasons, function( index, details ) {
                     var usageTableRow = '<tr';
+
                     if (details.key.indexOf("test") >=0){
                         usageTableRow += " style=color:#999999;";
                     }
+
                     usageTableRow += '><td>' + capitalise(details.key) ;
+
                     if (details.key.indexOf("test") >=0){
                         usageTableRow += "<br/><span style='font-size: 12px;'> *" + jQuery.i18n.prop('collectory.js.testingstatistics') + "</span>";
                     }
+
                     usageTableRow += '</td><td style="text-align: right;">' + addCommas(details.value.events) + ' events</td><td style="text-align: right">'  + addCommas(details.value.records)  + ' records </td></tr>';
                     $usageTable.append($(usageTableRow));
                 });
-                $usageDiv.append($usageTable);
+
+                $usageContent.append($usageTable);
+                $usageDiv.append($usageContent);
+
                 $('div#usage').append($usageDiv);
             })
         }

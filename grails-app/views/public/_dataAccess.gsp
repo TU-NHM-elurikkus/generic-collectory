@@ -12,21 +12,19 @@
     </h4>
 
     <div class="dataAccess btn-group-vertical">
-        <a href="${grailsApplication.config.biocacheUiURL}/occurrences/search?q=${facet}:${instance.uid}" class="btn">
-            <span class="icon icon-list"></span>&nbsp;
-            <g:message code="dataAccess.view.records"/>
+        <a href="${grailsApplication.config.biocacheUiURL}/occurrences/search?q=${facet}:${instance.uid}">
+            <button class="erk-button erk-button--light">
+                <span class="fa fa-list"></span>&nbsp;
+                <g:message code="dataAccess.view.records"/>
+            </button>
         </a>
-
-        %{--
-        <a href="${grailsApplication.config.biocacheServicesUrl}/occurrences/download?q=${facet}:${instance.uid}" class="btn">
-            <span class="icon icon-download"></span Download records
-        </a>
-        --}%
 
         <g:if test="${!grailsApplication.config.disableLoggerLinks.toBoolean() && grailsApplication.config.loggerURL}">
-            <a href="${grailsApplication.config.loggerURL}/reasonBreakdownCSV?eventId=1002&entityUid=${instance.uid}" class="btn">
-                <span class="icon icon-download-alt"></span>&nbsp;
-                <g:message code="dataAccess.download.stats"/>
+            <a href="${grailsApplication.config.loggerURL}/reasonBreakdownCSV?eventId=1002&entityUid=${instance.uid}"">
+                <button class="erk-button erk-button--light">
+                    <span class="icon icon-download-alt"></span>&nbsp;
+                    <g:message code="dataAccess.download.stats"/>
+                </button>
             </a>
         </g:if>
 

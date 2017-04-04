@@ -8,3 +8,13 @@
 .indented-list-item {
     padding-left: 16px;
 }
+
+h1, h2, h3, h4, h5, h6 {
+    margin-bottom: 0.25rem;
+    margin-top: 0.25rem;
+}
+
+.card {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
