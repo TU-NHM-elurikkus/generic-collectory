@@ -1,18 +1,22 @@
 <!-- Attributions -->
-<div class="show-section   well">
-    <h2>
-        <g:message code="shared.a.title01" />
-    </h2>
+<div class="card">
+    <div class="card-header">
+        <h2>
+            <g:message code="shared.a.title01" />
+        </h2>
+    </div>
 
-    <ul class="fancy">
-        <g:each in="${instance.getAttributionList()}" var="att">
-            <li>${att.name}</li>
-        </g:each>
-    </ul>
+    <div class="card-block">
+        <ul class="fancy">
+            <g:each in="${instance.getAttributionList()}" var="att">
+                <li>${att.name}</li>
+            </g:each>
+        </ul>
 
-    <div style="clear:both;"></div>
+        <div style="clear:both;"></div>
 
-    <p>
-        <cl:editButton uid="${instance.uid}" action="editAttributions" target="${target}"/>
-    </p>
+        <p>
+            <cl:editButton uid="${instance.uid}" action="editAttributions" target="${target}"/>
+        </p>
+    </div>
 </div>

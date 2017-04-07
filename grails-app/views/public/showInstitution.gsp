@@ -39,7 +39,9 @@
                 <li><cl:pageOptionsLink>${fieldValue(bean:instance,field:'name')}</cl:pageOptionsLink></li>
             </ol>
         </div>
+
         <cl:pageOptionsPopup instance="${instance}"/>
+
         <div class="row">
             <div class="col-8">
                 <cl:h1 value="${instance.name}"/>
@@ -47,11 +49,20 @@
                 <g:each var="p" in="${parents}">
                     <h2><g:link action="show" id="${p.uid}">${p.name}</g:link></h2>
                 </g:each>
-                <cl:valueOrOtherwise value="${instance.acronym}"><span
-                        class="acronym"><g:message code="public.show.header.acronym"/>: ${fieldValue(bean: instance, field: "acronym")}</span></cl:valueOrOtherwise>
+      
+                <cl:valueOrOtherwise value="${instance.acronym}">
+                    <span class="acronym">
+                        <g:message code="public.show.header.acronym"/>:
+                        ${fieldValue(bean: instance, field: "acronym")}
+                    </span>
+                </cl:valueOrOtherwise>
+
                 <g:if test="${instance.guid?.startsWith('urn:lsid:')}">
-                    <span class="lsid"><a href="#lsidText" id="lsid" class="local"
-                                          title="Life Science Identifier (pop-up)"><g:message code="public.lsid" /></a></span>
+                    <span class="lsid">
+                        <a href="#lsidText" id="lsid" class="local" title="Life Science Identifier (pop-up)">
+                            <g:message code="public.lsid" />
+                        </a>
+                    </span>
 
                     <div style="display:none; text-align: left;">
                         <div id="lsidText" style="text-align: left;">
@@ -72,71 +83,103 @@
             </div>
         </div>
     </div><!--close header-->
+
     <div class="row">
-            <div class="col-8">
-                <g:if test="${instance.pubDescription}">
-                    <h2><g:message code="public.des" /></h2>
-                    <cl:formattedText>${fieldValue(bean: instance, field: "pubDescription")}</cl:formattedText>
-                    <cl:formattedText>${fieldValue(bean: instance, field: "techDescription")}</cl:formattedText>
-                </g:if>
-                <g:if test="${instance.focus}">
-                    <h2><g:message code="public.si.content.label02" /></h2>
-                    <cl:formattedText>${fieldValue(bean: instance, field: "focus")}</cl:formattedText>
-                </g:if>
-                <h2><g:message code="public.si.content.label03" /></h2>
-                <ol>
-                    <g:each var="c" in="${instance.listCollections().sort { it.name }}">
-                        <li><g:link controller="public" action="show"
-                                    id="${c.uid}">${c?.name}</g:link> ${c?.makeAbstract(400)}</li>
-                    </g:each>
-                </ol>
+        <div class="col-8">
+            <g:if test="${instance.pubDescription}">
+                <h2><g:message code="public.des" /></h2>
+                <cl:formattedText>${fieldValue(bean: instance, field: "pubDescription")}</cl:formattedText>
+                <cl:formattedText>${fieldValue(bean: instance, field: "techDescription")}</cl:formattedText>
+            </g:if>
 
-                <div id='usage-stats'>
-                    <h2><g:message code="public.usagestats.label" /></h2>
+            <g:if test="${instance.focus}">
+                <h2><g:message code="public.si.content.label02" /></h2>
+                <cl:formattedText>${fieldValue(bean: instance, field: "focus")}</cl:formattedText>
+            </g:if>
 
-                    <div id='usage'>
-                        <p><g:message code="public.usage.des" />...</p>
+            <div class="card">
+                <div class="card-header">
+                    <h4><g:message code="public.si.content.label03" /></h4>
+                </div>
+
+                <div class="card-block">
+                    <ol class="erk-olist">
+                        <g:each var="c" in="${instance.listCollections().sort { it.name }}">
+                            <li class="erk-olist__item">
+                                <g:link controller="public" action="show" id="${c.uid}">
+                                    ${c?.name}
+                                </g:link>
+                                
+                                ${c?.makeAbstract(400)}
+                            </li>
+                        </g:each>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h4><g:message code="public.si.content.label04" /></h4>
+                </div>
+
+                <div class="card-block">
+                    <div>
+                        <p style="padding-bottom:8px;"><span
+                                id="numBiocacheRecords"><g:message code="public.numbrs.des01" /></span> <g:message code="public.numbrs.des02" />.
+                        </p>
+
+                        <cl:recordsLink
+                                entity="${instance}"><g:message code="public.numbrs.link" /> ${instance.name}.</cl:recordsLink>
                     </div>
-                </div>
 
-                <h2><g:message code="public.si.content.label04" /></h2>
-
-                <div>
-                    <p style="padding-bottom:8px;"><span
-                            id="numBiocacheRecords"><g:message code="public.numbrs.des01" /></span> <g:message code="public.numbrs.des02" />.
-                    </p>
-                    <cl:recordsLink
-                            entity="${instance}"><g:message code="public.numbrs.link" /> ${instance.name}.</cl:recordsLink>
-                </div>
-
-                <div id="recordsBreakdown" class="section vertical-charts">
-                    <div id="charts"></div>
-                </div>
-
-                <cl:lastUpdated date="${instance.lastUpdated}"/>
-
-            </div><!--close section-->
-            <div class="col-4">
-                <g:if test="${fieldValue(bean: instance, field: 'imageRef') && fieldValue(bean: instance, field: 'imageRef.file')}">
-                    <div class="section">
-                        <img alt="${fieldValue(bean: instance, field: "imageRef.file")}"
-                             src="${resource(absolute: "true", dir: "data/institution/", file: instance.imageRef.file)}"/>
-                        <cl:formattedText
-                                pClass="caption">${fieldValue(bean: instance, field: "imageRef.caption")}</cl:formattedText>
-                        <cl:valueOrOtherwise value="${instance.imageRef?.attribution}"><p
-                                class="caption">${fieldValue(bean: instance, field: "imageRef.attribution")}</p></cl:valueOrOtherwise>
-                        <cl:valueOrOtherwise value="${instance.imageRef?.copyright}"><p
-                                class="caption">${fieldValue(bean: instance, field: "imageRef.copyright")}</p></cl:valueOrOtherwise>
+                    <div id="recordsBreakdown" class="section vertical-charts">
+                        <div id="charts"></div>
                     </div>
-                </g:if>
-
-                <div id="dataAccessWrapper" style="display:none;">
-                    <g:render template="dataAccess" model="[instance:instance]"/>
+                    
+                    <cl:lastUpdated date="${instance.lastUpdated}"/>
                 </div>
+            </div>
 
+            <div id="usage-stats" class="card">
+                <a data-toggle="collapse" href="#usage">
+                    <div class="card-header">
+                        <h4><g:message code="public.usagestats.label" /></h4>
+                    </div>
+                </a>
+
+                <div id="usage" class="collapse card-block">
+                    <p><g:message code="public.usage.des" />...</p>
+                </div>
+            </div>
+        </div><!--close section-->
+
+        <div class="col-4">
+            <g:if test="${fieldValue(bean: instance, field: 'imageRef') && fieldValue(bean: instance, field: 'imageRef.file')}">
+                <div class="section">
+                    <img alt="${fieldValue(bean: instance, field: "imageRef.file")}"
+                         src="${resource(absolute: "true", dir: "data/institution/", file: instance.imageRef.file)}"/>
+
+                    <cl:formattedText
+                            pClass="caption">${fieldValue(bean: instance, field: "imageRef.caption")}</cl:formattedText>
+                    <cl:valueOrOtherwise value="${instance.imageRef?.attribution}"><p
+                            class="caption">${fieldValue(bean: instance, field: "imageRef.attribution")}</p></cl:valueOrOtherwise>
+                    <cl:valueOrOtherwise value="${instance.imageRef?.copyright}"><p
+                            class="caption">${fieldValue(bean: instance, field: "imageRef.copyright")}</p></cl:valueOrOtherwise>
+                </div>
+            </g:if>
+
+            <div id="pataAccessWrapper">
+                <g:render template="dataAccess" model="[instance:instance]"/>
+            </div>
+
+            <g:set var="haveAddress" value="${instance.address != null && !instance.address.isEmpty()}" />
+            <g:set var="haveEmail" value="${instance.email}" />
+            <g:set var="havePhone" value='${fieldValue(bean: instance, field: "phone")}' />
+
+            <g:if test="${haveAddress || haveEmail || havePhone}">
                 <div class="section">
                     <h3><g:message code="public.location" /></h3>
-                    <g:if test="${instance.address != null && !instance.address.isEmpty()}">
+                    <g:if test="${haveAddress}">
                         <p>
                             <cl:valueOrOtherwise
                                     value="${instance.address?.street}">${instance.address?.street}<br/></cl:valueOrOtherwise>
@@ -150,57 +193,58 @@
                                     value="${instance.address?.country}">${instance.address?.country}<br/></cl:valueOrOtherwise>
                         </p>
                     </g:if>
-                    <g:if test="${instance.email}"><cl:emailLink>${fieldValue(bean: instance, field: "email")}</cl:emailLink><br/></g:if>
+                    <g:if test="${haveEmail}"><cl:emailLink>${fieldValue(bean: instance, field: "email")}</cl:emailLink><br/></g:if>
                     <cl:ifNotBlank value='${fieldValue(bean: instance, field: "phone")}'/>
                 </div>
+            </g:if>
 
             <!-- contacts -->
-                <g:render template="contacts" bean="${instance.getPublicContactsPrimaryFirst()}"/>
+            <g:render template="contacts" bean="${instance.getPublicContactsPrimaryFirst()}"/>
 
             <!-- web site -->
-                <g:if test="${instance.websiteUrl}">
-                    <div class="section">
-                        <h3><g:message code="public.website" /></h3>
+            <g:if test="${instance.websiteUrl}">
+                <div class="section">
+                    <h3><g:message code="public.website" /></h3>
 
-                        <div class="webSite">
-                            <a class='external' target="_blank"
-                               href="${instance.websiteUrl}"><g:message code="public.si.website.link01" /> <cl:institutionType
-                                    inst="${instance}"/><g:message code="public.si.website.link02" /></a>
-                        </div>
+                    <div class="webSite">
+                        <a class='external' target="_blank"
+                           href="${instance.websiteUrl}"><g:message code="public.si.website.link01" /> <cl:institutionType
+                                inst="${instance}"/><g:message code="public.si.website.link02" /></a>
                     </div>
-                </g:if>
+                </div>
+            </g:if>
 
             <!-- network membership -->
-                <g:if test="${instance.networkMembership}">
-                    <div class="section">
-                        <h3><g:message code="public.network.membership.label" /></h3>
-                        <g:if test="${instance.isMemberOf('CHAEC')}">
-                            <p><g:message code="public.network.membership.des01" /></p>
-                            <img src="${resource(absolute: "true", dir: "data/network/", file: "chaec-logo.png")}"/>
-                        </g:if>
-                        <g:if test="${instance.isMemberOf('CHAH')}">
-                            <p><g:message code="public.network.membership.des02" /></p>
-                            <a target="_blank" href="http://www.chah.gov.au"><img style="padding-left:25px;"
-                                                                                  src="${resource(absolute: "true", dir: "data/network/", file: "CHAH_logo_col_70px_white.gif")}"/>
-                            </a>
-                        </g:if>
-                        <g:if test="${instance.isMemberOf('CHAFC')}">
-                            <p><g:message code="public.network.membership.des03" /></p>
-                            <img src="${resource(absolute: "true", dir: "data/network/", file: "CHAFC_sm.jpg")}"/>
-                        </g:if>
-                        <g:if test="${instance.isMemberOf('CHACM')}">
-                            <p><g:message code="public.network.membership.des04" /></p>
-                            <img src="${resource(absolute: "true", dir: "data/network/", file: "chacm.png")}"/>
-                        </g:if>
-                    </div>
-                </g:if>
+            <g:if test="${instance.networkMembership}">
+                <div class="section">
+                    <h3><g:message code="public.network.membership.label" /></h3>
+                    <g:if test="${instance.isMemberOf('CHAEC')}">
+                        <p><g:message code="public.network.membership.des01" /></p>
+                        <img src="${resource(absolute: "true", dir: "data/network/", file: "chaec-logo.png")}"/>
+                    </g:if>
+                    <g:if test="${instance.isMemberOf('CHAH')}">
+                        <p><g:message code="public.network.membership.des02" /></p>
+                        <a target="_blank" href="http://www.chah.gov.au"><img style="padding-left:25px;"
+                                                                              src="${resource(absolute: "true", dir: "data/network/", file: "CHAH_logo_col_70px_white.gif")}"/>
+                        </a>
+                    </g:if>
+                    <g:if test="${instance.isMemberOf('CHAFC')}">
+                        <p><g:message code="public.network.membership.des03" /></p>
+                        <img src="${resource(absolute: "true", dir: "data/network/", file: "CHAFC_sm.jpg")}"/>
+                    </g:if>
+                    <g:if test="${instance.isMemberOf('CHACM')}">
+                        <p><g:message code="public.network.membership.des04" /></p>
+                        <img src="${resource(absolute: "true", dir: "data/network/", file: "chacm.png")}"/>
+                    </g:if>
+                </div>
+            </g:if>
 
             <!-- external identifiers -->
-                <g:render template="externalIdentifiers" model="[instance:instance]"/>
-
-    </div>
-        </div><!--close content-->
+            <g:render template="externalIdentifiers" model="[instance:instance]"/>
+        </div>
+    </div><!--close content-->
 </div>
+
 <r:script type="text/javascript">
       // configure the charts
       var facetChartOptions = {

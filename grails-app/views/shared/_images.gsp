@@ -1,5 +1,5 @@
 <%@ page import="au.org.ala.collectory.Collection; au.org.ala.collectory.DataHub; au.org.ala.collectory.DataResource; au.org.ala.collectory.DataProvider; au.org.ala.collectory.Institution" %>
-<div class="show-section well">
+<div class="card">
     <g:if test="${instance instanceof Collection}">
         <g:set var="dir" value="data/collection"/>
     </g:if>
@@ -16,26 +16,30 @@
         <g:set var="dir" value="data/dataHub"/>
     </g:elseif>
 
-    <h2>
-        ${title?:'Not title provided'}
-    </h2>
+    <div class="card-header">
+        <h2>
+            ${title?:'Not title provided'}
+        </h2>
+    </div>
 
-    <g:if test="${fieldValue(bean: image, field: 'file')}">
-        <div class="media">
-            <a class="pull-left" href="#">
-                <img class="showImage img-polaroid" alt="${fieldValue(bean: image, field: "file")}" src="${resource(absolute: "true", dir: dir, file: image.file)}" />
-            </a>
+    <div class="card-block">
+        <g:if test="${fieldValue(bean: image, field: 'file')}">
+            <div class="media">
+                <a class="float-left" href="#">
+                    <img class="showImage img-polaroid" alt="${fieldValue(bean: image, field: "file")}" src="${resource(absolute: "true", dir: dir, file: image.file)}" />
+                </a>
 
-            <div class="media-body">
-                <span class="category"><g:message code="shared.images.span01" />:</span> ${fieldValue(bean: image, field: "file")} </br/>
-                <span class="category"><g:message code="shared.images.span02" />:</span> ${fieldValue(bean: image, field: "caption")} <br/>
-                <span class="category"><g:message code="shared.images.span03" />:</span> ${fieldValue(bean: image, field: "attribution")}<br/>
-                <span class="category"><g:message code="shared.images.span04" />:</span> ${fieldValue(bean: image, field: "copyright")}<br/>
+                <div class="media-body">
+                    <span class="category"><g:message code="shared.images.span01" />:</span> ${fieldValue(bean: image, field: "file")} </br/>
+                    <span class="category"><g:message code="shared.images.span02" />:</span> ${fieldValue(bean: image, field: "caption")} <br/>
+                    <span class="category"><g:message code="shared.images.span03" />:</span> ${fieldValue(bean: image, field: "attribution")}<br/>
+                    <span class="category"><g:message code="shared.images.span04" />:</span> ${fieldValue(bean: image, field: "copyright")}<br/>
+                </div>
             </div>
-        </div>
-    </g:if>
+        </g:if>
 
-    <p>
-        <cl:editButton uid="${instance.uid}" page="/shared/images" target="${target}"/>
-    </p>
+        <p>
+            <cl:editButton uid="${instance.uid}" page="/shared/images" target="${target}"/>
+        </p>
+    </div>
 </div>
