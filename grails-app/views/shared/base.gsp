@@ -122,7 +122,7 @@
                             <label for="isALAPartner">
                                 <g:message code="providerGroup.isALAPartner.label" default="=Is Atlas Partner" />
                             </label><br />
-                            
+
                             <g:checkBox name="isALAPartner" value="${command?.isALAPartner}" />
                         </div>
                     </cl:ifGranted>
