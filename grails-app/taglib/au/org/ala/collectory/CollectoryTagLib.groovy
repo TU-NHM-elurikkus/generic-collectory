@@ -1849,22 +1849,24 @@ class CollectoryTagLib {
         }
 
         // show the protocol selector
-        out << """<tr class="prop">
-            <td valign="top" class="name">
-              <label for="protocol">Protocol</label>
-            </td>
-            <td valign="top" class="value">""" +
-                select(id:'protocolSelector',
-                        name:"protocol",
-                        from:metadataService.getConnectionProfilesAsList(),
-                        value:protocol,
-                        optionValue:'display',
-                        optionKey:'name',
-                        onchange:'changeProtocol()') +
-                """<cl:helpText code="dataResource.connectionParameters.protocol"/>
-              </td>
-              <cl:helpTD/>
-        </tr>"""
+        out << """<div class='alert alert-danger'>
+            Don't change the following terms unless you know what you are doing.
+            Incorrect values can cause major devastation.
+        </div>"""
+
+        out << """<div class='form-group'>
+            <label for="protocol">Protocol</label>""" +
+            select(id:'protocolSelector',
+                    name:"protocol",
+                    from:metadataService.getConnectionProfilesAsList(),
+                    value:protocol,
+                    class:'form-control',
+                    optionValue:'display',
+                    optionKey:'name',
+                    onchange:'changeProtocol()') +
+            """<cl:helpText code="dataResource.connectionParameters.protocol"/>
+            <cl:helpTD/>
+        </div>"""
 
         // create the widgets for each protocol (profile)
         metadataService.getConnectionProfilesAsList().each {
@@ -1873,7 +1875,6 @@ class CollectoryTagLib {
             String hidden = selected ? '' : "display:none;"
 
             it.params.each { ppName ->
-
                 def pp = metadataService.getConnectionParameter(ppName)
 
                 // get value from object
@@ -1899,37 +1900,35 @@ class CollectoryTagLib {
                     attributes << [disabled:true]
                 }
                 if (pp.paramName == "termsForUniqueKey") {
+                    attributes['class'] = 'form-control';
+
                     // handle terms specially
-                    out << """<tr class='labile' id="${it.name}" style="${hidden}">
-                                  <td class='be-careful' colspan='2'>
-                                        <div class='alert alert-danger'>Don't change the following terms unless you know what you are doing.
-                                        Incorrect values can cause major devastation.</div>
-                                  </td>
-                               </tr>
-                        <tr class="prop labile" style="${hidden}" id="${it.name}">
-                        <td valign="top" class="name"
-                          <label for="termsForUniqueKey">${pp.display}</label>
-                        </td>
-                        <td valign="top" class="value">""" +
-                            textField(attributes) +
-                            helpText(code:'dataResource.termsForUniqueKey') +
-                            "</td>" +  helpTD() + "</tr>"
+                    out << """
+                        <div class="form-group" style="${hidden}" id="${it.name}">
+                        <label for="termsForUniqueKey">${pp.display}</label>""" +
+                        textField(attributes) +
+                        helpText(code:'dataResource.termsForUniqueKey') +
+                        "</div>"
                 } else {
                     // all others
                     def widget
+
                     switch (pp.type) {
                         case 'textArea': widget = 'textArea'; break
                         case 'boolean': widget = 'checkBox'; break
                         default: widget = 'textField'; break
                     }
-                    out << """<tr class="prop labile" style="${hidden}" id="${it.name}">
-                        <td valign="top" class="name"
-                          <label for="${pp.paramName}">${pp.display}</label>
-                        </td>
-                        <td valign="top" class="value">""" +
-                            "${widget}"(attributes) +
-                            helpText(code:'dataResource.' + pp.paramName) +
-                            "</td>" +  helpTD() + "</tr>"
+
+                    if (widget == 'textArea' || widget == 'textField') {
+                        attributes['class'] = 'form-control';
+                    }
+
+                    out << """
+                        <div class="form-group" style="${hidden}" id="${it.name}">
+                        <label for="${pp.paramName}">${pp.display}</label>""" +
+                        "${widget}"(attributes) +
+                        helpText(code:'dataResource.' + pp.paramName) +
+                        "</div>"
                 }
             }
         }
