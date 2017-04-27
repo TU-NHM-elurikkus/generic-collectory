@@ -37,7 +37,7 @@
                     <g:if test="${flash.message}">
                         <div class="message">${flash.message}</div>
                     </g:if>
-                    
+
                     <div>
                         <h1>
                             ${grailsApplication.config.projectName}
@@ -84,7 +84,7 @@
                             <div class="float-left">
                                 <div class="input-btn">
                                     <input type="text" name="dr-search" id="dr-search"/>
-                                    
+
                                     <button title="Only show data sets which contain the search term" id="dr-search-link" class="erk-button erk-button--light">
                                         <g:message code="public.datasets.drsearch.search" />
                                     </button>
