@@ -310,6 +310,7 @@
              var CHARTS_CONFIG = {
                  biocacheServicesUrl: "${grailsApplication.config.biocacheServicesUrl}",
                  biocacheWebappUrl: "${grailsApplication.config.biocacheUiURL}",
+                 bieWebappUrl: "${grailsApplication.config.bie.baseURL}",
                  collectionsUrl: "${grailsApplication.config.grails.serverURL}"
              };
 
@@ -350,6 +351,7 @@
                   biocacheServicesUrl: CHARTS_CONFIG.biocacheServicesUrl,
                   /* base url of the biocache webapp*/
                   biocacheWebappUrl: CHARTS_CONFIG.biocacheWebappUrl,
+                  bieWebappUrl: CHARTS_CONFIG.bieWebappUrl,
                   /* the id of the div to create the charts in - defaults is 'charts' */
                   targetDivId: "tree",
                   /* a uid or list of uids to chart - either this or query must be present */
