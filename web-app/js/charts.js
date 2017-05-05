@@ -361,13 +361,14 @@ function loadTaxonomyChart(chartOptions) {
 * Create and show the taxonomy chart.
 \************************************************************/
 function drawTaxonomyChart(data, chartOptions, query) {
-
     // create the data table
     var dataTable = new google.visualization.DataTable();
     dataTable.addColumn('string', chartLabels[name] ? chartLabels[name] : name);
     dataTable.addColumn('number','records');
     $.each(data.taxa, function(i,obj) {
-        dataTable.addRow([obj.label, obj.count]);
+        var label = obj.label === "" ? 'Unknown' : obj.label;
+
+        dataTable.addRow([label, obj.count]);
     });
 
     // resolve the chart options
@@ -482,13 +483,22 @@ function drawTaxonomyChart(data, chartOptions, query) {
     // setup a click handler - if requested
     var clickThru = chartOptions.clickThru == undefined ? true : chartOptions.clickThru;  // default to true
     var drillDown = chartOptions.drillDown == undefined ? true : chartOptions.drillDown;  // default to true
+
     if (clickThru || drillDown) {
         google.visualization.events.addListener(chart, 'select', function() {
-
             // find out what they clicked
             var name = dataTable.getValue(chart.getSelection()[0].row,0);
-            /* DRILL DOWN */
-            if (drillDown && data.rank != "species") {
+
+            if (name === 'Unknown') {
+                var fq = '-' + data.rank + ':*';
+                var url = urlConcat(biocacheWebappUrl, '/occurrence/search?q=') + query + '&fq=' + fq;
+
+                if(chartOptions.name) {
+                    url += '&fq=' + chartOptions.rank + ':' + chartOptions.name;
+                }
+
+                document.location = url;
+            } else if (drillDown && data.rank != "species") {
                 // show spinner while loading
                 $container.append($('<img class="loading" style="position:absolute;left:130px;top:220px;z-index:2000" ' +
                         'alt="loading..." src="' + collectionsUrl + '/images/ala/ajax-loader.gif"/>'));
@@ -502,10 +512,7 @@ function drawTaxonomyChart(data, chartOptions, query) {
 
                 // redraw chart
                 loadTaxonomyChart(chartOptions);
-            }
-
-            /* SHOW RECORDS */
-            else {
+            } else {
                 // show occurrence records
                 document.location = urlConcat(biocacheWebappUrl, "/occurrences/search?q=") + query +
                     "&fq=" + data.rank + ":" + name;
