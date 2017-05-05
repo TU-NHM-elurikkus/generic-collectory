@@ -7,7 +7,7 @@
         <r:require modules="jquery, fancybox, jquery_jsonp, jstree, jquery_ui_custom, charts, datadumper, jquery_i18n"/>
         <r:script>
             // define biocache server
-            bieUrl = "${grailsApplication.config.bie.baseURL}";
+            bieUrl = "${grailsApplication.config.bie.serviceURL}";
             loadLoggerStats = ${!grailsApplication.config.disableLoggerLinks.toBoolean()};
         </r:script>
     </head>
@@ -310,6 +310,7 @@
              var CHARTS_CONFIG = {
                  biocacheServicesUrl: "${grailsApplication.config.biocacheServicesUrl}",
                  biocacheWebappUrl: "${grailsApplication.config.biocacheUiURL}",
+                 bieWebappUrl: "${grailsApplication.config.bie.baseURL}",
                  collectionsUrl: "${grailsApplication.config.grails.serverURL}"
              };
 
@@ -350,6 +351,7 @@
                   biocacheServicesUrl: CHARTS_CONFIG.biocacheServicesUrl,
                   /* base url of the biocache webapp*/
                   biocacheWebappUrl: CHARTS_CONFIG.biocacheWebappUrl,
+                  bieWebappUrl: CHARTS_CONFIG.bieWebappUrl,
                   /* the id of the div to create the charts in - defaults is 'charts' */
                   targetDivId: "tree",
                   /* a uid or list of uids to chart - either this or query must be present */
@@ -383,7 +385,7 @@
 
               // species pages
               $.ajax({
-                  url: bieUrl + "search.json?q=*&fq=uid:${instance.uid}",
+                  url: bieUrl + "/search.json?q=*&fq=uid:${instance.uid}",
                   dataType: 'jsonp',
                   success: function(data) {
                       var pages = data.searchResults.totalRecords;
@@ -391,7 +393,7 @@
                           var $contrib = $('#pagesContributed');
                           $contrib.append($('<h2>Contribution to the Atlas</h2><p>This resource has contributed to <strong>' +
                               pages + '</strong> pages of taxa. ' +
-                              '<a href="' + bieUrl + 'search?q=*&fq=uid:' + "${instance.uid}" + '">View a list</a></p>'));
+                              '<a href="' + CHARTS_CONFIG.bieWebappUrl  + '/search?q=*&fq=uid:' + "${instance.uid}" + '">View a list</a></p>'));
                       }
                   }
               });

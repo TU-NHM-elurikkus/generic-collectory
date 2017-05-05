@@ -361,13 +361,14 @@ function loadTaxonomyChart(chartOptions) {
 * Create and show the taxonomy chart.
 \************************************************************/
 function drawTaxonomyChart(data, chartOptions, query) {
-
     // create the data table
     var dataTable = new google.visualization.DataTable();
     dataTable.addColumn('string', chartLabels[name] ? chartLabels[name] : name);
     dataTable.addColumn('number','records');
     $.each(data.taxa, function(i,obj) {
-        dataTable.addRow([obj.label, obj.count]);
+        var label = obj.label === "" ? 'Unknown' : obj.label;
+
+        dataTable.addRow([label, obj.count]);
     });
 
     // resolve the chart options
@@ -482,13 +483,22 @@ function drawTaxonomyChart(data, chartOptions, query) {
     // setup a click handler - if requested
     var clickThru = chartOptions.clickThru == undefined ? true : chartOptions.clickThru;  // default to true
     var drillDown = chartOptions.drillDown == undefined ? true : chartOptions.drillDown;  // default to true
+
     if (clickThru || drillDown) {
         google.visualization.events.addListener(chart, 'select', function() {
-
             // find out what they clicked
             var name = dataTable.getValue(chart.getSelection()[0].row,0);
-            /* DRILL DOWN */
-            if (drillDown && data.rank != "species") {
+
+            if (name === 'Unknown') {
+                var fq = '-' + data.rank + ':*';
+                var url = urlConcat(biocacheWebappUrl, '/occurrence/search?q=') + query + '&fq=' + fq;
+
+                if(chartOptions.name) {
+                    url += '&fq=' + chartOptions.rank + ':' + chartOptions.name;
+                }
+
+                document.location = url;
+            } else if (drillDown && data.rank != "species") {
                 // show spinner while loading
                 $container.append($('<img class="loading" style="position:absolute;left:130px;top:220px;z-index:2000" ' +
                         'alt="loading..." src="' + collectionsUrl + '/images/ala/ajax-loader.gif"/>'));
@@ -502,10 +512,7 @@ function drawTaxonomyChart(data, chartOptions, query) {
 
                 // redraw chart
                 loadTaxonomyChart(chartOptions);
-            }
-
-            /* SHOW RECORDS */
-            else {
+            } else {
                 // show occurrence records
                 document.location = urlConcat(biocacheWebappUrl, "/occurrences/search?q=") + query +
                     "&fq=" + data.rank + ":" + name;
@@ -597,13 +604,26 @@ function initTaxonTree(treeOptions) {
 
               var nodes = [];
               var rank = data.rank;
+
+              var parent = this._get_parent();
+
               $.each(data.taxa, function(i, obj) {
-                  var label = obj.label + " - " + obj.count;
-                  if (rank == 'species') {
-                      nodes.push({"data":label, "attr":{"rank":rank, "id":obj.label}});
-                  }
-                  else {
-                      nodes.push({"data":label, "state":"closed", "attr":{"rank":rank, "id":obj.label}});
+                  if(obj.label) {
+                      var label = obj.label + " - " + obj.count;
+
+                      if (rank == 'species') {
+                          nodes.push({"data":label, "attr":{"rank":rank, "id":obj.label}});
+                      }
+                      else {
+                          nodes.push({"data":label, "state":"closed", "attr":{"rank":rank, "id":obj.label}});
+                      }
+                  } else {
+                      nodes.push({
+                          data: 'Unknown - ' + obj.count,
+                          attr: {
+                              rank: rank
+                          }
+                      });
                   }
               });
               return nodes;
@@ -619,18 +639,34 @@ function initTaxonTree(treeOptions) {
         icons: false
       },
       checkbox: {override_ui:true},
-      contextmenu: {select_node: false, show_at_node: false, items: {
-          records: {label: jQuery.i18n.prop('charts.js.showrecords'), action: function(obj) {showRecords(obj, query);}},
-          bie: {
-              label: jQuery.i18n.prop('charts.js.showinformation'),
-              action: function(obj) {
-                  showBie(obj, treeOptions.bieWebappUrl);
+      contextmenu: {
+          select_node: false,
+          show_at_node: false,
+          items: function(node) {
+              var items =  {
+                  records: {
+                      label: jQuery.i18n.prop('charts.js.showrecords'),
+                      action: function(obj) {
+                          showRecords(obj, this._get_parent(), query);
+                      }
+                  },
+                  create: false,
+                  rename: false,
+                  remove: false,
+                  ccp: false
+              };
+
+              if(node.attr('id')) {
+                  items.bie = {
+                      label: jQuery.i18n.prop('charts.js.showinformation'),
+                      action: function(obj) {
+                          showBie(obj, treeOptions.bieWebappUrl);
+                      }
+                  };
               }
-          },
-          create: false,
-          rename: false,
-          remove: false,
-          ccp: false }
+
+              return items;
+          }
       },
       plugins: ['json_data','themes','ui','contextmenu']
     });
@@ -638,14 +674,27 @@ function initTaxonTree(treeOptions) {
 /************************************************************\
 * Go to occurrence records for selected node
 \************************************************************/
-function showRecords(node, query) {
-  var rank = node.attr('rank');
-  if (rank == 'kingdoms') return;
-  var name = node.attr('id');
-  // url for records list
-  var recordsUrl = urlConcat(biocacheWebappUrl, "/occurrences/search?q=") + query +
-    "&fq=" + rank + ":" + name;
-  document.location.href = recordsUrl;
+function showRecords(node, parent, query) {
+    var rank = node.attr('rank');
+    if (rank == 'kingdoms') return;
+    var name = node.attr('id');
+
+    var fq;
+
+    if(name) {
+        fq = '&fq=' + rank + ':' + name;
+    } else {
+        fq = '&fq=-' + rank + ':*';
+
+        var parent_rank = parent.attr('rank');
+
+        if(parent_rank !== 'kingdoms') {
+            fq += '&fq=' + parent_rank + ':' + parent.attr('id');
+        }
+    }
+
+    var recordsUrl = urlConcat(biocacheWebappUrl, "/occurrences/search?q=") + query + fq;
+    document.location.href = recordsUrl;
 }
 /************************************************************\
 * Go to 'species' page for selected node
@@ -655,6 +704,7 @@ function showBie(node, bieUrl) {
     if (rank == 'kingdoms') return;
     var name = node.attr('id');
     var sppUrl = bieUrl + '/species/' + name;
+
     // Didn't work for us, BIE couldn't resolve "Animalia_(Kingdom)"
     // if (rank != 'species') { sppUrl += "_(" + rank + ")"; }
     document.location.href = sppUrl;
