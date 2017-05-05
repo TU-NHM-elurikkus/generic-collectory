@@ -5,7 +5,7 @@
         <meta name="app.version" content="${g.meta(name:'app.version')}"/>
         <meta name="app.build" content="${g.meta(name:'app.build')}"/>
         <g:render template="/manifest" plugin="elurikkus-commons" />
-        <g:render template="/layouts/global" plugin="collectory"/>
+        <g:render template="/layouts/global" plugin="erkcollectory"/>
 
         <title>
             <g:layoutTitle />
