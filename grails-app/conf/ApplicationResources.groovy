@@ -2,7 +2,7 @@ modules = {
     collectory {
         dependsOn 'jquery_ui_custom,smoothness,jquery_i18n,jquery_json,jquery_tools,jquery_jsonp,fancybox,openlayers,map'
         resource url:[dir:'js', file:'collectory.js'], disposition: 'head'
-        resource url:[dir:'css', file:'temp-style.css', plugin:'collectory-plugin']
+        resource url:[dir:'css', file:'temp-style.css', plugin:'erkcollectory-plugin']
     }
 
     generic {
@@ -13,7 +13,7 @@ modules = {
 
     charts {
         dependsOn 'jquery_i18n'
-        resource url: [dir: 'js', file: 'charts2.js', plugin: 'collectory-plugin']
+        resource url: [dir: 'js', file: 'charts2.js', plugin: 'erkcollectory-plugin']
         resource url: [dir: 'js', file: 'charts.js']
     }
 
@@ -26,6 +26,6 @@ modules = {
     // Which it isn't, because grails
     datasets_hack {
         dependsOn 'collectory'
-        resource url:[dir:'js', file:'datasets.js', plugin:'collectory-plugin']
+        resource url:[dir:'js', file:'datasets.js', plugin:'erkcollectory-plugin']
     }
 }

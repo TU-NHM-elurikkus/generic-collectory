@@ -28,7 +28,7 @@ grails.project.dependency.resolution = {
     repositories {
         mavenLocal()
         mavenRepo("http://nexus.ala.org.au/content/groups/public/") {
-            updatePolicy 'always'
+            updatePolicy 'daily'
         }
     }
 
@@ -39,7 +39,7 @@ grails.project.dependency.resolution = {
     plugins {
         build ":release:3.0.1"
         runtime ":resources:1.2.4"
-        runtime ":collectory:1.5.13-SNAPSHOT"
+        runtime ":erkcollectory:1.5.13-SNAPSHOT"
         runtime ":elurikkus-commons:0.2-SNAPSHOT"
         build ":tomcat:7.0.54"
     }

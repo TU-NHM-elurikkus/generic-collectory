@@ -308,9 +308,6 @@
                                 </ul>
                             </div>
                         </g:if>
-
-                        %{-- external identifiers --}%
-                        <g:render template="externalIdentifiers" model="[instance:instance]"/>
                     </div>
                 </div>
             </div>
