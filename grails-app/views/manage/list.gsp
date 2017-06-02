@@ -8,46 +8,37 @@
 
 <body>
     <div class="content">
-        <div class="pull-right">
-            <g:link class="mainLink btn" controller="public" action="map">
-                <g:message code="manage.list.link01" />
-            </g:link>
+        <div class="page-header">
+            <h1 class="page-header__title">
+                <g:message code="manage.list.title01" />
+            </h1>
+
+            <g:if test="${flash.message}">
+                <div class="message">
+                    ${flash.message}
+                </div>
+            </g:if>
+
+            <div class="page-header-links">
+                <g:link controller="public" action="map" class="page-header-links__link">
+                    <g:message code="manage.list.link01" />
+                </g:link>
+
+                <a href="javascript:showSection('adminTools');" class="page-header-links__link">
+                    <g:message code="manage.list.li01" />
+                </a>
+                <a href="javascript:showSection('yourMetadata');" class="page-header-links__link">
+                    <g:message code="manage.list.li02" />
+                </a>
+
+                <a href="javascript:showSection('addCollection');" class="page-header-links__link">
+                    <g:message code="manage.list.li03" />
+                </a>
+            </div>
         </div>
 
-        <h1>
-            <g:message code="manage.list.title01" />
-        </h1>
-
-        <g:if test="${flash.message}">
-            <div class="message">
-                ${flash.message}
-            </div>
-        </g:if>
-
         <div class="row">
-            <div class="col-3">
-                <ul id="adminNavMenu" class="nav flex-column">
-                    <li class="nav-item">
-                        <a href="javascript:showSection('adminTools');">
-                            <i class="icon-chevron-right">&nbsp;</i> <g:message code="manage.list.li01" />
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="javascript:showSection('yourMetadata');">
-                            <i class="icon-chevron-right">&nbsp;</i> <g:message code="manage.list.li02" />
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="javascript:showSection('addCollection');">
-                            <i class="icon-chevron-right">&nbsp;</i> <g:message code="manage.list.li03" />
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="col-9">
+            <div class="col">
                 <div id="yourMetadata" class="infoSection hide">
                     <g:if test="${show == 'user'}">
                         <div>

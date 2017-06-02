@@ -10,34 +10,22 @@
 <body>
 <div id="page-collections-map" class="nav-datasets">
     <div id="content">
-        <div id="header">
-            <div id="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <cl:breadcrumbTrail />
-                    </li>
-                </ol>
-            </div>
+        <div id="header" class="page-header">
+            <h1 class="page-header__title">
+                ${grailsApplication.config.regionName}<g:message code="public.map3.header.title" />
+            </h1>
 
-            <div class="section full-width">
-                <g:if test="${flash.message}">
-                    <div class="message">${flash.message}</div>
-                </g:if>
-
-                <div class="hrgroup">
-                    <h1>
-                        ${grailsApplication.config.regionName}<g:message code="public.map3.header.title" />
-                    </h1>
-
-                    <p>
-                        <g:message code="public.map3.header.des01" /> ${grailsApplication.config.projectNameShort} <g:message code="public.map3.header.des02" args="[grailsApplication.config.regionName]"/>.
-                    </p>
-                </div>
+            <div class="page-header__subtitle">
+                <g:message code="public.map3.header.des01" /> ${grailsApplication.config.projectNameShort} <g:message code="public.map3.header.des02" args="[grailsApplication.config.regionName]"/>.
             </div>
         </div>
 
+        <g:if test="${flash.message}">
+            <div class="message">${flash.message}</div>
+        </g:if>
+
         <div class="row">
-            <div class="col-4">
+            <div class="col-5">
                 <div class="section">
                     <p><g:message code="public.map3.des01" />.</p>
                 </div>
@@ -107,7 +95,7 @@
                 </div>
             </div>
 
-            <div class="col-8" id="map-list-col">
+            <div class="col-7" id="map-list-col">
                 <div class="tabbable">
                     <ul class="nav nav-tabs" id="home-tabs">
                         <li class="nav-item">

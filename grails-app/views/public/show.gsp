@@ -35,48 +35,72 @@
 
 <body class="two-column-right">
     <div id="content">
-        <div id="header" class="collectory">
-            %{-- Breadcrumbs --}%
-            <div id="breadcrumb">
-                <ol class="breadcrumb">
-                    <li><cl:breadcrumbTrail/> <span class=" icon icon-arrow-right"></span></li>
-                    <li><cl:pageOptionsLink>${fieldValue(bean:instance,field:'name')}</cl:pageOptionsLink></li>
-                </ol>
-            </div>
-
+        <div id="header" class="page-header">
+            %{-- XXX MAGIC. TODO: place it. --}%
             <cl:pageOptionsPopup instance="${instance}"/>
 
-            <div class="row">
-                <div class="col-8">
-                    <cl:h1 value="${instance.name}"/>
-                    <g:set var="inst" value="${instance.getInstitution()}"/>
+            %{-- Not likely to need it. --}%
+            %{-- <cl:h1 value="${instance.name}"/> --}%
 
-                    <g:if test="${inst}">
-                        <h3><g:link action="show" id="${inst.uid}">${inst.name}</g:link></h3>
-                    </g:if>
+            %{-- these variable names really grind my gears --}%
+            <g:set var="inst" value="${instance.getInstitution()}"/>
 
-                    <span style="display:none;">
-                        <cl:valueOrOtherwise value="${instance.acronym}"><span class="acronym"><g:message code="public.show.header.acronym" />: ${fieldValue(bean: instance, field: "acronym")}</span></cl:valueOrOtherwise>
-                        <span class="lsid"><a href="#lsidText" id="lsid" class="local" title="Life Science Identifier (pop-up)"><g:message code="public.lsid" /></a></span>
+            <h1 class="page-header__title">
+                ${instance.name}
+            </h1>
+
+            <div class="page-header__subtitle">
+                <g:if test="${inst}">
+                    ${inst.name}
+                </g:if>
+            </div>
+
+            %{-- TODO --}%
+            <span style="display: none;">
+                <cl:valueOrOtherwise value="${instance.acronym}">
+                    <span class="acronym">
+                        <g:message code="public.show.header.acronym" />: ${fieldValue(bean: instance, field: "acronym")}
                     </span>
+                </cl:valueOrOtherwise>
 
-                    <div style="display:none; text-align: left;">
-                        <div id="lsidText" style="text-align: left;">
-                            <b><a class="external_icon" href="http://lsids.sourceforge.net/" target="_blank"><g:message code="public.lsidtext.link" />:</a></b>
-                            <p style="margin: 10px 0;"><cl:guid target="_blank" guid='${fieldValue(bean: instance, field: "guid")}'/></p>
-                            <p style="font-size: 12px;"><g:message code="public.lsidtext.des" />. </p>
-                        </div>
-                    </div>
-                </div>
+                <span class="lsid">
+                    <a href="#lsidText" id="lsid" class="local" title="Life Science Identifier (pop-up)">
+                        <g:message code="public.lsid" />
+                    </a>
+                </span>
+            </span>
 
-                <div class="col-4">
-                    %{-- institution logo --}%
-                    <g:if test="${inst?.logoRef?.file}">
-                        <g:link action="showInstitution" id="${inst.id}">
-                            <img class="institutionImage" src='${resource(absolute:"true", dir:"data/institution/",file:fieldValue(bean: inst, field: 'logoRef.file'))}' />
-                        </g:link>
-                    </g:if>
+            %{-- TODO the hell is this? --}%
+            <div style="display:none; text-align: left;">
+                <div id="lsidText" style="text-align: left;">
+                    <b><a class="external_icon" href="http://lsids.sourceforge.net/" target="_blank"><g:message code="public.lsidtext.link" />:</a></b>
+                    <p style="margin: 10px 0;"><cl:guid target="_blank" guid='${fieldValue(bean: instance, field: "guid")}'/></p>
+                    <p style="font-size: 12px;"><g:message code="public.lsidtext.des" />. </p>
                 </div>
+            </div>
+
+            %{-- TODO: institution logo, but not necessary here. Probably.
+            <div class="col-4">
+                <g:if test="${inst?.logoRef?.file}">
+                    <g:link action="showInstitution" id="${inst.id}">
+                        <img class="institutionImage" src='${resource(absolute:"true", dir:"data/institution/",file:fieldValue(bean: inst, field: 'logoRef.file'))}' />
+                    </g:link>
+                </g:if>
+            </div>
+            --}%
+
+            <div class="page-header-links">
+                <a href="${request.contextPath}/" class="page-header-links__link">
+                    Collections
+                </a>
+
+                <a href="${request.contextPath}/public/show/${instance.institution.uid}" class="page-header-links__link">
+                    ${instance.institution.name}
+                </a>
+
+                <a href="${grailsApplication.config.biocacheUiURL}/occurrences/search?q=collection_uid:${instance.uid}" class="page-header-links__link">
+                    ${instance.name} records
+                </a>
             </div>
         </div>
 
@@ -105,7 +129,7 @@
         <div class="tab-content">
             <div id="overviewTab" role="tabpanel" class="tab-pane active">
                 <div class="row">
-                    <div id="overview-content" class="col-8">
+                    <div id="overview-content" class="col-9">
                         <h2>
                             <g:message code="public.des" />
                         </h2>
@@ -193,7 +217,7 @@
                         <cl:lastUpdated date="${instance.lastUpdated}"/>
                     </div>
 
-                    <div id="overview-sidebar" class="col-4">
+                    <div id="overview-sidebar" class="col-3">
                         <g:if test="${fieldValue(bean: instance, field: 'imageRef') && fieldValue(bean: instance, field: 'imageRef.file')}">
                             <div class="section">
                                 <img style="max-width:100%;max-height:350px;" alt="${fieldValue(bean: instance, field: "imageRef.file")}"
@@ -299,10 +323,14 @@
                                 <ul>
                                     <g:each var="a" in="${attribs}">
                                         <g:if test="${a.url}">
-                                            <li><cl:wrappedLink href="${a.url}">${a.name}</cl:wrappedLink></li>
+                                            <li>
+                                                <cl:wrappedLink href="${a.url}">${a.name}</cl:wrappedLink>
+                                            </li>
                                         </g:if>
                                         <g:else>
-                                            <li>${a.name}</li>
+                                            <li>
+                                                ${a.name}
+                                            </li>
                                         </g:else>
                                     </g:each>
                                 </ul>
@@ -315,7 +343,7 @@
             <div id="recordsTab" class="tab-pane">
                 <h2><g:message code="public.show.rt.title" /></h2>
                 <div class="row">
-                    <div class="col-8">
+                    <div class="col-9">
                         <g:if test="${instance.numRecords != -1}">
                             <p><cl:collectionName prefix="The " name="${instance.name}"/> has an estimated ${fieldValue(bean: instance, field: "numRecords")} ${nouns}.
                                 <g:if test="${instance.numRecordsDigitised != -1}">
@@ -332,7 +360,8 @@
 
                             <cl:warnIfInexactMapping collection="${instance}"/>
                             <cl:recordsLink entity="${instance}">
-                            <g:message code="public.show.rt.des06" /> <cl:collectionName name="${instance.name}"/></cl:recordsLink>
+                                <g:message code="public.show.rt.des06" /> <cl:collectionName name="${instance.name}"/>
+                            </cl:recordsLink>
                         </g:if>
 
                         <g:else>
@@ -356,7 +385,7 @@
                         </g:if>
                     </div>
 
-                    <div class="col-4">
+                    <div class="col-3">
                         <div id="progress" class="well">
                             <div class="progress">
                                 <div id="progressBar" class="bar bar-success" style="width: 0%;"></div>
@@ -403,250 +432,272 @@
         // configure the charts
         var facetChartOptions = {
             /* base url of the collectory */
-collectionsUrl: "${grailsApplication.config.grails.serverURL}",
-                /* base url of the biocache ws*/
-                biocacheServicesUrl: biocacheServicesUrl,
-                /* base url of the biocache webapp*/
-                biocacheWebappUrl: biocacheWebappUrl,
-                /* a uid or list of uids to chart - either this or query must be present
-                   (unless the facet data is passed in directly AND clickThru is set to false) */
-                instanceUid: "${instance.uid}",
-                /* the list of charts to be drawn (these are specified in the one call because a single request can get the data for all of them) */
-                charts: ['country','state','species_group','assertions','type_status',
-                'biogeographic_region','data_resource_uid','state_conservation','occurrence_year']
-                    /* override default options for individual charts */
-        }
-var taxonomyChartOptions = {
-    /* base url of the collectory */
-collectionsUrl: "${grailsApplication.config.grails.serverURL}",
-                /* base url of the biocache */
-                biocacheServicesUrl: biocacheServicesUrl,
-                /* base url of the biocache webapp*/
-                biocacheWebappUrl: biocacheWebappUrl,
-                /* support drill down into chart - default is true */
-                drillDown: true,
-                /* a uid or list of uids to chart - either this or query must be present */
-                instanceUid: "${instance.uid}",
-                /* threshold value to use for automagic rank selection - defaults to 55 */
-                threshold: 55,
-                rank: "${instance.startingRankHint()}"
-}
-/************************************************************\
- *
- \************************************************************/
-var queryString = '';
-var decadeUrl = '';
-var initial = -120;
-var imageWidth = 240;
-var eachPercent = (imageWidth/2)/100;
+            collectionsUrl: "${grailsApplication.config.grails.serverURL}",
+            /* base url of the biocache ws*/
+            biocacheServicesUrl: biocacheServicesUrl,
+            /* base url of the biocache webapp*/
+            biocacheWebappUrl: biocacheWebappUrl,
+            /* a uid or list of uids to chart - either this or query must be present
+               (unless the facet data is passed in directly AND clickThru is set to false) */
+            instanceUid: "${instance.uid}",
+            /* the list of charts to be drawn (these are specified in the one call because a single request can get the data for all of them) */
+            charts: ['country','state','species_group','assertions','type_status',
+            'biogeographic_region','data_resource_uid','state_conservation','occurrence_year']
+            /* override default options for individual charts */
+        };
 
-$('img#mapLegend').each(function(i, n) {
-         // if legend doesn't load, then it must be a point map
-          $(this).error(function() {
-                    $(this).attr('src',"${resource(dir:'images/map',file:'single-occurrences.png')}");
-                  });
-          // IE hack as IE doesn't trigger the error handler
-          /*if ($.browser.msie && !n.complete) {
-                $(this).attr('src',"${resource(dir:'images/map',file:'single-occurrences.png')}");
-              }*/
+        var taxonomyChartOptions = {
+            /* base url of the collectory */
+            collectionsUrl: "${grailsApplication.config.grails.serverURL}",
+            /* base url of the biocache */
+            biocacheServicesUrl: biocacheServicesUrl,
+            /* base url of the biocache webapp*/
+            biocacheWebappUrl: biocacheWebappUrl,
+            /* support drill down into chart - default is true */
+            drillDown: true,
+            /* a uid or list of uids to chart - either this or query must be present */
+            instanceUid: "${instance.uid}",
+            /* threshold value to use for automagic rank selection - defaults to 55 */
+            threshold: 55,
+            rank: "${instance.startingRankHint()}"
+        };
+
+        /************************************************************\
+         *
+        \************************************************************/
+        var queryString = '';
+        var decadeUrl = '';
+        var initial = -120;
+        var imageWidth = 240;
+        var eachPercent = (imageWidth/2)/100;
+
+        $('img#mapLegend').each(function(i, n) {
+            // if legend doesn't load, then it must be a point map
+            $(this).error(function() {
+                $(this).attr('src',"${resource(dir:'images/map',file:'single-occurrences.png')}");
+            });
+            // IE hack as IE doesn't trigger the error handler
+            /*if($.browser.msie && !n.complete) {
+                $(this).attr('src',"${resource(dir:'images/map',file:'single-occurrences.png')}");
+            }*/
         });
-/************************************************************\
- * initiate ajax calls
- \************************************************************/
-function onLoadCallback() {
 
-    if(loadLoggerStats){
-        loadDownloadStats("${grailsApplication.config.loggerURL}", "${instance.uid}","${instance.name}", "1002");
-    }
-
-    // records
-    $.ajax({
-url: urlConcat(biocacheServicesUrl, "/occurrences/search.json?pageSize=0&q=") + buildQueryString("${instance.uid}"),
-dataType: 'jsonp',
-timeout: 20000,
-complete: function(jqXHR, textStatus) {
-if (textStatus == 'timeout') {
-noBiocacheData();
-alert('Sorry - the request was taking too long so it has been cancelled.');
-}
-if (textStatus == 'error') {
-noBiocacheData();
-alert('Sorry - the records breakdowns are not available due to an error.');
-}
-},
-success: function(data) {
-// check for errors
-if (data.length == 0 || data.totalRecords === undefined || data.totalRecords == 0) {
-noBiocacheData();
-} else {
-setPercentAgeNumbers(data.totalRecords, ${instance.numRecords});
-// draw the charts
-drawFacetCharts(data, facetChartOptions);
-if(data.totalRecords > 0){
-    $('#dataAccessWrapper').css({display:'block'});
-    $('#totalRecordCountLink').html(data.totalRecords.toLocaleString() + " ${g.message(code: 'public.show.rt.des03')}");
-}
-}
-}
-});
-
-// images
-var wsBase = "/occurrences/search.json";
-var uiBase = "/occurrences/search";
-var imagesQueryUrl = "?facets=type_status&fq=multimedia%3AImage&pageSize=100&q=" + buildQueryString("${instance.uid}");
-$.ajax({
-url: urlConcat(biocacheServicesUrl, wsBase + imagesQueryUrl),
-dataType: 'jsonp',
-timeout: 20000,
-complete: function(jqXHR, textStatus) {
-if (textStatus == 'timeout') {
-noBiocacheData();
-}
-if (textStatus == 'error') {
-noBiocacheData();
-}
-},
-success: function(data) {
-// check for errors
-if (data.length == 0 || data.totalRecords == undefined || data.totalRecords == 0) {
-//noBiocacheData();
-} else {
-if(data.totalRecords > 0){
-$('#imagesTabEl').css({display:'block'});
-var description = ""
-if(data.facetResults.length>0 && data.facetResults[0].fieldResult !== undefined){
-    description = "Of these images there: ";
-    $.each(data.facetResults[0].fieldResult, function(idx, facet){
-            if(idx>0){
-            description += ', '
+        /************************************************************\
+         * initiate ajax calls
+        \************************************************************/
+        function onLoadCallback() {
+            if(loadLoggerStats) {
+                loadDownloadStats("${grailsApplication.config.loggerURL}", "${instance.uid}","${instance.name}", "1002");
             }
-            var queryUrl = biocacheWebappUrl + uiBase + imagesQueryUrl + '&fq=' + data.facetResults[0].fieldName + ':' + facet.label;
-            description += '<a href="' + queryUrl + '">' + (facet.count + ' ' + facet.label) + '</a>';
-            })
-}
-$('#imagesSpiel').html('<p><a href="'+biocacheWebappUrl + uiBase + imagesQueryUrl +'">' + data.totalRecords + ' images</a> have been made available from the ${instance.name}. <br/> ' + description + '</p>');
-$.each(data.occurrences, function(idx, item){
-        var imageText = item.scientificName;
-        if(item.typeStatus !== undefined){
-        imageText = item.typeStatus + " - " + imageText;
+
+            // records
+            $.ajax({
+                url: urlConcat(biocacheServicesUrl, "/occurrences/search.json?pageSize=0&q=") + buildQueryString("${instance.uid}"),
+                dataType: 'jsonp',
+                timeout: 20000,
+                complete: function(jqXHR, textStatus) {
+                    if(textStatus == 'timeout') {
+                        noBiocacheData();
+                        alert('Sorry - the request was taking too long so it has been cancelled.');
+                    }
+
+                    if(textStatus == 'error') {
+                        noBiocacheData();
+                        alert('Sorry - the records breakdowns are not available due to an error.');
+                    }
+                },
+                success: function(data) {
+                    // check for errors
+                    if(data.length == 0 || data.totalRecords === undefined || data.totalRecords == 0) {
+                        noBiocacheData();
+                    } else {
+                        setPercentAgeNumbers(data.totalRecords, ${instance.numRecords});
+                        // draw the charts
+                        drawFacetCharts(data, facetChartOptions);
+                        if(data.totalRecords > 0) {
+                            $('#dataAccessWrapper').css({display:'block'});
+                            $('#totalRecordCountLink').html(data.totalRecords.toLocaleString() + " ${g.message(code: 'public.show.rt.des03')}");
+                        }
+                    }
+                }
+            });
+
+            // images
+            var wsBase = "/occurrences/search.json";
+            var uiBase = "/occurrences/search";
+            var imagesQueryUrl = "?facets=type_status&fq=multimedia%3AImage&pageSize=100&q=" + buildQueryString("${instance.uid}");
+
+            $.ajax({
+                url: urlConcat(biocacheServicesUrl, wsBase + imagesQueryUrl),
+                dataType: 'jsonp',
+                timeout: 20000,
+                complete: function(jqXHR, textStatus) {
+                    if(textStatus == 'timeout') {
+                        noBiocacheData();
+                    }
+                    if(textStatus == 'error') {
+                        noBiocacheData();
+                    }
+                },
+                success: function(data) {
+                    // check for errors
+                    if(data.length == 0 || data.totalRecords == undefined || data.totalRecords == 0) {
+                        //noBiocacheData();
+                    } else {
+                        if(data.totalRecords > 0) {
+                            var description = ""
+
+                            $('#imagesTabEl').css({display:'block'});
+
+                            if(data.facetResults.length>0 && data.facetResults[0].fieldResult !== undefined) {
+                                description = "Of these images there: ";
+                                $.each(data.facetResults[0].fieldResult, function(idx, facet) {
+                                    if(idx>0) {
+                                        description += ', '
+                                    }
+
+                                    var queryUrl = biocacheWebappUrl + uiBase + imagesQueryUrl + '&fq=' + data.facetResults[0].fieldName + ':' + facet.label;
+
+                                    description += '<a href="' + queryUrl + '">' + (facet.count + ' ' + facet.label) + '</a>';
+                                })
+                            }
+                            $('#imagesSpiel').html('<p><a href="'+biocacheWebappUrl + uiBase + imagesQueryUrl +'">' + data.totalRecords + ' images</a> have been made available from the ${instance.name}. <br/> ' + description + '</p>');
+                            $.each(data.occurrences, function(idx, item) {
+                                var imageText = item.scientificName;
+
+                                if(item.typeStatus !== undefined) {
+                                    imageText = item.typeStatus + " - " + imageText;
+                                }
+
+                                $('#imagesList').append('<div class="imgCon"><a href="'+biocacheWebappUrl + '/occurrences/' + item.uuid + '"><img src="' + item.smallImageUrl+'"/><br/>'+ imageText + '</a></div>');
+                            })
+                        }
+                    }
+                }
+            });
+
+            // taxon chart
+            loadTaxonomyChart(taxonomyChartOptions);
         }
-        $('#imagesList').append('<div class="imgCon"><a href="'+biocacheWebappUrl + '/occurrences/' + item.uuid + '"><img src="' + item.smallImageUrl+'"/><br/>'+ imageText + '</a></div>');
-        })
-}
-}
-}
-});
 
-// taxon chart
-loadTaxonomyChart(taxonomyChartOptions);
-}
-/************************************************************\
- * Handle biocache records response
- \************************************************************/
-function biocacheRecordsHandler(response) {
-    if (response.error == undefined) {
-        setNumbers(response.totalRecords, ${instance.numRecords});
-        if (response.totalRecords < 1) {
-            noBiocacheData();
+        /************************************************************\
+         * Handle biocache records response
+        \************************************************************/
+        function biocacheRecordsHandler(response) {
+            if(response.error == undefined) {
+                setNumbers(response.totalRecords, ${instance.numRecords});
+                if(response.totalRecords < 1) {
+                    noBiocacheData();
+                }
+                drawDecadeChart(response.decades, "${instance.uid}", {
+                    width: 470,
+                    chartArea:  {left: 50, width:"88%", height: "75%"}
+                });
+            } else {
+                noBiocacheData();
+            }
         }
-        drawDecadeChart(response.decades, "${instance.uid}", {
-width: 470,
-chartArea:  {left: 50, width:"88%", height: "75%"}
-});
-} else {
-    noBiocacheData();
-}
-}
-/************************************************************\
- * Set biocache record numbers to none and hide link and chart
- \************************************************************/
-function noBiocacheData() {
-    setNumbers(0);
-    $('a.recordsLink').css('visibility','hidden');
-    $('div#decadeChart').css("display","none");
-}
-/************************************************************\
- * Set total and percent biocache record numbers
- \************************************************************/
-function setPercentAgeNumbers(totalBiocacheRecords, totalRecords) {
-    var recordsClause = "";
-    switch (totalBiocacheRecords) {
-        case 0: recordsClause = "No records"; break;
-        case 1: recordsClause = "1 record"; break;
-        default: recordsClause = addCommas(totalBiocacheRecords) + " records";
-    }
-    $('#numBiocacheRecords').html(recordsClause);
 
-    if (totalRecords > 0) {
-
-        var percent = totalBiocacheRecords/totalRecords * 100;
-        if (percent > 100 && ${instance.isInexactlyMapped()}) {
-            // don't show greater than 100 if the mapping is not exact as the estimated num records may be correct
-            percent = 100;
+        /************************************************************\
+         * Set biocache record numbers to none and hide link and chart
+        \************************************************************/
+        function noBiocacheData() {
+            setNumbers(0);
+            $('a.recordsLink').css('visibility','hidden');
+            $('div#decadeChart').css("display","none");
         }
-        setProgress(percent);
-    } else {
-        // to update the speedo caption
-        setProgress(0);
-    }
-}
-/************************************************************\
- * Add commas to number display
- \************************************************************/
-function addCommas(nStr)
-{
-    nStr += '';
-    x = nStr.split('.');
-    x1 = x[0];
-    x2 = x.length > 1 ? '.' + x[1] : '';
-    var rgx = /(\d+)(\d{3})/;
-    while (rgx.test(x1)) {
-        x1 = x1.replace(rgx, '$1' + ',' + '$2');
-    }
-    return x1 + x2;
-}
-/************************************************************\
- * DEPRECATED
- \************************************************************/
-function decadeBreakdownRequestHandler(response) {
-    var data = new google.visualization.DataTable(response);
-    if (data.getNumberOfRows() > 0) {
-        draw(data);
-    }
-}
 
-/************************************************************\
- * Draw % digitised bar (progress bar)
- \************************************************************/
-function setProgress(percentage){
-    var captionText = "";
-    if (${instance.numRecords < 1}) {
-        captionText = jQuery.i18n.prop('public.show.setprogress.01')+ " " +  ${nouns} +  jQuery.i18n.prop('public.show.setprogress.02');
-    } else if (percentage == 0) {
-        captionText = jQuery.i18n.prop('public.show.setprogress.03');
-    } else {
-        var displayPercent = percentage.toFixed(1);
-        if (percentage < 0.1) {displayPercent = percentage.toFixed(2)}
-        if (percentage > 20) {displayPercent = percentage.toFixed(0)}
-        if (percentage > 100) {displayPercent = "over 100"}
-        captionText = jQuery.i18n.prop('public.show.percentrecords.01') + " " + displayPercent + " " + jQuery.i18n.prop('public.show.percentrecords.02') + " " + jQuery.i18n.prop('public.show.percentrecords.${nouns}') + " " + jQuery.i18n.prop('public.show.percentrecords.03') +  ".";
-    }
-    $('#speedoCaption').html(captionText);
-    if (percentage > 100) {
-        $('#progressBar').removeClass('percentImage1');
-        $('#progressBar').addClass('percentImage4');
-        percentage = 101;
-    }
-    //var newProgress = eval(initial)+eval(percentageWidth)+'px';
-    $('#progressBar').css('width', percentage +'%');
-}
-/************************************************************\
- * Load charts
- \************************************************************/
+        /************************************************************\
+         * Set total and percent biocache record numbers
+        \************************************************************/
+        function setPercentAgeNumbers(totalBiocacheRecords, totalRecords) {
+            var recordsClause = "";
 
-// define biocache server
-google.load("visualization", "1", {packages:["corechart"]});
-google.setOnLoadCallback(onLoadCallback);
+            switch (totalBiocacheRecords) {
+                case 0: recordsClause = "No records"; break;
+                case 1: recordsClause = "1 record"; break;
+                default: recordsClause = addCommas(totalBiocacheRecords) + " records";
+            }
+
+            $('#numBiocacheRecords').html(recordsClause);
+
+            if(totalRecords > 0) {
+                var percent = totalBiocacheRecords/totalRecords * 100;
+
+                if(percent > 100 && ${instance.isInexactlyMapped()}) {
+                    // don't show greater than 100 if the mapping is not exact as the estimated num records may be correct
+                    percent = 100;
+                }
+                setProgress(percent);
+            } else {
+                // to update the speedo caption
+                setProgress(0);
+            }
+        }
+
+        /************************************************************\
+         * Add commas to number display
+        \************************************************************/
+        function addCommas(nStr) {
+            var rgx = /(\d+)(\d{3})/;
+
+            nStr += '';
+            x = nStr.split('.');
+            x1 = x[0];
+            x2 = x.length > 1 ? '.' + x[1] : '';
+
+            while (rgx.test(x1)) {
+                x1 = x1.replace(rgx, '$1' + ',' + '$2');
+            }
+
+            return x1 + x2;
+        }
+
+        /************************************************************\
+         * DEPRECATED
+        \************************************************************/
+        function decadeBreakdownRequestHandler(response) {
+            var data = new google.visualization.DataTable(response);
+
+            if(data.getNumberOfRows() > 0) {
+                draw(data);
+            }
+        }
+
+        /************************************************************\
+         * Draw % digitised bar (progress bar)
+        \************************************************************/
+        function setProgress(percentage) {
+            var captionText = "";
+
+            if(${instance.numRecords < 1}) {
+                captionText = jQuery.i18n.prop('public.show.setprogress.01')+ " " +  ${nouns} +  jQuery.i18n.prop('public.show.setprogress.02');
+            } else if(percentage == 0) {
+                captionText = jQuery.i18n.prop('public.show.setprogress.03');
+            } else {
+                var displayPercent = percentage.toFixed(1);
+
+                if(percentage < 0.1) {displayPercent = percentage.toFixed(2)}
+                if(percentage > 20) {displayPercent = percentage.toFixed(0)}
+                if(percentage > 100) {displayPercent = "over 100"}
+                captionText = jQuery.i18n.prop('public.show.percentrecords.01') + " " + displayPercent + " " + jQuery.i18n.prop('public.show.percentrecords.02') + " " + jQuery.i18n.prop('public.show.percentrecords.${nouns}') + " " + jQuery.i18n.prop('public.show.percentrecords.03') +  ".";
+            }
+            $('#speedoCaption').html(captionText);
+            if(percentage > 100) {
+                $('#progressBar').removeClass('percentImage1');
+                $('#progressBar').addClass('percentImage4');
+                percentage = 101;
+            }
+            //var newProgress = eval(initial)+eval(percentageWidth)+'px';
+            $('#progressBar').css('width', percentage +'%');
+        }
+
+        /************************************************************\
+         * Load charts
+        \************************************************************/
+        // define biocache server
+        google.load("visualization", "1", {packages:["corechart"]});
+        google.setOnLoadCallback(onLoadCallback);
 
         // perform JavaScript after the document is scriptable.
         $(function() {
