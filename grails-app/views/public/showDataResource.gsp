@@ -26,7 +26,7 @@
                 <cl:pageOptionsPopup instance="${instance}"/>
 
                 <div class="row">
-                    <div class="col-8">
+                    <div class="col-9">
                         <cl:h1 value="${instance.name}"/>
 
                         <g:set var="dp" value="${instance.dataProvider}"/>
@@ -50,7 +50,7 @@
                         </g:if>
                     </div>
 
-                    <div class="col-4">
+                    <div class="col-3">
                         <g:if test="${dp?.logoRef?.file}">
                             <g:link action="show" id="${dp.uid}">
                                 <img class="institutionImage"
@@ -66,7 +66,7 @@
             </div><!--close header-->
 
             <div class="row">
-                <div class="col-8">
+                <div class="col-9">
                     <div class="card card-block">
                         <g:if test="${instance.pubDescription || instance.techDescription || instance.focus}">
                             <h2><g:message code="public.des" /></h2>
@@ -145,7 +145,7 @@
                     <g:if test="${instance.resourceType == 'records'}">
                         <div class="card">
                             <div class="card-header">
-                                <h2><g:message code="public.sdr.content.label09" /></h2>
+                                <h2>muna<g:message code="public.sdr.content.label09" /></h2>
                             </div>
 
                             <div class="card-block">
@@ -174,7 +174,7 @@
                     <cl:lastUpdated date="${instance.lastUpdated}"/>
                 </div><!--close column-one-->
 
-                <div class="col-4">
+                <div class="col-3">
                     <g:if test="${fieldValue(bean: instance, field: 'imageRef') && fieldValue(bean: instance, field: 'imageRef.file')}">
                         <div class="section">
                             <img alt="${fieldValue(bean: instance, field: "imageRef.file")}"

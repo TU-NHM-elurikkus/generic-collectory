@@ -7,85 +7,93 @@
     <script type="text/javascript" language="javascript" src="https://www.google.com/jsapi"></script>
     <r:require modules="jquery, fancybox, jquery_jsonp, charts"/>
     <r:script type="text/javascript">
-      biocacheServicesUrl = "${grailsApplication.config.biocacheServicesUrl}";
-      biocacheWebappUrl = "${grailsApplication.config.biocacheUiURL}";
-      loadLoggerStats = ${!grailsApplication.config.disableLoggerLinks.toBoolean()};
-      $(document).ready(function () {
-        $("a#lsid").fancybox({
-            'hideOnContentClick': false,
-            'titleShow': false,
-            'autoDimensions': false,
-            'width': 600,
-            'height': 180
+        biocacheServicesUrl = "${grailsApplication.config.biocacheServicesUrl}";
+        biocacheWebappUrl = "${grailsApplication.config.biocacheUiURL}";
+        loadLoggerStats = ${!grailsApplication.config.disableLoggerLinks.toBoolean()};
+        $(document).ready(function () {
+            $("a#lsid").fancybox({
+                'hideOnContentClick': false,
+                'titleShow': false,
+                'autoDimensions': false,
+                'width': 600,
+                'height': 180
+            });
+            $("a.current").fancybox({
+                'hideOnContentClick': false,
+                'titleShow': false,
+                'titlePosition': 'inside',
+                'autoDimensions': true,
+                'width': 300
+            });
         });
-        $("a.current").fancybox({
-            'hideOnContentClick': false,
-            'titleShow': false,
-            'titlePosition': 'inside',
-            'autoDimensions': true,
-            'width': 300
-        });
-      });
     </r:script>
 </head>
 
 <body>
 <div id="content">
-    <div id="header" class="collectory">
-        <!--Breadcrumbs-->
-        <div id="breadcrumb">
-            <ol class="breadcrumb">
-                <li><cl:breadcrumbTrail/> <span class=" icon icon-arrow-right"></span></li>
-                <li><cl:pageOptionsLink>${fieldValue(bean:instance,field:'name')}</cl:pageOptionsLink></li>
-            </ol>
-        </div>
-
+    <div id="header" class="page-header">
         <cl:pageOptionsPopup instance="${instance}"/>
 
-        <div class="row">
-            <div class="col-8">
-                <cl:h1 value="${instance.name}"/>
-                <g:set var="parents" value="${instance.listParents()}"/>
-                <g:each var="p" in="${parents}">
-                    <h2><g:link action="show" id="${p.uid}">${p.name}</g:link></h2>
-                </g:each>
-      
-                <cl:valueOrOtherwise value="${instance.acronym}">
-                    <span class="acronym">
-                        <g:message code="public.show.header.acronym"/>:
-                        ${fieldValue(bean: instance, field: "acronym")}
-                    </span>
-                </cl:valueOrOtherwise>
+        <h1 class="page-header__title">
+            ${instance.name}
+        </h1>
 
-                <g:if test="${instance.guid?.startsWith('urn:lsid:')}">
-                    <span class="lsid">
-                        <a href="#lsidText" id="lsid" class="local" title="Life Science Identifier (pop-up)">
-                            <g:message code="public.lsid" />
-                        </a>
-                    </span>
+        <div class="page-header__subtitle">
+            <g:set var="parents" value="${instance.listParents()}"/>
+            <g:each var="p" in="${parents}">
+                <h2><g:link action="show" id="${p.uid}">${p.name}</g:link></h2>
+            </g:each>
 
-                    <div style="display:none; text-align: left;">
-                        <div id="lsidText" style="text-align: left;">
-                            <b><a class="external_icon" href="http://lsids.sourceforge.net/"
-                                  target="_blank"><g:message code="public.lsidtext.link" />:</a></b>
-                            <p><cl:guid target="_blank" guid='${fieldValue(bean: instance, field: "guid")}'/></p>
-                            <p><g:message code="public.lsidtext.des" />.</p>
-                        </div>
+            <cl:valueOrOtherwise value="${instance.acronym}">
+                <span class="acronym">
+                    <g:message code="public.show.header.acronym"/>:
+                    ${fieldValue(bean: instance, field: "acronym")}
+                </span>
+            </cl:valueOrOtherwise>
+
+            <g:if test="${instance.guid?.startsWith('urn:lsid:')}">
+                <span class="lsid">
+                    <a href="#lsidText" id="lsid" class="local" title="Life Science Identifier (pop-up)">
+                        <g:message code="public.lsid" />
+                    </a>
+                </span>
+
+                %{-- TODO --}%
+                <div style="display:none; text-align: left;">
+                    <div id="lsidText" style="text-align: left;">
+                        <b><a class="external_icon" href="http://lsids.sourceforge.net/"
+                              target="_blank"><g:message code="public.lsidtext.link" />:</a></b>
+                        <p><cl:guid target="_blank" guid='${fieldValue(bean: instance, field: "guid")}'/></p>
+                        <p><g:message code="public.lsidtext.des" />.</p>
                     </div>
-                </g:if>
-            </div>
+                </div>
+            </g:if>
 
-            <div class="col-4">
-                <g:if test="${fieldValue(bean: instance, field: 'logoRef') && fieldValue(bean: instance, field: 'logoRef.file')}">
-                    <img class="institutionImage"
-                         src='${resource(absolute: "true", dir: "data/institution/", file: fieldValue(bean: instance, field: 'logoRef.file'))}'/>
-                </g:if>
-            </div>
+            <g:if test="${fieldValue(bean: instance, field: 'logoRef') && fieldValue(bean: instance, field: 'logoRef.file')}">
+                <img class="institutionImage"
+                     src='${resource(absolute: "true", dir: "data/institution/", file: fieldValue(bean: instance, field: 'logoRef.file'))}'/>
+            </g:if>
         </div>
-    </div><!--close header-->
+
+        <div class="page-header-links">
+            <a href="${request.contextPath}/" class="page-header-links__link">
+                Collections
+            </a>
+
+            <a href="${grailsApplication.config.biocacheUiURL}/occurrences/search?q=institution_uid:${instance.uid}" class="page-header-links__link">
+                ${instance.name} records
+            </a>
+
+            %{-- TODO SHOULD BE A BUTTON
+            <cl:pageOptionsLink>
+                ${fieldValue(bean:instance,field:'name')}
+            </cl:pageOptionsLink>
+            --}%
+        </div>
+    </div> %{-- /header --}%
 
     <div class="row">
-        <div class="col-8">
+        <div class="col-9">
             <g:if test="${instance.pubDescription}">
                 <h2><g:message code="public.des" /></h2>
                 <cl:formattedText>${fieldValue(bean: instance, field: "pubDescription")}</cl:formattedText>
@@ -109,7 +117,7 @@
                                 <g:link controller="public" action="show" id="${c.uid}">
                                     ${c?.name}
                                 </g:link>
-                                
+
                                 ${c?.makeAbstract(400)}
                             </li>
                         </g:each>
@@ -124,18 +132,22 @@
 
                 <div class="card-block">
                     <div>
-                        <p style="padding-bottom:8px;"><span
-                                id="numBiocacheRecords"><g:message code="public.numbrs.des01" /></span> <g:message code="public.numbrs.des02" />.
+                        <p>
+                            <span id="numBiocacheRecords">
+                                <g:message code="public.numbrs.des01" />
+                            </span>
+                            <g:message code="public.numbrs.des02" />.
                         </p>
 
-                        <cl:recordsLink
-                                entity="${instance}"><g:message code="public.numbrs.link" /> ${instance.name}.</cl:recordsLink>
+                        <cl:recordsLink entity="${instance}">
+                            <g:message code="public.numbrs.link" /> ${instance.name}.
+                        </cl:recordsLink>
                     </div>
 
                     <div id="recordsBreakdown" class="section vertical-charts">
                         <div id="charts"></div>
                     </div>
-                    
+
                     <cl:lastUpdated date="${instance.lastUpdated}"/>
                 </div>
             </div>
@@ -151,9 +163,9 @@
                     <p><g:message code="public.usage.des" />...</p>
                 </div>
             </div>
-        </div><!--close section-->
+        </div>
 
-        <div class="col-4">
+        <div class="col-3">
             <g:if test="${fieldValue(bean: instance, field: 'imageRef') && fieldValue(bean: instance, field: 'imageRef.file')}">
                 <div class="section">
                     <img alt="${fieldValue(bean: instance, field: "imageRef.file")}"
@@ -322,7 +334,6 @@
 
     google.load("visualization", "1", {packages:["corechart"]});
     google.setOnLoadCallback(onLoadCallback);
-
 </r:script>
 </body>
 </html>

@@ -12,12 +12,14 @@
     </h4>
 
     <div class="dataAccess btn-group-vertical">
+        %{-- moved to page header
         <a href="${grailsApplication.config.biocacheUiURL}/occurrences/search?q=${facet}:${instance.uid}">
             <button class="erk-button erk-button--light">
                 <span class="fa fa-list"></span>&nbsp;
                 <g:message code="dataAccess.view.records"/>
             </button>
         </a>
+        --}%
 
         <g:if test="${!grailsApplication.config.disableLoggerLinks.toBoolean() && grailsApplication.config.loggerURL}">
             <a href="${grailsApplication.config.loggerURL}/reasonBreakdownCSV?eventId=1002&entityUid=${instance.uid}"">
