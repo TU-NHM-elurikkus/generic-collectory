@@ -14,59 +14,94 @@
 
     <body class="nav-datasets">
         <div id="content">
-            <div id="header">
-                <!--Breadcrumbs-->
-                <div id="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li><cl:breadcrumbTrail home="dataSets"/> <span class=" icon icon-arrow-right"></span></li>
-                        <li><cl:pageOptionsLink>${fieldValue(bean:instance,field:'name')}</cl:pageOptionsLink></li>
-                    </ol>
-                </div>
-
+            <div id="header" class="page-header">
+                %{-- XXX MAGIC. TODO: place it. --}%
                 <cl:pageOptionsPopup instance="${instance}"/>
 
-                <div class="row">
-                    <div class="col-9">
-                        <cl:h1 value="${instance.name}"/>
+                <cl:h1 value="${instance.name}" class="page-header__title" />
 
-                        <g:set var="dp" value="${instance.dataProvider}"/>
-                        <g:if test="${dp}">
-                            <h2><g:link action="show" id="${dp.uid}">${dp.name}</g:link></h2>
-                        </g:if>
+                <%-- <div class="page-header__subtitle"></div> --%>
 
-                        <g:if test="${instance.institution}">
-                            <h2><g:link action="show" id="${instance.institution.uid}">${instance.institution.name}</g:link></h2>
-                        </g:if>
+                <div class="page-header-links">
+                    <a href="${request.contextPath}/" class="page-header-links__link">
+                        Collections
+                    </a>
 
-                        <cl:valueOrOtherwise value="${instance.acronym}">
-                            <span class="acronym">
-                                <g:message code="public.show.header.acronym"/>:
-                                ${fieldValue(bean: instance, field: "acronym")}
-                            </span>
-                        </cl:valueOrOtherwise>
+                    <a href="/generic-collectory/datasets/" title="List" class="page-header-links__link">
+                        List
+                    </a>
 
-                        <g:if test="${instance.guid}">
-                            LSID: ${fieldValue(bean: instance, field: "guid")}
-                        </g:if>
-                    </div>
-
-                    <div class="col-3">
-                        <g:if test="${dp?.logoRef?.file}">
-                            <g:link action="show" id="${dp.uid}">
-                                <img class="institutionImage"
-                                     src='${resource(absolute: "true", dir: "data/dataProvider/", file: fieldValue(bean: dp, field: 'logoRef.file'))}'/>
-                            </g:link>
-                        </g:if>
-                        <g:elseif test="${instance?.logoRef?.file}">
-                            <img class="institutionImage"
-                                 src='${resource(absolute: "true", dir: "data/dataResource/", file: fieldValue(bean: instance, field: 'logoRef.file'))}'/>
-                        </g:elseif>
-                    </div>
+                    <a href="${grailsApplication.config.biocacheUiURL}/occurrences/search?q=data_resource_uid:${instance.uid}" class="page-header-links__link">
+                        ${instance.name} records
+                    </a>
                 </div>
-            </div><!--close header-->
+
+                <g:set var="dp" value="${instance.dataProvider}"/>
+
+                <%-- XXX --%>
+                <g:if test="${dp}">
+                    <h2>
+                        <g:link action="show" id="${dp.uid}">
+                            ${dp.name}
+                        </g:link>
+                    </h2>
+                </g:if>
+
+                <g:if test="${instance.institution}">
+                    <h2><g:link action="show" id="${instance.institution.uid}">${instance.institution.name}</g:link></h2>
+                </g:if>
+
+                <cl:valueOrOtherwise value="${instance.acronym}">
+                    <span class="acronym">
+                        <g:message code="public.show.header.acronym"/>:
+                        ${fieldValue(bean: instance, field: "acronym")}
+                    </span>
+                </cl:valueOrOtherwise>
+
+                <g:if test="${instance.guid}">
+                    LSID: ${fieldValue(bean: instance, field: "guid")}
+                </g:if>
+            </div>
 
             <div class="row">
                 <div class="col-9">
+                    <g:set var="dp" value="${instance.dataProvider}"/>
+                    <g:if test="${dp}">
+                        <h2><g:link action="show" id="${dp.uid}">${dp.name}</g:link></h2>
+                    </g:if>
+
+                    <g:if test="${instance.institution}">
+                        <h2><g:link action="show" id="${instance.institution.uid}">${instance.institution.name}</g:link></h2>
+                    </g:if>
+
+                    <cl:valueOrOtherwise value="${instance.acronym}">
+                        <span class="acronym">
+                            <g:message code="public.show.header.acronym"/>:
+                            ${fieldValue(bean: instance, field: "acronym")}
+                        </span>
+                    </cl:valueOrOtherwise>
+
+                    <g:if test="${instance.guid}">
+                        LSID: ${fieldValue(bean: instance, field: "guid")}
+                    </g:if>
+                </div>
+
+                <div class="col-md-3">
+                    <g:if test="${dp?.logoRef?.file}">
+                        <g:link action="show" id="${dp.uid}">
+                            <img class="institutionImage"
+                                 src='${resource(absolute: "true", dir: "data/dataProvider/", file: fieldValue(bean: dp, field: 'logoRef.file'))}'/>
+                        </g:link>
+                    </g:if>
+                    <g:elseif test="${instance?.logoRef?.file}">
+                        <img class="institutionImage"
+                             src='${resource(absolute: "true", dir: "data/dataResource/", file: fieldValue(bean: instance, field: 'logoRef.file'))}'/>
+                    </g:elseif>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-9">
                     <div class="card card-block">
                         <g:if test="${instance.pubDescription || instance.techDescription || instance.focus}">
                             <h2><g:message code="public.des" /></h2>

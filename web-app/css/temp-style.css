@@ -287,3 +287,11 @@ ul.facets {
 #adminNavMenu { margin-top:10px; }
 
 .entityLogo { margin-bottom: 10px; }
+
+/* XXX CHART STYLE HACKS */
+.chart-pie {
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+}

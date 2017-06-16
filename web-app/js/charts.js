@@ -21,9 +21,9 @@ jQuery.i18n.properties({
 
 // defaults for taxa chart
 var taxonomyPieChartOptions = {
-    width: 700,
-    height: 450,
-    chartArea: {left:0, top:30, width:"100%", height: "70%"},
+    width: 600,
+    height: 400,
+    chartArea: {left:0, top:30, width:"100%", height: "100%"},
     is3D: false,
     titleTextStyle: {color: "#555", fontName: 'Arial', fontSize: 12},
     sliceVisibilityThreshold: 0,
@@ -33,9 +33,9 @@ var taxonomyPieChartOptions = {
 
 // defaults for facet charts
 var genericChartOptions = {
-    width: 700,
-    height: 450,
-    chartArea: {left:0, top:30, width:"100%", height: "70%"},
+    width: 600,
+    height: 400,
+    chartArea: {left:0, top:30, width:"100%", height: "100%"},
     is3D: false,
     titleTextStyle: {color: "#555", fontName: 'Arial', fontSize: 12},
     sliceVisibilityThreshold: 0,
@@ -220,7 +220,7 @@ function buildGenericFacetChart(name, data, query, chartsDiv, chartOptions) {
 
     // specify the type (for css tweaking)
     $container.addClass('chart-' + opts.chartType);
-            
+
     // create the chart
     var chart;
     switch (opts.chartType) {
@@ -406,7 +406,6 @@ function drawTaxonomyChart(data, chartOptions, query) {
     var $outerContainer = $('#taxa');
     if ($outerContainer.length == 0) {
         $outerContainer = $('<div id="taxa"></div>'); // create it
-        $outerContainer.css('margin-bottom','-50px');
         var chartsDiv = $('div#' + (chartOptions.targetDivId ? chartOptions.targetDivId : 'charts'));
         // append it
         chartsDiv.prepend($outerContainer);
@@ -428,11 +427,10 @@ function drawTaxonomyChart(data, chartOptions, query) {
     // draw the back button / instructions
     var $backLink = $('#backLink');
     if ($backLink.length == 0) {
-        $backLink = $('<div class="link" id="backLink">&laquo; ' + jQuery.i18n.prop('charts2.js.previousrank') + '</div>').appendTo($outerContainer);  // create it
-        $backLink.css('position','relative').css('top','-75px');
+        $backLink = $('<div class="erk-button erk-button--inline" id="backLink">&laquo; ' + jQuery.i18n.prop('charts2.js.previousrank') + '</div>').appendTo($outerContainer);  // create it
         $backLink.click(function() {
             // only act if link was real
-            if (!$backLink.hasClass('link')) return;
+            if (!$backLink.hasClass('erk-button')) return;
 
             // show spinner while loading
             $container.append($('<img class="loading" style="position:absolute;left:130px;top:220px;z-index:2000" ' +
@@ -451,18 +449,17 @@ function drawTaxonomyChart(data, chartOptions, query) {
     }
     if (chartOptions.history) {
         // show the prev link
-        $backLink.html("&laquo; " + jQuery.i18n.prop('charts2.js.previousrank')).addClass('link');
+        $backLink.html("&laquo; " + jQuery.i18n.prop('charts2.js.previousrank')).addClass('erk-button');
     }
     else {
         // show the instruction
-        $backLink.html(jQuery.i18n.prop('charts.js.slicetodrill')).removeClass('link');
+        $backLink.html(jQuery.i18n.prop('charts.js.slicetodrill')).removeClass('erk-button');
     }
 
     // draw records link
     var $recordsLink = $('#recordsLink');
     if ($recordsLink.length == 0) {
-        $recordsLink = $('<div class="link under" id="recordsLink">' + jQuery.i18n.prop('charts.js.viewrecords') + '</div>').appendTo($outerContainer);  // create it
-        $recordsLink.css('position','relative').css('top','-75px');
+        $recordsLink = $('<div class="erk-link" id="recordsLink">' + jQuery.i18n.prop('charts.js.viewrecords') + '</div>').appendTo($outerContainer);  // create it
         $recordsLink.click(function() {
             // show occurrence records
             var fq = "";
