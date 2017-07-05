@@ -1,143 +1,166 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <meta name="layout" content="${grailsApplication.config.skin.layout}"/>
-        <title>
-            <g:message code="public.datasets.title" /> | ${grailsApplication.config.projectName}
-        </title>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="layout" content="${grailsApplication.config.skin.layout}"/>
+    <title>
+        <g:message code="public.datasets.title" /> | ${grailsApplication.config.projectName}
+    </title>
 
-        <r:require modules="collectory, datasets_hack, jquery_json, bbq, rotate, jquery_tools"/>
-        <r:script type="text/javascript">
-            var altMap = true;
+    <r:require modules="collectory, datasets_hack, jquery_json, bbq, rotate, jquery_tools"/>
+    <r:script type="text/javascript">
+        var altMap = true;
 
-            $(document).ready(function() {
-                $('#nav-tabs > ul').tabs();
+        $(document).ready(function() {
+            $('#nav-tabs > ul').tabs();
 
-                loadResources("${grailsApplication.config.grails.serverURL}","${grailsApplication.config.biocacheUiURL}");
+            loadResources("${grailsApplication.config.grails.serverURL}","${grailsApplication.config.biocacheUiURL}");
 
-                $('select#per-page').change(onPageSizeChange);
-                $('select#sort').change(onSortChange);
-                $('select#dir').change(onDirChange);
-            });
-        </r:script>
-    </head>
+            $('select#per-page').change(onPageSizeChange);
+            $('select#sort').change(onSortChange);
+            $('select#dir').change(onDirChange);
+        });
+    </r:script>
+</head>
 
-    <body id="page-datasets" class="nav-datasets">
-        <div id="content">
-            <div id="header">
-                <!--Breadcrumbs-->
-                <div id="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li><cl:breadcrumbTrail home="dataSets" atBase="true"/></li>
-                    </ol>
-                </div>
+<body id="page-datasets" class="nav-datasets">
+    <%-- WEIRD --%>
+        <div class="page-header">
+            <h1 class="page-header__title">
+                ${grailsApplication.config.projectName}
+                <g:message code="public.datasets.header.title" />
+            </h1>
 
-                <div class="full-width">
-                    <g:if test="${flash.message}">
-                        <div class="message">${flash.message}</div>
-                    </g:if>
+            <div class="page-header__subtitle">
+                <g:message code="public.datasets.header.message01" />
+                ${grailsApplication.config.projectName},
+                <g:message code="public.datasets.header.message02" />.
 
-                    <div>
-                        <h1>
-                            ${grailsApplication.config.projectName}
-                            <g:message code="public.datasets.header.title" />
-                        </h1>
+                <%--
+                    TODO: Perhaps delete it. Seems unnecessary.
+                    <small>
+                        <g:message code="public.datasets.header.message03" />
+                        <img style="vertical-align:middle;" src="${resource(dir:'/images/skin',file:'ExpandArrow.png')}" />
+                        <g:message code="public.datasets.header.message04" />.
+                    </small>
+                --%>
+            </div>
 
-                        <p style="padding-bottom:6px !important;">
-                            <g:message code="public.datasets.header.message01" />
-                            ${grailsApplication.config.projectName},
-                            <g:message code="public.datasets.header.message02" />.
-                        </p>
+            <div class="page-header-links">
+                <a href="${request.contextPath}/" class="page-header-links__link">
+                    Collections
+                </a>
+            </div>
+        </div>
 
-                        <p>
-                            <g:message code="public.datasets.header.message03" />
-                            <img style="vertical-align:middle;" src="${resource(dir:'/images/skin',file:'ExpandArrow.png')}"/>
-                            <g:message code="public.datasets.header.message04" />.
-                        </p>
+        <%-- TODO: PROPER CONTAINER LOGIC --%>
+        <div class="row">
+            <div class="col">
+                <form id="search-inpage" action="search" method="get" name="search-form">
+                    <div class="input-plus">
+                        <%--
+                            TODO: Value, placeholder, autofocus, onfocus, autocomplete.
+                        --%>
+                        <input
+                            id="dr-search"
+                            type="text"
+                            name="dr-search"
+                            class="input-plus__field"
+                        />
+
+                        <button type="submit" class="erk-button erk-button--dark input-plus__addon">
+                            <g:message code="public.datasets.drsearch.search" />
+                        </button>
                     </div>
-                </div>
-            </div><!--close header-->
+                </form>
 
-            <div class="collectory-content row">
-                <div id="sidebarBoxXXX" class="col-3 facets card card-block">
-                    <div class="sidebar-header">
-                        <h3><g:message code="public.datasets.sidebar.header" /></h3>
-                    </div>
+                <p>
+                    <span id="resultsReturned">
+                        <g:message code="public.datasets.resultsreturned.message01" />
+                            <strong></strong>&nbsp;
+                        <g:message code="public.datasets.resultsreturned.message02" />.
+                    </span>
+                </p>
 
-                    <div id="currentFilterHolder"></div>
+                <%-- List of active filters populated by javascript. --%>
+                <div id="currentFilterHolder"></div>
+
+                <%--
+                    TODO: Remove all filters. Maybe. Seems unnecessary now.
+                    <button id="reset" onclick="javascript:reset()" title="Remove all filters and sorting options" class="erk-button erk-button--light">
+                        <g:message code="public.datasets.drsearch.resetlist" /></a>
+                    </button>
+                --%>
+            </div>
+        </div>
+
+        <%-- SOMETHING SOMETHING --%>
+        <g:if test="${flash.message}">
+            <div class="full-width">
+                <div class="message">${flash.message}</div>
+            </div<
+        </g:if>
+
+        <div class="collectory-content row">
+            <%-- TODO: Mobile responsiveness. --%>
+            <div id="sidebarBoxXXX" class="col-3">
+                <%-- TODO: Check CSS class hierarchy. --%>
+                <div class="card card-block facets">
+                    <h2 class="card-title">
+                        <g:message code="public.datasets.sidebar.header" />
+                    </h2>
 
                     <div id="dsFacets"></div>
                 </div>
+            </div>
 
-                <div id="data-set-list" class="col-9">
-                    <div class="card card-block">
-                        <div>
-                            <span id="resultsReturned">
-                                <g:message code="public.datasets.resultsreturned.message01" />
-                                <strong></strong>&nbsp;
-                                <g:message code="public.datasets.resultsreturned.message02" />.
-                            </span>
-                        </div>
+            <%-- TODO: Mobile responsiveness. --%>
+            <div id="data-set-list" class="col-9">
+                <div class="card card-block">
+                    <div class="search-controls">
+                        <button id="downloadButton" class="erk-button erk-button--light">
+                            <span class="fa fa-download"></span>
+                            <g:message code="public.datasets.downloadlink.label" />
+                        </button>
 
-                        <div class="row-fluid clearfix">
-                            <div class="float-left">
-                                <div class="input-btn">
-                                    <input type="text" name="dr-search" id="dr-search"/>
+                        <form class="form-inline float-right">
+                            <div class="form-group">
+                                <label for="per-page">
+                                    <g:message code="public.datasets.sortwidgets.rpp" />
+                                </label>
 
-                                    <button title="Only show data sets which contain the search term" id="dr-search-link" class="erk-button erk-button--light">
-                                        <g:message code="public.datasets.drsearch.search" />
-                                    </button>
-
-                                    <button id="reset" onclick="javascript:reset()" title="Remove all filters and sorting options" class="erk-button erk-button--light">
-                                        <g:message code="public.datasets.drsearch.resetlist" /></a>
-                                    </button>
-                                </div>
+                                <g:select id="per-page" name="per-page" from="${[10,20,50,100,500]}" value="${pageSize ?: 20}" class="input-sm" />
                             </div>
 
-                            <div class="float-right">
-                                <a href="#" id="downloadLink" title="Download metadata for datasets as a CSV file">
-                                    <button class="erk-button erk-button--light">
-                                        <i class="fa fa-download"></i>
-                                        <g:message code="public.datasets.downloadlink.label" />
-                                    </button>
-                                </a>
+                            <div class="form-group">
+                                <label for="sort">
+                                    <g:message code="public.datasets.sortwidgets.sb" />
+                                </label>
+
+                                <g:select id="sort" name="sort" from="${['name','type','license']}" class="input-sm" />
                             </div>
-                        </div>
 
-                        <hr/>
+                            <div class="form-group">
+                                <label for="dir">
+                                    <g:message code="public.datasets.sortwidgets.so" />
+                                </label>
 
-                        <div id="searchControls">
-                            <div id="sortWidgets" class="row">
-                                <div class="col-4">
-                                    <label for="per-page"><g:message code="public.datasets.sortwidgets.rpp" /></label>
-                                    <g:select id="per-page" name="per-page" from="${[10,20,50,100,500]}" value="${pageSize ?: 20}" class="form-control"/>
-                                </div>
-
-                                <div class="col-4">
-                                    <label for="sort"><g:message code="public.datasets.sortwidgets.sb" /></label>
-                                    <g:select id="sort" name="sort" from="${['name','type','license']}" class="form-control"/>
-                                </div>
-
-                                <div class="col-4">
-                                    <label for="dir"><g:message code="public.datasets.sortwidgets.so" /></label>
-                                    <g:select id="dir" name="dir" from="${['ascending','descending']}" class="form-control"/>
-                                </div>
+                                <g:select id="dir" name="dir" from="${['ascending','descending']}" class="input-sm" />
                             </div>
-                        </div><!--drop downs-->
+                        </form>
+                    </div><!--drop downs-->
+
+                    <div id="results">
+                        <div id="loading"><g:message code="public.datasets.loading" /> ..</div>
                     </div>
 
-                    <div class="card card-block">
-                        <div id="results">
-                            <div id="loading"><g:message code="public.datasets.loading" /> ..</div>
-                        </div>
-
-                        <div id="searchNavBar" class="clearfix">
-                            <div id="navLinks"></div>
-                        </div>
+                    <%-- TODO: What is this? --%>
+                    <div id="searchNavBar" class="clearfix">
+                        <div id="navLinks"></div>
                     </div>
                 </div>
-            </div><!-- close collectory-content-->
-        </div><!--close content-->
-    </body>
+            </div>
+        </div><!-- close collectory-content-->
+    </div><!--close content-->
+</body>
 </html>

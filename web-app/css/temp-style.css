@@ -127,48 +127,12 @@ ul.nav-tabs {
     margin-bottom: 0;
 }
 
-/*
-.nav-tabs li a {
-    background-color: #f0f0e8;
-    border: 1px solid #ddd;
-    margin-right: 3px;
-    padding-left: 15px;
-    padding-right: 15px;
-    line-height: 16px;
-    font-weight: bold;
-}
-*/
-
-.tab-content {
-    border-bottom: 1px solid #DDD;
-    border-right: 1px solid #DDD;
-    border-left: 1px solid #DDD;
-    padding: 15px;
-}
-
 #collectionTypesFooter {
     margin-top: 20px;
     margin-left: 4px;
 }
 
-.breadcrumb > li > .icon {
-    color: #555555;
-    opacity: 0.6;
-    filter: alpha(opacity=60);
-    margin: 1px 4px 0;
-}
-
-#breadcrumb a.current {
-    text-decoration: none;
-    color: #333;
-    cursor: default;
-    background-image: none !important;
-}
-
-#resultsReturned {
-    font-size: 13px !important;
-}
-
+/* XXX */
 .rowA {
     border-top: 1px solid silver;
     padding-top:8px;
@@ -265,24 +229,8 @@ ul.facets {
     padding: 0;
 }
 
-/*
-.dataAccess a {
-    text-align: left;
-    max-width:80%;
-}
-*/
-
 .category { font-weight:bold; min-width: 120px; }
 .category-large { font-weight:bold; min-width: 180px;  }
-
-/*
-.nav-stacked .icon-chevron-right {
-    float: right;
-    margin-top: 2px;
-    margin-right: -6px;
-    opacity: .25;
-}
-*/
 
 #adminNavMenu { margin-top:10px; }
 
@@ -294,4 +242,20 @@ ul.facets {
     margin-bottom: 1rem;
     overflow-x: auto;
     overflow-y: hidden;
+}
+
+/* XXX DRY. TODO: Common style for search controls. */
+.search-controls {
+    margin-bottom: 1rem;
+}
+
+/* XXX DRY. TODO: Common style for search controls. */
+.search-controls label {
+    margin-right: .5rem;
+}
+
+/* XXX DRY. TODO: Common style for search controls. */
+/* careful now */
+.search-controls .form-group {
+    margin-left: 1rem;
 }

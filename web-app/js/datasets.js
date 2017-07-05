@@ -57,13 +57,13 @@ function loadResources(serverUrl, biocacheRecordsUrl) {
         showFilters();
         resources.sort(comparator);
         displayPage();
-        wireDownloadLink();
+        wireDownloadButton();
         wireSearchLink();
 
         // set up tooltips
         // - don't do download link because the title changes and the tooltip app does not update
         // - also limit to content to exclude links in header
-        $('div.collectory-content [title][id!="downloadLink"]').tooltip(tooltipOptions);
+        $('div.collectory-content [title][id!="downloadButton"]').tooltip(tooltipOptions);
     });
 }
 /*************************************************\
@@ -177,7 +177,7 @@ function clearList() {
 function updateTotal() {
     total = resources.length;
     $('#resultsReturned').html(jQuery.i18n.prop('datasets.js.updatetotal03') +  ' <strong>' + total + '</strong> ' + jQuery.i18n.prop('datasets.js.updatetotal04') + (total == 1 ? jQuery.i18n.prop('datasets.js.updatetotal05') : jQuery.i18n.prop('datasets.js.updatetotal06')));
-    $('#downloadLink').attr('title', jQuery.i18n.prop('datasets.js.updatetotal01') + ' ' + total + ' ' + jQuery.i18n.prop('datasets.js.updatetotal02'));
+    $('#downloadButton').attr('title', jQuery.i18n.prop('datasets.js.updatetotal01') + ' ' + total + ' ' + jQuery.i18n.prop('datasets.js.updatetotal02'));
 }
 function hideTooltip(element) {
     if (element == undefined) return;
@@ -267,21 +267,32 @@ function filterBy(filter, uidList) {
     });
     resources = newResourcesList;
 }
+
 /** displays the current filters **/
 function showFilters() {
-    $('#currentFilter').remove();
-    if (currentFilters.length > 0) {
-        // create the container
-        $('#currentFilterHolder').append('<div id="currentFilter"><h4><span class="FieldName">Current Filters</span></h4>' +
-                '<div id="subnavlist"><ul></ul></div></div>');
+    $('p#currentFilter').remove();
+
+    if(currentFilters.length > 0) {
+        // XXX
+        $('#currentFilterHolder').append(
+            '<p id="currentFilter">' +
+            '<b>Active Filters:&nbsp;</b>' +
+            '</p>'
+        );
     }
+
     $.each(currentFilters, function(index, obj) {
         var displayValue = obj.name == 'contains' ? obj.value : labelFor(obj.value);
-        $('#currentFilter #subnavlist ul').append('<li>' + labelFor(obj.name) + ': <b>' + displayValue + '</b>&nbsp;' +
-                '[<b><a href="#" onclick="removeFilter(\'' + obj.name + "','" + obj.value + '\',this);return false;"' +
-                'class="removeLink" title="remove filter">X</a></b>]</li>');
+
+        // XXX
+        $('p#currentFilter').append(
+            '<button class="erk-button erk-button--light erk-button--inline" onclick="removeFilter(\'' + obj.name + "','" + obj.value + '\',this);return false;">' +
+            labelFor(obj.name) + ': ' + displayValue + '&nbsp;<span>×</span>' +
+            '</button>\n'
+        );
     });
 }
+
 /** adds a filter and re-filters list**/
 function addFilter(facet, value, element) {
     // hide tooltip
@@ -515,6 +526,7 @@ function addToMap(map, attr) {
         map[attr]++;
     }
 }
+
 /** Creates DOM elements to represent the facet **/
 function displayFacet(facet, list) {
     // create dom container
@@ -522,26 +534,29 @@ function displayFacet(facet, list) {
 
     // add facet name
     var help = facet.help == undefined ? '' : 'title="' + facet.help + '"';
-    $div.append('<h4><span ' + help + ' class="FieldName">' + facet.display + '</span></h4>');
+
+    $div.append('<h4 class="><span ' + help + ' class="FieldName">' + facet.display + '</span></h4>');
     $div.find('h4 span[title]').tooltip(tooltipOptions);
 
     // add each value
     var $list = $('<ul class="facets"></ul>').appendTo($div);
+
     $.each(list, function(index, value) {
         // only show first 5 + a 'more' link if the list has more than 6 items
-        if (list.length > 6 && index == 5) {
+        if(list.length > 6 && index == 5) {
             // add link to show more
             $list.append(moreLink());
             // add this item as hidden
             $list.append(displayFacetValue(facet, value, true));
-        }
-        else {
+        } else {
             // create as hidden after the first 5
             $list.append(displayFacetValue(facet, value, index > 5));
         }
     });
+
     return $div;
 }
+
 function moreLink() {
     var $more = $('<li class="link"><i class="icon-hand-right"></i> '+ jQuery.i18n.prop('datasets.js.morelink')+'</li>');
     $more.click(function() {
@@ -574,7 +589,7 @@ function displayFacetValue(facet, value, hide) {
     if (hide) {
         $item.css('display','none');
     }
-    var $link = $('<span class="link"' + help + '>' + labelFor(attr) + '</span>').appendTo($item);
+    var $link = $('<span class="erk-link"' + help + '>' + labelFor(attr) + '</span>').appendTo($item);
     $link.click(function() {
         addFilter(facet.name, attr, this);
     });
@@ -584,6 +599,7 @@ function displayFacetValue(facet, value, hide) {
     }
     return $item
 }
+
 /* sorts a map in desc order based on the map values */
 function sortByCount(map) {
     // turn it into an array of maps
@@ -606,6 +622,7 @@ function labelFor(item) {
     }
     return text;
 }
+
 /* capitalises the first letter of the passed string */
 function capitalise(item) {
     if (!item) {
@@ -620,8 +637,8 @@ function capitalise(item) {
 /*************************************************\
  *  Download csv of data sets
 \*************************************************/
-function wireDownloadLink() {
-    $('#downloadLink').click(function() {
+function wireDownloadButton() {
+    $('#downloadButton').click(function() {
         var uids = [];
         $.each(resources, function(i,obj) {
             uids.push(obj.uid);
