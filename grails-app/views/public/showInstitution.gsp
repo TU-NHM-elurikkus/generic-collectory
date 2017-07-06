@@ -93,7 +93,7 @@
     </div> %{-- /header --}%
 
     <div class="row">
-        <div class="col-9">
+        <div class="col-md-9">
             <g:if test="${instance.pubDescription}">
                 <h2><g:message code="public.des" /></h2>
                 <cl:formattedText>${fieldValue(bean: instance, field: "pubDescription")}</cl:formattedText>
@@ -165,7 +165,7 @@
             </div>
         </div>
 
-        <div class="col-3">
+        <div class="col-md-3">
             <g:if test="${fieldValue(bean: instance, field: 'imageRef') && fieldValue(bean: instance, field: 'imageRef.file')}">
                 <div class="section">
                     <img alt="${fieldValue(bean: instance, field: "imageRef.file")}"

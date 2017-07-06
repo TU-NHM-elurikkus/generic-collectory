@@ -102,10 +102,8 @@
         </g:if>
 
         <div class="collectory-content row">
-            <%-- TODO: Mobile responsiveness. --%>
-            <div id="sidebarBoxXXX" class="col-3">
-                <%-- TODO: Check CSS class hierarchy. --%>
-                <div class="card card-block facets">
+            <div class="col-sm-5 col-md-5 col-lg-3">
+                <div class="card card-block filters-container">
                     <h2 class="card-title">
                         <g:message code="public.datasets.sidebar.header" />
                     </h2>
@@ -115,7 +113,7 @@
             </div>
 
             <%-- TODO: Mobile responsiveness. --%>
-            <div id="data-set-list" class="col-9">
+            <div id="data-set-list" class="col-sm-7 col-md-7 col-lg-9">
                 <div class="card card-block">
                     <div class="search-controls">
                         <button id="downloadButton" class="erk-button erk-button--light">

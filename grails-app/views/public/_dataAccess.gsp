@@ -24,7 +24,7 @@
         <g:if test="${!grailsApplication.config.disableLoggerLinks.toBoolean() && grailsApplication.config.loggerURL}">
             <a href="${grailsApplication.config.loggerURL}/reasonBreakdownCSV?eventId=1002&entityUid=${instance.uid}"">
                 <button class="erk-button erk-button--light">
-                    <span class="icon icon-download-alt"></span>&nbsp;
+                    <span class="fa fa-download"></span>&nbsp;
                     <g:message code="dataAccess.download.stats"/>
                 </button>
             </a>

@@ -4,6 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="app.version" content="${g.meta(name:'app.version')}"/>
         <meta name="app.build" content="${g.meta(name:'app.build')}"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <g:render template="/manifest" plugin="elurikkus-commons" />
         <g:render template="/layouts/global" plugin="erkcollectory"/>
 
@@ -11,7 +12,7 @@
             <g:layoutTitle />
         </title>
 
-        <r:require modules="jquery, jquery_migration, application, generic, menu" />
+        <r:require modules="jquery, jquery_migration, application, generic, menu, fontawesome" />
         <r:layoutResources/>
         <g:layoutHead />
     </head>
@@ -23,9 +24,9 @@
             <g:layoutBody />
         </div>
 
+        <g:render template="/footer" plugin="elurikkus-commons" />
+
         <!-- JS resources-->
         <r:layoutResources/>
-
-        <g:render template="/footer" plugin="elurikkus-commons" />
     </body>
 </html>

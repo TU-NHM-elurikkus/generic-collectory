@@ -64,7 +64,7 @@
             </div>
 
             <div class="row">
-                <div class="col-9">
+                <div class="col-md-9">
                     <g:set var="dp" value="${instance.dataProvider}"/>
                     <g:if test="${dp}">
                         <h2><g:link action="show" id="${dp.uid}">${dp.name}</g:link></h2>
@@ -209,7 +209,7 @@
                     <cl:lastUpdated date="${instance.lastUpdated}"/>
                 </div><!--close column-one-->
 
-                <div class="col-3">
+                <div class="col-md-3">
                     <g:if test="${fieldValue(bean: instance, field: 'imageRef') && fieldValue(bean: instance, field: 'imageRef.file')}">
                         <div class="section">
                             <img alt="${fieldValue(bean: instance, field: "imageRef.file")}"

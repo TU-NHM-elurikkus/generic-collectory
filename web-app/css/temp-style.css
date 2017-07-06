@@ -243,19 +243,3 @@ ul.facets {
     overflow-x: auto;
     overflow-y: hidden;
 }
-
-/* XXX DRY. TODO: Common style for search controls. */
-.search-controls {
-    margin-bottom: 1rem;
-}
-
-/* XXX DRY. TODO: Common style for search controls. */
-.search-controls label {
-    margin-right: .5rem;
-}
-
-/* XXX DRY. TODO: Common style for search controls. */
-/* careful now */
-.search-controls .form-group {
-    margin-left: 1rem;
-}
