@@ -26,6 +26,6 @@ modules = {
     // Which it isn't, because grails
     datasets_hack {
         dependsOn 'collectory'
-        resource url:[dir:'js', file:'datasets.js', plugin:'erkcollectory-plugin']
+        resource url: [dir: 'js', file: 'datasets.js']
     }
 }

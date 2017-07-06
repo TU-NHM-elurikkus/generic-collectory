@@ -129,7 +129,7 @@
         <div class="tab-content">
             <div id="overviewTab" role="tabpanel" class="tab-pane active">
                 <div class="row">
-                    <div id="overview-content" class="col-9">
+                    <div id="overview-content" class="col-md-9">
                         <h2>
                             <g:message code="public.des" />
                         </h2>
@@ -217,7 +217,7 @@
                         <cl:lastUpdated date="${instance.lastUpdated}"/>
                     </div>
 
-                    <div id="overview-sidebar" class="col-3">
+                    <div id="overview-sidebar" class="col-md-3">
                         <g:if test="${fieldValue(bean: instance, field: 'imageRef') && fieldValue(bean: instance, field: 'imageRef.file')}">
                             <div class="section">
                                 <img style="max-width:100%;max-height:350px;" alt="${fieldValue(bean: instance, field: "imageRef.file")}"
@@ -343,7 +343,7 @@
             <div id="recordsTab" class="tab-pane">
                 <h2><g:message code="public.show.rt.title" /></h2>
                 <div class="row">
-                    <div class="col-9">
+                    <div class="col-md-9">
                         <g:if test="${instance.numRecords != -1}">
                             <p><cl:collectionName prefix="The " name="${instance.name}"/> has an estimated ${fieldValue(bean: instance, field: "numRecords")} ${nouns}.
                                 <g:if test="${instance.numRecordsDigitised != -1}">
@@ -385,7 +385,7 @@
                         </g:if>
                     </div>
 
-                    <div class="col-3">
+                    <div class="col-md-3">
                         <div id="progress" class="well">
                             <div class="progress">
                                 <div id="progressBar" class="bar bar-success" style="width: 0%;"></div>
