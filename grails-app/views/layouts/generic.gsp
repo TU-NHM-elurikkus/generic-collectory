@@ -12,7 +12,7 @@
             <g:layoutTitle />
         </title>
 
-        <r:require modules="jquery, jquery_migration, application, generic, menu, fontawesome" />
+        <r:require modules="jquery, jquery_migration, application, generic, menu" />
         <r:layoutResources/>
         <g:layoutHead />
     </head>
