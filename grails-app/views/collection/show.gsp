@@ -1,11 +1,11 @@
-<%@ page import="au.org.ala.collectory.ProviderGroup; org.codehaus.groovy.grails.commons.ConfigurationHolder; au.org.ala.collectory.Collection" %>
+<%@ page import="au.org.ala.collectory.ProviderGroup; grails.util.Holders; au.org.ala.collectory.Collection" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta name="layout" content="${grailsApplication.config.skin.layout}"/>
         <g:set var="entityName" value="${message(code: 'collection.label', default: 'Collection')}"/>
         <title><g:message code="default.show.label" args="[entityName]"/></title>
-        <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.3&key=${ConfigurationHolder.config.google.apikey}"></script>
+        <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.3&key=${Holders.config.google.apikey}"></script>
         <r:require module="collectory"/>
     </head>
 
@@ -95,11 +95,11 @@
                         <span class="category"><g:message code="collection.show.span05" /></span><br/>
                         <cl:formattedText body="${instance.techDescription}"/>
                         <span class="category"><g:message code="collection.show.span06" /></span>
-                        
+
                         <g:if test="${instance.startDate || instance.endDate}">
                             <p><cl:temporalSpanText start='${fieldValue(bean: instance, field: "startDate")}' end='${fieldValue(bean: instance, field: "endDate")}'/></p>
                         </g:if>
-                  
+
                         <!-- Collection types -->
                         <p><span class="category"><g:message code="collection.show.span07" />:</span>
                         <cl:JSONListAsStrings json='${instance.collectionType}'/>.</p>
@@ -112,7 +112,7 @@
                             <span class="category">
                                 <g:message code="collection.show.span09" />:
                             </span>
-                            
+
                             <g:message code="collection.show.des01" />:
                             <cl:valueOrOtherwise value="${instance.listKeywords().join(', ')}" otherwise="none"/>.
 
@@ -168,7 +168,7 @@
                             <col width="25%"/>
                             <col width="75%"/>
                         </colgroup>
-                        
+
                         <!-- Geo descrip -->
                         <tr class="prop">
                             <td valign="top" class="category"><g:message code="geographicDescription.label" default="Geographic Description"/></td>
@@ -223,12 +223,12 @@
 
                                     <tr>
                                         <td></td>
-                                        
+
                                         <td>
                                             <g:message code="collection.show.coordinate.des06" />:
                                             <cl:showDecimal value='${instance.southCoordinate}' degree='true'/>
                                         </td>
-                                        
+
                                         <td></td>
                                     </tr>
                                 </table>
@@ -387,10 +387,10 @@
             var initial = -120;
             var imageWidth=240;
             var eachPercent = (imageWidth/2)/100;
-              
+
             function onLoadCallback() {
               // summary biocache data
-              var biocacheRecordsUrl = "${ConfigurationHolder.config.grails.context}/public/biocacheRecords.json?uid=${instance.uid}";
+              var biocacheRecordsUrl = "${Holders.config.grails.context}/public/biocacheRecords.json?uid=${instance.uid}";
               $.get(biocacheRecordsUrl, {}, biocacheRecordsHandler);
             }
 
