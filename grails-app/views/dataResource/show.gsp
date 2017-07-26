@@ -1,4 +1,4 @@
-<%@ page import="grails.converters.JSON; au.org.ala.collectory.ProviderGroup; au.org.ala.collectory.DataProvider; org.codehaus.groovy.grails.commons.ConfigurationHolder" %>
+<%@ page import="grails.converters.JSON; au.org.ala.collectory.ProviderGroup; au.org.ala.collectory.DataProvider; grails.utils.Holders" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -6,7 +6,7 @@
     <g:set var="entityName" value="${instance.ENTITY_TYPE}" />
     <g:set var="entityNameLower" value="${cl.controller(type: instance.ENTITY_TYPE)}"/>
     <title><g:message code="default.show.label" args="[entityName]" /></title>
-    <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.3&key=${ConfigurationHolder.config.google.apikey}"></script>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.3&key=${Holders.config.google.apikey}"></script>
 </head>
 
 <body onload="initializeLocationMap('${instance.canBeMapped()}',${instance.latitude},${instance.longitude});">
