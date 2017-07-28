@@ -1,4 +1,7 @@
-<%@ page import="grails.converters.JSON; au.org.ala.collectory.ProviderGroup; au.org.ala.collectory.DataProvider; grails.utils.Holders" %>
+<%@ page import="grails.converters.JSON" %>
+<%@ page import="grails.util.Holders" %>
+<%@ page import="au.org.ala.collectory.ProviderGroup" %>
+
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
