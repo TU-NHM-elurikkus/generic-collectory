@@ -171,6 +171,7 @@ grails.mime.types = [ html: ['text/html','application/xhtml+xml'],
 // What URL patterns should be processed by the resources plugin
 //grails.resources.uri.prefix = ''
 grails.resources.adhoc.patterns = ['/img/**', '/images/**', '/data/*', '/css/*', '/js/*', '/plugins/**']
+grails.resources.resourceLocatorEnabled = true
 
 // The default codec used to encode data with ${}
 grails.views.default.codec="html" // none, html, base64
@@ -239,6 +240,9 @@ environments {
 }
 
 logging.dir = (System.getProperty('catalina.base') ? System.getProperty('catalina.base') + '/logs'  : '/var/log/tomcat7')
+if(!new File(logging.dir).exists()){
+    logging.dir  = '/tmp'
+}
 
 log4j = {
     appenders {
