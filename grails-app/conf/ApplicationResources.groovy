@@ -28,4 +28,8 @@ modules = {
         dependsOn 'collectory'
         resource url: [dir: 'js', file: 'datasets.js']
     }
+
+    jquery_migration {
+        resource url: [dir: 'js', file: 'jquery-migrate-1.2.1.min.js', plugin: 'erkcollectory-plugin']
+    }
 }
