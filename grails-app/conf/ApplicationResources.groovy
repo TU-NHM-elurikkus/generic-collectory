@@ -2,7 +2,7 @@ modules = {
     collectory {
         dependsOn 'jquery_ui_custom,smoothness,jquery_i18n,jquery_json,jquery_tools,jquery_jsonp,fancybox,openlayers,map'
         resource url:[dir:'js', file:'collectory.js'], disposition: 'head'
-        resource url:[dir:'css', file:'temp-style.css', plugin:'erkcollectory']
+        resource url:[dir:'css', file:'temp-style.css']
     }
 
     generic {

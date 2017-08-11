@@ -3,8 +3,12 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="layout" content="${grailsApplication.config.skin.layout}" />
-    <title><g:message code="public.map3.title" /> | ${grailsApplication.config.projectName}</title>
-    <r:require modules="bbq,openlayers,map"/>
+
+    <title>
+        <g:message code="public.map3.title" /> | ${grailsApplication.config.projectName}
+    </title>
+
+    <r:require modules="bbq,openlayers,map" />
 </head>
 
 <body>
@@ -16,18 +20,22 @@
             </h1>
 
             <div class="page-header__subtitle">
-                <g:message code="public.map3.header.des01" /> ${grailsApplication.config.projectNameShort} <g:message code="public.map3.header.des02" args="[grailsApplication.config.regionName]"/>.
+                <g:message code="public.map3.header.description" args="[grailsApplication.config.projectNameShort, grailsApplication.config.regionName]" />
             </div>
         </div>
 
         <g:if test="${flash.message}">
-            <div class="message">${flash.message}</div>
+            <div class="message">
+                ${flash.message}
+            </div>
         </g:if>
 
         <div class="row">
             <div class="col-5">
                 <div class="section">
-                    <p><g:message code="public.map3.des01" />.</p>
+                    <p>
+                        <g:message code="public.map3.description" />.
+                    </p>
                 </div>
 
                 <div class="section filter-buttons">
@@ -36,7 +44,10 @@
                             %{-- XXX Illegal href, also on same level elements below. --}%
                             <a href="">
                                 <g:message code="public.map3.link.allcollections" />
-                                <span id="allButtonTotal"><g:message code="public.map3.link.showall" /> <collections></collections></span>
+
+                                <span id="allButtonTotal">
+                                    <g:message code="public.map3.link.showall" /> <collections></collections>
+                                </span>
                             </a>
                         </h2>
                     </div>
@@ -45,6 +56,7 @@
                         <h2>
                             <a href="">
                                 <g:message code="public.map3.link.fauna" />
+
                                 <span><g:message code="public.map3.link.mammals" />.</span>
                             </a>
                         </h2>
@@ -62,7 +74,8 @@
                     <div class="microbes" id="microbes" onclick="toggleButton(this);return false;">
                         <h2>
                             <a href="">
-                                <g:message code="public.map3.link.mos" /><span><g:message code="public.map3.link.protists" />.</span>
+                                <g:message code="public.map3.link.mos" />
+                                <span><g:message code="public.map3.link.protists" />.</span>
                             </a>
                         </h2>
                     </div>
@@ -70,7 +83,8 @@
                     <div class="plants" id="plants" onclick="toggleButton(this);return false;">
                         <h2>
                             <a href="">
-                                <g:message code="public.map3.link.plants" /><span><g:message code="public.map3.link.vascular" />.</span>
+                                <g:message code="public.map3.link.plants" />
+                                <span><g:message code="public.map3.link.vascular" />.</span>
                             </a>
                         </h2>
                     </div>
@@ -125,8 +139,9 @@
                                 </div>
 
                                 <p style="padding-left:150px;">
-                                    <img style="vertical-align: middle;" src="${resource(dir:'images', file:'markermultiple.png')}" width="20" height="20"/>
-                                    <g:message code="public.map3.maplistcol.des02" />.<br/>
+                                    <img style="vertical-align: middle;" src="${resource(dir:'images', file:'markermultiple.png')}" width="20" height="20" />
+                                    <g:message code="public.map3.maplistcol.des02" />.
+                                    <br />
                                 </p>
                             </div>
                         </div>
@@ -141,7 +156,7 @@
                                     </span>
                                     .&nbsp;
                                     <g:message code="public.map3.maplistcol.des04" />&nbsp;
-                                    <img style="vertical-align:middle" src="${resource(dir:'images/map', file:'nomap.gif')}"/>.
+                                    <img style="vertical-align:middle" src="${resource(dir:'images/map', file:'nomap.gif')}" />.
                                 </p>
 
                                 <ul id="filtered-list">
