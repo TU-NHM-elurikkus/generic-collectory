@@ -210,7 +210,7 @@
                             <a data-toggle="collapse" href="#usage-card-content">
                                 <div class="card-header">
                                     <h2>
-                                        <g:message code="public.sdr.usagestats.labe" />
+                                        <g:message code="public.sdr.usagestats.label" />
                                     </h2>
                                 </div>
                             </a>
