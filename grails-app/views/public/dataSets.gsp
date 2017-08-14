@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -25,35 +25,26 @@
 
 <body id="page-datasets" class="nav-datasets">
     <%-- WEIRD --%>
-        <div class="page-header">
-            <h1 class="page-header__title">
-                ${grailsApplication.config.projectName}
-                <g:message code="public.datasets.header.title" />
-            </h1>
+    <div class="page-header">
+        <h1 class="page-header__title">
+            ${grailsApplication.config.projectName}
+            <g:message code="public.datasets.header.title" />
+        </h1>
 
-            <div class="page-header__subtitle">
-                <g:message code="public.datasets.header.message01" />
-                ${grailsApplication.config.projectName},
-                <g:message code="public.datasets.header.message02" />.
-
-                <%--
-                    TODO: Perhaps delete it. Seems unnecessary.
-                    <small>
-                        <g:message code="public.datasets.header.message03" />
-                        <img style="vertical-align:middle;" src="${resource(dir:'/images/skin',file:'ExpandArrow.png')}" />
-                        <g:message code="public.datasets.header.message04" />.
-                    </small>
-                --%>
-            </div>
-
-            <div class="page-header-links">
-                <a href="${request.contextPath}/" class="page-header-links__link">
-                    Collections
-                </a>
-            </div>
+        <div class="page-header__subtitle">
+            <g:message code="public.datasets.header.message01" />
+            ${grailsApplication.config.projectName},
+            <g:message code="public.datasets.header.message02" />.
         </div>
 
-        <%-- TODO: PROPER CONTAINER LOGIC --%>
+        <div class="page-header-links">
+            <a href="${request.contextPath}/" class="page-header-links__link">
+                <g:message code="page.navigation.collections" />
+            </a>
+        </div>
+    </div>
+
+    <%-- TODO: PROPER CONTAINER LOGIC --%>
         <div class="row">
             <div class="col">
                 <form id="search-inpage" action="search" method="get" name="search-form">

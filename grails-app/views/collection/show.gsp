@@ -4,7 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta name="layout" content="${grailsApplication.config.skin.layout}"/>
         <g:set var="entityName" value="${message(code: 'collection.label', default: 'Collection')}"/>
-        <title><g:message code="default.show.label" args="[entityName]"/></title>
+        <title><g:message code="general.show.label" args="[entityName]"/></title>
         <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.3&key=${Holders.config.google.apikey}"></script>
         <r:require module="collectory"/>
     </head>
@@ -28,9 +28,9 @@
               <g:form url="mailto:${instance.getPrimaryContact()?.contact?.email}?subject=Request to review web pages presenting information about the ${instance.name}.&body=${contactEmailBody}">
                   <ul>
                       <li><span class="menuButton"><cl:homeLink/></span></li>
-                      <li><span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]"/></g:link></span></li>
-                      <li><span class="menuButton"><g:link class="list" action="myList"><g:message code="default.myList.label" args="[entityName]"/></g:link></span></li>
-                      <li><span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]"/></g:link></span></li>
+                      <li><span class="menuButton"><g:link class="list" action="list"><g:message code="general.list.label" args="[entityName]"/></g:link></span></li>
+                      <li><span class="menuButton"><g:link class="list" action="myList"><g:message code="general.myList.label" args="[entityName]"/></g:link></span></li>
+                      <li><span class="menuButton"><g:link class="create" action="create"><g:message code="general.new.label" args="[entityName]"/></g:link></span></li>
                   </ul>
               </g:form>
         </div>
@@ -375,8 +375,8 @@
                     <g:actionSubmit
                         class="delete erk-button erk-button--dark"
                         action="delete"
-                        value="${message(code: 'default.button.delete.label', default: 'Delete')}"
-                        onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');"/>
+                        value="${message(code: 'general.button.delete.label', default: 'Delete')}"
+                        onclick="return confirm('${message(code: 'general.button.delete.confirm.message', default: 'Are you sure?')}');"/>
                 </span>
 
                 </cl:ifGranted>
