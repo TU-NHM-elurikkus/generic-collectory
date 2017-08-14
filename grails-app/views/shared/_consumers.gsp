@@ -1,4 +1,5 @@
 <%@ page import="au.org.ala.collectory.ProviderGroup" %>
+
 <div class="card">
     <div class="card-header">
         <h2>
@@ -9,21 +10,25 @@
     <div class="card-block">
         <p>
             <g:message code="shared.consumers.des01" args="[ProviderGroup.textFormOfEntityType(instance.uid)]" />.
-            <br/>
+            <br />
             <g:message code="shared.consumers.des02" />.
         </p>
 
         <ul class="fancy">
             <g:each in="${instance.listConsumers()}" var="con">
-                <g:set var="pg" value="${ProviderGroup._get(con)}"/>
+                <g:set var="pg" value="${ProviderGroup._get(con)}" />
                 <g:if test="${pg}">
                     <li>
-                        <g:link controller="${cl.controllerFromUid(uid:con)}" action="show" id="${con}">${pg.name}</g:link>
+                        <g:link controller="${cl.controllerFromUid(uid:con)}" action="show" id="${con}">
+                            ${pg.name}
+                        </g:link>
                         &nbsp;(${con[0..1] == 'in' ? 'institution' : 'collection'})
                     </li>
                 </g:if>
                 <g:else>
-                    <li><g:message code="shared.consumers.des03" />!</li>
+                    <li>
+                        <g:message code="shared.consumers.des03" />!
+                    </li>
                 </g:else>
             </g:each>
         </ul>

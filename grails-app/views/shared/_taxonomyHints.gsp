@@ -1,5 +1,6 @@
 <%@ page import="au.org.ala.collectory.JSONHelper" %>
-<!-- taxonomy hints -->
+
+
 <div class="card">
     <div class="card-header">
         <h2>
@@ -10,15 +11,17 @@
     <div class="card-block">
         <ul class='simple'>
             <g:each in="${JSONHelper.taxonomyHints(instance.taxonomyHints)}" var="hint">
-                <g:set var="key" value="${hint.keySet().iterator().next()}"/>
-                <li>${key} = ${hint[key]}</li>
+                <g:set var="key" value="${hint.keySet().iterator().next()}" />
+                <li>
+                    ${key} = ${hint[key]}
+                </li>
             </g:each>
         </ul>
 
         <div style="clear:both;"></div>
 
         <p>
-            <cl:editButton uid="${instance.uid}" page="/shared/editTaxonomyHints"/>
+            <cl:editButton uid="${instance.uid}" page="/shared/editTaxonomyHints" />
         </p>
     </div>
 </div>

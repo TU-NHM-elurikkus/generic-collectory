@@ -1,21 +1,33 @@
-<%@ page import="grails.converters.JSON; au.org.ala.collectory.resources.DarwinCoreFields; au.org.ala.collectory.DataHub; au.org.ala.collectory.ProviderGroup; au.org.ala.collectory.DataResource; au.org.ala.collectory.resources.Profile" %>
+<%@ page import="au.org.ala.collectory.DataHub" %>
+<%@ page import="au.org.ala.collectory.DataResource" %>
+<%@ page import="au.org.ala.collectory.ProviderGroup" %>
+<%@ page import="au.org.ala.collectory.resources.DarwinCoreFields" %>
+<%@ page import="grails.converters.JSON" %>
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="${grailsApplication.config.skin.layout}" />
-        <title><g:message code="dataResource.base.label" default="Edit data resource metadata" /></title>
-        <link rel="stylesheet" href="${resource(dir:'css/smoothness',file:'jquery-ui-1.8.14.custom.css')}" type="text/css" media="screen"/>
-        <r:require modules="jquery, jquery_ui_custom"/>
+        <title>
+            <g:message code="dataResource.base.label" default="Edit data resource metadata" />
+        </title>
+        <link rel="stylesheet" href="${resource(dir:'css/smoothness',file:'jquery-ui-1.8.14.custom.css')}" type="text/css" media="screen" />
+        <r:require modules="jquery, jquery_ui_custom" />
     </head>
+
     <body>
         <div class="card">
             <div class="card-header">
-                <h1><g:message code="collection.title.editing" />: ${command.name}</h1>
+                <h1>
+                    <g:message code="collection.title.editing" />: ${command.name}
+                </h1>
             </div>
 
             <div id="baseForm" class="card-block">
                 <g:if test="${message}">
-                    <div class="message">${message}</div>
+                    <div class="message">
+                        ${message}
+                    </div>
                 </g:if>
 
                 <g:hasErrors bean="${command}">
@@ -31,115 +43,141 @@
 
                     <!-- status -->
                     <div class="form-group">
-                        <label for="status"><g:message code="dataResource.status.label" default="Status" /></label>
+                        <label for="status">
+                            <g:message code="dataResource.status.label" default="Status" />
+                        </label>
                         <g:select name="status"
                             from="${DataResource.statusList}"
                             value="${command.status}"
-                            class="form-control"/>
+                            class="form-control"
+                        />
 
-                        <cl:helpTD/>
+                        <cl:helpTD />
                     </div>
 
                     <!-- provenance -->
                     <div class="form-group">
-                        <label for="provenance"><g:message code="dataResource.provenance.label" default="Provenance" /></label>
+                        <label for="provenance">
+                            <g:message code="dataResource.provenance.label" default="Provenance" />
+                        </label>
                         <g:select name="provenance"
-                                  from="${DataResource.provenanceTypesList}"
-                                  value="${command.provenance}"
-                                  noSelection="${['':'none']}"
-                                  class="form-control"/>
+                            from="${DataResource.provenanceTypesList}"
+                            value="${command.provenance}"
+                            noSelection="${['':'none']}"
+                            class="form-control"
+                        />
 
-                        <cl:helpText code="dataResource.provenance"/>
+                        <cl:helpText code="dataResource.provenance" />
 
-                        <cl:helpTD/>
+                        <cl:helpTD />
                     </div>
 
                     <!-- last checked -->
                     <div class="form-group">
-                        <label for="lastChecked"><g:message code="dataResource.lastChecked.label" default="Last checked" /></label>
+                        <label for="lastChecked">
+                            <g:message code="dataResource.lastChecked.label" default="Last checked" />
+                        </label>
 
-                        <g:textField name="lastChecked" value="${command.lastChecked}" class="form-control"/>
+                        <g:textField name="lastChecked" value="${command.lastChecked}" class="form-control" />
 
-                        <cl:helpText code="dataResource.lastChecked"/>
-                        <cl:helpTD/>
+                        <cl:helpText code="dataResource.lastChecked" />
+                        <cl:helpTD />
                     </div>
 
                     <!-- data currency -->
                     <div class="form-group">
-                        <label for="dataCurrency"><g:message code="dataResource.dataCurrency.label" default="Data currency" /></label>
+                        <label for="dataCurrency">
+                            <g:message code="dataResource.dataCurrency.label" default="Data currency" />
+                        </label>
 
-                        <g:textField name="dataCurrency" value="${command.dataCurrency}" class="form-control"/>
+                        <g:textField name="dataCurrency" value="${command.dataCurrency}" class="form-control" />
 
-                        <cl:helpText code="dataResource.dataCurrency"/>
-                        <cl:helpTD/>
+                        <cl:helpText code="dataResource.dataCurrency" />
+                        <cl:helpTD />
                     </div>
 
                     <!-- harvest frequency -->
                     <div class="form-group">
-                        <label for="harvestFrequency"><g:message code="dataResource.harvestFrequency.label" default="Harvest frequency" /></label>
+                        <label for="harvestFrequency">
+                            <g:message code="dataResource.harvestFrequency.label" default="Harvest frequency" />
+                        </label>
 
-                        <g:textField name="harvestFrequency" value="${command.harvestFrequency}" class="form-control"/>
+                        <g:textField name="harvestFrequency" value="${command.harvestFrequency}" class="form-control" />
 
-                        <cl:helpText code="dataResource.harvestFrequency"/>
-                        <cl:helpTD/>
+                        <cl:helpText code="dataResource.harvestFrequency" />
+                        <cl:helpTD />
                     </div>
 
                     <!-- mob notes -->
                     <div class="form-group">
-                        <label for="mobilisationNotes"><g:message code="dataResource.mobilisationNotes.label" default="Mobilisation notes" /></label>
+                        <label for="mobilisationNotes">
+                            <g:message code="dataResource.mobilisationNotes.label" default="Mobilisation notes" />
+                        </label>
 
                         <g:textArea name="mobilisationNotes" class="form-control" rows="${cl.textAreaHeight(text:command.mobilisationNotes)}" value="${command?.mobilisationNotes}" />
 
-                        <p><g:message code="dataresource.contribution.des01" />.</p>
-                        <cl:helpText code="dataResource.mobilisationNotes"/>
-                        <cl:helpTD/>
+                        <p>
+                            <g:message code="dataresource.contribution.des01" />.
+                        </p>
+                        <cl:helpText code="dataResource.mobilisationNotes" />
+                        <cl:helpTD />
                     </div>
 
                     <!-- harvest notes -->
                     <div class="form-group">
-                        <label for="harvestingNotes"><g:message code="dataResource.harvestingNotes.label" default="Harvesting notes" /></label>
+                        <label for="harvestingNotes">
+                            <g:message code="dataResource.harvestingNotes.label" default="Harvesting notes" />
+                        </label>
 
                         <g:textArea name="harvestingNotes" class="form-control" rows="${cl.textAreaHeight(text:command.harvestingNotes)}" value="${command?.harvestingNotes}" />
 
-                        <cl:helpText code="dataResource.harvestingNotes"/>
-                        <cl:helpTD/>
+                        <cl:helpText code="dataResource.harvestingNotes" />
+                        <cl:helpTD />
                     </div>
 
                     <!-- public archive -->
                     <div class="form-group">
-                        <label for="publicArchiveAvailable"><g:message code="dataResource.publicArchiveAvailable.label" default="Public archive available" /></label>
+                        <label for="publicArchiveAvailable">
+                            <g:message code="dataResource.publicArchiveAvailable.label" default="Public archive available" />
+                        </label>
 
                         <g:checkBox name="publicArchiveAvailable" value="${command?.publicArchiveAvailable}" />
 
-                        <cl:helpText code="dataResource.publicArchiveAvailable"/>
-                        <cl:helpTD/>
+                        <cl:helpText code="dataResource.publicArchiveAvailable" />
+                        <cl:helpTD />
                     </div>
 
                     <!-- harvest parameters -->
-                    <h3><g:message code="dataresource.contribution.table0101" /></h3>
-                    <cl:connectionParameters bean="command" connectionParameters="${command.connectionParameters}"/>
+                    <h3>
+                        <g:message code="dataresource.contribution.table0101" />
+                    </h3>
+                    <cl:connectionParameters bean="command" connectionParameters="${command.connectionParameters}" />
 
                     <g:if test="${command.resourceType == 'records'}">
                         <!-- darwin core defaults -->
-                        <h3><g:message code="dataresource.contribution.table0201" /></h3>
+                        <h3>
+                            <g:message code="dataresource.contribution.table0201" />
+                        </h3>
                         <g:message code="dataresource.contribution.table0301" />.
 
-                        <g:set var="dwc" value="${command.defaultDarwinCoreValues ? JSON.parse(command.defaultDarwinCoreValues) : [:]}"/>
+                        <g:set var="dwc" value="${command.defaultDarwinCoreValues ? JSON.parse(command.defaultDarwinCoreValues) : [:]}" />
 
                         <!-- add fields for each of the important terms -->
                         <g:each in="${DarwinCoreFields.getImportant()}" var="dwcf">
                             <div class="form-group">
-                                <label for="${dwcf.name}"><g:message code="dataResource.DwC.${dwcf.name}.label" default="${dwcf.name}" /></label>
+                                <label for="${dwcf.name}">
+                                    <g:message code="dataResource.DwC.${dwcf.name}.label" default="${dwcf.name}" />
+                                </label>
 
                                 <g:if test="${dwcf.values}">
                                     <!-- pick list -->
-                                    <g:select name="${dwcf.name}" class="form-control" from="${dwcf.values}" value="${dwc[dwcf.name]}"/>
+                                    <g:select name="${dwcf.name}" class="form-control" from="${dwcf.values}" value="${dwc[dwcf.name]}" />
                                 </g:if>
                                 <g:else>
                                     <!-- text field -->
-                                    <g:textField name="${dwcf.name}" class="form-control" value="${dwc[dwcf.name]}"/>
+                                    <g:textField name="${dwcf.name}" class="form-control" value="${dwc[dwcf.name]}" />
                                 </g:else>
-                                <cl:helpText code="dataResource.${dwcf.name}"/>
+                                <cl:helpText code="dataResource.${dwcf.name}" />
                             </div>
                         </g:each>
 
@@ -147,16 +185,18 @@
                         <g:each var="dwcf" in="${dwc.entrySet()}">
                             <g:if test="${dwcf.key in DarwinCoreFields.getLessImportant().collect({it.name})}">
                                 <div class="form-group">
-                                    <label for="${dwcf.key}"><g:message code="dataResource.DwC.${dwcf.key}.label" default="${dwcf.key}" /></label>
+                                    <label for="${dwcf.key}">
+                                        <g:message code="dataResource.DwC.${dwcf.key}.label" default="${dwcf.key}" />
+                                    </label>
 
-                                    <g:textField name="${dwcf.key}" value="${dwcf.value}" class="form-control"/>
+                                    <g:textField name="${dwcf.key}" value="${dwcf.value}" class="form-control" />
                                 </div>
                             </g:if>
                         </g:each>
 
                         <!-- add a blank field so other DwC terms can be added -->
                         <div class="form-group">
-                            <g:select name="otherKey" from="${DarwinCoreFields.getLessImportant().collect({it.name})}" class="form-control"/>
+                            <g:select name="otherKey" from="${DarwinCoreFields.getLessImportant().collect({it.name})}" class="form-control" />
 
                             <button id="more-terms" type="button" class="erk-button erk-button--light">
                                 <g:message code="dataresource.contribution.table.button" />
@@ -165,9 +205,8 @@
                     </g:if>
 
                     <div class="buttons">
-                        <input type="submit" name="_action_updateContribution" value="${message(code:"collection.button.update")}" class="erk-button erk-button--light">
-
-                        <input type="submit" name="_action_cancel" value="${message(code:"collection.button.cancel")}" class="erk-button erk-button--light">
+                        <input type="submit" name="_action_updateContribution" value="${message(code:"collection.button.update")}" class="erk-button erk-button--light" />
+                        <input type="submit" name="_action_cancel" value="${message(code:"collection.button.cancel")}" class="erk-button erk-button--light" />
                     </div>
                 </g:form>
             </div>

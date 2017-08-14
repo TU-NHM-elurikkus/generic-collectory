@@ -12,8 +12,8 @@
                 <li>
                     <g:link controller="contact" action="show" id="${c?.contact?.id}">
                         ${c?.contact?.buildName()}
-                        <cl:roleIfPresent role='${c?.role}'/>
-                        <cl:adminIfPresent admin='${c?.administrator}'/>
+                        <cl:roleIfPresent role='${c?.role}' />
+                        <cl:adminIfPresent admin='${c?.administrator}' />
                         ${c?.contact?.phone}
 
                         <cl:valueOrOtherwise value ="${c?.primaryContact}">
@@ -27,7 +27,7 @@
         <div style="clear:both;"></div>
 
         <p>
-            <cl:editButton uid="${instance.uid}" page="/shared/showContacts"/>
+            <cl:editButton uid="${instance.uid}" page="/shared/showContacts" />
         </p>
     </div>
 </div>

@@ -9,14 +9,16 @@
     <div class="card-block">
         <ul class="fancy">
             <g:each in="${instance.getAttributionList()}" var="att">
-                <li>${att.name}</li>
+                <li>
+                    ${att.name}
+                </li>
             </g:each>
         </ul>
 
         <div style="clear:both;"></div>
 
         <p>
-            <cl:editButton uid="${instance.uid}" action="editAttributions" target="${target}"/>
+            <cl:editButton uid="${instance.uid}" action="editAttributions" target="${target}" />
         </p>
     </div>
 </div>

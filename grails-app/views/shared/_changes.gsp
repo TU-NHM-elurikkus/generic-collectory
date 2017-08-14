@@ -11,9 +11,12 @@
         <ul class=simple>
             <g:each in="${changes}" var="ch">
                 <li>
-                    <g:link controller='auditLogEvent' action='show' id='${ch.id}'>${ch.lastUpdated}: ${ch.actor}
-                        <cl:changeEventName event="${ch.eventName}" highlightInsertDelete="true"/>
-                            &nbsp;<strong>${ch.propertyName}
+                    <g:link controller='auditLogEvent' action='show' id='${ch.id}'>
+                        ${ch.lastUpdated}: ${ch.actor}
+                        <cl:changeEventName event="${ch.eventName}" highlightInsertDelete="true" />
+                        &nbsp;
+                        <strong>
+                            ${ch.propertyName}
                         </strong>
 
                         <g:if test="${ch.className.endsWith('ContactFor')}">
