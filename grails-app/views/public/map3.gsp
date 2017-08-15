@@ -1,4 +1,4 @@
-<html>
+"<html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="${grailsApplication.config.skin.layout}" />
@@ -7,7 +7,19 @@
             <g:message code="public.map3.title" /> | ${grailsApplication.config.projectName}
         </title>
 
-        <r:require modules="bbq,openlayers,map" />
+        <r:require modules="bbq, openlayers, map" />
+
+        <r:script>
+            var altMap = true;
+            var COLLECTIONS_MAP_OPTIONS = {
+                serverUrl:   "${grailsApplication.config.grails.serverURL}",
+                centreLat:   ${grailsApplication.config.collectionsMap.centreMapLat?:"-28.2"},
+                centreLon:   ${grailsApplication.config.collectionsMap.centreMapLon?:"134"},
+                defaultZoom: ${grailsApplication.config.collectionsMap.defaultZoom?:"4"}
+            }
+
+            initMap(COLLECTIONS_MAP_OPTIONS);
+        </r:script>
     </head>
 
     <body>
@@ -100,11 +112,11 @@
 
                         <div id="collectionTypesFooter">
                             <h4 class="collectionsCount">
-                                <span id='numFeatures'></span>
+                                <span id="numFeatures"></span>
                             </h4>
 
                             <h4 class="collectionsCount">
-                                <span id='numVisible'></span>
+                                <span id="numVisible"></span>
                                 <br />
                                 <span id="numUnMappable"></span>
                             </h4>
@@ -146,7 +158,7 @@
                                             <div id="map_canvas"></div>
                                         </div>
 
-                                        <p style="padding-left:150px;">
+                                        <p style="text-align: center">
                                             <img style="vertical-align: middle;" src="${resource(dir:'images', file:'markermultiple.png')}" width="20" height="20" />
                                             <g:message code="public.map3.maplistcol.des02" />.
                                             <br />
@@ -189,17 +201,4 @@
             </div>
         </div>
     </body>
-
-    <r:script>
-        var altMap = true;
-        var COLLECTIONS_MAP_OPTIONS = {
-            contextPath: "${grailsApplication.config.contextPath}",
-            serverUrl:   "${grailsApplication.config.grails.serverURL}",
-            centreLat:   ${grailsApplication.config.collectionsMap.centreMapLat?:'-28.2'},
-            centreLon:   ${grailsApplication.config.collectionsMap.centreMapLon?:'134'},
-            defaultZoom: ${grailsApplication.config.collectionsMap.defaultZoom?:'4'}
-        }
-
-        initMap(COLLECTIONS_MAP_OPTIONS);
-    </r:script>
 </html>
