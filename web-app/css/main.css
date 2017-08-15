@@ -10,12 +10,12 @@
 /* XXX */
 .footer {
 	background: #abbf78;
+    clear: both;
 	color: #000;
-	clear: both;
 	font-size: 0.8em;
 	margin-top: 1.5em;
+    min-height: 1em;
 	padding: 1em;
-	min-height: 1em;
 }
 
 /* XXX */
@@ -26,22 +26,22 @@
 .spinner {
 	background: url(../images/spinner.gif) 50% 50% no-repeat transparent;
 	height: 16px;
-	width: 16px;
     padding: 0.5em;
     position: absolute;
     right: 0;
+    text-indent: -9999px;
 	top: 0;
-	text-indent: -9999px;
+    width: 16px;
 }
 
 /* CREATE/EDIT FORMS AND SHOW PAGES */
 fieldset,
 .property-list {
+    border: none;
 	margin: 0.6em 1.25em 0 1.25em;
 	padding: 0.3em 1.8em 1.25em;
 	position: relative;
-	zoom: 1;
-	border: none;
+    zoom: 1;
 }
 
 .property-list .fieldcontain {
@@ -76,10 +76,10 @@ select[multiple] {
 }
 
 textarea {
-	width: 250px;
 	height: 150px;
 	overflow: auto; /* IE always renders vertical scrollbar without this */
 	vertical-align: top;
+    width: 250px;
 }
 
 .required-indicator {
@@ -106,13 +106,13 @@ ul.one-to-many li.add {
 fieldset.embedded {
 	background-color: transparent;
 	border: 1px solid #CCCCCC;
+    box-shadow: none;
 	margin-left: 0;
 	margin-right: 0;
 	padding-left: 0;
 	padding-right: 0;
-	   -moz-box-shadow: none;
+	-moz-box-shadow: none;
 	-webkit-box-shadow: none;
-	        box-shadow: none;
 }
 
 fieldset.embedded legend {
@@ -132,19 +132,19 @@ fieldset.embedded legend {
 .message {
 	background: #f3f3ff;
 	border: 1px solid #b2d1ff;
+    box-shadow: 0 0 0.25em #b2d1ff;
 	color: #006dba;
-	   -moz-box-shadow: 0 0 0.25em #b2d1ff;
+	-moz-box-shadow: 0 0 0.25em #b2d1ff;
 	-webkit-box-shadow: 0 0 0.25em #b2d1ff;
-	        box-shadow: 0 0 0.25em #b2d1ff;
 }
 
 .errors {
 	background: #fff3f3;
 	border: 1px solid #ffaaaa;
+    box-shadow: 0 0 0.25em #ff8888;
 	color: #cc0000;
-	   -moz-box-shadow: 0 0 0.25em #ff8888;
+	-moz-box-shadow: 0 0 0.25em #ff8888;
 	-webkit-box-shadow: 0 0 0.25em #ff8888;
-	        box-shadow: 0 0 0.25em #ff8888;
 }
 
 .errors ul,
@@ -153,8 +153,8 @@ fieldset.embedded legend {
 }
 
 .errors li {
+    background: transparent url(../images/skin/exclamation.png) 0.5em 50% no-repeat;
 	list-style: none;
-	background: transparent url(../images/skin/exclamation.png) 0.5em 50% no-repeat;
 	text-indent: 2.2em;
 }
 
@@ -172,9 +172,9 @@ fieldset.embedded legend {
 }
 
 .error input:focus, .error select:focus, .error textarea:focus {
-	   -moz-box-shadow: 0 0 0.5em #ffaaaa;
+    box-shadow: 0 0 0.5em #ffaaaa;
+	-moz-box-shadow: 0 0 0.5em #ffaaaa;
 	-webkit-box-shadow: 0 0 0.5em #ffaaaa;
-	        box-shadow: 0 0 0.5em #ffaaaa;
 }
 
 /* same effects for browsers that support HTML5 client-side validation (these have to be specified separately or IE will ignore the entire rule) */
@@ -186,18 +186,18 @@ input:invalid, select:invalid, textarea:invalid {
 }
 
 input:invalid:focus, select:invalid:focus, textarea:invalid:focus {
-	   -moz-box-shadow: 0 0 0.5em #ffaaaa;
+    box-shadow: 0 0 0.5em #ffaaaa;
+	-moz-box-shadow: 0 0 0.5em #ffaaaa;
 	-webkit-box-shadow: 0 0 0.5em #ffaaaa;
-	        box-shadow: 0 0 0.5em #ffaaaa;
 }
 
 /* TABLES */
 
 table {
+    border-collapse: collapse;
 	border-top: 1px solid #DFDFDF;
-	border-collapse: collapse;
-	width: 100%;
 	margin-bottom: 1em;
+    width: 100%;
 }
 
 tr {
@@ -223,12 +223,12 @@ th {
 	background-color: #efefef;
 	background-image: -moz-linear-gradient(top, #ffffff, #eaeaea);
 	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ffffff), color-stop(1, #eaeaea));
-	    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr = '#ffffff', EndColorStr = '#eaeaea');
-	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff', EndColorStr='#eaeaea')";
-	color: #666666;
+    color: #666666;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorStr = '#ffffff', EndColorStr = '#eaeaea');
 	font-weight: bold;
 	line-height: 1.7em;
 	padding: 0.2em 0.6em;
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff', EndColorStr='#eaeaea')";
 }
 
 thead th {
@@ -277,26 +277,26 @@ th:hover, tr:hover {
 /* PAGINATION */
 
 .pagination {
+    background-color: #EFEFEF;
 	border-top: 0;
+    box-shadow: 0 0 3px 1px #AAAAAA;
 	margin: 0;
 	padding: 0.3em 0.2em;
 	text-align: center;
-	   -moz-box-shadow: 0 0 3px 1px #AAAAAA;
-	-webkit-box-shadow: 0 0 3px 1px #AAAAAA;
-	        box-shadow: 0 0 3px 1px #AAAAAA;
-	background-color: #EFEFEF;
+    -moz-box-shadow: 0 0 3px 1px #AAAAAA;
+    -webkit-box-shadow: 0 0 3px 1px #AAAAAA;
 }
 
 .pagination a,
 .pagination .currentStep {
+    border-radius: 0.3em;
 	color: #666666;
-	display: inline-block;
+    display: inline-block;
 	margin: 0 0.1em;
 	padding: 0.25em 0.7em;
 	text-decoration: none;
-	   -moz-border-radius: 0.3em;
-	-webkit-border-radius: 0.3em;
-	        border-radius: 0.3em;
+    -moz-border-radius: 0.3em;
+    -webkit-border-radius: 0.3em;
 }
 
 .pagination a:hover, .pagination a:focus,
@@ -318,13 +318,13 @@ th:hover, tr:hover {
 
 .buttons {
 	background-color: #efefef;
+    border: none;
+    box-shadow: 0 0 3px 1px #aaaaaa;
+    margin: 0.1em 0 0 0;
 	overflow: hidden;
 	padding: 0.3em;
-	   -moz-box-shadow: 0 0 3px 1px #aaaaaa;
-	-webkit-box-shadow: 0 0 3px 1px #aaaaaa;
-	        box-shadow: 0 0 3px 1px #aaaaaa;
-	margin: 0.1em 0 0 0;
-	border: none;
+    -moz-box-shadow: 0 0 3px 1px #aaaaaa;
+    -webkit-box-shadow: 0 0 3px 1px #aaaaaa;
 }
 
 .no-borderradius .buttons input:hover, .no-borderradius .buttons input:focus,
@@ -353,6 +353,6 @@ th:hover, tr:hover {
 }
 
 a.skip {
+    left: -9999px;
 	position: absolute;
-	left: -9999px;
 }

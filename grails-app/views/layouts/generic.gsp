@@ -21,7 +21,7 @@
     <body>
         <g:render template="/menu" plugin="elurikkus-commons" />
 
-        <div class="container" id="main-content">
+        <div id="main-content">
             <g:layoutBody />
         </div>
 

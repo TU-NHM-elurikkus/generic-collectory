@@ -30,7 +30,7 @@
                 </g:if>
 
                 <div class="row">
-                    <div class="col-5">
+                    <div class="col-sm-5 col-md-3">
                         <div class="section">
                             <p>
                                 <g:message code="public.map3.description" />.
@@ -117,7 +117,7 @@
                         </div>
                     </div>
 
-                    <div class="col-7" id="map-list-col">
+                    <div class="col-sm-7 col-md-9" id="map-list-col">
                         <div class="tabbable">
                             <ul class="nav nav-tabs" id="home-tabs">
                                 <li class="nav-item">
