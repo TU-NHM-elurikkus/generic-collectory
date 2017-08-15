@@ -1,79 +1,74 @@
 /* Styles for mobile devices */
 
 @media screen and (max-width: 480px) {
-	.nav {
-		padding: 0.5em;
-	}
+    .nav {
+        padding: 0.5em;
+    }
 
-	.nav li {
-		margin: 0 0.5em 0 0;
-		padding: 0.25em;
-	}
+    .nav li {
+        margin: 0 0.5em 0 0;
+        padding: 0.25em;
+    }
 
-	/* Hide individual steps in pagination, just have next & previous */
-	.pagination .step, .pagination .currentStep {
-		display: none;
-	}
+    /* Hide individual steps in pagination, just have next & previous */
+    .pagination .currentStep, .pagination .step {
+        display: none;
+    }
 
-	.pagination .prevLink {
-		float: left;
-	}
+    .pagination .prevLink {
+        float: left;
+    }
 
-	.pagination .nextLink {
-		float: right;
-	}
+    .pagination .nextLink {
+        float: right;
+    }
 
-	/* pagination needs to wrap around floated buttons */
-	.pagination {
-		overflow: hidden;
-	}
+    /* pagination needs to wrap around floated buttons */
+    .pagination {
+        overflow: hidden;
+    }
 
-	/* slightly smaller margin around content body */
-	fieldset,
-	.property-list {
-		padding: 0.3em 1em 1em;
-	}
+    /* slightly smaller margin around content body */
+    .property-list, fieldset {
+        padding: 0.3em 1em 1em;
+    }
 
-	input, textarea {
-		width: 100%;
+    input, textarea {
         box-sizing: border-box;
-	}
+        width: 100%;
+    }
 
-	select, input[type=checkbox], input[type=radio], input[type=submit], input[type=button], input[type=reset] {
-		width: auto;
-	}
+    input[type=button], input[type=checkbox], input[type=radio], input[type=reset], input[type=submit], select {
+        width: auto;
+    }
 
-	/* hide all but the first column of list tables */
-	.scaffold-list td:not(:first-child),
-	.scaffold-list th:not(:first-child) {
-		display: none;
-	}
+    /* hide all but the first column of list tables */
+    .scaffold-list td:not(:first-child), .scaffold-list th:not(:first-child) {
+        display: none;
+    }
 
-	.scaffold-list thead th {
-		text-align: center;
-	}
+    .scaffold-list thead th {
+        text-align: center;
+    }
 
-	/* stack form elements */
-	.fieldcontain {
-		margin-top: 0.6em;
-	}
+    /* stack form elements */
+    .fieldcontain {
+        margin-top: 0.6em;
+    }
 
-	.fieldcontain label,
-	.fieldcontain .property-label,
-	.fieldcontain .property-value {
-		display: block;
-		float: none;
-		margin: 0 0 0.25em 0;
-		text-align: left;
-		width: auto;
-	}
+    .fieldcontain .property-label, .fieldcontain .property-value, .fieldcontain label {
+        display: block;
+        width: auto;
+        float: none;
+        margin: 0 0 0.25em 0;
+        text-align: left;
+    }
 
-	.errors ul,
-	.message p {
-		margin: 0.5em;
-	}
+    .errors ul, .message p {
+        margin: 0.5em;
+    }
 
-	.error ul {
-		margin-left: 0;
-	}
+    .error ul {
+        margin-left: 0;
+    }
 }

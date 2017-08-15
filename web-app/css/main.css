@@ -1,180 +1,176 @@
 #grailsLogo {
-	background-color: #abbf78;
+    background-color: #abbf78;
 }
 
 #grailsLogo a {
-	display: inline-block;
-	margin: 1em;
+    display: inline-block;
+    margin: 1em;
 }
 
 /* XXX */
 .footer {
-	background: #abbf78;
-    clear: both;
-	color: #000;
-	font-size: 0.8em;
-	margin-top: 1.5em;
     min-height: 1em;
-	padding: 1em;
+    clear: both;
+    margin-top: 1.5em;
+    padding: 1em;
+    color: #000;
+    background: #abbf78;
+    font-size: 0.8em;
 }
 
 /* XXX */
 .footer a {
-	color: #255b17;
+    color: #255b17;
 }
 
 .spinner {
-	background: url(../images/spinner.gif) 50% 50% no-repeat transparent;
-	height: 16px;
-    padding: 0.5em;
     position: absolute;
+    top: 0;
     right: 0;
-    text-indent: -9999px;
-	top: 0;
     width: 16px;
+    height: 16px;
+    padding: 0.5em;
+    background: url(../images/spinner.gif) 50% 50% no-repeat transparent;
+    text-indent: -9999px;
 }
 
 /* CREATE/EDIT FORMS AND SHOW PAGES */
-fieldset,
-.property-list {
-    border: none;
-	margin: 0.6em 1.25em 0 1.25em;
-	padding: 0.3em 1.8em 1.25em;
-	position: relative;
+.property-list, fieldset {
     zoom: 1;
+    position: relative;
+    margin: 0.6em 1.25em 0 1.25em;
+    padding: 0.3em 1.8em 1.25em;
+    border: none;
 }
 
 .property-list .fieldcontain {
-	list-style: none;
-	overflow: hidden;
-	zoom: 1;
+    zoom: 1;
+    overflow: hidden;
+    list-style: none;
 }
 
 .fieldcontain {
-	margin-top: 1em;
+    margin-top: 1em;
 }
 
-.fieldcontain label,
-.fieldcontain .property-label {
-	color: #666666;
-	text-align: right;
-	width: 25%;
+.fieldcontain .property-label, .fieldcontain label {
+    width: 25%;
+    color: #666666;
+    text-align: right;
 }
 
 .fieldcontain .property-label {
-	float: left;
+    float: left;
 }
 
 .fieldcontain .property-value {
-	display: block;
-	margin-left: 27%;
+    display: block;
+    margin-left: 27%;
 }
 
 /* XXX */
 select[multiple] {
-	vertical-align: top;
+    vertical-align: top;
 }
 
 textarea {
-	height: 150px;
-	overflow: auto; /* IE always renders vertical scrollbar without this */
-	vertical-align: top;
     width: 250px;
+    height: 150px;
+    overflow: auto;
+    vertical-align: top;
+    /* IE always renders vertical scrollbar without this */
 }
 
 .required-indicator {
-	color: #48802C;
-	display: inline-block;
-	font-weight: bold;
-	margin-left: 0.3em;
-	position: relative;
-	top: 0.1em;
+    display: inline-block;
+    position: relative;
+    top: 0.1em;
+    margin-left: 0.3em;
+    color: #48802C;
+    font-weight: bold;
 }
 
 ul.one-to-many {
-	display: inline-block;
-	list-style-position: inside;
-	vertical-align: top;
+    display: inline-block;
+    vertical-align: top;
+    list-style-position: inside;
 }
 
 ul.one-to-many li.add {
-	list-style-type: none;
+    list-style-type: none;
 }
 
 /* EMBEDDED PROPERTIES */
-
 fieldset.embedded {
-	background-color: transparent;
-	border: 1px solid #CCCCCC;
-	margin-left: 0;
-	margin-right: 0;
-	padding-left: 0;
-	padding-right: 0;
+    margin-right: 0;
+    margin-left: 0;
+    padding-right: 0;
+    padding-left: 0;
+    border: 1px solid #CCCCCC;
+    background-color: transparent;
     box-shadow: none;
 }
 
 fieldset.embedded legend {
-	margin: 0 1em;
+    margin: 0 1em;
 }
 
 /* MESSAGES AND ERRORS */
-
-.errors,
-.message {
-	font-size: 0.8em;
-	line-height: 2;
-	margin: 1em 2em;
-	padding: 0.25em;
+.errors, .message {
+    margin: 1em 2em;
+    padding: 0.25em;
+    font-size: 0.8em;
+    line-height: 2;
 }
 
 .message {
-	background: #f3f3ff;
-	border: 1px solid #b2d1ff;
-	color: #006dba;
+    color: #006dba;
+    border: 1px solid #b2d1ff;
+    background: #f3f3ff;
     box-shadow: 0 0 0.25em #b2d1ff;
 }
 
 .errors {
-	background: #fff3f3;
-	border: 1px solid #ffaaaa;
-	color: #cc0000;
+    color: #cc0000;
+    border: 1px solid #ffaaaa;
+    background: #fff3f3;
     box-shadow: 0 0 0.25em #ff8888;
 }
 
-.errors ul,
-.message {
-	padding: 0;
+.errors ul, .message {
+    padding: 0;
 }
 
 .errors li {
     background: transparent url(../images/skin/exclamation.png) 0.5em 50% no-repeat;
-	list-style: none;
-	text-indent: 2.2em;
+    text-indent: 2.2em;
+    list-style: none;
 }
 
 .message {
-	background: transparent url(../images/skin/information.png) 0.5em 50% no-repeat;
-	text-indent: 2.2em;
+    background: transparent url(../images/skin/information.png) 0.5em 50% no-repeat;
+    text-indent: 2.2em;
 }
 
 /* form fields with errors */
-
 .error input, .error select, .error textarea {
-	background: #fff3f3;
-	border-color: #ffaaaa;
-	color: #cc0000;
+    color: #cc0000;
+    border-color: #ffaaaa;
+    background: #fff3f3;
 }
 
 .error input:focus, .error select:focus, .error textarea:focus {
     box-shadow: 0 0 0.5em #ffaaaa;
 }
 
-/* same effects for browsers that support HTML5 client-side validation (these have to be specified separately or IE will ignore the entire rule) */
-
+/**
+ * same effects for browsers that support HTML5 client-side validation (these have to be specified separately or IE will
+ * ignore the entire rule)
+ */
 input:invalid, select:invalid, textarea:invalid {
-	background: #fff3f3;
-	border-color: #ffaaaa;
-	color: #cc0000;
+    color: #cc0000;
+    border-color: #ffaaaa;
+    background: #fff3f3;
 }
 
 input:invalid:focus, select:invalid:focus, textarea:invalid:focus {
@@ -184,159 +180,154 @@ input:invalid:focus, select:invalid:focus, textarea:invalid:focus {
 /* TABLES */
 
 table {
-    border-collapse: collapse;
-	border-top: 1px solid #DFDFDF;
-	margin-bottom: 1em;
     width: 100%;
+    margin-bottom: 1em;
+    border-top: 1px solid #DFDFDF;
+    border-collapse: collapse;
 }
 
 tr {
-	border: 0;
+    border: 0;
 }
 
 tr>td:first-child, tr>th:first-child {
-	padding-left: 1.25em;
+    padding-left: 1.25em;
 }
 
 tr>td:last-child, tr>th:last-child {
-	padding-right: 1.25em;
+    padding-right: 1.25em;
 }
 
 td, th {
-	line-height: 1.5em;
-	padding: 0.5em 0.6em;
-	text-align: left;
-	vertical-align: top;
+    padding: 0.5em 0.6em;
+    text-align: left;
+    vertical-align: top;
+    line-height: 1.5em;
 }
 
 th {
-	background-color: #efefef;
-	background-image: -moz-linear-gradient(top, #ffffff, #eaeaea);
-	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ffffff), color-stop(1, #eaeaea));
+    padding: 0.2em 0.6em;
     color: #666666;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorStr = '#ffffff', EndColorStr = '#eaeaea');
-	font-weight: bold;
-	line-height: 1.7em;
-	padding: 0.2em 0.6em;
-    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff', EndColorStr='#eaeaea')";
+    background-image: -moz-linear-gradient( top, #ffffff, #eaeaea);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ffffff), color-stop(1, #eaeaea));
+    background-color: #efefef;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff', EndColorStr='#eaeaea');
+    font-weight: bold;
+    line-height: 1.7em;
 }
 
 thead th {
-	white-space: nowrap;
+    white-space: nowrap;
 }
 
 th a {
-	display: block;
-	text-decoration: none;
+    display: block;
+    text-decoration: none;
 }
 
 th a:link, th a:visited {
-	color: #666666;
+    color: #666666;
 }
 
-th a:hover, th a:focus {
-	color: #333333;
+th a:focus, th a:hover {
+    color: #333333;
 }
 
 th.sortable a {
-	background-position: right;
-	background-repeat: no-repeat;
-	padding-right: 1.1em;
+    padding-right: 1.1em;
+    background-repeat: no-repeat;
+    background-position: right;
 }
 
 th.asc a {
-	background-image: url(../images/skin/sorted_asc.gif);
+    background-image: url(../images/skin/sorted_asc.gif);
 }
 
 th.desc a {
-	background-image: url(../images/skin/sorted_desc.gif);
+    background-image: url(../images/skin/sorted_desc.gif);
 }
 
 .odd {
-	background: #f7f7f7;
+    background: #f7f7f7;
 }
 
 .even {
-	background: #ffffff;
+    background: #ffffff;
 }
 
 th:hover, tr:hover {
-	background: #E1F2B6;
+    background: #E1F2B6;
 }
 
 /* PAGINATION */
 
 .pagination {
+    margin: 0;
+    padding: 0.3em 0.2em;
+    border-top: 0;
     background-color: #EFEFEF;
-	border-top: 0;
-	margin: 0;
-	padding: 0.3em 0.2em;
-	text-align: center;
     box-shadow: 0 0 3px 1px #AAAAAA;
+    text-align: center;
 }
 
-.pagination a,
-.pagination .currentStep {
-	color: #666666;
+.pagination .currentStep, .pagination a {
     display: inline-block;
-	margin: 0 0.1em;
-	padding: 0.25em 0.7em;
-	text-decoration: none;
+    margin: 0 0.1em;
+    padding: 0.25em 0.7em;
+    color: #666666;
     border-radius: 0.3em;
+    text-decoration: none;
 }
 
-.pagination a:hover, .pagination a:focus,
-.pagination .currentStep {
-	background-color: #999999;
-	color: #ffffff;
-	outline: none;
-	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
+.pagination .currentStep, .pagination a:focus, .pagination a:hover {
+    color: #ffffff;
+    background-color: #999999;
+    outline: none;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
 }
 
-.no-borderradius .pagination a:hover, .no-borderradius .pagination a:focus,
-.no-borderradius .pagination .currentStep {
-	background-color: transparent;
-	color: #444444;
-	text-decoration: underline;
+.no-borderradius .pagination .currentStep, .no-borderradius .pagination a:focus, .no-borderradius .pagination a:hover {
+    color: #444444;
+    background-color: transparent;
+    text-decoration: underline;
 }
 
 /* ACTION BUTTONS */
 
 .buttons {
-	background-color: #efefef;
-    border: none;
     margin: 0.1em 0 0 0;
-	overflow: hidden;
-	padding: 0.3em;
+    padding: 0.3em;
+    overflow: hidden;
+    border: none;
+    background-color: #efefef;
     box-shadow: 0 0 3px 1px #aaaaaa;
 }
 
-.no-borderradius .buttons input:hover, .no-borderradius .buttons input:focus,
-.no-borderradius .buttons a:hover, .no-borderradius .buttons a:focus {
-	background-color: transparent;
-	color: #444444;
-	text-decoration: underline;
+.no-borderradius .buttons a:focus, .no-borderradius .buttons a:hover, .no-borderradius .buttons input:focus, .no-borderradius .buttons input:hover {
+    color: #444444;
+    background-color: transparent;
+    text-decoration: underline;
 }
 
 .buttons .delete, .buttons .edit, .buttons .save {
-	background-position: 0.7em center;
-	background-repeat: no-repeat;
-	text-indent: 25px;
+    background-repeat: no-repeat;
+    background-position: 0.7em center;
+    text-indent: 25px;
 }
 
 .buttons .delete {
-	background-image: url(../images/skin/database_delete.png);
+    background-image: url(../images/skin/database_delete.png);
 }
 
 .buttons .edit {
-	background-image: url(../images/skin/database_edit.png);
+    background-image: url(../images/skin/database_edit.png);
 }
 
 .buttons .save {
-	background-image: url(../images/skin/database_save.png);
+    background-image: url(../images/skin/database_save.png);
 }
 
 a.skip {
+    position: absolute;
     left: -9999px;
-	position: absolute;
 }
