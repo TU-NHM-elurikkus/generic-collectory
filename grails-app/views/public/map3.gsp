@@ -8,18 +8,6 @@
         </title>
 
         <r:require modules="bbq, openlayers, map" />
-
-        <r:script>
-            var altMap = true;
-            var COLLECTIONS_MAP_OPTIONS = {
-                serverUrl:   "${grailsApplication.config.grails.serverURL}",
-                centreLat:   ${grailsApplication.config.collectionsMap.centreMapLat?:"-28.2"},
-                centreLon:   ${grailsApplication.config.collectionsMap.centreMapLon?:"134"},
-                defaultZoom: ${grailsApplication.config.collectionsMap.defaultZoom?:"4"}
-            }
-
-            initMap(COLLECTIONS_MAP_OPTIONS);
-        </r:script>
     </head>
 
     <body>
@@ -201,4 +189,16 @@
             </div>
         </div>
     </body>
+
+    <r:script>
+        var altMap = true;
+        var COLLECTIONS_MAP_OPTIONS = {
+            serverUrl:   "${grailsApplication.config.grails.serverURL}",
+            centreLat:   ${grailsApplication.config.collectionsMap.centreMapLat?:"-28.2"},
+            centreLon:   ${grailsApplication.config.collectionsMap.centreMapLon?:"134"},
+            defaultZoom: ${grailsApplication.config.collectionsMap.defaultZoom?:"4"}
+        }
+
+        initMap(COLLECTIONS_MAP_OPTIONS);
+    </r:script>
 </html>
