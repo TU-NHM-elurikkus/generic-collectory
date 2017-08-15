@@ -47,14 +47,12 @@
 
 .filter-buttons a {
     border: 1px solid #ccc;
-    border-radius: 7px; /* Opera 10.5, IE 9 */
-    box-shadow: 4px 4px 0px #d9d9d9;
     display: block;
     height: 70px;
     overflow: hidden;
     padding: 4px 10px 3px 10px;
-    -webkit-border-radius: 7px; /* Saf3+, Chrome */
-    -webkit-box-shadow: 4px 4px 0px #d9d9d9;
+    border-radius: 7px; /* Opera 10.5, IE 9 */
+    box-shadow: 4px 4px 0px #d9d9d9;
 }
 
 .filter-buttons h2 a {
@@ -75,14 +73,12 @@
 
 .filter-buttons button {
     border: 1px solid #ccc;
-    border-radius: 7px; /* Opera 10.5, IE 9 */
-    box-shadow: 4px 4px 0px #d9d9d9;
     display: block;
     height: 70px;
     overflow: hidden;
     padding: 4px 10px 3px 10px;
-    -webkit-border-radius: 7px; /* Saf3+, Chrome */
-    -webkit-box-shadow: 4px 4px 0px #d9d9d9;
+    border-radius: 7px; /* Opera 10.5, IE 9 */
+    box-shadow: 4px 4px 0px #d9d9d9;
     background-repeat: no-repeat;
     background-position: right;
     font-size: 20px;
@@ -170,13 +166,12 @@
 .tooltip {
     background-color: #ffb;
     border: 1px solid #cc9;
-    box-shadow: 5px 5px 9px #666;
     color: #333;
 	display:none;
     font-size: 12px;
 	padding: 3px;
     z-index: 11;
-    -webkit-box-shadow: 5px 5px 9px #666;
+    box-shadow: 5px 5px 9px #666;
 }
 
 /***********************************

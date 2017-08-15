@@ -106,13 +106,11 @@ ul.one-to-many li.add {
 fieldset.embedded {
 	background-color: transparent;
 	border: 1px solid #CCCCCC;
-    box-shadow: none;
 	margin-left: 0;
 	margin-right: 0;
 	padding-left: 0;
 	padding-right: 0;
-	-moz-box-shadow: none;
-	-webkit-box-shadow: none;
+    box-shadow: none;
 }
 
 fieldset.embedded legend {
@@ -132,19 +130,15 @@ fieldset.embedded legend {
 .message {
 	background: #f3f3ff;
 	border: 1px solid #b2d1ff;
-    box-shadow: 0 0 0.25em #b2d1ff;
 	color: #006dba;
-	-moz-box-shadow: 0 0 0.25em #b2d1ff;
-	-webkit-box-shadow: 0 0 0.25em #b2d1ff;
+    box-shadow: 0 0 0.25em #b2d1ff;
 }
 
 .errors {
 	background: #fff3f3;
 	border: 1px solid #ffaaaa;
-    box-shadow: 0 0 0.25em #ff8888;
 	color: #cc0000;
-	-moz-box-shadow: 0 0 0.25em #ff8888;
-	-webkit-box-shadow: 0 0 0.25em #ff8888;
+    box-shadow: 0 0 0.25em #ff8888;
 }
 
 .errors ul,
@@ -173,8 +167,6 @@ fieldset.embedded legend {
 
 .error input:focus, .error select:focus, .error textarea:focus {
     box-shadow: 0 0 0.5em #ffaaaa;
-	-moz-box-shadow: 0 0 0.5em #ffaaaa;
-	-webkit-box-shadow: 0 0 0.5em #ffaaaa;
 }
 
 /* same effects for browsers that support HTML5 client-side validation (these have to be specified separately or IE will ignore the entire rule) */
@@ -187,8 +179,6 @@ input:invalid, select:invalid, textarea:invalid {
 
 input:invalid:focus, select:invalid:focus, textarea:invalid:focus {
     box-shadow: 0 0 0.5em #ffaaaa;
-	-moz-box-shadow: 0 0 0.5em #ffaaaa;
-	-webkit-box-shadow: 0 0 0.5em #ffaaaa;
 }
 
 /* TABLES */
@@ -279,24 +269,20 @@ th:hover, tr:hover {
 .pagination {
     background-color: #EFEFEF;
 	border-top: 0;
-    box-shadow: 0 0 3px 1px #AAAAAA;
 	margin: 0;
 	padding: 0.3em 0.2em;
 	text-align: center;
-    -moz-box-shadow: 0 0 3px 1px #AAAAAA;
-    -webkit-box-shadow: 0 0 3px 1px #AAAAAA;
+    box-shadow: 0 0 3px 1px #AAAAAA;
 }
 
 .pagination a,
 .pagination .currentStep {
-    border-radius: 0.3em;
 	color: #666666;
     display: inline-block;
 	margin: 0 0.1em;
 	padding: 0.25em 0.7em;
 	text-decoration: none;
-    -moz-border-radius: 0.3em;
-    -webkit-border-radius: 0.3em;
+    border-radius: 0.3em;
 }
 
 .pagination a:hover, .pagination a:focus,
@@ -319,12 +305,10 @@ th:hover, tr:hover {
 .buttons {
 	background-color: #efefef;
     border: none;
-    box-shadow: 0 0 3px 1px #aaaaaa;
     margin: 0.1em 0 0 0;
 	overflow: hidden;
 	padding: 0.3em;
-    -moz-box-shadow: 0 0 3px 1px #aaaaaa;
-    -webkit-box-shadow: 0 0 3px 1px #aaaaaa;
+    box-shadow: 0 0 3px 1px #aaaaaa;
 }
 
 .no-borderradius .buttons input:hover, .no-borderradius .buttons input:focus,

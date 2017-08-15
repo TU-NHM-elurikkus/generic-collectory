@@ -11,10 +11,10 @@ h2 {
 }
 
 .exceptionMessage {
-    background-color: #E9E9E9;
+    margin: 10px;
     border: 1px solid #000;
-	margin: 10px;
-	padding: 5px;
+    padding: 5px;
+    background-color: #E9E9E9;
 }
 
 .stack,
@@ -26,13 +26,11 @@ h2 {
 .snippet {
 	border: 1px solid #ccc;
     box-shadow: 0 0 2px rgba(0,0,0,0.2);
-	-moz-box-shadow: 0 0 2px rgba(0,0,0,0.2);
-	-webkit-box-shadow: 0 0 2px rgba(0,0,0,0.2);
 }
 
 /* error details */
 .error-details {
-    background-color:#FFF3F3;
+    background-color: #FFF3F3;
     border-bottom: 1px solid #FFAAAA;
 	border-top: 1px solid #FFAAAA;
     box-shadow: 0 0 2px rgba(0,0,0,0.2);
@@ -40,8 +38,6 @@ h2 {
     overflow: hidden;
     padding: 5px;
     padding-left: 25px;
-	-moz-box-shadow: 0 0 2px rgba(0,0,0,0.2);
-	-webkit-box-shadow: 0 0 2px rgba(0,0,0,0.2);
 }
 
 .error-details dt {
