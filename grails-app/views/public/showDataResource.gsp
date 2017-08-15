@@ -1,10 +1,13 @@
-<%@ page import="au.org.ala.collectory.CollectoryTagLib; java.text.DecimalFormat; java.text.SimpleDateFormat" %>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <meta name="layout" content="${grailsApplication.config.skin.layout}"/>
-        <title><cl:pageTitle>${fieldValue(bean: instance, field: "name")}</cl:pageTitle></title>
-        <r:require modules="jquery, fancybox, jquery_jsonp, jstree, jquery_ui_custom, charts, datadumper, jquery_i18n"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="layout" content="${grailsApplication.config.skin.layout}" />
+        <title>
+            <cl:pageTitle>
+                ${fieldValue(bean: instance, field: "name")}
+            </cl:pageTitle>
+        </title>
+        <r:require modules="jquery, fancybox, jquery_jsonp, jstree, jquery_ui_custom, charts, datadumper, jquery_i18n" />
         <r:script>
             // define biocache server
             bieUrl = "${grailsApplication.config.bie.serviceURL}";
@@ -16,7 +19,7 @@
         <div id="content">
             <div id="header" class="page-header">
                 <%-- XXX MAGIC. TODO: place it. --%>
-                <cl:pageOptionsPopup instance="${instance}"/>
+                <cl:pageOptionsPopup instance="${instance}" />
 
                 <cl:h1 value="${instance.name}" class="page-header__title" />
 
@@ -36,7 +39,7 @@
                     </a>
                 </div>
 
-                <g:set var="dp" value="${instance.dataProvider}"/>
+                <g:set var="dp" value="${instance.dataProvider}" />
 
                 <%-- XXX --%>
                 <g:if test="${dp}">
@@ -57,7 +60,8 @@
 
                 <cl:valueOrOtherwise value="${instance.acronym}">
                     <span class="acronym">
-                        <g:message code="public.show.header.acronym"/>: ${fieldValue(bean: instance, field: "acronym")}
+                        <g:message code="public.show.header.acronym" />:
+                        ${fieldValue(bean: instance, field: "acronym")}
                     </span>
                 </cl:valueOrOtherwise>
 
@@ -68,7 +72,7 @@
 
             <div class="row">
                 <div class="col-md-9">
-                    <g:set var="dp" value="${instance.dataProvider}"/>
+                    <g:set var="dp" value="${instance.dataProvider}" />
                     <g:if test="${dp}">
                         <h2>
                             <g:link action="show" id="${dp.uid}">
@@ -87,7 +91,8 @@
 
                     <cl:valueOrOtherwise value="${instance.acronym}">
                         <span class="acronym">
-                            <g:message code="public.show.header.acronym"/>: ${fieldValue(bean: instance, field: "acronym")}
+                            <g:message code="public.show.header.acronym" />:
+                            ${fieldValue(bean: instance, field: "acronym")}
                         </span>
                     </cl:valueOrOtherwise>
 
@@ -99,13 +104,17 @@
                 <div class="col-md-3">
                     <g:if test="${dp?.logoRef?.file}">
                         <g:link action="show" id="${dp.uid}">
-                            <img class="institutionImage"
-                                 src='${resource(absolute: "true", dir: "data/dataProvider/", file: fieldValue(bean: dp, field: 'logoRef.file'))}' />
+                            <img
+                                class="institutionImage"
+                                src='${resource(absolute: "true", dir: "data/dataProvider/", file: fieldValue(bean: dp, field: 'logoRef.file'))}'
+                            />
                         </g:link>
                     </g:if>
                     <g:elseif test="${instance?.logoRef?.file}">
-                        <img class="institutionImage"
-                             src='${resource(absolute: "true", dir: "data/dataResource/", file: fieldValue(bean: instance, field: 'logoRef.file'))}' />
+                        <img
+                            class="institutionImage"
+                            src='${resource(absolute: "true", dir: "data/dataResource/", file: fieldValue(bean: instance, field: 'logoRef.file'))}'
+                        />
                     </g:elseif>
                 </div>
             </div>
@@ -119,17 +128,22 @@
                             </h2>
                         </g:if>
 
-                        <cl:formattedText>${fieldValue(bean: instance, field: "pubDescription")}</cl:formattedText>
-                        <cl:formattedText>${fieldValue(bean: instance, field: "techDescription")}</cl:formattedText>
-                        <cl:formattedText>${fieldValue(bean: instance, field: "focus")}</cl:formattedText>
-                        <cl:dataResourceContribution resourceType="${instance.resourceType}" status="${instance.status}" tag="p"/>
+                        <cl:formattedText>
+                            ${fieldValue(bean: instance, field: "pubDescription")}
+                        </cl:formattedText>
+                        <cl:formattedText>
+                            ${fieldValue(bean: instance, field: "techDescription")}
+                        </cl:formattedText>
+                        <cl:formattedText>
+                            ${fieldValue(bean: instance, field: "focus")}
+                        </cl:formattedText>
+                        <cl:dataResourceContribution resourceType="${instance.resourceType}" status="${instance.status}" tag="p" />
 
                         <g:if test="${instance.contentTypes}">
                             <h2>
                                 <g:message code="public.sdr.content.label02" />
                             </h2>
-
-                            <cl:contentTypes types="${instance.contentTypes}"/>
+                            <cl:contentTypes types="${instance.contentTypes}" />
                         </g:if>
 
                         <h2>
@@ -187,7 +201,9 @@
                             </h2>
 
                             <p>
-                                <g:message code="public.sdr.content.des02" /> ${fieldValue(bean: instance, field: "downloadLimit")} <g:message code="public.sdr.content.des03" />.
+                                <g:message code="public.sdr.content.des02" />
+                                ${fieldValue(bean: instance, field: "downloadLimit")}
+                                <g:message code="public.sdr.content.des03" />.
                             </p>
                         </g:if>
 
@@ -323,11 +339,29 @@
 
                             <g:if test="${!address?.isEmpty()}">
                                 <p>
-                                    <cl:valueOrOtherwise value="${address?.street}">${address?.street}<br/></cl:valueOrOtherwise>
-                                    <cl:valueOrOtherwise value="${address?.city}">${address?.city}<br/></cl:valueOrOtherwise>
-                                    <cl:valueOrOtherwise value="${address?.state}">${address?.state}</cl:valueOrOtherwise>
-                                    <cl:valueOrOtherwise value="${address?.postcode}">${address?.postcode}<br/></cl:valueOrOtherwise>
-                                    <cl:valueOrOtherwise value="${address?.country}">${address?.country}<br/></cl:valueOrOtherwise>
+                                    <cl:valueOrOtherwise value="${address?.street}">
+                                        ${address?.street}
+                                        <br />
+                                    </cl:valueOrOtherwise>
+
+                                    <cl:valueOrOtherwise value="${address?.city}">
+                                        ${address?.city}
+                                        <br />
+                                    </cl:valueOrOtherwise>
+
+                                    <cl:valueOrOtherwise value="${address?.state}">
+                                        ${address?.state}
+                                    </cl:valueOrOtherwise>
+
+                                    <cl:valueOrOtherwise value="${address?.postcode}">
+                                        ${address?.postcode}
+                                        <br />
+                                    </cl:valueOrOtherwise>
+
+                                    <cl:valueOrOtherwise value="${address?.country}">
+                                        ${address?.country}
+                                        <br />
+                                    </cl:valueOrOtherwise>
                                 </p>
                             </g:if>
 
@@ -345,7 +379,7 @@
 
                     <!-- contacts -->
                     <g:if test="${instance.makeContactPublic}">
-                        %{-- added so that contact visibility on website is on data resource level --}%
+                        <%-- added so that contact visibility on website is on data resource level --%>
                         <g:set var="contacts" value="${instance.getContacts()}" />
                     </g:if>
 
@@ -431,7 +465,7 @@
                     </g:if>
 
                     <!-- attribution -->
-                    <g:set var="attribs" value="${instance.getAttributionList()}"/>
+                    <g:set var="attribs" value="${instance.getAttributionList()}" />
                     <g:if test="${attribs.size() > 0}">
                         <div class="section" id="infoSourceList">
                             <h4>

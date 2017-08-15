@@ -1,13 +1,14 @@
-<%@ page import="grails.converters.JSON; au.org.ala.collectory.ProviderGroup; au.org.ala.collectory.DataProvider" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="${grailsApplication.config.skin.layout}" />
         <g:set var="entityName" value="${instance.ENTITY_TYPE}" />
-        <g:set var="entityNameLower" value="${cl.controller(type: instance.ENTITY_TYPE)}"/>
-        <title><g:message code="general.show.label" args="[entityName]" /></title>
+        <g:set var="entityNameLower" value="${cl.controller(type: instance.ENTITY_TYPE)}" />
+        <title>
+            <g:message code="general.show.label" args="[entityName]" />
+        </title>
         <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.3&sensor=false"></script>
-        <r:require modules="fileupload"/>
+        <r:require modules="fileupload" />
     </head>
 
     <body>
@@ -16,7 +17,9 @@
 
             <g:link controller="dataResource" action="show" id="${instance.uid}">
                 ${fieldValue(bean: instance, field: "name")}
-                <cl:valueOrOtherwise value="${instance.acronym}"> (${fieldValue(bean: instance, field: "acronym")})</cl:valueOrOtherwise>
+                <cl:valueOrOtherwise value="${instance.acronym}">
+                    (${fieldValue(bean: instance, field: "acronym")})
+                </cl:valueOrOtherwise>
             </g:link>
         </h1>
 
@@ -25,11 +28,13 @@
         </div>
 
         <g:uploadForm action="uploadDataFile" controller="dataResource">
-            <g:hiddenField name="id" value="${instance.uid}"/>
+            <g:hiddenField name="id" value="${instance.uid}" />
 
             <!-- drag and drop file uploads -->
             <div class="form-group">
-                <label for="protocol"><g:message code="dataresource.upload.label.protocol" />:</label>
+                <label for="protocol">
+                    <g:message code="dataresource.upload.label.protocol" />:
+                </label>
 
                 <g:select
                     id="protocol"
@@ -38,7 +43,8 @@
                     value="protocol"
                     optionValue="display"
                     optionKey="name"
-                    class="form-control"/>
+                    class="form-control"
+                />
             </div>
 
             <div class="form-group">
@@ -46,13 +52,13 @@
                     <g:message code="dataresource.upload.label.file" />:
                 </label>
 
-                <input type="file" name="myFile" class="erk-button erk-button--light"/>
+                <input type="file" name="myFile" class="erk-button erk-button--light" />
             </div>
 
             <div id="connectionParams"></div>
 
             <div style="clear:both">
-                <input type="submit" id="fileToUpload" class="erk-button erk-button--light fileupload-exists" value="Upload"/>
+                <input type="submit" id="fileToUpload" class="erk-button erk-button--light fileupload-exists" value="Upload" />
                 <button class="erk-button erk-button--light  cancel">
                     <g:message code="dataresource.upload.label.cancel" />
                 </button>
@@ -65,16 +71,18 @@
                     <g:each in="${profile.params.minus('LOCATION_URL')}" var="param">
                         <div class="form-group">
                             <!-- get param -->
-                            <g:set var="connectionParam" value="${connectionParams[param]}"/>
+                            <g:set var="connectionParam" value="${connectionParams[param]}" />
                             <g:if test="${connectionParam.type == 'boolean'}">
                                 <label class="checkbox ${profile.name}">
-                                    <g:checkBox id="${connectionParam.paramName}" name="${connectionParam.paramName}"/>
+                                    <g:checkBox id="${connectionParam.paramName}" name="${connectionParam.paramName}" />
                                     ${connectionParam.display}
                                 </label>
                             </g:if>
                             <g:else>
-                                <label for="${connectionParam.paramName}">${connectionParam.display}:</label>
-                                <input type="text" id="${connectionParam.paramName}" name="${connectionParam.paramName}" value="${connectionParam.defaultValue}" class="form-control"/>
+                                <label for="${connectionParam.paramName}">
+                                    ${connectionParam.display}:
+                                </label>
+                                <input type="text" id="${connectionParam.paramName}" name="${connectionParam.paramName}" value="${connectionParam.defaultValue}" class="form-control" />
                             </g:else>
                         </div>
                     </g:each>
