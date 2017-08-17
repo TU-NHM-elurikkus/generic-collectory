@@ -25,8 +25,10 @@ class DataController {
         if (uid) {
             // it must exist
             def pg = uid.startsWith('drt') ? TempDataResource.findByUid(uid) : ProviderGroup._get(uid)
+
             if (pg) {
                 params.pg = pg
+
                 // if entity is specified, the instance must be of type entity
                 if (params.entity && pg.urlForm() != params.entity) {
                     // exists but wrong type (eg /dataHub/dp20)
@@ -34,8 +36,7 @@ class DataController {
                     return false
                 }
             } else {
-
-                if(params.entity){
+                if(params.entity && uid.isNumber()) {
                     params.pg = ProviderGroup._get(params.uid, params.entity)
                 }
 
@@ -46,6 +47,7 @@ class DataController {
                 }
             }
         }
+
         if (request.method == 'POST' || request.method == "PUT" || request.method == 'DELETE') {
             if (request.getContentLength() == 0 && request.method != 'DELETE') {
                 // no payload so return OK as entity exists (if specified)
