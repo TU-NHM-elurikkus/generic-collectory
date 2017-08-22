@@ -10,8 +10,16 @@
             </cl:pageTitle>
         </title>
         <script type="text/javascript" language="javascript" src="https://www.google.com/jsapi"></script>
-        <r:require modules="jquery, fancybox, jquery_jsonp, charts" />
-        <r:script type="text/javascript">
+
+        <asset:javascript src="jquery.js" />
+        <asset:javascript src="fancybox.js" />
+        <asset:javascript src="jquery-migration-plugins.js" />
+        <asset:javascript src="charts.js" />
+
+        <asset:stylesheet src="fancybox.css" />
+        <asset:stylesheet src="jqury-ui.css" />
+
+        <script type="text/javascript">
             biocacheServicesUrl = "${grailsApplication.config.biocacheServicesUrl}";
             biocacheWebappUrl = "${grailsApplication.config.biocacheUiURL}";
             loadLoggerStats = ${!grailsApplication.config.disableLoggerLinks.toBoolean()};
@@ -31,7 +39,7 @@
                     'width': 300
                 });
             });
-        </r:script>
+        </script>
     </head>
 
     <body>
@@ -329,7 +337,7 @@
             </div><!--close content-->
         </div>
 
-        <r:script type="text/javascript">
+        <script type="text/javascript">
               // configure the charts
               var facetChartOptions = {
                   /* base url of the collectory */
@@ -409,6 +417,6 @@
 
             google.load("visualization", "1", {packages:["corechart"]});
             google.setOnLoadCallback(onLoadCallback);
-        </r:script>
+        </script>
     </body>
 </html>

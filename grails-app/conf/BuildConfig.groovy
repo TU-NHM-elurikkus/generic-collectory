@@ -34,13 +34,25 @@ grails.project.dependency.resolution = {
 
     dependencies {
         runtime 'mysql:mysql-connector-java:5.1.43'
+        runtime 'net.sf.opencsv:opencsv:2.3'
+	runtime 'ant:ant:1.6.5'
+        runtime 'commons-httpclient:commons-httpclient:3.1'
+        runtime 'org.aspectj:aspectjweaver:1.6.6'
     }
 
     plugins {
+        build ":rest-client-builder:1.0.3"
         build ":release:3.0.1"
-        runtime ":resources:1.2.14"
+        build ":tomcat:7.0.54"
+        compile ":asset-pipeline:2.14.1"
+        compile ":cache:1.1.8"
         runtime ":erkcollectory:1.5.13-SNAPSHOT"
         runtime ":elurikkus-commons:0.2-SNAPSHOT"
-        build ":tomcat:7.0.54"
+        runtime ":hibernate:3.6.10.11"
+        runtime ":audit-logging:1.0.7"
+        runtime ":cache-headers:1.1.6"
+        runtime ":rest:0.8"
+        runtime ":tiny-mce:3.4.4"
+        runtime ":cors:1.1.8"
     }
 }

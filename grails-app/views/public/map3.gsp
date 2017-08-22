@@ -7,7 +7,11 @@
             <g:message code="public.map3.title" /> | ${grailsApplication.config.projectName}
         </title>
 
-        <r:require modules="bbq, openlayers, map" />
+        <asset:javascript src="jquery-migration-plugins.js" />
+        <asset:javascript src="openlayers.js" />
+        <asset:javascript src="map.js" />
+
+        <asset:stylesheet src="openlayers.css" />
     </head>
 
     <body>
@@ -164,7 +168,7 @@
                                             </span>
                                             .&nbsp;
                                             <g:message code="public.map3.maplistcol.des04" />&nbsp;
-                                            <img style="vertical-align:middle" src="${resource(dir:'images/map', file:'nomap.gif')}" />.
+                                            <img style="vertical-align:middle" src="${resource(dir:'assets/map', file:'nomap.gif')}" />.
                                         </p>
 
                                         <ul id="filtered-list">
@@ -175,7 +179,7 @@
                                                     </g:link>
 
                                                     <g:if test="${!c.canBeMapped()}">
-                                                        <img style="vertical-align:middle" src="${resource(dir:'images/map', file:'nomap.gif')}" />
+                                                        <img style="vertical-align:middle" src="${resource(dir:'assets/map', file:'nomap.gif')}" />
                                                     </g:if>
                                                 </li>
                                             </g:each>
@@ -188,17 +192,17 @@
                 </div>
             </div>
         </div>
+
+        <script>
+            var altMap = true;
+            var COLLECTIONS_MAP_OPTIONS = {
+                serverUrl:   "${grailsApplication.config.grails.serverURL}",
+                centreLat:   ${grailsApplication.config.collectionsMap.centreMapLat?:"-28.2"},
+                centreLon:   ${grailsApplication.config.collectionsMap.centreMapLon?:"134"},
+                defaultZoom: ${grailsApplication.config.collectionsMap.defaultZoom?:"4"}
+            }
+
+            initMap(COLLECTIONS_MAP_OPTIONS);
+        </script>
     </body>
-
-    <r:script>
-        var altMap = true;
-        var COLLECTIONS_MAP_OPTIONS = {
-            serverUrl:   "${grailsApplication.config.grails.serverURL}",
-            centreLat:   ${grailsApplication.config.collectionsMap.centreMapLat?:"-28.2"},
-            centreLon:   ${grailsApplication.config.collectionsMap.centreMapLon?:"134"},
-            defaultZoom: ${grailsApplication.config.collectionsMap.defaultZoom?:"4"}
-        }
-
-        initMap(COLLECTIONS_MAP_OPTIONS);
-    </r:script>
 </html>

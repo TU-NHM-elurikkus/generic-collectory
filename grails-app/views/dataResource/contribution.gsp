@@ -11,8 +11,9 @@
         <title>
             <g:message code="dataResource.base.label" default="Edit data resource metadata" />
         </title>
-        <link rel="stylesheet" href="${resource(dir:'css/smoothness',file:'jquery-ui-1.8.14.custom.css')}" type="text/css" media="screen" />
-        <r:require modules="jquery, jquery_ui_custom" />
+
+        <asset:javascript src="jquery-ui.js" />
+        <asset:stylesheet stc="jquery-ui.css" />
     </head>
 
     <body>
@@ -211,7 +212,7 @@
                 </g:form>
             </div>
 
-            <r:script>
+            <script>
                 function instrument() {
                     var availableTags = [
                         "institutionCode",
@@ -332,7 +333,7 @@
                         $('#add-another').parent().append(newField);
                     }
                 });
-            </r:script>
+            </script>
         </div>
     </body>
 </html>

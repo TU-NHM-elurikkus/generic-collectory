@@ -11,7 +11,9 @@
             <g:message code="general.show.label" args="[entityName]" />
         </title>
         <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.3&key=${Holders.config.google.apikey}"></script>
-        <r:require module="collectory" />
+
+        <asset:javascript src="collectory.js" />
+        <asset:stylesheet src="collectory.css" />
     </head>
 
     <body>

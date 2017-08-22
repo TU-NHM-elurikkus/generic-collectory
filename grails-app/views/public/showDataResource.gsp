@@ -7,12 +7,24 @@
                 ${fieldValue(bean: instance, field: "name")}
             </cl:pageTitle>
         </title>
-        <r:require modules="jquery, fancybox, jquery_jsonp, jstree, jquery_ui_custom, charts, datadumper, jquery_i18n" />
-        <r:script>
+
+        <asset:javascript src="jquery.js" />
+        <asset:javascript src="fancybox.js" />
+        <asset:javascript src="jquery-migration-plugins.js" />
+        <asset:javascript src="jstree.js" />
+        <asset:javascript src="jquery-ui.js" />
+        <asset:javascript src="charts.js" />
+        <asset:javascript src="datadumper.js" />
+
+        <asset:stylesheet src="fancybox.css" />
+        <asset:stylesheet src="jstree.css" />
+        <asset:stylesheet src="jqury-ui.css" />
+
+        <script>
             // define biocache server
             bieUrl = "${grailsApplication.config.bie.serviceURL}";
             loadLoggerStats = ${!grailsApplication.config.disableLoggerLinks.toBoolean()};
-        </r:script>
+        </script>
     </head>
 
     <body class="nav-datasets">

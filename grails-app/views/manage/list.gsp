@@ -7,7 +7,12 @@
             <g:message code="manage.show.title" />
         </title>
         <meta name="layout" content="${grailsApplication.config.skin.layout}" />
-        <r:require modules="smoothness, collectory, jquery_ui_custom" />
+
+        <asset:javascript src="collectory.js" />
+        <asset:javascript src="jquery-ui.js" />
+
+        <asset:stylesheet src="collectory.css" />
+        <asset:stylesheet src="jquery-ui.css" />
     </head>
 
     <body>
