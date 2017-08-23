@@ -198,7 +198,7 @@
                             </div>
                         </a>
 
-                        <div id="usage" class="collapse card-body">
+                        <div id="usage" class="collapse card-body" data-parent="#usage-stats">
                             <p>
                                 <g:message code="public.usage.des" />...
                             </p>

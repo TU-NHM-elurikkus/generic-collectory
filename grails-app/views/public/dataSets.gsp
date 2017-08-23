@@ -7,12 +7,8 @@
             <g:message code="public.datasets.title" /> | ${grailsApplication.config.projectName}
         </title>
 
-        <asset:javascript src="collectory.js" />
         <asset:javascript src="datasets.js" />
-        <asset:javascript src="jquery-migration-plugins.js" />
-        <asset:javascript src="jqury-plugins/jQueryRotateCompressed.2.1.js" />
-
-        <asset:stylesheet src="collectory.css" />
+        <asset:javascript src="jquery-plugins/jQueryRotateCompressed.2.1.js" />
 
         <script type="text/javascript">
             var altMap = true;

@@ -6,10 +6,6 @@
     <title><cl:pageTitle>${fieldValue(bean: instance, field: "name")}</cl:pageTitle></title>
     <script type="text/javascript" language="javascript" src="https://www.google.com/jsapi"></script>
 
-    <asset:javascript src="jquery.js" />
-    <asset:javascript src="fancybox.js" />
-    <asset:stylesheet src="fancybox.css" />
-
     <script type="text/javascript">
         // define biocache server
         biocacheServicesUrl = "${grailsApplication.config.biocacheServicesUrl}";

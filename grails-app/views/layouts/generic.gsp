@@ -13,15 +13,14 @@
             <g:layoutTitle />
         </title>
 
-        <asset:javascript src="jquery.js" />
-        <asset:javascript src="jquery-migration-plugins.js" />
-        <asset:javascript src="application.js" />
-        <asset:javascript src="common.js" />
         <asset:javascript src="collectory.js" />
 
         <asset:stylesheet src="generic.css" />
         <asset:stylesheet src="elurikkus-common.css" />
         <asset:stylesheet src="collectory.css" />
+        <asset:stylesheet src="jquery-ui.css" />
+        <asset:stylesheet src="fancybox.css" />
+        <asset:stylesheet src="openlayers.css" />
 
         <g:layoutHead />
     </head>

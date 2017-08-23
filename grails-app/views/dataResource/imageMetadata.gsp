@@ -4,10 +4,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="layout" content="${grailsApplication.config.skin.layout}" />
     <title><g:message code="dataResource.base.label" default="Edit data resource metadata" /></title>
-    <link rel="stylesheet" href="${resource(dir:'css/smoothness',file:'jquery-ui-1.8.14.custom.css')}" type="text/css" media="screen"/>
-
-    <asset:javascript src="jquery.js" />
-    <asset:javascript src="jquery-ui.js" />
 </head>
 <body>
 <div class="nav">

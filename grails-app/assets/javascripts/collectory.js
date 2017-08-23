@@ -1,6 +1,8 @@
 //= require jquery
+//= require common
 //= require jquery-ui
 //= require jquery-migration-plugins
+//= require application
 //= require fancybox
 //= require openlayers
 //= require map

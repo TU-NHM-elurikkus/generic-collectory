@@ -6,12 +6,6 @@
         <title>
             <g:message code="public.map3.title" /> | ${grailsApplication.config.projectName}
         </title>
-
-        <asset:javascript src="jquery-migration-plugins.js" />
-        <asset:javascript src="openlayers.js" />
-        <asset:javascript src="map.js" />
-
-        <asset:stylesheet src="openlayers.css" />
     </head>
 
     <body>

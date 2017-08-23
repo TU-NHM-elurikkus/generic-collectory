@@ -11,9 +11,6 @@
         <title>
             <g:message code="dataResource.base.label" default="Edit data resource metadata" />
         </title>
-
-        <asset:javascript src="jquery-ui.js" />
-        <asset:stylesheet stc="jquery-ui.css" />
     </head>
 
     <body>

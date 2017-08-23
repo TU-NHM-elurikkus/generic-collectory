@@ -1,4 +1,3 @@
-//= require jquery
 //= require jquery-plugins/jquery-migrate-1.2.1.min
 //= require jquery-plugins/jquery.jsonp-2.1.4.min
 //= require jquery-plugins/jquery.tools.min
