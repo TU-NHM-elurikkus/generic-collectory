@@ -11,7 +11,7 @@
         </title>
         <script type="text/javascript" language="javascript" src="https://www.google.com/jsapi"></script>
 
-        <asset:javascript src="public-show-institution.js" />
+        <asset:javascript src="public-show.js" />
 
         <asset:stylesheet src="fancybox.css" />
         <asset:stylesheet src="jqury-ui.css" />
@@ -145,7 +145,7 @@
                             </h4>
                         </div>
 
-                        <div class="card-block">
+                        <div class="card-body">
                             <ol class="erk-olist">
                                 <g:each var="c" in="${instance.listCollections().sort { it.name }}">
                                     <li class="erk-olist__item">
@@ -167,7 +167,7 @@
                             </h4>
                         </div>
 
-                        <div class="card-block">
+                        <div class="card-body">
                             <div>
                                 <p>
                                     <span id="numBiocacheRecords">
@@ -198,7 +198,7 @@
                             </div>
                         </a>
 
-                        <div id="usage" class="collapse card-block">
+                        <div id="usage" class="collapse card-body">
                             <p>
                                 <g:message code="public.usage.des" />...
                             </p>

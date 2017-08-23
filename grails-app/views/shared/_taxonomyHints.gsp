@@ -8,7 +8,7 @@
         </h2>
     </div>
 
-    <div class="card-block">
+    <div class="card-body">
         <ul class='simple'>
             <g:each in="${JSONHelper.taxonomyHints(instance.taxonomyHints)}" var="hint">
                 <g:set var="key" value="${hint.keySet().iterator().next()}" />

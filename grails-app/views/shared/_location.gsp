@@ -5,7 +5,7 @@
         </h2>
     </div>
 
-    <div class="card-block">
+    <div class="card-body">
         <table>
             <colgroup>
                 <col width="10%" />

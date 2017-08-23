@@ -24,7 +24,7 @@
                 </h1>
             </div>
 
-            <div id="baseForm" class="card-block">
+            <div id="baseForm" class="card-body">
                 <g:if test="${message}">
                     <div class="message">
                         ${message}

@@ -6,7 +6,7 @@
         </h2>
     </div>
 
-    <div class="card-block">
+    <div class="card-body">
         <ul class="fancy">
             <g:each in="${instance.getAttributionList()}" var="att">
                 <li>

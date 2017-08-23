@@ -11,7 +11,6 @@
     <asset:javacsript src="public-show-datahub.js" />
     <asset:stylesheet src="jquery-ui.css" />
     <asset:stylesheet src="fancybox.css" />
-    <asset:stylesheet src="jstree.css" />
 
     <script type="text/javascript">
       biocacheServicesUrl = "${grailsApplication.config.biocacheServicesUrl}";

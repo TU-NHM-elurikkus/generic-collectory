@@ -7,8 +7,6 @@
         <asset:javascript src="jstree.js" />
         <asset:javascript src="jquery-migration-plugins.js" />
         <asset:javascript src="debug.js" />
-
-        <asset:stylesheet src="jstree.css" />
     </head>
 
     <body>

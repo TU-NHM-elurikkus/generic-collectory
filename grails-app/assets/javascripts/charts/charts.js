@@ -434,7 +434,7 @@ function drawTaxonomyChart(data, chartOptions, query) {
 
             // show spinner while loading
             $container.append($('<img class="loading" style="position:absolute;left:130px;top:220px;z-index:2000" ' +
-                    'alt="cargando..." src="' + collectionsUrl + '/images/ala/ajax-loader.gif"/>'));
+                    'alt="cargando..." src="' + collectionsUrl + '/assets/ala/ajax-loader.gif"/>'));
 
             // get state from history
             var previous = popHistory(chartOptions);
@@ -498,7 +498,7 @@ function drawTaxonomyChart(data, chartOptions, query) {
             } else if (drillDown && data.rank != "species") {
                 // show spinner while loading
                 $container.append($('<img class="loading" style="position:absolute;left:130px;top:220px;z-index:2000" ' +
-                        'alt="loading..." src="' + collectionsUrl + '/images/ala/ajax-loader.gif"/>'));
+                        'alt="loading..." src="' + collectionsUrl + '/assets/ala/ajax-loader.gif"/>'));
 
                 // save current state as history - for back-tracking
                 pushHistory(chartOptions);

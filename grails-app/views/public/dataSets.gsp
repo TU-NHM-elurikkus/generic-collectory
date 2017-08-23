@@ -102,7 +102,7 @@
 
             <div class="collectory-content row">
                 <div class="col-sm-5 col-md-5 col-lg-3">
-                    <div class="card card-block filters-container">
+                    <div class="card card-body filters-container">
                         <h2 class="card-title">
                             <g:message code="public.datasets.sidebar.header" />
                         </h2>
@@ -113,7 +113,7 @@
 
                 <%-- TODO: Mobile responsiveness. --%>
                 <div id="data-set-list" class="col-sm-7 col-md-7 col-lg-9">
-                    <div class="card card-block">
+                    <div class="card card-body">
                         <div class="search-controls">
                             <button id="downloadButton" class="erk-button erk-button--light">
                                 <span class="fa fa-download"></span>

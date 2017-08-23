@@ -7,7 +7,7 @@
         </h2>
     </div>
 
-    <div class="card-block">
+    <div class="card-body">
         <p>
             <g:message code="shared.providers.des01" args="[ProviderGroup.textFormOfEntityType(instance.uid)]" />.
         </p>
