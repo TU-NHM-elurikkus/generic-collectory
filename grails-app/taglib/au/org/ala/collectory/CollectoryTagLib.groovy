@@ -1484,7 +1484,7 @@ class CollectoryTagLib {
         out << """<div id="optionsText" style="text-align: left;">\n"""
         out << """<p class='pageOptions' width="100%" style="color:#666;padding-bottom:5px;text-align:center">Page options</p>\n"""
         out << """<p class='editLink' style="padding-left:30px;text-indent:-30px;">\n"""
-        out << "<img class='editImg' style='margin-right:5px;vertical-align:middle' src='${resource(dir:'images/ala',file:'edit.png')}'/>\n"
+        out << "<img class='editImg' style='margin-right:5px;vertical-align:middle' src='${resource(dir:'assets/ala',file:'edit.png')}'/>\n"
         out << link(controller:attrs.instance.urlForm(), action:'show', id:attrs.instance.uid) {"Edit metadata"}
         out << " for this ${attrs.instance.textFormOfEntityType(attrs.instance.uid)}. You need<br/>appropriate authorisation to do this. You will<br/>be asked to log in if you are not already.</p>\n"
         def providers = attrs.instance.listProviders()

@@ -11,10 +11,7 @@
         </title>
         <script type="text/javascript" language="javascript" src="https://www.google.com/jsapi"></script>
 
-        <asset:javascript src="jquery.js" />
-        <asset:javascript src="fancybox.js" />
-        <asset:javascript src="jquery-migration-plugins.js" />
-        <asset:javascript src="charts.js" />
+        <asset:javascript src="public-show-institution.js" />
 
         <asset:stylesheet src="fancybox.css" />
         <asset:stylesheet src="jqury-ui.css" />
