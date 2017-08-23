@@ -13,8 +13,11 @@
             <g:layoutTitle />
         </title>
 
-        <r:require modules="jquery, jquery_migration, application, generic, menu" />
-        <r:layoutResources />
+        <asset:javascript src="collectory.js" />
+
+        <asset:stylesheet src="elurikkus-common.css" />
+        <asset:stylesheet src="collectory.css" />
+
         <g:layoutHead />
     </head>
 
@@ -26,8 +29,5 @@
         </div>
 
         <g:render template="/footer" plugin="elurikkus-commons" />
-
-        <!-- JS resources-->
-        <r:layoutResources />
     </body>
 </html>

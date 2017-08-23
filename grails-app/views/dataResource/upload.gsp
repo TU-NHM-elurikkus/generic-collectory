@@ -8,7 +8,9 @@
             <g:message code="general.show.label" args="[entityName]" />
         </title>
         <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.3&sensor=false"></script>
-        <r:require modules="fileupload" />
+
+        <asset:javascript src="fileupload.js" />
+        <asset:stylesheet stc="fileupload.css" />
     </head>
 
     <body>
@@ -90,7 +92,7 @@
             </g:each>
         </div>
 
-        <r:script>
+        <script>
             function loadConnParams(){
                 $('#connectionParams').html('');
 
@@ -105,6 +107,6 @@
 
                 loadConnParams();
             })
-        </r:script>
+        </script>
     </body>
 </html>

@@ -75,7 +75,7 @@
                                 </h1>
                             </div>
 
-                            <div class="card-block">
+                            <div class="card-body">
                                 <!-- Data Provider --><!-- ALA Partner -->
                                 <g:if test="${instance.dataProvider}">
                                     <h2 style="display: inline">
@@ -182,7 +182,7 @@
                                 </h2>
                             </div>
 
-                            <div class="card-block">
+                            <div class="card-body">
                                 <!-- Pub Short Desc -->
                                 <span class="category">
                                     <g:message code="collection.show.pubShort"  default="Public short description" />
@@ -263,7 +263,7 @@
                                 </h2>
                             </div>
 
-                            <div class="card-block">
+                            <div class="card-body">
                                 <p>
                                     These values the default values displayed for any images loaded for this data resource.
                                 </p>
@@ -284,7 +284,7 @@
                                 </h2>
                             </div>
 
-                            <div class="card-block">
+                            <div class="card-body">
                                 <!-- range -->
                                 <cl:taxonomicRangeDescription obj="${instance.taxonomyHints}" key="range" />
 
@@ -302,7 +302,7 @@
                                 </h2>
                             </div>
 
-                            <div class="card-block">
+                            <div class="card-body">
                                 <g:if test="${instance.gbifDataset}">
                                     <cl:ifGranted role="${ProviderGroup.ROLE_ADMIN}">
                                         <div class="float-right">
@@ -451,7 +451,7 @@
                                 </h3>
                             </div>
 
-                            <div class="card-block">
+                            <div class="card-body">
                                 <p>
                                     <g:link controller="dataResource" action="upload" id="${instance.uid}">
                                         <button class="erk-button erk-button--light">
@@ -471,7 +471,7 @@
                                 </h2>
                             </div>
 
-                            <div class="card-block">
+                            <div class="card-body">
                                 <!-- citation -->
                                 <p>
                                     <span class="category">

@@ -27,7 +27,7 @@
         </h2>
     </div>
 
-    <div class="card-block">
+    <div class="card-body">
         <g:if test="${fieldValue(bean: image, field: 'file')}">
             <div class="media">
                 <a class="float-left" href="#">

@@ -7,12 +7,14 @@
                 ${fieldValue(bean: instance, field: "name")}
             </cl:pageTitle>
         </title>
-        <r:require modules="jquery, fancybox, jquery_jsonp, jstree, jquery_ui_custom, charts, datadumper, jquery_i18n" />
-        <r:script>
+
+        <asset:javascript src="public-show-data-resource.js" />
+
+        <script>
             // define biocache server
             bieUrl = "${grailsApplication.config.bie.serviceURL}";
             loadLoggerStats = ${!grailsApplication.config.disableLoggerLinks.toBoolean()};
-        </r:script>
+        </script>
     </head>
 
     <body class="nav-datasets">
@@ -121,7 +123,7 @@
 
             <div class="row">
                 <div class="col-md-9">
-                    <div class="card card-block">
+                    <div class="card card-body">
                         <g:if test="${instance.pubDescription || instance.techDescription || instance.focus}">
                             <h2>
                                 <g:message code="public.des" />
@@ -231,7 +233,7 @@
                                 </div>
                             </a>
 
-                            <div id="usage-card-content" class="card-block collapse">
+                            <div id="usage-card-content" class="card-body collapse">
                                 <div id="usage">
                                     <p>
                                         <g:message code="public.usage.des" />...
@@ -253,7 +255,7 @@
                                 </h2>
                             </div>
 
-                            <div class="card-block">
+                            <div class="card-body">
                                 <p>
                                     <span id="numBiocacheRecords">
                                         <g:message code="public.sdr.content.des04" />
@@ -274,7 +276,7 @@
                                 <cl:downloadPublicArchive uid="${instance.uid}" available="${instance.publicArchiveAvailable}" />
                             </div>
 
-                            <div class="card-block">
+                            <div class="card-body">
                                 <div id="recordsBreakdown" class="section vertical-charts">
                                     <g:if test="${!grailsApplication.config.disableOverviewMap}">
                                         <h3>
@@ -544,6 +546,7 @@
             var taxonomyTreeOptions = {
                 /* base url of the collectory */
                 collectionsUrl: CHARTS_CONFIG.collectionsUrl,
+                serverUrl: CHARTS_CONFIG.collectionsUrl,
                 /* base url of the biocache ws*/
                 biocacheServicesUrl: CHARTS_CONFIG.biocacheServicesUrl,
                 /* base url of the biocache webapp*/

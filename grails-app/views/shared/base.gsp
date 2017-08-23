@@ -29,7 +29,7 @@
                 </g:else>
             </div>
 
-            <div id="baseForm" class="body card-block">
+            <div id="baseForm" class="body card-body">
                 <g:if test="${message}">
                     <div class="message">
                         ${message}

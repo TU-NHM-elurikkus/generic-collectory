@@ -11,7 +11,9 @@
             <g:message code="general.show.label" args="[entityName]" />
         </title>
         <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.3&key=${Holders.config.google.apikey}"></script>
-        <r:require module="collectory" />
+
+        <asset:javascript src="collectory.js" />
+        <asset:stylesheet src="collectory.css" />
     </head>
 
     <body>
@@ -93,7 +95,7 @@
                 <cl:partner test="${instance.institution?.isALAPartner}" />
                 <br />
 
-                <div class="card card-block">
+                <div class="card card-body">
                     <!-- GUID    -->
                     <p>
                         <span class="category">
@@ -156,7 +158,7 @@
                         </h2>
                     </div>
 
-                    <div class="card-block">
+                    <div class="card-body">
                         <span class="category"><g:message code="collection.show.span04" /></span>
                         <br />
                         <cl:formattedText body="${instance.pubDescription}" />
@@ -249,7 +251,7 @@
                     </h2>
                 </div>
 
-                <div class="card-block">
+                <div class="card-body">
                     <table>
                         <colgroup>
                             <col width="25%" />
@@ -343,7 +345,7 @@
                     </h2>
                 </div>
 
-                <div class="card-block">
+                <div class="card-body">
                     <table>
                         <colgroup>
                             <col width="25%" />
@@ -393,7 +395,7 @@
                     </h2>
                 </div>
 
-                <div class="card-block">
+                <div class="card-body">
                     <!-- estimate of records -->
                     <g:if test="${fieldValue(bean: instance, field: 'numRecords') != '-1'}">
                         <p>
@@ -438,7 +440,7 @@
                     </h2>
                 </div>
 
-                <div class="card-block">
+                <div class="card-body">
                     <p>
                         <g:message code="collection.show.des14" />.
                     </p>

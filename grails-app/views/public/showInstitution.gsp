@@ -10,8 +10,10 @@
             </cl:pageTitle>
         </title>
         <script type="text/javascript" language="javascript" src="https://www.google.com/jsapi"></script>
-        <r:require modules="jquery, fancybox, jquery_jsonp, charts" />
-        <r:script type="text/javascript">
+
+        <asset:javascript src="public-show.js" />
+
+        <script type="text/javascript">
             biocacheServicesUrl = "${grailsApplication.config.biocacheServicesUrl}";
             biocacheWebappUrl = "${grailsApplication.config.biocacheUiURL}";
             loadLoggerStats = ${!grailsApplication.config.disableLoggerLinks.toBoolean()};
@@ -31,7 +33,7 @@
                     'width': 300
                 });
             });
-        </r:script>
+        </script>
     </head>
 
     <body>
@@ -140,7 +142,7 @@
                             </h4>
                         </div>
 
-                        <div class="card-block">
+                        <div class="card-body">
                             <ol class="erk-olist">
                                 <g:each var="c" in="${instance.listCollections().sort { it.name }}">
                                     <li class="erk-olist__item">
@@ -162,7 +164,7 @@
                             </h4>
                         </div>
 
-                        <div class="card-block">
+                        <div class="card-body">
                             <div>
                                 <p>
                                     <span id="numBiocacheRecords">
@@ -193,7 +195,7 @@
                             </div>
                         </a>
 
-                        <div id="usage" class="collapse card-block">
+                        <div id="usage" class="collapse card-body" data-parent="#usage-stats">
                             <p>
                                 <g:message code="public.usage.des" />...
                             </p>
@@ -329,7 +331,7 @@
             </div><!--close content-->
         </div>
 
-        <r:script type="text/javascript">
+        <script type="text/javascript">
               // configure the charts
               var facetChartOptions = {
                   /* base url of the collectory */
@@ -409,6 +411,6 @@
 
             google.load("visualization", "1", {packages:["corechart"]});
             google.setOnLoadCallback(onLoadCallback);
-        </r:script>
+        </script>
     </body>
 </html>

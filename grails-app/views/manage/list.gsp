@@ -7,7 +7,6 @@
             <g:message code="manage.show.title" />
         </title>
         <meta name="layout" content="${grailsApplication.config.skin.layout}" />
-        <r:require modules="smoothness, collectory, jquery_ui_custom" />
     </head>
 
     <body>
