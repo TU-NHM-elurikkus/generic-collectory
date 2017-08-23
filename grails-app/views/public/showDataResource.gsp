@@ -10,9 +10,6 @@
 
         <asset:javascript src="public-show-data-resource.js" />
 
-        <asset:stylesheet src="fancybox.css" />
-        <asset:stylesheet src="jqury-ui.css" />
-
         <script>
             // define biocache server
             bieUrl = "${grailsApplication.config.bie.serviceURL}";

@@ -15,12 +15,8 @@
 
         <asset:javascript src="collectory.js" />
 
-        <asset:stylesheet src="generic.css" />
         <asset:stylesheet src="elurikkus-common.css" />
         <asset:stylesheet src="collectory.css" />
-        <asset:stylesheet src="jquery-ui.css" />
-        <asset:stylesheet src="fancybox.css" />
-        <asset:stylesheet src="openlayers.css" />
 
         <g:layoutHead />
     </head>

@@ -13,9 +13,6 @@
 
         <asset:javascript src="public-show.js" />
 
-        <asset:stylesheet src="fancybox.css" />
-        <asset:stylesheet src="jqury-ui.css" />
-
         <script type="text/javascript">
             biocacheServicesUrl = "${grailsApplication.config.biocacheServicesUrl}";
             biocacheWebappUrl = "${grailsApplication.config.biocacheUiURL}";
