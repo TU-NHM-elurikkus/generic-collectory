@@ -50,9 +50,6 @@ class UrlMappings {
         // data sets
         "/datasets" (controller: 'public', action: 'dataSets')
 
-        // self-service
-        //"/manage" (controller: 'manage', action: 'index')
-
         // data services
         "/ws/$entity/count/$groupBy?" (controller:'data', action: 'count') {
             constraints {
