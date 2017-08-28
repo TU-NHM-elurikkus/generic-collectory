@@ -73,7 +73,7 @@ if(!speciesListToolUrl){
 }
 
 if(!alertResourceName){
-    alertResourceName = "Atlas"
+    alertResourceName = "eElurikkus"
 }
 if(!uploadFilePath){
     uploadFilePath = "/data/${appName}/upload/"
@@ -93,7 +93,7 @@ reloadable.cfgs = ["file:/data/${appName}/config/${appName}-config.properties"]
 *  TEMPLATES
 \******************************************************************************/
 if (!citation.template) {
-    citation.template = 'Records provided by @entityName@, accessed through ALA website.'
+    citation.template = 'Records provided by @entityName@, accessed through eElurikkus website.'
 }
 if (!citation.link.template) {
     citation.link.template = 'For more information: @link@'
@@ -108,43 +108,43 @@ if (!resource.publicArchive.url.template) {
 *  ADDITIONAL CONFIG
 \******************************************************************************/
 if(!projectNameShort){
-    projectNameShort="Atlas"
+    projectNameShort="eElurikkus"
 }
 if(!projectName){
-    projectName="Atlas of Living Australia"
+    projectName="eElurikkus"
 }
 if(!regionName){
-    regionName="Australia"
+    regionName="Estonia"
 }
 if(!collectionsMap.centreMapLon){
-    collectionsMap.centreMapLon = '134'
+    collectionsMap.centreMapLon = '58.3735552'
 }
 if(!collectionsMap.centreMapLat){
-    collectionsMap.centreMapLat = '-28.2'
+    collectionsMap.centreMapLat = '26.7169192'
 }
 if(!collectionsMap.defaultZoom){
     collectionsMap.defaultZoom = '2'
 }
 if(!eml.organizationName){
-    eml.organizationName="Atlas of Living Australia (ALA)"
+    eml.organizationName="eElurikkus"
 }
 if(!eml.deliveryPoint){
-    eml.deliveryPoint="CSIRO Black Mountain Laboratories, Clunies Ross Street, ACTON"
+    eml.deliveryPoint="Vanemuise 46"
 }
 if(!eml.city){
-    eml.city="Canberra"
+    eml.city="Tartu"
 }
 if(!eml.administrativeArea){
-    eml.administrativeArea="ACT"
+    eml.administrativeArea="Tartumaa"
 }
 if(!eml.postalCode){
-    eml.postalCode="2601"
+    eml.postalCode="51014"
 }
 if(!eml.country){
-    eml.country="Australia"
+    eml.country="Estonia"
 }
 if(!eml.electronicMailAddress){
-    eml.electronicMailAddress = "info@ala.org.au"
+    eml.electronicMailAddress = "info@elurikkus.ut.ee"
 }
 //
 ///******* standard grails **********/
