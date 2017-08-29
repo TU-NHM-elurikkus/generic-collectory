@@ -24,11 +24,12 @@
 }
 
 .dataset {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 4px;
 }
 
 .dataset__row-header {
-    padding-top: 8px;
-    border-top: 1px solid silver;
+    padding: 0.5em 0;
 
     font-size: 14px;
     font-weight: 700;
@@ -40,7 +41,6 @@
 
 .dataset__row-summary {
     padding-left: 20px;
-    margin-bottom: 1em;
 }
 
 .dataset__summary-part {
@@ -50,10 +50,10 @@
 .dataset__label {
     display: inline;
     margin-bottom: 0;
-    font-weight: 700;
 }
 
 .dataset__row-details {
+    margin-top: 0.5em;
     padding-left: 20px;
 }
 

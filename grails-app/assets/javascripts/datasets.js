@@ -123,7 +123,7 @@ function appendResource(value) {
     // resource type
     $rowSummary.append(
         '<span class="dataset__summary-part">' +
-            '<label class="dataset__summary-label">' +
+            '<label class="dataset__label">' +
                 jQuery.i18n.prop('datasets.js.appendresource06') + ': ' +
             '</label>' +
             value.resourceType +
@@ -159,6 +159,8 @@ function appendResource(value) {
         $rowSummary.append(
             '<span class="dataset__summary-part">' +
                 '<a href="' + biocacheUrl + '/occurrences/search?q=data_resource_uid:' + value.uid + '">' +
+                    '<span class="fa fa-list"></span>' +
+                    '&nbsp;' +
                     jQuery.i18n.prop('datasets.js.appendresource10') +
                 '</a>' +
             '</span>'
