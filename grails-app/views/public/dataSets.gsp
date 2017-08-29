@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -9,6 +9,7 @@
 
         <asset:javascript src="datasets.js" />
         <asset:javascript src="jquery-plugins/jQueryRotateCompressed.2.1.js" />
+        <asset:stylesheet src="filters.css" />
 
         <script type="text/javascript">
             var altMap = true;
@@ -77,13 +78,6 @@
 
                     <%-- List of active filters populated by javascript. --%>
                     <div id="currentFilterHolder"></div>
-
-                    <%--
-                        TODO: Remove all filters. Maybe. Seems unnecessary now.
-                        <button id="reset" onclick="javascript:reset()" title="Remove all filters and sorting options" class="erk-button erk-button--light">
-                            <g:message code="public.datasets.drsearch.resetlist" /></a>
-                        </button>
-                    --%>
                 </div>
             </div>
 

@@ -276,27 +276,45 @@ function filterBy(filter, uidList) {
 
 /** displays the current filters **/
 function showFilters() {
-    $('p#currentFilter').remove();
+    $('#currentFilters').remove();
 
-    if(currentFilters.length > 0) {
-        // XXX
-        $('#currentFilterHolder').append(
-            '<p id="currentFilter">' +
-            '<b>Active Filters:&nbsp;</b>' +
-            '</p>'
-        );
+    if(currentFilters.length === 0) {
+        return;
     }
 
-    $.each(currentFilters, function(index, obj) {
-        var displayValue = obj.name == 'contains' ? obj.value : labelFor(obj.value);
+    $('#currentFilterHolder').append(
+        '<p id="currentFilters" class="active-filters">' +
+            '<span class="active-filters__title">' +
+                jQuery.i18n.prop('public.datasets.drsearch.currentfilters') +
+            '</span>' +
+            ' : &nbsp;' +
+        '</p>'
+    );
 
-        // XXX
-        $('p#currentFilter').append(
-            '<button class="erk-button erk-button--light erk-button--inline" onclick="removeFilter(\'' + obj.name + "','" + obj.value + '\',this);return false;">' +
-            labelFor(obj.name) + ': ' + displayValue + '&nbsp;<span>×</span>' +
-            '</button>\n'
+    var container = $('#currentFilters');
+
+    currentFilters.forEach(function(obj) {
+        var displayValue = obj.name == 'contains' ? obj.value : labelFor(obj.value);
+        var onclick = 'removeFilter(\'' + obj.name + '\',\'' + obj.value + '\',this);return false;';
+
+        container.append(
+            '<span class="active-filters__filter">' +
+                '<span class="active-filters__label">' +
+                    labelFor(obj.name) + ': ' + displayValue +
+                '</span>' +
+                '<span class="fa fa-close active-filters__close-button" onclick="' + onclick + '">' +
+                '</span>' +
+            '</span>'
         );
     });
+
+    if(currentFilters.length > 1) {
+        container.append(
+            '<span class="active-filters__clear-all-button" onclick="reset()">' +
+                jQuery.i18n.prop('public.datasets.drsearch.clearfilters') +
+            '</span>'
+        );
+    }
 }
 
 /** adds a filter and re-filters list**/
