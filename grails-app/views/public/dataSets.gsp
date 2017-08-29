@@ -30,8 +30,7 @@
         <%-- WEIRD --%>
         <div class="page-header">
             <h1 class="page-header__title">
-                ${grailsApplication.config.projectName}
-                <g:message code="public.datasets.header.title" />
+                <g:message code="public.datasets.title" />
             </h1>
 
             <div class="page-header__subtitle">

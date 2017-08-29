@@ -435,31 +435,36 @@ function showPaginator() {
     }
     var currentPage = Math.floor(offset / pageSize()) + 1;
     var maxPage = Math.ceil(total / pageSize());
-    var $pago = $("<div class='pagination'></div>");
+    var $pagination = $("<div class='pagination'></div>");
+
     // add prev
     if (offset > 0) {
-        $pago.append('<a href="javascript:prevPage();">« Previous</a></li>');
-    }
-    else {
-        $pago.append('« Previous</span>');
-    }
-    for (var i = 1; i <= maxPage && i<20; i++) {
-        if (i == currentPage) {
-            $pago.append('<span class="currentPage disabled">' + i + '</span>');
-        }
-        else {
-            $pago.append('<a href="javascript:gotoPage(' + i + ');">' + i + '</a>');
-        }
-    }
-    // add next
-    if ((offset + pageSize()) < total) {
-        $pago.append('<a href="javascript:nextPage();">Next »</a>');
-    }
-    else {
-        $pago.append('Next »');
+        $pagination.append(
+            '<a href="javascript:prevPage();" class="pagination__step">' +
+                jQuery.i18n.prop('general.paginate.prev') +
+            '</a>'
+        );
     }
 
-    $('div#navLinks').html($pago);
+    for (var i = 1; i <= maxPage && i < 20; i++) {
+        if (i == currentPage) {
+            $pagination.append('<span class="pagination__step pagination__step--current currentPage disabled">' + i + '</span>');
+        }
+        else {
+            $pagination.append('<a href="javascript:gotoPage(' + i + ');" class="pagination__step">' + i + '</a>');
+        }
+    }
+
+    // add next
+    if ((offset + pageSize()) < total) {
+        $pagination.append(
+            '<a href="javascript:nextPage();" class="pagination__step">' +
+                jQuery.i18n.prop('general.paginate.next') +
+            '</a>'
+        );
+    }
+
+    $('div#navLinks').html($pagination);
 }
 /** get current page size **/
 function pageSize() {

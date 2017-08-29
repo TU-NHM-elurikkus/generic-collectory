@@ -66,3 +66,7 @@
     padding-left: 0;
     list-style-position: inside;
 }
+
+.pagination__step {
+    padding-right: 0.5em;
+}
