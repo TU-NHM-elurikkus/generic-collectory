@@ -138,7 +138,7 @@
                             </form>
                         </div><!--drop downs-->
 
-                        <div id="results">
+                        <div id="results-container">
                             <div id="loading">
                                 <g:message code="public.datasets.loading" /> ..
                             </div>

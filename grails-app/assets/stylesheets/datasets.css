@@ -22,3 +22,47 @@
 .datasets-facet__value {
     padding: 3px 0;
 }
+
+.dataset {
+}
+
+.dataset__row-header {
+    padding-top: 8px;
+    border-top: 1px solid silver;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.dataset__row-header img {
+    cursor: pointer;
+}
+
+.dataset__row-summary {
+    padding-left: 20px;
+    margin-bottom: 1em;
+}
+
+.dataset__summary-part {
+    margin-right: 10px;
+}
+
+.dataset__label {
+    display: inline;
+    margin-bottom: 0;
+    font-weight: 700;
+}
+
+.dataset__row-details {
+    padding-left: 20px;
+}
+
+.dataset__description {
+    padding-bottom: 1px !important;
+    overflow: hidden;
+}
+
+.dataset__content-type-list {
+    padding-left: 0;
+    list-style-position: inside;
+}

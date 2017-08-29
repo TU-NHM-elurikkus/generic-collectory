@@ -78,87 +78,157 @@ function loadResources(serverUrl, biocacheRecordsUrl) {
 /** display a page **/
 function displayPage() {
     // clear list
-    $('#results div').remove();
+    $('#results-container div').remove();
 
     // paginate and show list
     for (var i = 0; i < pageSize(); i++) {
         var item = resources[offset + i];
+
         // item will be undefined if there are less items than the page size
         if (item != undefined) {
             appendResource(item);
         }
     }
+
     activateClicks();
     showPaginator();
 }
+
 /** append one resource to the list **/
 function appendResource(value) {
     // clear the loading sign
     $('#loading').remove();
 
     // create a container inside results
-    var $div = $('<div class="result"></div>');
-    $('#results').append($div);
+    var $container = $('<div class="dataset"></div>');
 
-    // add three 'rows'
-    var $rowA = $('<h4 class="rowA"></h4>').appendTo($div);
-    var $rowB = $('<p class="rowB"></p>').appendTo($div);
-    var $rowC = $('<div class="rowC" style="display:none;">').appendTo($div);  // starts hidden
+    $('#results-container').append($container);
 
-    // row A
-    $rowA.append('<img title="'+ jQuery.i18n.prop('datasets.js.appendresource01') + '" src="' + baseUrl + '/assets/skin/ExpandArrow.png"/>');  // twisty
-    $rowA.append('<span class="result-name"><a title="' + jQuery.i18n.prop('datasets.js.appendresource02') + '" href="' + baseUrl + '/public/showDataResource/' + value.uid + '">' + value.name + '</a></span>'); // name
-    $rowA.find('a').tooltip(tooltipOptions);
-    $rowA.find('img').tooltip($.extend({},tooltipOptions,{position:'center left'}));
+    // Row: header
+    var $rowHeader = $('<div class="dataset__row-header"></div>');
 
-    // row B
-    $rowB.append('<span><strong class="resultsLabelFirst">'+ jQuery.i18n.prop('datasets.js.appendresource06') +': </strong>' + value.resourceType + '</span>');  // resource type
-    $rowB.append('<span><strong class="resultsLabel">'+ jQuery.i18n.prop('datasets.js.appendresource07') +': </strong>' + (value.licenseType == null ? '' : value.licenseType) + '</span>'); // license type
-    $rowB.append('<span><strong class="resultsLabel">'+ jQuery.i18n.prop('datasets.js.appendresource08') +': </strong>' + (value.licenseVersion == null ? '' : value.licenseVersion) + '</span>'); // license version
-    if (value.resourceType == 'records') {
-        $rowB.append('<span class="viewRecords"><a title="' + jQuery.i18n.prop('datasets.js.appendresource03') + '" href="' + biocacheUrl + '/occurrences/search?q=data_resource_uid:' + value.uid + '">'+ jQuery.i18n.prop('datasets.js.appendresource10') +'</a></span>'); // records link
+    $rowHeader.append('<img src="' + baseUrl + '/assets/skin/ExpandArrow.png"/>');
+
+    $rowHeader.append(
+        '<span class="result-name">' +
+            '<a href="' + baseUrl + '/public/showDataResource/' + value.uid + '">' +
+                value.name +
+            '</a>' +
+        '</span>'
+    ); // name
+
+    // Row: summary
+    var $rowSummary = $('<div class="dataset__row-summary"></div>');
+
+    // resource type
+    $rowSummary.append(
+        '<span class="dataset__summary-part">' +
+            '<label class="dataset__summary-label">' +
+                jQuery.i18n.prop('datasets.js.appendresource06') + ': ' +
+            '</label>' +
+            value.resourceType +
+        '</span>'
+    );
+
+    if(value.licenseType) {
+        // license type
+        $rowSummary.append(
+            '<span class="dataset__summary-part">' +
+                '<label class="dataset__label">' +
+                    jQuery.i18n.prop('datasets.js.appendresource07') +': ' +
+                '</label>' +
+                value.licenseType +
+            '</span>'
+        );
     }
-    if (value.resourceType == 'website' && value.websiteUrl) {
-        $rowB.append('<span class="viewWebsite"><a title="' + jQuery.i18n.prop('datasets.js.appendresource04') + '" class="external" target="_blank" href="' + value.websiteUrl + '">'+ jQuery.i18n.prop('datasets.js.appendresource11') +'</a></span>'); // website link
+
+    if(value.licenseVersion) {
+        // license version
+        $rowSummary.append(
+            '<span class="dataset__summary-part">' +
+                '<label class="dataset__label">' +
+                    jQuery.i18n.prop('datasets.js.appendresource08') + ': ' +
+                '</strong>' +
+                value.licenseVersion +
+            '</span>'
+        );
     }
-    $rowB.find('a').tooltip(tooltipOptions);
+
+    if(value.resourceType == 'records') {
+        // records link
+        $rowSummary.append(
+            '<span class="dataset__summary-part">' +
+                '<a href="' + biocacheUrl + '/occurrences/search?q=data_resource_uid:' + value.uid + '">' +
+                    jQuery.i18n.prop('datasets.js.appendresource10') +
+                '</a>' +
+            '</span>'
+        );
+    }
+
+    if(value.resourceType == 'website' && value.websiteUrl) {
+        // website link
+        $rowSummary.append(
+            '<span class="dataset__summary-part">' +
+                '<a class="external" target="_blank" href="' + value.websiteUrl + '">' +
+                    jQuery.i18n.prop('datasets.js.appendresource11') +
+                '</a>' +
+            '</span>'
+        );
+    }
 
     // row C
+    var $rowDetails = $('<div class="dataset__row-details" style="display:none;">');  // starts hidden
+
     var desc = "";
-    if (value.pubDescription != null && value.pubDescription != "") {
+
+    if (value.pubDescription) {
         desc += value.pubDescription;
     }
-    if (value.techDescription != null && value.techDescription != "") {
+    if (value.techDescription) {
         desc += value.techDescription;
     }
+
     if (desc != "") {
-        $rowC.append('<p>' + desc + '</p>'); // description
+        $rowDetails.append('<div class="dataset__description">' + desc + '</div>'); // description
     }
 
     if (value.contentTypes != null) {
-        $rowC.append('<span><strong class="resultsLabel">'+ jQuery.i18n.prop('datasets.js.appendresource09') +':</strong></span>'); // label for content types
-        var $ul = $('<ul class="contentList"></ul>').appendTo($rowC);
+        // label for content types
+        $rowDetails.append(
+            '<span>'+
+                '<label class="dataset__label">' +
+                    jQuery.i18n.prop('datasets.js.appendresource09') +' :' +
+                '</label>' +
+            '</span>'
+        );
+
+        var $ul = $('<ul class="dataset__content-type-list"></ul>').appendTo($rowDetails);
         var ctList = $.parseJSON(value.contentTypes);
         $.each(ctList, function(i,v) {
-            $ul.append("<li>" + v + "</li>");
+            $ul.append('<li>' + v + "</li>");
         });
     }  // content types
 
-    if ($rowC.children().length == 0) {
-        $rowC.append(jQuery.i18n.prop('datasets.js.appendresource05'));
+    if ($rowDetails.children().length == 0) {
+        $rowDetails.append(jQuery.i18n.prop('datasets.js.appendresource05'));
     }
+
+    // Wrap
+    $container.append($rowHeader);
+    $container.append($rowSummary);
+    $container.append($rowDetails);
 }
 
 /** bind click handler to twisty **/
 function activateClicks() {
-    $('.rowA img').rotate({
+    $('.dataset__row-header img').rotate({
         bind:
             {
                 click: function() {
                     // hide tooltip
                     hideTooltip(this);
 
-                    var $target = $(this).parent().parent().find('.rowC');
+                    var $target = $(this).parent().parent().find('.dataset__row-details');
                     if ($target.css('display') == 'none') {
                         $(this).rotate({animateTo:90,duration:350});
                     }
