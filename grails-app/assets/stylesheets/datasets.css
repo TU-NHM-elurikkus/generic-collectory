@@ -1,0 +1,24 @@
+/*
+*= require filters
+*/
+
+.datasets-header {
+    font-size: 15px;
+    margin-bottom: 1em;
+}
+
+.datasets-facet {
+}
+
+.datasets-facet__header {
+    font-size: 14px;
+}
+
+.datasets-facet__values {
+    padding: 0;
+    list-style: none;
+}
+
+.datasets-facet__value {
+    padding: 3px 0;
+}

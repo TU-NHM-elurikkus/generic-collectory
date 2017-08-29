@@ -508,6 +508,7 @@ var facets = {
 /** calculate facet totals and display them **/
 function calculateFacets() {
     $('#dsFacets div').remove();
+
     $.each(facets, function(i, obj) {
         if (obj.name != 'contains') {
             var list = sortByCount(getSetOfFacetValuesAndCounts(obj));
@@ -551,32 +552,36 @@ function addToMap(map, attr) {
     }
 }
 
+var SHOWN_FACET_VALUE_COUNT = 5;
+
 /** Creates DOM elements to represent the facet **/
 function displayFacet(facet, list) {
-    // create dom container
-    var $div = $("<div></div>");
+    // add facet header
+    var $header = $('<h4 class="datasets-facet__header">' + facet.display + '</h4>');
 
-    // add facet name
-    var help = facet.help == undefined ? '' : 'title="' + facet.help + '"';
-
-    $div.append('<h4 class="><span ' + help + ' class="FieldName">' + facet.display + '</span></h4>');
-    $div.find('h4 span[title]').tooltip(tooltipOptions);
+    $header.tooltip(tooltipOptions);
 
     // add each value
-    var $list = $('<ul class="facets"></ul>').appendTo($div);
+    var $list = $('<ul class="datasets-facet__values"></ul>');
 
-    $.each(list, function(index, value) {
-        // only show first 5 + a 'more' link if the list has more than 6 items
-        if(list.length > 6 && index == 5) {
-            // add link to show more
-            $list.append(moreLink());
-            // add this item as hidden
-            $list.append(displayFacetValue(facet, value, true));
-        } else {
-            // create as hidden after the first 5
-            $list.append(displayFacetValue(facet, value, index > 5));
-        }
+    list.slice(0, SHOWN_FACET_VALUE_COUNT).forEach(function(value) {
+        $list.append(displayFacetValue(facet, value, false));
     });
+
+    // remaining values are added as hidden
+    if(list.length > SHOWN_FACET_VALUE_COUNT) {
+        $list.append(moreLink());
+
+        list.slice(SHOWN_FACET_VALUE_COUNT).forEach(function(value) {
+            $list.append(displayFacetValue(facet, value, true));
+        });
+    }
+
+    // wrap
+    var $div = $('<div class="datasets-facet"></div>');
+
+    $div.append($header);
+    $div.append($list);
 
     return $div;
 }
@@ -608,19 +613,30 @@ function lessLink() {
 function displayFacetValue(facet, value, hide) {
     var attr = value.facetValue;
     var count = value.count;
-    var help = helpText[attr] == undefined ? '' : ' title="' + helpText[attr] + '"';
-    var $item = $('<li></li>');
+
+    var $item = $(
+        '<li class="datasets-facet__value">' +
+            '<span class="fa fa-square-o"></span>' +
+            '&nbsp;' +
+        '</li>'
+    );
+
     if (hide) {
         $item.css('display','none');
     }
-    var $link = $('<span class="erk-link"' + help + '>' + labelFor(attr) + '</span>').appendTo($item);
+
+    var $link = $(
+        '<span class="erk-link">' +
+            labelFor(attr) + ' (' + count + ')' +
+        '</span>'
+    );
+
     $link.click(function() {
         addFilter(facet.name, attr, this);
     });
-    $item.append(' (<span>' + count + '</span>)');
-    if (help) {
-        $link.tooltip(tooltipOptions);
-    }
+
+    $item.append($link);
+
     return $item
 }
 

@@ -9,7 +9,7 @@
 
         <asset:javascript src="datasets.js" />
         <asset:javascript src="jquery-plugins/jQueryRotateCompressed.2.1.js" />
-        <asset:stylesheet src="filters.css" />
+        <asset:stylesheet src="datasets.css" />
 
         <script type="text/javascript">
             var altMap = true;
@@ -90,13 +90,14 @@
                 </div<
             </g:if>
 
+            <div class="datasets-header">
+                <span class="fa fa-info-circle"></span>
+                <g:message code="public.datasets.sidebar.header" />
+            </div>
+
             <div class="collectory-content row">
                 <div class="col-sm-5 col-md-5 col-lg-3">
                     <div class="card card-body filters-container">
-                        <h2 class="card-title">
-                            <g:message code="public.datasets.sidebar.header" />
-                        </h2>
-
                         <div id="dsFacets"></div>
                     </div>
                 </div>
