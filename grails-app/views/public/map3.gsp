@@ -1,4 +1,4 @@
-"<html>
+<html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="${grailsApplication.config.skin.layout}" />
@@ -13,12 +13,31 @@
             <div id="content">
                 <div id="header" class="page-header">
                     <h1 class="page-header__title">
-                        ${grailsApplication.config.regionName}<g:message code="public.map3.header.title" />
+                        <g:message code="public.map3.title" />
                     </h1>
 
                     <div class="page-header__subtitle">
                         <g:message code="public.map3.header.description" args="[grailsApplication.config.projectNameShort, grailsApplication.config.regionName]" />
                     </div>
+                </div>
+
+                <div>
+                    <p class="active-filters vertical-block">
+                        <span class="active-filters__title">
+                            <g:message code="activefilters.title" />:
+                        </span>
+
+                        <span class="active-filters__filter">
+                            <span id="numFeatures"></span>
+                            <span id="numVisible"></span>
+                            <span id="numUnMappable"></span>
+                        </span>
+                    </p>
+
+                    <p class="vertical-block">
+                        <span class="fa fa-info-circle"></span>
+                        <g:message code="public.map3.filtercollections" />
+                    </p>
                 </div>
 
                 <g:if test="${flash.message}">
@@ -28,13 +47,7 @@
                 </g:if>
 
                 <div class="row">
-                    <div class="col-sm-5 col-md-3">
-                        <div class="section">
-                            <p>
-                                <g:message code="public.map3.description" />.
-                            </p>
-                        </div>
-
+                    <div class="col-md-5">
                         <div class="section filter-buttons">
                             <div class="all selected" id="all" onclick="toggleButton(this);return false;">
                                 <h2>
@@ -43,6 +56,7 @@
                                         <g:message code="public.map3.link.allcollections" />
 
                                         <span id="allButtonTotal">
+                                            <%-- XXX NOT USED! OR RATHER: OVERWRITTEN BY JS. --%>
                                             <g:message code="public.map3.link.showall" />
                                             <collections></collections>
                                         </span>
@@ -96,26 +110,16 @@
                             </div>
                         </div>
 
-                        <div id="collectionTypesFooter">
-                            <h4 class="collectionsCount">
-                                <span id="numFeatures"></span>
-                            </h4>
-
-                            <h4 class="collectionsCount">
-                                <span id="numVisible"></span>
-                                <br />
-                                <span id="numUnMappable"></span>
-                            </h4>
-                        </div>
-
+                        <%--
                         <div id="adminLink" class="dropdown" style="margin-top:110px;">
                             <g:link controller="manage" action="list" style="color:#DDDDDD; margin-top:80px;">
                                 <g:message code="public.map3.adminlink" />
                             </g:link>
                         </div>
+                        --%>
                     </div>
 
-                    <div class="col-sm-7 col-md-9" id="map-list-col">
+                    <div class="col-md-7" id="map-list-col">
                         <div class="tabbable">
                             <ul class="nav nav-tabs" id="home-tabs">
                                 <li class="nav-item">
@@ -136,19 +140,30 @@
                             <div class="tab-pane active" id="map">
                                 <div  class="map-column">
                                     <div class="section">
-                                        <p style="width:100%;padding-bottom:8px;">
+                                        <p>
+                                            <span class="fa fa-info-circle"></span>
                                             <g:message code="public.map3.maplistcol.des01" />.
+                                        <p>
+
+                                        <p class="vertical-block">
+                                            <%-- <span class="fa fa-info-circle"></span> --%>
+                                            <img src="${resource(dir:'images', file:'markermultiple.png')}" class="map-legend-img" />
+
+                                            <g:message code="public.map3.maplistcol.des02" />.
                                         </p>
 
                                         <div id="map-container">
                                             <div id="map_canvas"></div>
                                         </div>
 
-                                        <p style="text-align: center">
-                                            <img style="vertical-align: middle;" src="${resource(dir:'images', file:'markermultiple.png')}" width="20" height="20" />
+                                        <%--
+                                        <div class="map-footer">
+                                            <span class="fa fa-info-circle"></span>
+                                            <img src="${resource(dir:'images', file:'markermultiple.png')}" class="map-legend-img" />
+
                                             <g:message code="public.map3.maplistcol.des02" />.
-                                            <br />
-                                        </p>
+                                        </div>
+                                        --%>
                                     </div>
                                 </div>
                             </div>
@@ -157,12 +172,8 @@
                                 <div class="list-column">
                                     <div class="nameList section" id="names">
                                         <p>
-                                            <span id="numFilteredCollections">
-                                                <g:message code="public.map3.maplistcol.des03" />
-                                            </span>
-                                            .&nbsp;
+                                            <span class="fa fa-info-circle"></span>
                                             <g:message code="public.map3.maplistcol.des04" />&nbsp;
-                                            <img style="vertical-align:middle" src="${resource(dir:'assets/map', file:'nomap.gif')}" />.
                                         </p>
 
                                         <ul id="filtered-list">

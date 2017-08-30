@@ -5,7 +5,7 @@
   <meta name="layout" content="${grailsApplication.config.skin.layout}"/>
   <g:set var="entityName" value="${command.ENTITY_TYPE}"/>
   <g:set var="entityNameLower" value="${command.ENTITY_TYPE.toLowerCase()}"/>
-  <title><g:message code="default.show.label" args="[entityName]"/></title>
+  <title><g:message code="general.show.label" args="[entityName]"/></title>
 </head>
 <body>
   <div class="nav">
@@ -36,7 +36,7 @@
               <span class="contactButton buttonRight">
                 <g:link class="edit-small btn" controller="contact" action='edit' id="${cf.contact.id}"
                         params='[returnTo: "/${command.urlForm()}/edit/${command.id}?page=/shared/showContacts"]'>
-                  ${message(code: 'default.button.editContact.label', default: "Edit the contact's details")}
+                  ${message(code: 'general.button.editContact.label', default: "Edit the contact's details")}
                 </g:link>
               </span>
             </td></tr>
@@ -91,7 +91,7 @@
           <tr><td><g:message code="shared.scontact02.cell0101" /> ${entityNameLower}:</td>
           <td>
           <span class="button">
-            <g:link class="addAction btn" controller="contact" action='create' params='[returnTo:"/${command.urlForm()}/addNewContact/${command.id}"]' id="${command.id}">${message(code: 'default.button.addContact.label', default: 'Add new contact')}</g:link>
+            <g:link class="addAction btn" controller="contact" action='create' params='[returnTo:"/${command.urlForm()}/addNewContact/${command.id}"]' id="${command.id}">${message(code: 'general.button.addContact.label', default: 'Add new contact')}</g:link>
           </span>
           </td></tr>
         </table>

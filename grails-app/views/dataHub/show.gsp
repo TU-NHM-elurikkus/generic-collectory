@@ -5,7 +5,7 @@
         <meta name="layout" content="${grailsApplication.config.skin.layout}" />
         <g:set var="entityName" value="${instance.ENTITY_TYPE}" />
         <g:set var="entityNameLower" value="${cl.controller(type: instance.ENTITY_TYPE)}"/>
-        <title><g:message code="default.show.label" args="[entityName]" /></title>
+        <title><g:message code="general.show.label" args="[entityName]" /></title>
         <script async defer
                 src="https://maps.googleapis.com/maps/api/js?key=${grailsApplication.config.google?.apikey}"
                 type="text/javascript"></script>
@@ -21,8 +21,8 @@
         <div class="nav">
             <ul>
             <li><span class="menuButton"><cl:homeLink/></span></li>
-            <li><span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span></li>
-            <li><span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span></li>
+            <li><span class="menuButton"><g:link class="list" action="list"><g:message code="general.list.label" args="[entityName]" /></g:link></span></li>
+            <li><span class="menuButton"><g:link class="create" action="create"><g:message code="general.new.label" args="[entityName]" /></g:link></span></li>
             </ul>
         </div>
         <div class="body">
@@ -57,7 +57,7 @@
                 <!-- last edit -->
                 <p><span class="category"><g:message code="datahub.show.lastchange" />:</span> ${fieldValue(bean: instance, field: "userLastModified")} on ${fieldValue(bean: instance, field: "lastUpdated")}</p>
 
-                <div><span class="buttons"><g:link class="edit btn" action='edit' params="[page:'/shared/base']" id="${instance.id}">${message(code: 'default.button.edit.label', default: 'Edit')}</g:link></span></div>
+                <div><span class="buttons"><g:link class="edit btn" action='edit' params="[page:'/shared/base']" id="${instance.id}">${message(code: 'general.button.edit.label', default: 'Edit')}</g:link></span></div>
               </div>
 
               <!-- description -->
@@ -76,7 +76,7 @@
                 <div class="source">[Contribution]</div><div style="clear:both;"></div>
                 <cl:formattedText>${fieldValue(bean: instance, field: "focus")}</cl:formattedText>
 
-                <div><span class="buttons"><g:link class="edit btn" action='edit' params="[page:'description']" id="${instance.id}">${message(code: 'default.button.edit.label', default: 'Edit')}</g:link></span></div>
+                <div><span class="buttons"><g:link class="edit btn" action='edit' params="[page:'description']" id="${instance.id}">${message(code: 'general.button.edit.label', default: 'Edit')}</g:link></span></div>
               </div>
 
               <!-- members -->
@@ -107,7 +107,7 @@
                     </ul>
                 </g:if>
 
-                <div><span class="buttons"><g:link class="edit btn" action='edit' params="[page:'members']" id="${instance.id}">${message(code: 'default.button.edit.label', default: 'Edit')}</g:link></span></div>
+                <div><span class="buttons"><g:link class="edit btn" action='edit' params="[page:'members']" id="${instance.id}">${message(code: 'general.button.edit.label', default: 'Edit')}</g:link></span></div>
             </div>
 
               <!-- images -->
@@ -131,7 +131,7 @@
               <g:form>
                 <g:hiddenField name="id" value="${instance?.id}"/>
                 <cl:ifGranted role="${ProviderGroup.ROLE_ADMIN}">
-                  <span class="button"><g:actionSubmit class="delete btn btn-danger" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');"/></span>
+                  <span class="button"><g:actionSubmit class="delete btn btn-danger" action="delete" value="${message(code: 'general.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'general.button.delete.confirm.message', default: 'Are you sure?')}');"/></span>
                 </cl:ifGranted>
                 <span class="button"><cl:viewPublicLink uid="${instance?.uid}"/></span>
                 <span class="button"><cl:jsonSummaryLink uid="${instance.uid}"/></span>

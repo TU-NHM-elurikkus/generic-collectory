@@ -6,13 +6,13 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="${grailsApplication.config.skin.layout}" />
         <g:set var="entityName" value="${message(code: 'dataLink.label', default: 'DataLink')}" />
-        <title><g:message code="default.list.label" args="[entityName]" /></title>
+        <title><g:message code="general.list.label" args="[entityName]" /></title>
     </head>
     <body>
         <div class="nav">
             <ul>
             <li><span class="menuButton"><cl:homeLink/></span></li>
-            <li></li><span class="menuButton"><g:link class="create" action="create" params="${[consumer: consumer, provider: provider, returnTo: returnTo]}"><g:message code="default.new.label" args="[entityName]" /></g:link></span></li>
+            <li></li><span class="menuButton"><g:link class="create" action="create" params="${[consumer: consumer, provider: provider, returnTo: returnTo]}"><g:message code="general.new.label" args="[entityName]" /></g:link></span></li>
             <g:if test="${returnTo}"><span class="menuButton"><cl:returnLink uid="${returnTo}"/></span></g:if>
             </ul>
         </div>
@@ -22,7 +22,7 @@
             <h1>DataLinks for ${ProviderGroup._get(filter).name}</h1>
           </g:if>
           <g:else>
-            <h1><g:message code="default.list.label" args="[entityName]" /></h1>
+            <h1><g:message code="general.list.label" args="[entityName]" /></h1>
           </g:else>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>

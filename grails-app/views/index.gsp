@@ -6,7 +6,7 @@
     <title>ALA Web Theme - Home</title>
 </head>
 <body>
-%{--<a href="#page-body" class="skip"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>--}%
+%{--<a href="#page-body" class="skip"><g:message code="general.link.skip.label"/></a>--}%
 <div class="row-fluid">
     <div class="span3 well" id="status" role="complementary">
         <h3>Application status</h3>
