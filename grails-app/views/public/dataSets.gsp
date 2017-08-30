@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -8,7 +8,7 @@
         </title>
 
         <asset:javascript src="datasets.js" />
-        <asset:javascript src="jquery-plugins/jQueryRotateCompressed.2.1.js" />
+        <asset:stylesheet src="datasets.css" />
 
         <script type="text/javascript">
             var altMap = true;
@@ -29,8 +29,7 @@
         <%-- WEIRD --%>
         <div class="page-header">
             <h1 class="page-header__title">
-                ${grailsApplication.config.projectName}
-                <g:message code="public.datasets.header.title" />
+                <g:message code="public.datasets.title" />
             </h1>
 
             <div class="page-header__subtitle">
@@ -77,13 +76,6 @@
 
                     <%-- List of active filters populated by javascript. --%>
                     <div id="currentFilterHolder"></div>
-
-                    <%--
-                        TODO: Remove all filters. Maybe. Seems unnecessary now.
-                        <button id="reset" onclick="javascript:reset()" title="Remove all filters and sorting options" class="erk-button erk-button--light">
-                            <g:message code="public.datasets.drsearch.resetlist" /></a>
-                        </button>
-                    --%>
                 </div>
             </div>
 
@@ -96,13 +88,14 @@
                 </div<
             </g:if>
 
+            <div class="datasets-header">
+                <span class="fa fa-info-circle"></span>
+                <g:message code="public.datasets.sidebar.header" />
+            </div>
+
             <div class="collectory-content row">
                 <div class="col-sm-5 col-md-5 col-lg-3">
                     <div class="card card-body filters-container">
-                        <h2 class="card-title">
-                            <g:message code="public.datasets.sidebar.header" />
-                        </h2>
-
                         <div id="dsFacets"></div>
                     </div>
                 </div>
@@ -143,7 +136,7 @@
                             </form>
                         </div><!--drop downs-->
 
-                        <div id="results">
+                        <div id="results-container">
                             <div id="loading">
                                 <g:message code="public.datasets.loading" /> ..
                             </div>

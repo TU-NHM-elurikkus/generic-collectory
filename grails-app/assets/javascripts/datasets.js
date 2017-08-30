@@ -78,100 +78,110 @@ function loadResources(serverUrl, biocacheRecordsUrl) {
 /** display a page **/
 function displayPage() {
     // clear list
-    $('#results div').remove();
+    $('#results-container div').remove();
 
     // paginate and show list
     for (var i = 0; i < pageSize(); i++) {
         var item = resources[offset + i];
+
         // item will be undefined if there are less items than the page size
         if (item != undefined) {
             appendResource(item);
         }
     }
-    activateClicks();
+
     showPaginator();
 }
+
 /** append one resource to the list **/
 function appendResource(value) {
     // clear the loading sign
     $('#loading').remove();
 
     // create a container inside results
-    var $div = $('<div class="result"></div>');
-    $('#results').append($div);
+    var $container = $('<div class="dataset"></div>');
 
-    // add three 'rows'
-    var $rowA = $('<h4 class="rowA"></h4>').appendTo($div);
-    var $rowB = $('<p class="rowB"></p>').appendTo($div);
-    var $rowC = $('<div class="rowC" style="display:none;">').appendTo($div);  // starts hidden
+    $('#results-container').append($container);
 
-    // row A
-    $rowA.append('<img title="'+ jQuery.i18n.prop('datasets.js.appendresource01') + '" src="' + baseUrl + '/assets/skin/ExpandArrow.png"/>');  // twisty
-    $rowA.append('<span class="result-name"><a title="' + jQuery.i18n.prop('datasets.js.appendresource02') + '" href="' + baseUrl + '/public/showDataResource/' + value.uid + '">' + value.name + '</a></span>'); // name
-    $rowA.find('a').tooltip(tooltipOptions);
-    $rowA.find('img').tooltip($.extend({},tooltipOptions,{position:'center left'}));
+    // Row: header
+    var $rowHeader = $('<div class="dataset__row-header"></div>');
 
-    // row B
-    $rowB.append('<span><strong class="resultsLabelFirst">'+ jQuery.i18n.prop('datasets.js.appendresource06') +': </strong>' + value.resourceType + '</span>');  // resource type
-    $rowB.append('<span><strong class="resultsLabel">'+ jQuery.i18n.prop('datasets.js.appendresource07') +': </strong>' + (value.licenseType == null ? '' : value.licenseType) + '</span>'); // license type
-    $rowB.append('<span><strong class="resultsLabel">'+ jQuery.i18n.prop('datasets.js.appendresource08') +': </strong>' + (value.licenseVersion == null ? '' : value.licenseVersion) + '</span>'); // license version
-    if (value.resourceType == 'records') {
-        $rowB.append('<span class="viewRecords"><a title="' + jQuery.i18n.prop('datasets.js.appendresource03') + '" href="' + biocacheUrl + '/occurrences/search?q=data_resource_uid:' + value.uid + '">'+ jQuery.i18n.prop('datasets.js.appendresource10') +'</a></span>'); // records link
-    }
-    if (value.resourceType == 'website' && value.websiteUrl) {
-        $rowB.append('<span class="viewWebsite"><a title="' + jQuery.i18n.prop('datasets.js.appendresource04') + '" class="external" target="_blank" href="' + value.websiteUrl + '">'+ jQuery.i18n.prop('datasets.js.appendresource11') +'</a></span>'); // website link
-    }
-    $rowB.find('a').tooltip(tooltipOptions);
+    // $rowHeader.append('<img src="' + baseUrl + '/assets/skin/ExpandArrow.png"/>');
 
-    // row C
-    var desc = "";
-    if (value.pubDescription != null && value.pubDescription != "") {
-        desc += value.pubDescription;
-    }
-    if (value.techDescription != null && value.techDescription != "") {
-        desc += value.techDescription;
-    }
-    if (desc != "") {
-        $rowC.append('<p>' + desc + '</p>'); // description
+    $rowHeader.append(
+        '<span class="result-name">' +
+            '<a href="' + baseUrl + '/public/showDataResource/' + value.uid + '">' +
+                value.name +
+            '</a>' +
+        '</span>'
+    ); // name
+
+    // Row: summary
+    var $rowSummary = $('<div class="dataset__row-summary"></div>');
+
+    // resource type
+    $rowSummary.append(
+        '<span class="dataset__summary-part">' +
+            '<label class="dataset__label">' +
+                jQuery.i18n.prop('datasets.js.appendresource06') + ': ' +
+            '</label>' +
+            value.resourceType +
+        '</span>'
+    );
+
+    if(value.licenseType) {
+        // license type
+        $rowSummary.append(
+            '<span class="dataset__summary-part">' +
+                '<label class="dataset__label">' +
+                    jQuery.i18n.prop('datasets.js.appendresource07') +': ' +
+                '</label>' +
+                value.licenseType +
+            '</span>'
+        );
     }
 
-    if (value.contentTypes != null) {
-        $rowC.append('<span><strong class="resultsLabel">'+ jQuery.i18n.prop('datasets.js.appendresource09') +':</strong></span>'); // label for content types
-        var $ul = $('<ul class="contentList"></ul>').appendTo($rowC);
-        var ctList = $.parseJSON(value.contentTypes);
-        $.each(ctList, function(i,v) {
-            $ul.append("<li>" + v + "</li>");
-        });
-    }  // content types
-
-    if ($rowC.children().length == 0) {
-        $rowC.append(jQuery.i18n.prop('datasets.js.appendresource05'));
+    if(value.licenseVersion) {
+        // license version
+        $rowSummary.append(
+            '<span class="dataset__summary-part">' +
+                '<label class="dataset__label">' +
+                    jQuery.i18n.prop('datasets.js.appendresource08') + ': ' +
+                '</strong>' +
+                value.licenseVersion +
+            '</span>'
+        );
     }
+
+    if(value.resourceType == 'records') {
+        // records link
+        $rowSummary.append(
+            '<span class="dataset__summary-part">' +
+                '<a href="' + biocacheUrl + '/occurrences/search?q=data_resource_uid:' + value.uid + '">' +
+                    '<span class="fa fa-list"></span>' +
+                    '&nbsp;' +
+                    jQuery.i18n.prop('datasets.js.appendresource10') +
+                '</a>' +
+            '</span>'
+        );
+    }
+
+    if(value.resourceType == 'website' && value.websiteUrl) {
+        // website link
+        $rowSummary.append(
+            '<span class="dataset__summary-part">' +
+                '<a class="external" target="_blank" href="' + value.websiteUrl + '">' +
+                    jQuery.i18n.prop('datasets.js.appendresource11') +
+                '</a>' +
+            '</span>'
+        );
+    }
+
+    // Wrap
+    $container.append($rowHeader);
+    $container.append($rowSummary);
 }
 
-/** bind click handler to twisty **/
-function activateClicks() {
-    $('.rowA img').rotate({
-        bind:
-            {
-                click: function() {
-                    // hide tooltip
-                    hideTooltip(this);
-
-                    var $target = $(this).parent().parent().find('.rowC');
-                    if ($target.css('display') == 'none') {
-                        $(this).rotate({animateTo:90,duration:350});
-                    }
-                    else {
-                        $(this).rotate({animateTo:0,duration:350});
-                    }
-                    $target.slideToggle(350, function() {
-                    });
-                    return false;
-                }
-            }
-    });
-}
 /** clear the list and reset values **/
 function clearList() {
     resources = [];
@@ -276,27 +286,45 @@ function filterBy(filter, uidList) {
 
 /** displays the current filters **/
 function showFilters() {
-    $('p#currentFilter').remove();
+    $('#currentFilters').remove();
 
-    if(currentFilters.length > 0) {
-        // XXX
-        $('#currentFilterHolder').append(
-            '<p id="currentFilter">' +
-            '<b>Active Filters:&nbsp;</b>' +
-            '</p>'
-        );
+    if(currentFilters.length === 0) {
+        return;
     }
 
-    $.each(currentFilters, function(index, obj) {
-        var displayValue = obj.name == 'contains' ? obj.value : labelFor(obj.value);
+    $('#currentFilterHolder').append(
+        '<p id="currentFilters" class="active-filters">' +
+            '<span class="active-filters__title">' +
+                jQuery.i18n.prop('public.datasets.drsearch.currentfilters') +
+            '</span>' +
+            ' : &nbsp;' +
+        '</p>'
+    );
 
-        // XXX
-        $('p#currentFilter').append(
-            '<button class="erk-button erk-button--light erk-button--inline" onclick="removeFilter(\'' + obj.name + "','" + obj.value + '\',this);return false;">' +
-            labelFor(obj.name) + ': ' + displayValue + '&nbsp;<span>×</span>' +
-            '</button>\n'
+    var container = $('#currentFilters');
+
+    currentFilters.forEach(function(obj) {
+        var displayValue = obj.name == 'contains' ? obj.value : labelFor(obj.value);
+        var onclick = 'removeFilter(\'' + obj.name + '\',\'' + obj.value + '\',this);return false;';
+
+        container.append(
+            '<span class="active-filters__filter">' +
+                '<span class="active-filters__label">' +
+                    labelFor(obj.name) + ': ' + displayValue +
+                '</span>' +
+                '<span class="fa fa-close active-filters__close-button" onclick="' + onclick + '">' +
+                '</span>' +
+            '</span>'
         );
     });
+
+    if(currentFilters.length > 1) {
+        container.append(
+            '<span class="active-filters__clear-all-button" onclick="reset()">' +
+                jQuery.i18n.prop('public.datasets.drsearch.clearfilters') +
+            '</span>'
+        );
+    }
 }
 
 /** adds a filter and re-filters list**/
@@ -345,31 +373,36 @@ function showPaginator() {
     }
     var currentPage = Math.floor(offset / pageSize()) + 1;
     var maxPage = Math.ceil(total / pageSize());
-    var $pago = $("<div class='pagination'></div>");
+    var $pagination = $("<div class='pagination'></div>");
+
     // add prev
     if (offset > 0) {
-        $pago.append('<a href="javascript:prevPage();">« Previous</a></li>');
-    }
-    else {
-        $pago.append('« Previous</span>');
-    }
-    for (var i = 1; i <= maxPage && i<20; i++) {
-        if (i == currentPage) {
-            $pago.append('<span class="currentPage disabled">' + i + '</span>');
-        }
-        else {
-            $pago.append('<a href="javascript:gotoPage(' + i + ');">' + i + '</a>');
-        }
-    }
-    // add next
-    if ((offset + pageSize()) < total) {
-        $pago.append('<a href="javascript:nextPage();">Next »</a>');
-    }
-    else {
-        $pago.append('Next »');
+        $pagination.append(
+            '<a href="javascript:prevPage();" class="pagination__step">' +
+                jQuery.i18n.prop('general.paginate.prev') +
+            '</a>'
+        );
     }
 
-    $('div#navLinks').html($pago);
+    for (var i = 1; i <= maxPage && i < 20; i++) {
+        if (i == currentPage) {
+            $pagination.append('<span class="pagination__step pagination__step--current currentPage disabled">' + i + '</span>');
+        }
+        else {
+            $pagination.append('<a href="javascript:gotoPage(' + i + ');" class="pagination__step">' + i + '</a>');
+        }
+    }
+
+    // add next
+    if ((offset + pageSize()) < total) {
+        $pagination.append(
+            '<a href="javascript:nextPage();" class="pagination__step">' +
+                jQuery.i18n.prop('general.paginate.next') +
+            '</a>'
+        );
+    }
+
+    $('div#navLinks').html($pagination);
 }
 /** get current page size **/
 function pageSize() {
@@ -490,6 +523,7 @@ var facets = {
 /** calculate facet totals and display them **/
 function calculateFacets() {
     $('#dsFacets div').remove();
+
     $.each(facets, function(i, obj) {
         if (obj.name != 'contains') {
             var list = sortByCount(getSetOfFacetValuesAndCounts(obj));
@@ -533,32 +567,36 @@ function addToMap(map, attr) {
     }
 }
 
+var SHOWN_FACET_VALUE_COUNT = 5;
+
 /** Creates DOM elements to represent the facet **/
 function displayFacet(facet, list) {
-    // create dom container
-    var $div = $("<div></div>");
+    // add facet header
+    var $header = $('<h4 class="datasets-facet__header">' + facet.display + '</h4>');
 
-    // add facet name
-    var help = facet.help == undefined ? '' : 'title="' + facet.help + '"';
-
-    $div.append('<h4 class="><span ' + help + ' class="FieldName">' + facet.display + '</span></h4>');
-    $div.find('h4 span[title]').tooltip(tooltipOptions);
+    $header.tooltip(tooltipOptions);
 
     // add each value
-    var $list = $('<ul class="facets"></ul>').appendTo($div);
+    var $list = $('<ul class="datasets-facet__values"></ul>');
 
-    $.each(list, function(index, value) {
-        // only show first 5 + a 'more' link if the list has more than 6 items
-        if(list.length > 6 && index == 5) {
-            // add link to show more
-            $list.append(moreLink());
-            // add this item as hidden
-            $list.append(displayFacetValue(facet, value, true));
-        } else {
-            // create as hidden after the first 5
-            $list.append(displayFacetValue(facet, value, index > 5));
-        }
+    list.slice(0, SHOWN_FACET_VALUE_COUNT).forEach(function(value) {
+        $list.append(displayFacetValue(facet, value, false));
     });
+
+    // remaining values are added as hidden
+    if(list.length > SHOWN_FACET_VALUE_COUNT) {
+        $list.append(moreLink());
+
+        list.slice(SHOWN_FACET_VALUE_COUNT).forEach(function(value) {
+            $list.append(displayFacetValue(facet, value, true));
+        });
+    }
+
+    // wrap
+    var $div = $('<div class="datasets-facet"></div>');
+
+    $div.append($header);
+    $div.append($list);
 
     return $div;
 }
@@ -590,19 +628,30 @@ function lessLink() {
 function displayFacetValue(facet, value, hide) {
     var attr = value.facetValue;
     var count = value.count;
-    var help = helpText[attr] == undefined ? '' : ' title="' + helpText[attr] + '"';
-    var $item = $('<li></li>');
+
+    var $item = $(
+        '<li class="datasets-facet__value">' +
+            '<span class="fa fa-square-o"></span>' +
+            '&nbsp;' +
+        '</li>'
+    );
+
     if (hide) {
         $item.css('display','none');
     }
-    var $link = $('<span class="erk-link"' + help + '>' + labelFor(attr) + '</span>').appendTo($item);
+
+    var $link = $(
+        '<span class="erk-link">' +
+            labelFor(attr) + ' (' + count + ')' +
+        '</span>'
+    );
+
     $link.click(function() {
         addFilter(facet.name, attr, this);
     });
-    $item.append(' (<span>' + count + '</span>)');
-    if (help) {
-        $link.tooltip(tooltipOptions);
-    }
+
+    $item.append($link);
+
     return $item
 }
 

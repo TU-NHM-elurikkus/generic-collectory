@@ -110,42 +110,6 @@
 }
 
 /* XXX */
-.rowA {
-    padding-top: 8px;
-    border-top: 1px solid silver;
-}
-
-.rowA img {
-    cursor: pointer;
-}
-
-.rowA, .rowB {
-    padding-bottom: 0 !important;
-}
-
-.rowB {
-    padding-left: 20px;
-    border-bottom: none !important;
-}
-
-.rowB .viewRecords {
-    padding-left: 10px;
-}
-
-.rowC p {
-    padding-bottom: 1px !important;
-    padding-left: 20px;
-    overflow: hidden;
-}
-
-.rowA img {
-    vertical-align: middle;
-}
-
-.resultsLabel {
-    margin-left: 10px;
-}
-
 .link {
     cursor: pointer;
 }

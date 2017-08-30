@@ -671,7 +671,7 @@ function outputMultipleCollections(obj, strategy) {
         if (obj.length == 1) {
             content = outputCollectionWithInstitution(obj[0], strategy);
         } else {
-            content = '<li>' + outputInstitutionOnOwnLine(obj[0]) + ' - ' + obj.length + ' ' + jQuery.i18n.prop('collections') + '</li>'
+            content = '<li>' + outputInstitutionOnOwnLine(obj[0]) + ' - ' + obj.length + ' ' + jQuery.i18n.prop('map.js.collections') + '</li>'
         }
     }
     return content;

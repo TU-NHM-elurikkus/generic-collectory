@@ -546,6 +546,7 @@
                 biocacheWebappUrl: biocacheWebappUrl,
                 /* support drill down into chart - default is true */
                 drillDown: true,
+                is3D: false,
                 /* a uid or list of uids to chart - either this or query must be present */
                 instanceUid: "${instance.uid}",
                 /* threshold value to use for automagic rank selection - defaults to 55 */

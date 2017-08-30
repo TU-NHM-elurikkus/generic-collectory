@@ -342,6 +342,7 @@
                   instanceUid: "${instance.descendantUids().join(',')}",
                   /* threshold value to use for automagic rank selection - defaults to 55 */
                   threshold: 55,
+                  is3D: false,
                   rank: "${instance.startingRankHint()}"
               }
 
