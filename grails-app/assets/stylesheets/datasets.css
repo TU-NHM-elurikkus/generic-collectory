@@ -1,0 +1,61 @@
+/*
+*= require filters
+*/
+
+.datasets-header {
+    font-size: 15px;
+    margin-bottom: 1em;
+}
+
+.datasets-facet {
+}
+
+.datasets-facet__header {
+    font-size: 14px;
+}
+
+.datasets-facet__values {
+    padding: 0;
+    list-style: none;
+}
+
+.datasets-facet__value {
+    padding: 3px 0;
+}
+
+.dataset {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 4px;
+}
+
+.dataset__row-header {
+    padding: 0.5em 0;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.dataset__row-header img {
+    cursor: pointer;
+}
+
+.dataset__row-summary {
+}
+
+.dataset__summary-part {
+    margin-right: 10px;
+}
+
+.dataset__label {
+    display: inline;
+    margin-bottom: 0;
+}
+
+.dataset__description {
+    padding-bottom: 1px !important;
+    overflow: hidden;
+}
+
+.pagination__step {
+    padding-right: 0.5em;
+}
