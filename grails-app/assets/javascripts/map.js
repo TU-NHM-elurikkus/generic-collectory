@@ -18,7 +18,7 @@ jQuery.i18n.properties({
 var map;
 
 // the WGS projection
-var proj = new OpenLayers.Projection("EPSG:4326");
+var proj = new OpenLayers.Projection('EPSG:4326');
 
 // projection options for interpreting GeoJSON data
 var proj_options;
@@ -55,27 +55,26 @@ var maxCollections = 0;
 * note this must be called from body.onload() not jQuery document.ready() as the latter is too early
 \************************************************************/
 function initMap(mapOptions) {
-
     centrePoint = new OpenLayers.LonLat(mapOptions.centreLon, mapOptions.centreLat);
     defaultZoom = mapOptions.defaultZoom;
 
     // serverUrl is the base url for the site eg http://collections.ala.org.au in production
     // cannot use relative url as the context path varies with environment
     baseUrl = mapOptions.serverUrl;
-    featuresUrl = mapOptions.serverUrl + "/public/mapFeatures";
+    featuresUrl = mapOptions.serverUrl + '/public/mapFeatures';
 
-    // var featureGraphicUrl = mapOptions.serverUrl + "/static/images/map/orange-dot.png";
-    // var clusterGraphicUrl = mapOptions.serverUrl + "/static/images/map/orange-dot-multiple.png";
-    var featureGraphicUrl = mapOptions.serverUrl + "/assets/marker.png";
-    var clusterGraphicUrl = mapOptions.serverUrl + "/assets/markermultiple.png";
+    // var featureGraphicUrl = mapOptions.serverUrl + '/static/images/map/orange-dot.png';
+    // var clusterGraphicUrl = mapOptions.serverUrl + '/static/images/map/orange-dot-multiple.png';
+    var featureGraphicUrl = mapOptions.serverUrl + '/assets/marker.png';
+    var clusterGraphicUrl = mapOptions.serverUrl + '/assets/markermultiple.png';
 
     // create the map
     map = new OpenLayers.Map('map_canvas', {
         controls: [],
         sphericalMercator: true,
         layers: [
-            new OpenLayers.Layer.XYZ("Base layer",
-            ["http://${s}.basemaps.cartocdn.com/light_all/${z}/${x}/${y}.png"], {
+            new OpenLayers.Layer.XYZ('Base layer',
+            ['http://${s}.basemaps.cartocdn.com/light_all/${z}/${x}/${y}.png'], {
                 sphericalMercator: true,
                 wrapDateLine: true
             })
@@ -104,9 +103,9 @@ function initMap(mapOptions) {
 
     // create a style that handles clusters
     var style = new OpenLayers.Style({
-        externalGraphic: "${pin}",
-        graphicHeight: "${size}",
-        graphicWidth: "${size}",
+        externalGraphic: '${pin}',
+        graphicHeight: '${size}',
+        graphicWidth: '${size}',
         graphicYOffset: -23
     }, {
         context: {
@@ -121,22 +120,22 @@ function initMap(mapOptions) {
 
     // create a layer for markers and set style
     var clusterStrategy = new OpenLayers.Strategy.Cluster({distance: 11, threshold: 2});
-    vectors = new OpenLayers.Layer.Vector("Collections", {
+    vectors = new OpenLayers.Layer.Vector('Collections', {
         strategies: [clusterStrategy],
-        styleMap: new OpenLayers.StyleMap({"default": style})});
+        styleMap: new OpenLayers.StyleMap({'default': style})});
 
     // listen for feature selection
-    vectors.events.register("featureselected", vectors, selected);
+    vectors.events.register('featureselected', vectors, selected);
     map.addLayer(vectors);
 
     // listen for changes to visible region
-    map.events.register("moveend", map, moved);
-    
+    map.events.register('moveend', map, moved);
+
     // control for hover labels
     var hoverControl = new OpenLayers.Control.SelectFeature(vectors, {
         hover: true,
         highlightOnly: true,
-        renderIntent: "default",
+        renderIntent: 'default',
         eventListeners: {
             //beforefeaturehighlighted: hoverOn,
             featurehighlighted: hoverOn,
@@ -153,7 +152,7 @@ function initMap(mapOptions) {
 
     // create custom button to zoom extents to Australia
     var button = new OpenLayers.Control.Button({
-        displayClass: "resetZoom",
+        displayClass: 'resetZoom',
         title: jQuery.i18n.prop('zoom.to.australia'),
         trigger: resetZoom
     });
@@ -194,48 +193,51 @@ function dataRequestHandler(data) {
 
     // remove non-mappable collections
     var unMappable = new Array();
-    for (var i = 0; i < features.length; i++) {
-        if (!features[i].attributes.isMappable) {
+
+    for(var i = 0; i < features.length; i++) {
+        if(!features[i].attributes.isMappable) {
             unMappable.push(features[i]);
         }
     }
+
     vectors.destroyFeatures(unMappable);
 
     // update number of unmappable collections
-    var unMappedText = "";
-    switch (unMappable.length) {
-        case 0: unMappedText = ""; break;
-        //case 1: unMappedText = "1 collection cannot be mapped."; break;
-        //default: unMappedText = unMappable.length + " collections cannot be mapped."; break;
-        case 1: unMappedText = "1 " + jQuery.i18n.prop('map.js.collectioncannotbemapped'); break;
-        default: unMappedText = unMappable.length + " " + jQuery.i18n.prop('map.js.collectionscannotbemapped'); break;
+    var unMappedText = '';
+
+    switch(unMappable.length) {
+        case 0: unMappedText = ''; break;
+        case 1: unMappedText = jQuery.i18n.prop('map.js.collectioncannotbemapped'); break;
+        default: unMappedText = jQuery.i18n.prop('map.js.collectionscannotbemapped', unMappable.length); break;
     }
-    $('span#numUnMappable').html(unMappedText);
+
+    $('#numUnMappable').html(unMappedText);
 
     // update display of number of features
     var selectedFilters = getSelectedFiltersAsString();
-    var selectedFrom = jQuery.i18n.prop('map.js.collectionstotal');
-    if (selectedFilters != 'all') {
-        selectedFrom = jQuery.i18n.prop(selectedFilters)/*selectedFilters*/ + " " + jQuery.i18n.prop('collections');
+    var selectedFrom = jQuery.i18n.prop('map.js.collectionstotal', features.length);
+
+    // TODO
+    if(selectedFilters != 'all') {
+        selectedFrom = features.length + ' ' + jQuery.i18n.prop('map.js.' + selectedFilters) + ' ' +
+            jQuery.i18n.prop('map.js.collections') + '.';
     }
-    var innerFeatures = "";
 
-    //console.log('Console: ' + jQuery.i18n.prop('map.js.nocollectionsareselected'));
+    var innerFeatures = '';
 
-    switch (features.length) {
-        //case 0: innerFeatures = "No collections are selected."; break;
-        //case 1: innerFeatures = "One collection is selected."; break;
+    switch(features.length) {
         case 0: innerFeatures = jQuery.i18n.prop('map.js.nocollectionsareselected'); break;
         case 1: innerFeatures = jQuery.i18n.prop('map.js.onecollectionisselected'); break;
-        default: innerFeatures = features.length + " "+ selectedFrom + "."; break;
+        default: innerFeatures = selectedFrom; break;
     }
-    $('span#numFeatures').html(innerFeatures);
+
+    $('#numFeatures').html(innerFeatures);
 
     // fire moved to initialise number visible
     moved(null);
 
     // first time only: select the filter if one is specified in the url
-    if (firstLoad) {
+    if(firstLoad) {
         selectInitialFilter();
         firstLoad = false;
     }
@@ -255,8 +257,8 @@ function getSelectedFiltersAsString() {
         list = getAll();
     }
     // transform some
-    list = list.replace(/plants/,"plant");
-    list = list.replace(/microbes/,"microbial");
+    list = list.replace(/plants/,'plant');
+    list = list.replace(/microbes/,'microbial');
 
     // remove trailing comma
     if (list.substr(list.length - 1) == ',') {
@@ -265,10 +267,10 @@ function getSelectedFiltersAsString() {
     // replace last with 'and'
     var last = list.lastIndexOf(',');
     if (last > 0) {
-        list = list.substr(0,last) + " and " + list.substr(last + 1);
+        list = list.substr(0,last) + ' and ' + list.substr(last + 1);
     }
     // insert space after remaining commas
-    list = list.replace(/,/g,", ");
+    list = list.replace(/,/g,', ');
     return list;
 }
 
@@ -278,56 +280,61 @@ function getSelectedFiltersAsString() {
 function updateList(features) {
     // update the potential total
     maxCollections = Math.max(features.length, maxCollections);
-    if (!$('div#all').hasClass('inst')) {  // don't change text if showing institutions
-        $('span#allButtonTotal').html(jQuery.i18n.prop('show.all') + " " + maxCollections + " " + jQuery.i18n.prop('collections') + ".")
+
+    if(!$('div#all').hasClass('inst')) {  // don't change text if showing institutions
+        $('span#allButtonTotal').html(jQuery.i18n.prop('public.map3.link.showall', maxCollections));
     }
+
     // update display of number of features
-    var innerFeatures = "";
+    var innerFeatures = '';
+
     switch (features.length) {
-        //case 0: innerFeatures = "No collections are selected"; break;
-        //case 1: innerFeatures = features.length + " collection is listed"; break;
-        //default: innerFeatures = features.length + " collections are listed alphabetically"; break;
         case 0: innerFeatures = jQuery.i18n.prop('map.js.nocollectionsareselected'); break;
-        case 1: innerFeatures = features.length + " " + jQuery.i18n.prop('map.js.collectionislisted'); break;
-        default: innerFeatures = features.length + " " + jQuery.i18n.prop('map.js.collectionsarelistedalphabetically'); break;
+        case 1: innerFeatures = features.length + ' ' + jQuery.i18n.prop('map.js.collectionislisted'); break;
+        default: innerFeatures = jQuery.i18n.prop('map.js.collectionsarelistedalphabetically'); break;
     }
+
     $('span#numFilteredCollections').html(innerFeatures);
 
     // group by institution
     var sortedParents = groupByParent(features, true);
+    var innerHtml = '';
+    var orphansHtml = '';
 
-    var innerHtml = "";
-    var orphansHtml = "";
     for (var i = 0; i < sortedParents.length; i++) {
         var collList = sortedParents[i];
         // show institution - use name of institution from first collection
         var firstColl = collList[0];
-        var content = "";
-        if (firstColl.attributes.instName == null && firstColl.attributes.entityType == "Collection") {
-            content += "<li class='indented-list-item'><span class='highlight'>" + jQuery.i18n.prop('collections.with.no.institution') + "</span><ul>";
-        } else if (firstColl.attributes.instName == null && firstColl.attributes.entityType == "DataProvider") {
-            content += "<li class='indented-list-item'><span class='highlight'>" + jQuery.i18n.prop('dataproviders.list') + "</span><ul>";
+        var content = '';
+        if (firstColl.attributes.instName == null && firstColl.attributes.entityType == 'Collection') {
+            content += '<li class="indented-list-item"><span class="highlight">' + jQuery.i18n.prop('collections.with.no.institution') + '</span><ul>';
+        } else if (firstColl.attributes.instName == null && firstColl.attributes.entityType == 'DataProvider') {
+            content += '<li class="indented-list-item"><span class="highlight">' + jQuery.i18n.prop('dataproviders.list') + '</span><ul>';
 
         } else {
-            content += "<li class='indented-list-item'><a class='highlight' href='" + baseUrl + "/public/show/" + firstColl.attributes.instUid + "'>" +
-                    firstColl.attributes.instName + "</a><ul>";
+            content += '<li class="indented-list-item"><a class="highlight" href="' + baseUrl + '/public/show/' + firstColl.attributes.instUid + '">' +
+                    firstColl.attributes.instName + '</a><ul>';
         }
         // show each collection
         for (var c = 0; c < collList.length; c++) {
             var coll = collList[c];
-            var acronym = "";
+            var acronym = '';
+
             if (coll.attributes.acronym != undefined) {
-                acronym = " (" + coll.attributes.acronym + ")"
+                acronym = ' (' + coll.attributes.acronym + ')'
             }
-            content += "<li class='indented-list-item'>";
-            content += "<a href=" + baseUrl + "/public/show/" + coll.attributes.uid + ">" +
-                    coll.attributes.name + acronym + "</a>";
+
+            content += '<li class="indented-list-item">';
+            content += '<a href="' + baseUrl + '/public/show/' + coll.attributes.uid + '">' +
+                    coll.attributes.name + acronym + '</a>';
+
             if (!coll.attributes.isMappable) {
-              content += "<img style='vertical-align:middle' src='" + baseUrl + "/images/map/nomap.gif'/>";
+              content += '<img style="vertical-align:middle" src="' + baseUrl + '/images/map/nomap.gif"/>';
             }
-            content += "</li>";
+
+            content += '</li>';
         }
-        content += "</ul></li>"
+        content += '</ul></li>'
         if (firstColl.attributes.instName == null) {
             orphansHtml = content;
         } else {
@@ -354,15 +361,15 @@ function hoverOff(evt) {
 \************************************************************/
 function hoverOn(evt) {
   feature = evt.feature;
-    var content = "";
+    var content = '';
     if (feature.cluster) {
-        content = "<ul class='hoverPop'>";
+        content = '<ul class="hoverPop">';
         for(var c = 0; c < feature.cluster.length; c++) {
-            content += "<li>"
+            content += '<li>'
                     + feature.cluster[c].attributes.name
-                    + "</li>";
+                    + '</li>';
         }
-        content += "</ul>";
+        content += '</ul>';
     } else {
         content = feature.attributes.name;
     }
@@ -387,49 +394,53 @@ function moved(evt) {
     // determine how many individual features are visible
     var visibleCount = 0;
     var totalCount = 0;
-    for (var c = 0; c < vectors.features.length; c++) {
+
+    for(var c = 0; c < vectors.features.length; c++) {
         var f = vectors.features[c];
-        if (f.cluster) {
+
+        if(f.cluster) {
             totalCount += f.cluster.length;
+
             // for clusters count each feature
             if (f.onScreen(true)) {
                 visibleCount += f.cluster.length;
             }
         } else {
             totalCount++;
+
             // single feature
-            if (f.onScreen(true)) {
+            if(f.onScreen(true)) {
                 visibleCount++;
             }
         }
     }
+
     // update display of number of features visible
-    var innerFeatures = "";
-    switch (visibleCount) {
+    var innerFeatures = '';
+
+    switch(visibleCount) {
         case 0:
-            //innerFeatures = "No collections are currently visible on the map.";
             innerFeatures = jQuery.i18n.prop('map.js.nocollectionsarecurrentlyvisible');
             break;
         case 1:
-            if (totalCount == 1) {
-                //innerFeatures = "It is currently visible on the map.";
+            if(totalCount == 1) {
                 innerFeatures = jQuery.i18n.prop('map.js.itiscurrentlyvisible');
             } else {
-                //innerFeatures = visibleCount + " collection is currently visible on the map.";
-                innerFeatures = visibleCount + " " + jQuery.i18n.prop('map.js.collectioniscurrentlyvisible');
+                innerFeatures = visibleCount + ' ' + jQuery.i18n.prop('map.js.collectioniscurrentlyvisible');
             }
+
             break;
         default:
             if (visibleCount == totalCount) {
-                //innerFeatures = "All are currently visible on the map.";
                 innerFeatures = jQuery.i18n.prop('map.js.allarecurrentlyvisible');
             } else {
-                //innerFeatures = visibleCount + " collections are currently visible on the map.";
-                innerFeatures = visibleCount + " " + jQuery.i18n.prop('map.js.collectionarecurrentlyvisible');
+                innerFeatures = visibleCount + ' ' + jQuery.i18n.prop('map.js.collectionarecurrentlyvisible');
             }
+
             break;
     }
-    $('span#numVisible').html(innerFeatures);
+
+    $('#numVisible').html(innerFeatures);
 }
 
 
@@ -443,7 +454,8 @@ function selected(evt) {
     clearPopups();
 
     // build content
-    var content = "";
+    var content = '';
+
     if (feature.cluster) {
         content = outputClusteredFeature(feature);
     } else {
@@ -451,7 +463,7 @@ function selected(evt) {
     }
 
     // create popoup
-    var popup = new OpenLayers.Popup.FramedCloud("featurePopup",
+    var popup = new OpenLayers.Popup.FramedCloud('featurePopup',
             feature.geometry.getBounds().getCenterLonLat(),
             new OpenLayers.Size(50, 100),
             content,
@@ -478,27 +490,27 @@ function outputSingleFeature(feature) {
     if ($('div#all').hasClass('inst') && $('div#all').hasClass('selected')) { // simple list if showing institutions
         return outputSingleInstitution(feature);
     } else {
-        var address = "";
-        if (feature.attributes.address != null && feature.attributes.address != "") {
+        var address = '';
+        if (feature.attributes.address != null && feature.attributes.address != '') {
             address = feature.attributes.address;
         }
         var desc = feature.attributes.desc;
-        var acronym = "";
+        var acronym = '';
         if (feature.attributes.acronym != undefined) {
-            acronym = " (" + feature.attributes.acronym + ")"
+            acronym = ' (' + feature.attributes.acronym + ')'
         }
-        var instLink = "";
+        var instLink = '';
         if (feature.attributes.instUid != null) {
-            instLink = outputInstitutionOnOwnLine(feature) + "<br/>";
-            return instLink + "<a style='margin-left:5px;' href='" + feature.attributes.url + "'>"
-                        + getShortCollectionName(feature) + "</a>" + acronym
-                        + "<div class='address'>" + address + "</div><hr>"
-                        + "<div class='desc'>" + desc + "</div>";
+            instLink = outputInstitutionOnOwnLine(feature) + '<br/>';
+            return instLink + '<a style="margin-left:5px;" href="' + feature.attributes.url + '">'
+                        + getShortCollectionName(feature) + '</a>' + acronym
+                        + '<div class="address">' + address + '</div><hr>'
+                        + '<div class="desc">' + desc + '</div>';
         } else {
-            return "<a href='" + feature.attributes.url + "'>"
-                        + feature.attributes.name + "</a>" + acronym
-                        + "<div class='address'>" + address + "</div><hr>"
-                        + "<div class='desc'>" + desc + "</div>";
+            return '<a href="' + feature.attributes.url + '">'
+                        + feature.attributes.name + '</a>' + acronym
+                        + '<div class="address">' + address + '</div><hr>'
+                        + '<div class="desc">' + desc + '</div>';
         }
     }
 }
@@ -507,16 +519,16 @@ function outputSingleFeature(feature) {
 *   generate html for a single institution
 \************************************************************/
 function outputSingleInstitution(feature) {
-    var address = "";
-    if (feature.attributes.address != null && feature.attributes.address != "") {
+    var address = '';
+    if (feature.attributes.address != null && feature.attributes.address != '') {
         address = feature.attributes.address;
     }
-    var acronym = "";
+    var acronym = '';
     if (feature.attributes.instAcronym != undefined) {
-        acronym = " (" + feature.attributes.instAcronym + ")"
+        acronym = ' (' + feature.attributes.instAcronym + ')'
     }
-    var content = "<a class='highlight' href='" + baseUrl + "/public/show/" + feature.attributes.instUid + "'>" + feature.attributes.instName + "</a>";
-    content += acronym + "<div class='address'>" + address + "</div>";
+    var content = '<a class="highlight" href="' + baseUrl + '/public/show/' + feature.attributes.instUid + '">' + feature.attributes.instName + '</a>';
+    content += acronym + '<div class="address">' + address + '</div>';
     return content;
 }
 
@@ -573,7 +585,7 @@ function groupByParent(features, groupOrphans) {
 function outputClusteredFeature(feature) {
     var sortedParents = groupByParent(feature.cluster, false);
     // output the parents list
-    var content = "<ul>";
+    var content = '<ul>';
     if ($('div#all').hasClass('inst') && $('div#all').hasClass('selected')) { // simple list if showing institutions
         content += outputMultipleInstitutions(sortedParents);
     } else {
@@ -593,7 +605,7 @@ function outputClusteredFeature(feature) {
         }
     }
 
-    content += "</ul>";
+    content += '</ul>';
     return content;
 }
 
@@ -601,7 +613,7 @@ function outputClusteredFeature(feature) {
 *   generate html for a list of institutions
 \************************************************************/
 function outputMultipleInstitutions(parents) {
-    var content = "";
+    var content = '';
     for (var i = 0; i < parents.length; i++) {
         var obj = parents[i];
         // use name of institution from first collection
@@ -609,7 +621,7 @@ function outputMultipleInstitutions(parents) {
         // skip collections with no institution
         var name = obj.attributes.instName;
         if (name != null && name != undefined) {
-            content += "<li><a class='highlight' href='" + baseUrl + "/public/show/" + obj.attributes.instUid + "'>" + getTightInstitutionName(obj, 55) + "</a></li>";
+            content += '<li><a class="highlight" href="' + baseUrl + '/public/show/' + obj.attributes.instUid + '">' + getTightInstitutionName(obj, 55) + '</a></li>';
         }
     }
     return content;
@@ -620,9 +632,9 @@ function outputMultipleInstitutions(parents) {
 \************************************************************/
 function getName(obj) {
 
-    if ($.isArray(obj) && obj[0].attributes && obj[0].attributes.name && obj[0].attributes.entityType != "Collection") {
+    if ($.isArray(obj) && obj[0].attributes && obj[0].attributes.name && obj[0].attributes.entityType != 'Collection') {
         return obj[0].attributes.name;
-    } else if (!$.isArray(obj) && obj.attributes && obj.attributes.name && obj.attributes.entityType != "Collection") {
+    } else if (!$.isArray(obj) && obj.attributes && obj.attributes.name && obj.attributes.entityType != 'Collection') {
         return obj.attributes.name;
     }
 
@@ -633,7 +645,7 @@ function getName(obj) {
         name = obj.attributes.instName;
     }
     // remove leading 'The ' so the institutions sort by first significant letter
-    if (name !== null && name.length > 4 && name.substr(0,4) === "The ") {
+    if (name !== null && name.length > 4 && name.substr(0,4) === 'The ') {
         name = name.substr(4);
     }
     return name;
@@ -650,16 +662,16 @@ function outputMultipleCollections(obj, strategy) {
     if (strategy == 'terse') {limit = 0;}
     if (strategy == 'veryVerbose') {limit = 10;}
     if (obj.length < limit) {
-        content = "<li>" + outputInstitutionOnOwnLine(obj[0]) + "<ul>";
+    content = '<li>' + outputInstitutionOnOwnLine(obj[0]) + '<ul>';
         for(var c = 0;c < obj.length;c++) {
             content += outputCollectionOnOwnLine(obj[c]);
         }
-        content += "</ul>";
+        content += '</ul>';
     } else {
         if (obj.length == 1) {
             content = outputCollectionWithInstitution(obj[0], strategy);
         } else {
-            content = "<li>" + outputInstitutionOnOwnLine(obj[0]) + " - " + obj.length + " " + jQuery.i18n.prop('collections') + "</li>"
+            content = '<li>' + outputInstitutionOnOwnLine(obj[0]) + ' - ' + obj.length + ' ' + jQuery.i18n.prop('map.js.collections') + '</li>'
         }
     }
     return content;
@@ -682,14 +694,14 @@ function getTightInstitutionName(obj, max) {
 function getShortCollectionName(obj) {
     var inst = obj.attributes.instName;
     var shortName = obj.attributes.name;
-    if (inst != null && inst.match("^The ") == "The ") {
+    if (inst != null && inst.match('^The ') == 'The ') {
         inst = inst.substr(4);
     }
-    if (inst != null && obj.attributes.name.match("^" + inst) == inst && // coll starts with the inst name
+    if (inst != null && obj.attributes.name.match('^' + inst) == inst && // coll starts with the inst name
             inst != shortName) { // but not if inst name is the whole of the coll name (ie they are the same)
         shortName = obj.attributes.name.substr(inst.length);
         // check for stupid collection names
-        if (shortName.substr(0,2) == ", ") {
+        if (shortName.substr(0,2) == ', ') {
             shortName = shortName.substr(2);
         }
     }
@@ -700,7 +712,7 @@ function getShortCollectionName(obj) {
 *   build html for an institution on its own line
 \************************************************************/
 function outputInstitutionOnOwnLine(obj) {
-    return "<a class='highlight' href='" + baseUrl + "/public/show/" + obj.attributes.instUid + "'>" + getTightInstitutionName(obj, 55) + "</a>";
+    return '<a class="highlight" href="' + baseUrl + '/public/show/' + obj.attributes.instUid + '">' + getTightInstitutionName(obj, 55) + '</a>';
 }
 
 /************************************************************\
@@ -708,22 +720,22 @@ function outputInstitutionOnOwnLine(obj) {
 \************************************************************/
 function outputCollectionWithInstitution(obj, strategy) {
     var max = 60;
-    var acronym = "";
+    var acronym = '';
     if (obj.attributes.acronym != undefined) {
-        acronym = " (" + obj.attributes.acronym + ")"
+        acronym = ' (' + obj.attributes.acronym + ')'
     }
-    var instLink = "<a class='highlight' href='" + baseUrl + "/public/show/" + obj.attributes.instUid + "'>";
+    var instLink = '<a class="highlight" href="' + baseUrl + '/public/show/' + obj.attributes.instUid + '">';
 
     if (strategy == 'verbose') {
         if (obj.attributes.name.length + acronym.length > max) {
             // drop acronym
-            return "<li>" + instLink + obj.attributes.instName + "</a><ul>"
-                    + "<li>" + "<a href='" + obj.attributes.url + "'>"
-                    + obj.attributes.name + "</a>" + "</li></ul></li>";
+            return '<li>' + instLink + obj.attributes.instName + '</a><ul>'
+                    + '<li>' + '<a href="' + obj.attributes.url + '">'
+                    + obj.attributes.name + '</a>' + '</li></ul></li>';
         } else {
-            return "<li>" + instLink + obj.attributes.instName + "</a><ul>"
-                    + "<li>" + "<a href='" + obj.attributes.url + "'>"
-                    + obj.attributes.name + acronym + "</a>" + "</li></ul></li>";
+            return '<li>' + instLink + obj.attributes.instName + '</a><ul>'
+                    + '<li>' + '<a href="' + obj.attributes.url + '"/>'
+                    + obj.attributes.name + acronym + '</a>' + '</li></ul></li>';
         }
     } else {
         // present both in one line
@@ -733,47 +745,47 @@ function outputCollectionWithInstitution(obj, strategy) {
 
         // try full inst + full coll + acronym
         if (inst.length + coll.length  + acronym.length <max) {
-            return "<li>" + instLink + inst + "</a> - <a href='" + obj.attributes.url + "'>"
-                + coll + acronym  + "</a>" + "</li>";
+            return '<li>' + instLink + inst + '</a> - <a href="' + obj.attributes.url + '">'
+                + coll + acronym  + '</a>' + '</li>';
 
         // try full inst + short coll + acronym
         } else if (inst.length + getShortCollectionName(obj).length + acronym.length < max) {
-            return "<li>" + instLink + inst + "</a> - <a href='" + obj.attributes.url + "'>"
-                + getShortCollectionName(obj) + acronym + "</a>" + "</li>";
+            return '<li>' + instLink + inst + '</a> - <a href="' + obj.attributes.url + '">'
+                + getShortCollectionName(obj) + acronym + '</a>' + '</li>';
 
         // try full inst + short coll
         } else if (inst.length + getShortCollectionName(obj).length < max) {
-            return "<li>" + instLink + inst + "</a> - <a href='" + obj.attributes.url + "'>"
-                + getShortCollectionName(obj) + "</a>" + "</li>";
+            return '<li>' + instLink + inst + '</a> - <a href="' + obj.attributes.url + '">'
+                + getShortCollectionName(obj) + '</a>' + '</li>';
 
         // try acronym of inst + full coll + acronym
         } else if (briefInst.length + coll.length  + acronym.length < max) {
-            return "<li>" + instLink + briefInst + "</a> - <a href='" + obj.attributes.url + "'>"
-                + coll + "</a>" + "</li>";
+            return '<li>' + instLink + briefInst + '</a> - <a href="' + obj.attributes.url + '">'
+                + coll + '</a>' + '</li>';
 
         // try acronym of inst + full coll
         } else if (briefInst.length + coll.length < max) {
-            return "<li>" + instLink + briefInst + "</a> - <a href='" + obj.attributes.url + "'>"
-                + coll + "</a>" + "</li>";
+            return '<li>' + instLink + briefInst + '</a> - <a href="' + obj.attributes.url + '">'
+                + coll + '</a>' + '</li>';
 
         // try acronym of inst + short coll
         } else if (briefInst.length + getShortCollectionName(obj).length < max) {
-            return "<li>" + instLink + briefInst + "</a> - <a href='" + obj.attributes.url + "'>"
-                + getShortCollectionName(obj) + "</a>" + "</li>";
+            return '<li>' + instLink + briefInst + '</a> - <a href="' + obj.attributes.url + '">'
+                + getShortCollectionName(obj) + '</a>' + '</li>';
 
         // try acronym of inst + coll acronym
-        } else if (acronym != "") {
-            return "<li>" + instLink + briefInst + "</a> - <a href='" + obj.attributes.url + "'>"
-                + acronym + "</a>" + "</li>";
+        } else if (acronym != '') {
+            return '<li>' + instLink + briefInst + '</a> - <a href="' + obj.attributes.url + '">'
+                + acronym + '</a>' + '</li>';
 
         // try full inst + 1 collection
         } else if (inst.length < max - 12) {
-            //console.log("Collection: " + jQuery.i18n.prop('collection'));
-            return "<li>" + instLink + inst + "</a> - 1 " + jQuery.i18n.prop('collection') + "</li>";
+            //console.log('Collection: ' + jQuery.i18n.prop('collection'));
+            return '<li>' + instLink + inst + '</a> - 1 ' + jQuery.i18n.prop('collection') + '</li>';
 
         // try acronym of inst + 1 collection (worst case!)
         } else {
-            return "<li>" + instLink + briefInst + "</a> - 1 " + jQuery.i18n.prop('collection') + "</li>";
+            return '<li>' + instLink + briefInst + '</a> - 1 ' + jQuery.i18n.prop('collection') + '</li>';
         }
     }
 }
@@ -784,40 +796,40 @@ function outputCollectionWithInstitution(obj, strategy) {
 function outputCollectionOnOwnLine(obj) {
     var max = 60;
     // build acronym
-    var acronym = "";
+    var acronym = '';
     if (obj.attributes.acronym != undefined) {
-        acronym = " <span>(" + obj.attributes.acronym + ")</span>";
+        acronym = ' <span>(' + obj.attributes.acronym + ')</span>';
     }
 
     /* try combos in order of preference */
     var name;
     // try full name + acronym
     if (obj.attributes.name.length + acronym.length < max/2) { // favour next option unless very short
-        name = obj.attributes.name + "</a>" + acronym;
+        name = obj.attributes.name + '</a>' + acronym;
 
     // try short name + acronym
     } else if (getShortCollectionName(obj).length + acronym.length < max){
-        name = getShortCollectionName(obj) + acronym + "</a>";
+        name = getShortCollectionName(obj) + acronym + '</a>';
 
     // try name
     } else if (obj.attributes.name.length < max) {
-        name = obj.attributes.name + "</a>";
+        name = obj.attributes.name + '</a>';
 
     // try short name
     } else if (getShortCollectionName(obj).length < max){
-        name = getShortCollectionName(obj) + "</a>";
+        name = getShortCollectionName(obj) + '</a>';
 
     // try acronym
-    //} else if (acronym != "") {
-    //    name = acronym + "</a>";
+    //} else if (acronym != '') {
+    //    name = acronym + '</a>';
 
     // stuck with name
     } else {
-        name = obj.attributes.name + "</a>";
+        name = obj.attributes.name + '</a>';
     }
 
-    return "<li>" + "<a href='" + obj.attributes.url + "'>"
-                + name + "</li>";
+    return '<li>' + '<a href="' + obj.attributes.url + '">'
+                + name + '</li>';
 }
 
 /************************************************************\
@@ -867,12 +879,12 @@ function setAll() {
 \************************************************************/
 function getAll() {
     if ($('input#all').is(':checked')) {
-        return "all";
+        return 'all';
     }
-    var checked = "";
+    var checked = '';
     $('input[name=filter]').each(function(index, element){
         if (element.checked) {
-            checked += element.value + ",";
+            checked += element.value + ',';
         }
     });
 
@@ -937,13 +949,12 @@ function toggleButton(button) {
     $('div.filter-buttons div').toggleClass('selected',false);
 
     // select the one that was clicked
-    $(button).toggleClass("selected", true);
+    $(button).toggleClass('selected', true);
 
     // reloadData
     var filters = button.id;
     if (filters == 'fauna') {filters = 'fauna,entomology'}
     $.get(featuresUrl, {filters: filters}, dataRequestHandler);
-    
 }
 
 /************************************************************\
@@ -955,7 +966,7 @@ function selectInitialFilter() {
         filter;
     if (start) {
         if (start === 'insects') { start = 'entomology'; }
-        filter = $("#" + start);
+        filter = $('#' + start);
         if (filter.length > 0) {
             toggleButton(filter[0]);
         }
@@ -966,10 +977,10 @@ function selectInitialFilter() {
 *   build comma separated string of selected buttons - NOT USED
 \************************************************************/
 function getSelectedFilters() {
-    var checked = "";
+    var checked = '';
     $('div.filter-buttons div').each(function(index, element){
         if ($(element).hasClass('selected')) {
-            checked += element.id + ",";
+            checked += element.id + ',';
         }
     });
     if (checked == 'fauna,entomology,microbes,plants,') {

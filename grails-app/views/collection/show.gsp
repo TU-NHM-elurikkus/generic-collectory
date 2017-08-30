@@ -6,7 +6,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="${grailsApplication.config.skin.layout}" />
-        <g:set var="entityName" value="${message(code: 'collection.label', default: 'Collection')}" />
+        <g:set var="entityName" value="${message(code: 'collection.label')}" />
         <title>
             <g:message code="general.show.label" args="[entityName]" />
         </title>
@@ -17,6 +17,7 @@
     </head>
 
     <body>
+        <%-- XXX --%>
         <style>
             #mapCanvas {
               width: 200px;
@@ -30,9 +31,11 @@
                 <span class="button">
                     <cl:viewPublicLink uid="${instance?.uid}" />
                 </span>
+
                 <span class="button">
                     <cl:jsonSummaryLink uid="${instance.uid}" />
                 </span>
+
                 <span class="button">
                     <cl:jsonDataLink uid="${instance.uid}" />
                 </span>
@@ -45,6 +48,7 @@
                             <cl:homeLink />
                         </span>
                     </li>
+
                     <li>
                         <span class="menuButton">
                             <g:link class="list" action="list">
@@ -52,6 +56,7 @@
                             </g:link>
                         </span>
                     </li>
+
                     <li>
                         <span class="menuButton">
                             <g:link class="list" action="myList">
@@ -59,6 +64,7 @@
                             </g:link>
                         </span>
                     </li>
+
                     <li>
                         <span class="menuButton">
                             <g:link class="create" action="create">
@@ -92,7 +98,9 @@
                         ${instance.institution?.name}
                     </g:link>
                 </h2>
+
                 <cl:partner test="${instance.institution?.isALAPartner}" />
+
                 <br />
 
                 <div class="card card-body">
@@ -160,14 +168,18 @@
 
                     <div class="card-body">
                         <span class="category"><g:message code="collection.show.span04" /></span>
+
                         <br />
+
                         <cl:formattedText body="${instance.pubDescription}" />
 
                         <!-- Tech Desc -->
-
                         <span class="category"><g:message code="collection.show.span05" /></span>
+
                         <br />
+
                         <cl:formattedText body="${instance.techDescription}" />
+
                         <span class="category"><g:message code="collection.show.span06" /></span>
 
                         <g:if test="${instance.startDate || instance.endDate}">
@@ -230,8 +242,8 @@
                         <h2>
                             <g:message code="collection.show.title.subcollections" />
                         </h2>
-                        <cl:subCollectionList list="${instance.subCollections}" />
 
+                        <cl:subCollectionList list="${instance.subCollections}" />
                         <cl:editButton uid="${instance.uid}" page="description" />
                     </div>
                 </div>
@@ -261,8 +273,9 @@
                         <!-- Geo descrip -->
                         <tr class="prop">
                             <td valign="top" class="category">
-                                <g:message code="geographicDescription.label" default="Geographic Description" />
+                                <g:message code="geographicDescription.label" />
                             </td>
+
                             <td valign="top" class="value">
                                 <cl:formattedText>
                                     ${fieldValue(bean: instance, field: "geographicDescription")}
@@ -273,8 +286,9 @@
                         <!-- States -->
                         <tr class="prop">
                             <td valign="top" class="category">
-                                <g:message code="states.label" default="States covered" />
+                                <g:message code="states.label" />
                             </td>
+
                             <td valign="top" class="value">
                                 ${fieldValue(bean: instance, field: "states")}
                             </td>
@@ -284,7 +298,9 @@
                         <tr class="prop">
                             <td valign="top" class="category">
                                 <g:message code="collection.show.coordinate.des01" />
+
                                 <br />
+
                                 <g:message code="collection.show.coordinate.des02" />
                             </td>
 
@@ -354,7 +370,7 @@
                         <!-- Focus   -->
                         <tr class="prop">
                             <td valign="top" class="category">
-                                <g:message code="focus.label" default="Collection focus" />
+                                <g:message code="focus.label" />
                             </td>
                             <td valign="top" class="value">
                                 <cl:formattedText>
@@ -366,7 +382,7 @@
                         <!-- Kingdom cover-->
                         <tr class="prop">
                             <td valign="top" class="category">
-                                <g:message code="kingdomCoverage.label" default="Kingdom Coverage" />
+                                <g:message code="kingdomCoverage.label" />
                             </td>
                             <td valign="top" class="checkbox">
                                 <cl:checkBoxList readonly="true" name="kingdomCoverage" from="${Collection.kingdoms}" value="${instance?.kingdomCoverage}" />
@@ -376,7 +392,7 @@
                         <!-- sci names -->
                         <tr class="prop">
                             <td valign="top" class="category">
-                                <g:message code="scientificNames.label" default="Scientific Names" />
+                                <g:message code="scientificNames.label" />
                             </td>
                             <td valign="top" class="value">
                                 <cl:JSONListAsStrings json='${fieldValue(bean: instance, field: "scientificNames")}' />
@@ -495,9 +511,11 @@
                   <span class="button">
                       <cl:viewPublicLink uid="${instance?.uid}" />
                   </span>
+
                   <span class="button">
                       <cl:jsonSummaryLink uid="${instance.uid}" />
                   </span>
+
                   <span class="button">
                       <cl:jsonDataLink uid="${instance.uid}" />
                   </span>
@@ -512,8 +530,8 @@
                         <g:actionSubmit
                             class="delete erk-button erk-button--dark"
                             action="delete"
-                            value="${message(code: 'general.button.delete.label', default: 'Delete')}"
-                            onclick="return confirm('${message(code: 'general.button.delete.confirm.message', default: 'Are you sure?')}');"
+                            value="${message(code: 'general.button.delete.label')}"
+                            onclick="return confirm('${message(code: 'general.button.delete.confirm.message')}');"
                         />
                     </span>
 
@@ -529,6 +547,7 @@
             function onLoadCallback() {
               // summary biocache data
               var biocacheRecordsUrl = "${Holders.config.grails.context}/public/biocacheRecords.json?uid=${instance.uid}";
+
               $.get(biocacheRecordsUrl, {}, biocacheRecordsHandler);
             }
 
@@ -538,6 +557,7 @@
 
             function setNumbers(totalBiocacheRecords, totalRecords) {
                 var recordsClause = "";
+
                 switch (totalBiocacheRecords) {
                     case 0: recordsClause = "No records"; break;
                     case 1: recordsClause = "1 record"; break;
@@ -548,6 +568,7 @@
 
                 if (totalRecords > 0) {
                     var percent = totalBiocacheRecords/totalRecords * 100;
+
                     setProgress(percent);
                 } else {
                     // to update the speedo caption
@@ -564,9 +585,11 @@
                     captionText = "No records are available for viewing in the Atlas.";
                 } else {
                     var displayPercent = percentage.toFixed(1);
+
                     if (percentage < 0.1) {displayPercent = percentage.toFixed(2)}
                     if (percentage > 20) {displayPercent = percentage.toFixed(0)}
                     if (percentage > 100) {displayPercent = "over 100"}
+
                     captionText = "Records for " + displayPercent + "% of specimens are<br/>available for viewing in the Atlas.";
                 }
 
@@ -575,11 +598,13 @@
                 if (percentage > 100) {
                     $('#progressBar').removeClass('percentImage1');
                     $('#progressBar').addClass('percentImage4');
+
                     percentage = 101;
                 }
 
                 var percentageWidth = eachPercent * percentage;
                 var newProgress = eval(initial)+eval(percentageWidth)+'px';
+
                 $('#progressBar').css('backgroundPosition',newProgress+' 0');
             }
 
@@ -589,9 +614,11 @@
                 x1 = x[0];
                 x2 = x.length > 1 ? '.' + x[1] : '';
                 var rgx = /(\d+)(\d{3})/;
+
                 while (rgx.test(x1)) {
                     x1 = x1.replace(rgx, '$1' + ',' + '$2');
                 }
+
                 return x1 + x2;
             }
 

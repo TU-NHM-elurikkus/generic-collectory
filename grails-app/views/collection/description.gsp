@@ -3,7 +3,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="${grailsApplication.config.skin.layout}" />
-        <title><g:message code="collection.base.label" default="Edit collection metadata" /></title>
+        <title><g:message code="collection.base.label" /></title>
     </head>
     <body id="body-wrapper">
         <div class="nav">
@@ -32,7 +32,7 @@
                     <!-- public description -->
                     <tr class="prop">
                         <td valign="top" class="name span2">
-                          <label for="pubDescription"><g:message code="providerGroup.pubDescription.label" default="Public Description" /></label>
+                          <label for="pubDescription"><g:message code="providerGroup.pubDescription.label" /></label>
                         </td>
                         <td valign="top" class="value span8 ${hasErrors(bean: command, field: 'pubDescription', 'errors')}">
                             <g:textArea name="pubDescription" class=" input-large span8" rows="${cl.textAreaHeight(text:command.pubDescription)}" value="${command.pubDescription}" />
@@ -44,7 +44,7 @@
                     <!-- tech description -->
                     <tr class="prop">
                         <td valign="top" class="name">
-                          <label for="techDescription"><g:message code="providerGroup.techDescription.label" default="Technical Description" /></label>
+                          <label for="techDescription"><g:message code="providerGroup.techDescription.label" /></label>
                         </td>
                         <td valign="top" class="value ${hasErrors(bean: command, field: 'techDescription', 'errors')}">
                             <g:textArea name="techDescription"  class="span8" rows="${cl.textAreaHeight(text:command.techDescription)}" value="${command?.techDescription}" />
@@ -56,7 +56,7 @@
                     <!-- focus -->
                     <tr class="prop">
                         <td valign="top" class="name">
-                          <label for="focus"><g:message code="providerGroup.focus.label" default="Focus" /></label>
+                          <label for="focus"><g:message code="providerGroup.focus.label" /></label>
                         </td>
                         <td valign="top" class="value ${hasErrors(bean: command, field: 'focus', 'errors')}">
                             <g:textArea name="focus" class="span8" rows="${cl.textAreaHeight(text:command.focus)}" value="${command?.focus}" />
@@ -68,7 +68,7 @@
                     <!-- type -->
                     <tr class="prop">
                         <td valign="top" class="name">
-                          <label for="collectionType"><g:message code="collection.collectionType.label" default="Collection Type" /></label>
+                          <label for="collectionType"><g:message code="collection.collectionType.label" /></label>
                         </td>
                         <td valign="top" class="span8 checkbox ${hasErrors(bean: command, field: 'collectionType', 'errors')}">
                             <cl:checkboxSelect name="collectionType" from="${command.collectionTypes}" value="${command.listCollectionTypes()}" multiple="yes" valueMessagePrefix="collection.collectionType" noSelection="['': '']" />
@@ -80,7 +80,7 @@
                     <!-- growth status -->
                     <tr class="prop">
                         <td valign="top" class="name">
-                          <label for="active"><g:message code="providerGroup.sources.active.label" default="Status" /></label>
+                          <label for="active"><g:message code="providerGroup.sources.active.label" /></label>
                         </td>
                         <td valign="top" class="value ${hasErrors(bean: infoSourceInstance, field: 'active', 'errors')}">
                             <g:select name="active" from="${command.constraints.active.inList}" value="${command?.active}" valueMessagePrefix="infoSource.active" noSelection="['': '']" />
@@ -116,7 +116,7 @@
                     <!-- keywords -->
                     <tr class="prop">
                         <td valign="top" class="name">
-                          <label for="keywords"><g:message code="collection.keywords.label" default="Keywords" /></label>
+                          <label for="keywords"><g:message code="collection.keywords.label" /></label>
                         </td>
                         <td valign="top" class="value ${hasErrors(bean: command, field: 'keywords', 'errors')}">
                             <g:textField name="keywords" value="${command?.listKeywords().join(',')}" />
@@ -128,7 +128,7 @@
                     <!-- sub-collections -->
                     <tr class="prop">
                         <td valign="top" class="name">
-                          <label for="subCollections"><g:message code="scope.subCollections.label" default="Sub-collections" /></label>
+                          <label for="subCollections"><g:message code="scope.subCollections.label" /></label>
                         </td>
                         <td valign="top" class="value ${hasErrors(bean: command, field: 'scope.subCollections', 'errors')}">
                           <p><g:message code="collection.des.des01" />.</p>

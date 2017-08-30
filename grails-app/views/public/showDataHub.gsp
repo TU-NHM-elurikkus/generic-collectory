@@ -11,23 +11,6 @@
     <script type="text/javascript">
       biocacheServicesUrl = "${grailsApplication.config.biocacheServicesUrl}";
       biocacheWebappUrl = "${grailsApplication.config.biocacheUiURL}";
-
-      $(document).ready(function() {
-        $("a#lsid").fancybox({
-                    'hideOnContentClick' : false,
-                    'titleShow' : false,
-                    'autoDimensions' : false,
-                    'width' : 600,
-                    'height' : 180
-        });
-        $("a.current").fancybox({
-                    'hideOnContentClick' : false,
-                    'titleShow' : false,
-                    'titlePosition' : 'inside',
-                    'autoDimensions' : true,
-                    'width' : 300
-        });
-      });
     </script>
   </head>
   <body class="two-column-right">

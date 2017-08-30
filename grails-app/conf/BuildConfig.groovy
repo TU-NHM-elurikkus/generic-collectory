@@ -35,7 +35,7 @@ grails.project.dependency.resolution = {
     dependencies {
         runtime 'mysql:mysql-connector-java:5.1.43'
         runtime 'net.sf.opencsv:opencsv:2.3'
-	runtime 'ant:ant:1.6.5'
+    runtime 'ant:ant:1.6.5'
         runtime 'commons-httpclient:commons-httpclient:3.1'
         runtime 'org.aspectj:aspectjweaver:1.6.6'
     }

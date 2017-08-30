@@ -8,23 +8,9 @@
         <asset:javascript src="manage-show.js" />
 
         <script type="text/javascript" >
-          $(document).ready(function() {
-            greyInitialValues();
-            $("a#lsidbox").fancybox({
-                    'hideOnContentClick' : false,
-                    'titleShow' : false,
-                    'autoDimensions' : false,
-                    'width' : 600,
-                    'height' : 180
-            });
-            $("a.current").fancybox({
-                    'hideOnContentClick' : false,
-                    'titleShow' : false,
-                        'titlePosition' : 'inside',
-                    'autoDimensions' : true,
-                    'width' : 300
-            });
-          });
+            $(document).ready(function() {
+                greyInitialValues();
+            });
         </script>
         <script type="text/javascript" language="javascript" src="https://www.google.com/jsapi"></script>
     </head>

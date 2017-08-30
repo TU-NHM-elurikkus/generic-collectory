@@ -5,7 +5,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="${grailsApplication.config.skin.layout}" />
         <g:set var="entityName" value="${message(code: 'institution.label', default: 'Institution')}" />
-        <title><g:message code="default.show.label" args="[entityName]" /></title>
+        <title><g:message code="general.show.label" args="[entityName]" /></title>
         <script async defer
                 src="https://maps.googleapis.com/maps/api/js?key=${grailsApplication.config.google?.apikey}"
                 type="text/javascript"></script>
@@ -30,8 +30,8 @@
             </p>
             <ul>
             <li><span class="menuButton"><cl:homeLink/></span></li>
-            <li><span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span></li>
-            <li><span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span></li>
+            <li><span class="menuButton"><g:link class="list" action="list"><g:message code="general.list.label" args="[entityName]" /></g:link></span></li>
+            <li><span class="menuButton"><g:link class="create" action="create"><g:message code="general.new.label" args="[entityName]" /></g:link></span></li>
             </ul>
         </div>
         <div class="body">
@@ -139,7 +139,7 @@
               <g:form>
                 <g:hiddenField name="id" value="${instance?.id}"/>
                 <cl:ifGranted role="${ProviderGroup.ROLE_ADMIN}">
-                  <span class="button"><g:actionSubmit class="delete btn" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');"/></span>
+                  <span class="button"><g:actionSubmit class="delete btn" action="delete" value="${message(code: 'general.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'general.button.delete.confirm.message', default: 'Are you sure?')}');"/></span>
                 </cl:ifGranted>
                 <span class="pull-right">
                 <span class="button btn"><cl:viewPublicLink uid="${instance?.uid}"/></span>
