@@ -535,6 +535,7 @@
                 biocacheWebappUrl: CHARTS_CONFIG.biocacheWebappUrl,
                 /* support drill down into chart - default is false */
                 drillDown: true,
+                is3D: false,
                 /* a uid or list of uids to chart - either this or query must be present */
                 instanceUid: "${instance.uid}",
                 //query: "notomys",
