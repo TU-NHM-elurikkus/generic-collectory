@@ -90,7 +90,6 @@ function displayPage() {
         }
     }
 
-    activateClicks();
     showPaginator();
 }
 
@@ -107,7 +106,7 @@ function appendResource(value) {
     // Row: header
     var $rowHeader = $('<div class="dataset__row-header"></div>');
 
-    $rowHeader.append('<img src="' + baseUrl + '/assets/skin/ExpandArrow.png"/>');
+    // $rowHeader.append('<img src="' + baseUrl + '/assets/skin/ExpandArrow.png"/>');
 
     $rowHeader.append(
         '<span class="result-name">' +
@@ -178,72 +177,11 @@ function appendResource(value) {
         );
     }
 
-    // row C
-    var $rowDetails = $('<div class="dataset__row-details" style="display:none;">');  // starts hidden
-
-    var desc = "";
-
-    if (value.pubDescription) {
-        desc += value.pubDescription;
-    }
-    if (value.techDescription) {
-        desc += value.techDescription;
-    }
-
-    if (desc != "") {
-        $rowDetails.append('<div class="dataset__description">' + desc + '</div>'); // description
-    }
-
-    if (value.contentTypes != null) {
-        // label for content types
-        $rowDetails.append(
-            '<span>'+
-                '<label class="dataset__label">' +
-                    jQuery.i18n.prop('datasets.js.appendresource09') +' :' +
-                '</label>' +
-            '</span>'
-        );
-
-        var $ul = $('<ul class="dataset__content-type-list"></ul>').appendTo($rowDetails);
-        var ctList = $.parseJSON(value.contentTypes);
-        $.each(ctList, function(i,v) {
-            $ul.append('<li>' + v + "</li>");
-        });
-    }  // content types
-
-    if ($rowDetails.children().length == 0) {
-        $rowDetails.append(jQuery.i18n.prop('datasets.js.appendresource05'));
-    }
-
     // Wrap
     $container.append($rowHeader);
     $container.append($rowSummary);
-    $container.append($rowDetails);
 }
 
-/** bind click handler to twisty **/
-function activateClicks() {
-    $('.dataset__row-header img').rotate({
-        bind:
-            {
-                click: function() {
-                    // hide tooltip
-                    hideTooltip(this);
-
-                    var $target = $(this).parent().parent().find('.dataset__row-details');
-                    if ($target.css('display') == 'none') {
-                        $(this).rotate({animateTo:90,duration:350});
-                    }
-                    else {
-                        $(this).rotate({animateTo:0,duration:350});
-                    }
-                    $target.slideToggle(350, function() {
-                    });
-                    return false;
-                }
-            }
-    });
-}
 /** clear the list and reset values **/
 function clearList() {
     resources = [];

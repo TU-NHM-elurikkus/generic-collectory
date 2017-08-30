@@ -40,7 +40,6 @@
 }
 
 .dataset__row-summary {
-    padding-left: 20px;
 }
 
 .dataset__summary-part {
@@ -52,19 +51,9 @@
     margin-bottom: 0;
 }
 
-.dataset__row-details {
-    margin-top: 0.5em;
-    padding-left: 20px;
-}
-
 .dataset__description {
     padding-bottom: 1px !important;
     overflow: hidden;
-}
-
-.dataset__content-type-list {
-    padding-left: 0;
-    list-style-position: inside;
 }
 
 .pagination__step {

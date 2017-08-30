@@ -8,7 +8,6 @@
         </title>
 
         <asset:javascript src="datasets.js" />
-        <asset:javascript src="jquery-plugins/jQueryRotateCompressed.2.1.js" />
         <asset:stylesheet src="datasets.css" />
 
         <script type="text/javascript">
