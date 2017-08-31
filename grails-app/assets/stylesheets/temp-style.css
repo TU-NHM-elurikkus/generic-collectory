@@ -63,6 +63,11 @@
     font-weight: normal;
 }
 
+.filter-button__body {
+    /* Stay clear from the background image on the right hand side. */
+    width: 75%;
+}
+
 #all {
     background-image: url(../assets/ala/all_button_bgwd.png);
 }
