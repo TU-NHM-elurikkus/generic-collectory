@@ -61,6 +61,7 @@
 
 .filter-button__title {
     color: #0587aa; /* eElurikkus blue */
+    font-weight: normal;
 }
 
 #all {
