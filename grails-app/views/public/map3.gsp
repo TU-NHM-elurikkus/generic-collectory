@@ -48,65 +48,69 @@
 
                 <div class="row">
                     <div class="col-md-5">
-                        <div class="section filter-buttons">
-                            <div class="all selected" id="all" onclick="toggleButton(this);return false;">
-                                <h2>
-                                    <%-- XXX Illegal href, also on same level elements below. --%>
-                                    <a href="">
+                        <div class="section">
+                            <div class="filter-button-container">
+                                <button type="button" class="filter-button all selected" id="all" onclick="toggleButton(this);return false;">
+                                    <h2 class="filter-button__title">
                                         <g:message code="public.map3.link.allcollections" />
+                                    </h2>
 
-                                        <span id="allButtonTotal">
+                                    <div class="filter-button__body">
+                                        <span id="collections-total">
                                             <%-- XXX NOT USED! OR RATHER: OVERWRITTEN BY JS. --%>
                                             <g:message code="public.map3.link.showall" />
                                             <collections></collections>
                                         </span>
-                                    </a>
-                                </h2>
+                                    </div>
+                                </button>
                             </div>
 
-                            <div class="fauna" id="fauna" onclick="toggleButton(this);return false;">
-                                <h2>
-                                    <a href="">
+                            <div class="filter-button-container">
+                                <button type="button" class="filter-button fauna" id="fauna" onclick="toggleButton(this);return false;">
+                                    <h2 class="filter-button__title">
                                         <g:message code="public.map3.link.fauna" />
+                                    </h2>
 
-                                        <span>
-                                            <g:message code="public.map3.link.mammals" />.
-                                        </span>
-                                    </a>
-                                </h2>
+                                    <div class="filter-button__body">
+                                        <g:message code="public.map3.link.mammals" />
+                                    </div>
+                                </button>
                             </div>
 
-                            <div class="insects" id="entomology" onclick="toggleButton(this);return false;">
-                                <h2>
-                                    <a href="">
+                            <div class="filter-button-container">
+                                <button type="button" class="filter-button insects" id="entomology" onclick="toggleButton(this);return false;">
+                                    <h2 class="filter-button__title">
                                         <g:message code="public.map3.link.insect" />
-                                        <span>
-                                            <g:message code="public.map3.link.insects" />.
-                                        </span>
-                                    </a>
-                                </h2>
+                                    </h2>
+
+                                    <div class="filter-button__body">
+                                        <g:message code="public.map3.link.insects" />.
+                                    </div>
+                                </button>
                             </div>
 
-                            <div class="microbes" id="microbes" onclick="toggleButton(this);return false;">
-                                <h2>
-                                    <a href="">
+                            <div class="filter-button-container">
+                                <button type="button" class="filter-button microbes" id="microbes" onclick="toggleButton(this);return false;">
+                                    <h2 class="filter-button__title">
                                         <g:message code="public.map3.link.mos" />
-                                        <span>
-                                            <g:message code="public.map3.link.protists" />.
-                                        </span>
-                                    </a>
-                                </h2>
+                                    </h2>
+
+                                    <div class="filter-button__body">
+                                        <g:message code="public.map3.link.protists" />.
+                                    </div>
+                                </button>
                             </div>
 
-                            <div class="plants" id="plants" onclick="toggleButton(this);return false;">
-                                <h2>
-                                    <a href="">
+                            <div class="filter-button-container">
+                                <button type="button" class="filter-button plants" id="plants" onclick="toggleButton(this);return false;">
+                                    <h2 class="filter-button__title">
                                         <g:message code="public.map3.link.plants" />
-                                        <span>
-                                            <g:message code="public.map3.link.vascular" />.
-                                        </span>
-                                    </a>
-                                </h2>
+                                    </h2>
+
+                                    <div class="filter-button__body">
+                                        <g:message code="public.map3.link.vascular" />.
+                                    </div>
+                                </button>
                             </div>
                         </div>
 
@@ -115,7 +119,7 @@
                             <g:link controller="manage" action="list" style="color:#DDDDDD; margin-top:80px;">
                                 <g:message code="public.map3.adminlink" />
                             </g:link>
-                        </div>
+                        filter-</div>
                         --%>
                     </div>
 
