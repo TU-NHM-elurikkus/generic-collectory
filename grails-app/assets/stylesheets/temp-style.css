@@ -49,13 +49,12 @@
 
 .filter-button:hover,
 .filter-button:focus {
-    border-color: #0587aa; /* eElurikkus blue */
-    opacity: 0.75;
+    border-color: #06a6d2; /* eElurikkust blue-light */
+    opacity: 0.66;
     outline: none;
 }
 
 .filter-button.selected {
-    border-color: #06a6d2; /* eElurikkust blue-light */
     opacity: 1.0;
 }
 
