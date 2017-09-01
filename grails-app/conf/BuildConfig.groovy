@@ -1,10 +1,10 @@
-grails.servlet.version = "2.5" // Change depending on target container compliance (2.5 or 3.0)
+grails.servlet.version = "3.0" // Change depending on target container compliance (2.5 or 3.0)
 grails.project.class.dir = "target/classes"
 grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
 grails.project.work.dir = "target/work"
-grails.project.target.level = 1.6
-grails.project.source.level = 1.6
+grails.project.target.level = 1.7
+grails.project.source.level = 1.7
 
 //grails.plugin.location."collectory-plugin" = "../collectory-plugin"
 
@@ -43,7 +43,7 @@ grails.project.dependency.resolution = {
     plugins {
         build ":rest-client-builder:1.0.3"
         build ":release:3.0.1"
-        build ":tomcat:7.0.54"
+        build ":tomcat:7.0.70"
         compile ":asset-pipeline:2.14.1"
         compile ":cache:1.1.8"
         runtime ":elurikkus-commons:0.2-SNAPSHOT"

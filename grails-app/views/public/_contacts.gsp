@@ -29,6 +29,7 @@
                     </g:if>
 
                     <cl:emailLink email="${cf?.contact?.email}">
+                        <span class="fa fa-envelope"></span>
                         <g:message code="public.show.contacts.email" />
                     </cl:emailLink>
                 </p>
