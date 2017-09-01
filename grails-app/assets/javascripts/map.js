@@ -282,7 +282,7 @@ function updateList(features) {
     maxCollections = Math.max(features.length, maxCollections);
 
     if(!$('div#all').hasClass('inst')) {  // don't change text if showing institutions
-        $('span#allButtonTotal').html(jQuery.i18n.prop('public.map3.link.showall', maxCollections));
+        $('#collections-total').html(jQuery.i18n.prop('public.map3.link.showall', maxCollections));
     }
 
     // update display of number of features
@@ -937,7 +937,7 @@ function filterChange() {
  * Helpers for managing Filter buttons
  */
 /************************************************************\
-*   handle filter button click
+*   Handle filter button click. Doesn't actually toggle.
 \************************************************************/
 function toggleButton(button) {
     // if already selected do nothing
@@ -946,27 +946,36 @@ function toggleButton(button) {
     }
 
     // de-select all
-    $('div.filter-buttons div').toggleClass('selected',false);
+    $('.filter-button').toggleClass('selected',false);
 
     // select the one that was clicked
     $(button).toggleClass('selected', true);
 
     // reloadData
     var filters = button.id;
-    if (filters == 'fauna') {filters = 'fauna,entomology'}
+
+    if(filters == 'fauna') {
+        filters = 'fauna,entomology'
+    }
+
     $.get(featuresUrl, {filters: filters}, dataRequestHandler);
 }
 
 /************************************************************\
- *   select filter if one is specified in the url
- \************************************************************/
+ *  select filter if one is specified in the url
+\************************************************************/
 function selectInitialFilter() {
     var params = $.deparam.querystring(),
         start = params.start,
         filter;
+
     if (start) {
-        if (start === 'insects') { start = 'entomology'; }
+        if(start === 'insects') {
+            start = 'entomology';
+        }
+
         filter = $('#' + start);
+
         if (filter.length > 0) {
             toggleButton(filter[0]);
         }
@@ -978,7 +987,7 @@ function selectInitialFilter() {
 \************************************************************/
 function getSelectedFilters() {
     var checked = '';
-    $('div.filter-buttons div').each(function(index, element){
+    $('.filter-button').each(function(index, element){
         if ($(element).hasClass('selected')) {
             checked += element.id + ',';
         }

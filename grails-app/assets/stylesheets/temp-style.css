@@ -13,95 +13,79 @@
     border: 1px solid #333 !important;
 }
 
+.map-footer {
+    padding-top: 1.25rem;
+    text-align: right;
+}
+
+.map-legend-img {
+    vertical-align: middle;
+    height: 20px;
+    width: 20px;
+}
+
 /* ******************************\ Styling for map filter buttons \******************************* */
-
-.filter-buttons div {
-    width: 100%;
-    margin-bottom: 16px;
-    padding: 0 0 0 0;
-    padding-top: 0;
-    opacity: 0.45;
-    background: linear-gradient( white, #f0f0f0);
-    background-position: right;
+.filter-button-container {
     background-size: auto;
-    filter: alpha(opacity=45);
+    background: linear-gradient(white, #f0f0f0);
+    margin-bottom: 1.25rem;
 }
 
-.filter-buttons div.selected {
+.filter-button {
+    /* Background position is this specific because of our current background images. */
+    background-color: transparent;
+    background-position: calc(100% + 10px) -5px;
+    background-repeat: no-repeat;
+    border-radius: 4px;
+    border: 1px solid #cacbcc; /* eElurikkus gray-light */
+    color: inherit;
+    cursor: pointer;
+    height: auto;
+    opacity: 0.5;
+    padding: .625rem;
+    text-align: left;
+    width: 100%;
+}
+
+.filter-button:hover,
+.filter-button:focus {
+    border-color: #06a6d2; /* eElurikkust blue-light */
+    opacity: 0.66;
+    outline: none;
+}
+
+.filter-button.selected {
     opacity: 1.0;
-    filter: alpha(opacity=100);
 }
 
-.filter-buttons h2 {
-    line-height: normal;
-}
-
-.filter-buttons a {
-    display: block;
-    height: 70px;
-    padding: 4px 10px 3px 10px;
-    overflow: hidden;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.filter-buttons h2 a {
-    background-repeat: no-repeat;
-    background-position: right;
-    font-size: 20px;
+.filter-button__title {
+    color: #0587aa; /* eElurikkus blue */
     font-weight: normal;
 }
 
-.filter-buttons h2 a span {
-    display: block;
+.filter-button__body {
+    /* Stay clear from the background image on the right hand side. */
     width: 75%;
-    padding-top: .3em;
-    color: #000;
-    font-size: 13px;
-    line-height: 1.2em;
 }
 
-.filter-buttons button {
-    display: block;
-    height: 70px;
-    padding: 4px 10px 3px 10px;
-    overflow: hidden;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-image: url(../assets/ala/all_button_bgwd.png);
-    background-repeat: no-repeat;
-    background-position: right;
-    font-size: 20px;
-    font-weight: normal;
-}
-
-.filter-buttons .all a {
+#all {
     background-image: url(../assets/ala/all_button_bgwd.png);
 }
 
-.filter-buttons .fauna a {
+#fauna {
     background-image: url(../assets/ala/fauna_button_bgwd.png);
 }
 
-.filter-buttons .insects a {
+#entomology {
     background-image: url(../assets/ala/insects_button_bgwd.png);
 }
 
-.filter-buttons .microbes a {
+#microbes {
     background-image: url(../assets/ala/microbes_button_bgwd.png);
 }
 
-.filter-buttons .plants a {
+#plants {
     background-image: url(../assets/ala/plants_button_bgwd.png);
-}
-
-.filter-buttons h2 a:active, .filter-buttons h2 a:active span, .filter-buttons h2 a:hover, .filter-buttons h2 a:hover span {
-    color: #016071;
-    text-decoration: none;
-}
-
-.buttons h2 a:active, .buttons h3 a:active, .buttons h3 a:hover, .filter-buttons h2 a:hover, .sorry h2 a:active, .sorry h2 a:hover, .sorry h3 a:active, .sorry h3 a:hover {
-    border-color: #016071;
 }
 
 #collectionTypesFooter {
@@ -190,15 +174,4 @@ ul.facets {
     padding-bottom: 1rem;
     overflow-x: auto;
     overflow-y: hidden;
-}
-
-.map-footer {
-    padding-top: 1.25rem;
-    text-align: right;
-}
-
-.map-legend-img {
-    vertical-align: middle;
-    height: 20px;
-    width: 20px;
 }
