@@ -92,6 +92,7 @@
 
                 <div class="page-header-links">
                     <a href="${request.contextPath}/" class="page-header-links__link">
+                        <span class="fa fa-arrow-left"></span>
                         <g:message code="page.navigation.collections" />
                     </a>
 
@@ -100,6 +101,7 @@
                     </a>
 
                     <a href="${grailsApplication.config.biocacheUiURL}/occurrences/search?q=collection_uid:${instance.uid}" class="page-header-links__link">
+                        <span class="fa fa-list"></span>
                         <g:message code="page.navigation.records" args="${ [instance.name] }" />
                     </a>
                 </div>
@@ -441,6 +443,7 @@
                                 <cl:warnIfInexactMapping collection="${instance}" />
 
                                 <cl:recordsLink entity="${instance}">
+                                    <span class="fa fa-list"></span>
                                     <g:message code="public.show.rt.recordsLink" args="[cl.collectionName(name: instance.name)]" />
                                 </cl:recordsLink>
                             </g:if>
@@ -608,7 +611,7 @@
                             drawFacetCharts(data, facetChartOptions);
                             if(data.totalRecords > 0) {
                                 $('#dataAccessWrapper').css({display:'block'});
-                                $('#totalRecordCountLink').html(data.totalRecords.toLocaleString() + " ${g.message(code: 'public.show.rt.des03')}");
+                                $('#totalRecordCountLink').html('<span class="fa fa-list"></span> ' + data.totalRecords.toLocaleString() + " ${g.message(code: 'public.show.rt.des03')}");
                             }
                         }
                     }
@@ -650,10 +653,19 @@
 
                                         var queryUrl = biocacheWebappUrl + uiBase + imagesQueryUrl + '&fq=' + data.facetResults[0].fieldName + ':' + facet.label;
 
-                                        description += '<a href="' + queryUrl + '">' + (facet.count + ' ' + facet.label) + '</a>';
+                                        description += '<a href="' + queryUrl + '"><span class="fa fa-list"></span> ' + (facet.count + ' ' + facet.label) + '</a>';
                                     })
                                 }
-                                $('#imagesSpiel').html('<p><a href="'+biocacheWebappUrl + uiBase + imagesQueryUrl +'">' + data.totalRecords + ' images</a> have been made available from the ${instance.name}. <br/> ' + description + '</p>');
+                                $('#imagesSpiel').html(
+                                    '<p>' +
+                                        '<a href="'+biocacheWebappUrl + uiBase + imagesQueryUrl +'">' +
+                                            '<span class="fa fa-list"></span>' +
+                                            data.totalRecords + ' images' +
+                                        '</a> have been made available from the ${instance.name}.' +
+                                        '<br /> ' +
+                                        description +
+                                    '</p>'
+                                );
                                 $.each(data.occurrences, function(idx, item) {
                                     var imageText = item.scientificName;
 

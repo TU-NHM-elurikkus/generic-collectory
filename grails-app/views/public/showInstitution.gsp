@@ -81,10 +81,12 @@
 
                 <div class="page-header-links">
                     <a href="${request.contextPath}/" class="page-header-links__link">
-                        Collections
+                        <span class="fa fa-arrow-left"></span>
+                        <g:message code="page.navigation.collections" />
                     </a>
 
                     <a href="${grailsApplication.config.biocacheUiURL}/occurrences/search?q=institution_uid:${instance.uid}" class="page-header-links__link">
+                        <span class="fa fa-list"></span>
                         ${instance.name} records
                     </a>
 
@@ -158,6 +160,7 @@
                                 </p>
 
                                 <cl:recordsLink entity="${instance}">
+                                    <span class="fa fa-list"></span>
                                     <g:message code="public.numbrs.link" /> ${instance.name}.
                                 </cl:recordsLink>
                             </div>
@@ -381,7 +384,7 @@
                         drawFacetCharts(data, facetChartOptions);
                         if(data.totalRecords > 0){
                             $('#dataAccessWrapper').css({display:'block'});
-                            $('#totalRecordCountLink').html(data.totalRecords.toLocaleString() + " ${g.message(code: 'public.show.rt.des03')}");
+                            $('#totalRecordCountLink').html('<span class="fa fa-list"></span> ' + data.totalRecords.toLocaleString() + " ${g.message(code: 'public.show.rt.des03')}");
                         }
                     }
                 }

@@ -61,6 +61,7 @@
                             />
 
                             <button type="submit" class="erk-button erk-button--dark input-plus__addon">
+                                <span class="fa fa-search"></span>
                                 <g:message code="public.datasets.drsearch.search" />
                             </button>
                         </div>

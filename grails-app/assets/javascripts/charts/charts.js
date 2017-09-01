@@ -471,10 +471,10 @@ function drawTaxonomyChart(data, chartOptions, query) {
     }
     // set link text
     if (chartOptions.history) {
-        $recordsLink.html(jQuery.i18n.prop('charts.js.viewrecordsfor') + ' ' + chartOptions.rank + ' ' + chartOptions.name);
+        $recordsLink.html('<span class="fa fa-list"></span> ' + jQuery.i18n.prop('charts.js.viewrecordsfor') + ' ' + chartOptions.rank + ' ' + chartOptions.name);
     }
     else {
-        $recordsLink.html(jQuery.i18n.prop('charts.js.viewallrecords'));
+        $recordsLink.html('<span class="fa fa-list"></span> ' + jQuery.i18n.prop('charts.js.viewallrecords'));
     }
 
     // setup a click handler - if requested
@@ -775,4 +775,3 @@ function addCommas(nStr)
     }
     return x1 + x2;
 }
-

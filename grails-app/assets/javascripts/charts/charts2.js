@@ -1103,7 +1103,7 @@ var taxonomyChart = {
             $recordsLink.html(jQuery.i18n.prop('charts2.js.viewrecordsfor') + ' ' + this.rank + ' ' + this.name);
         }
         else {
-            $recordsLink.html(jQuery.i18n.prop('charts2.js.viewallrecords'));
+            $recordsLink.html('<span class="fa fa-list"></span>' + jQuery.i18n.prop('charts2.js.viewallrecords'));
         }
 
         // setup a click handler - if requested
@@ -1358,5 +1358,3 @@ function addCommas(nStr)
     }
     return x1 + x2;
 }
-
-

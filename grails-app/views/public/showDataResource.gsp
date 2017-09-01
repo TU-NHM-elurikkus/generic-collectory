@@ -28,15 +28,17 @@
                 <%-- <div class="page-header__subtitle"></div> --%>
 
                 <div class="page-header-links">
+                    <a href="/generic-collectory/datasets/" title="List" class="page-header-links__link">
+                        <span class="fa fa-arrow-left"></span>
+                        <g:message code="page.navigation.list" />
+                    </a>
+
                     <a href="${request.contextPath}/" class="page-header-links__link">
                         <g:message code="page.navigation.collections" />
                     </a>
 
-                    <a href="/generic-collectory/datasets/" title="List" class="page-header-links__link">
-                        <g:message code="page.navigation.list" />
-                    </a>
-
                     <a href="${grailsApplication.config.biocacheUiURL}/occurrences/search?q=data_resource_uid:${instance.uid}" class="page-header-links__link">
+                        <span class="fa fa-list"></span>
                         ${instance.name} records
                     </a>
                 </div>
@@ -221,7 +223,7 @@
                                 <cl:dataCurrency date="${instance.dataCurrency}" />
                             </p>
                         </g:if>
-                    </div> <!-- main card --!>
+                    </div> <%-- main card --%>
 
                     <g:if test="${!grailsApplication.config.disableLoggerLinks.toBoolean() && (instance.resourceType == 'website' || instance.resourceType == 'records')}">
                         <div id="usage-stats" class="card">
@@ -268,7 +270,8 @@
                                 </p>
 
                                 <cl:recordsLink collection="${instance}">
-                                    <g:message code="public.sdr.content.link01" />
+                                    <span class="fa fa-list"></span>
+                                    <g:message code="public.numbrs.link" />
                                     ${instance.name}
                                     <g:message code="public.sdr.content.link02" />.
                                 </cl:recordsLink>
@@ -633,7 +636,7 @@
 
                                 if(data.totalRecords > 0) {
                                     $('#dataAccessWrapper').css({display:'block'});
-                                    $('#totalRecordCountLink').html(data.totalRecords.toLocaleString() + " ${g.message(code: 'public.show.rt.des03')}");
+                                    $('#totalRecordCountLink').html('<span class="fa fa-list"></span> ' + data.totalRecords.toLocaleString() + " ${g.message(code: 'public.show.rt.des03')}");
                                 }
                             }
                         }
