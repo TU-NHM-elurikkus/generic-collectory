@@ -593,8 +593,6 @@ function displayFacet(facet, list) {
     // add facet header
     var $header = $('<h4 class="datasets-facet__header">' + facet.display + '</h4>');
 
-    $header.tooltip(tooltipOptions);
-
     // add each value
     var $list = $('<ul class="datasets-facet__values"></ul>');
 
