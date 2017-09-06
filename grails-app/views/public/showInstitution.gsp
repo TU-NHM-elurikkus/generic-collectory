@@ -133,6 +133,7 @@
                                 <g:each var="c" in="${instance.listCollections().sort { it.name }}">
                                     <li class="erk-olist__item">
                                         <g:link controller="public" action="show" id="${c.uid}">
+                                            <span class="fa fa-archive"></span>
                                             ${c?.name}
                                         </g:link>
 

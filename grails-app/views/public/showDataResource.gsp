@@ -34,6 +34,7 @@
                     </a>
 
                     <a href="${request.contextPath}/" class="page-header-links__link">
+                        <span class="fa fa-archive"></span>
                         <g:message code="page.navigation.collections" />
                     </a>
 

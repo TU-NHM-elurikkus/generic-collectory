@@ -3,6 +3,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="${grailsApplication.config.skin.layout}" />
 
+        <asset:stylesheet src="map3.css" />
+
         <title>
             <g:message code="public.map3.title" /> | ${grailsApplication.config.projectName}
         </title>
@@ -180,7 +182,7 @@
                                             <g:message code="public.map3.maplistcol.des04" />&nbsp;
                                         </p>
 
-                                        <ul id="filtered-list">
+                                        <ul id="filtered-list" class="list-unstyled">
                                             <g:each var="c" in="${collections}" status="i">
                                                 <li>
                                                     <g:link controller="public" action="show" id="${c.uid}">

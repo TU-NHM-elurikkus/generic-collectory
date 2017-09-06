@@ -97,6 +97,7 @@
                     </a>
 
                     <a href="${request.contextPath}/public/show/${instance.institution.uid}" class="page-header-links__link">
+                        <span class="fa fa-university"></span>
                         ${instance.institution.name}
                     </a>
 
