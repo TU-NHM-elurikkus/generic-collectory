@@ -99,97 +99,6 @@
             </div> <%-- /header --%>
 
             <div class="row">
-                <div class="col-md-9">
-                    <g:if test="${instance.pubDescription}">
-                        <h2>
-                            <g:message code="public.des" />
-                        </h2>
-                        <cl:formattedText>
-                            ${fieldValue(bean: instance, field: "pubDescription")}
-                        </cl:formattedText>
-                        <cl:formattedText>
-                            ${fieldValue(bean: instance, field: "techDescription")}
-                        </cl:formattedText>
-                    </g:if>
-
-                    <g:if test="${instance.focus}">
-                        <h2>
-                            <g:message code="public.si.content.label02" />
-                        </h2>
-                        <cl:formattedText>
-                            ${fieldValue(bean: instance, field: "focus")}
-                        </cl:formattedText>
-                    </g:if>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>
-                                <g:message code="public.si.content.label03" />
-                            </h4>
-                        </div>
-
-                        <div class="card-body">
-                            <ol class="erk-olist">
-                                <g:each var="c" in="${instance.listCollections().sort { it.name }}">
-                                    <li class="erk-olist__item">
-                                        <g:link controller="public" action="show" id="${c.uid}">
-                                            ${c?.name}
-                                        </g:link>
-
-                                        ${c?.makeAbstract(400)}
-                                    </li>
-                                </g:each>
-                            </ol>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>
-                                <g:message code="public.si.content.label04" />
-                            </h4>
-                        </div>
-
-                        <div class="card-body">
-                            <div>
-                                <p>
-                                    <span id="numBiocacheRecords">
-                                        <g:message code="public.numbrs.des01" />
-                                    </span>
-                                    <g:message code="public.numbrs.des02" />.
-                                </p>
-
-                                <cl:recordsLink entity="${instance}">
-                                    <span class="fa fa-list"></span>
-                                    <g:message code="public.numbrs.link" /> ${instance.name}.
-                                </cl:recordsLink>
-                            </div>
-
-                            <div id="recordsBreakdown" class="section vertical-charts">
-                                <div id="charts"></div>
-                            </div>
-
-                            <cl:lastUpdated date="${instance.lastUpdated}" />
-                        </div>
-                    </div>
-
-                    <div id="usage-stats" class="card">
-                        <a data-toggle="collapse" href="#usage">
-                            <div class="card-header">
-                                <h4>
-                                    <g:message code="public.usagestats.label" />
-                                </h4>
-                            </div>
-                        </a>
-
-                        <div id="usage" class="collapse card-body" data-parent="#usage-stats">
-                            <p>
-                                <g:message code="public.usage.des" />...
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="col-md-3">
                     <g:if test="${fieldValue(bean: instance, field: 'imageRef') && fieldValue(bean: instance, field: 'imageRef.file')}">
                         <div class="section">
@@ -315,7 +224,115 @@
                         </div>
                     </g:if>
                 </div>
-            </div><!--close content-->
+
+                <div class="col-md-9">
+                    <g:if test="${!grailsApplication.config.disableLoggerLinks.toBoolean() && grailsApplication.config.loggerURL}">
+                        <div class="row">
+                            <div class="col">
+                                <div class="float-right">
+                                    <p>
+                                        <a href="${grailsApplication.config.loggerURL}/reasonBreakdownCSV?eventId=1002&entityUid=${instance.uid}">
+                                            <button class="erk-button erk-button--light">
+                                                <span class="fa fa-download"></span>&nbsp;
+                                                <g:message code="dataAccess.download.stats" />
+                                            </button>
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </g:if>
+
+                    <g:if test="${instance.pubDescription}">
+                        <h2>
+                            <g:message code="public.des" />
+                        </h2>
+                        <cl:formattedText>
+                            ${fieldValue(bean: instance, field: "pubDescription")}
+                        </cl:formattedText>
+                        <cl:formattedText>
+                            ${fieldValue(bean: instance, field: "techDescription")}
+                        </cl:formattedText>
+                    </g:if>
+
+                    <g:if test="${instance.focus}">
+                        <h2>
+                            <g:message code="public.si.content.label02" />
+                        </h2>
+                        <cl:formattedText>
+                            ${fieldValue(bean: instance, field: "focus")}
+                        </cl:formattedText>
+                    </g:if>
+
+                    <div class="card detached-card">
+                        <div class="card-header">
+                            <h4>
+                                <g:message code="public.si.content.label03" />
+                            </h4>
+                        </div>
+
+                        <div class="card-body">
+                            <ol class="erk-olist">
+                                <g:each var="c" in="${instance.listCollections().sort { it.name }}">
+                                    <li class="erk-olist__item">
+                                        <g:link controller="public" action="show" id="${c.uid}">
+                                            ${c?.name}
+                                        </g:link>
+
+                                        ${c?.makeAbstract(400)}
+                                    </li>
+                                </g:each>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="card detached-card">
+                        <div class="card-header">
+                            <h4>
+                                <g:message code="public.si.content.label04" />
+                            </h4>
+                        </div>
+
+                        <div class="card-body">
+                            <div>
+                                <p>
+                                    <span id="numBiocacheRecords">
+                                        <g:message code="public.numbrs.des01" />
+                                    </span>
+                                    <g:message code="public.numbrs.des02" />.
+                                </p>
+
+                                <cl:recordsLink entity="${instance}">
+                                    <span class="fa fa-list"></span>
+                                    <g:message code="public.numbrs.link" /> ${instance.name}.
+                                </cl:recordsLink>
+                            </div>
+
+                            <div id="recordsBreakdown" class="section vertical-charts">
+                                <div id="charts"></div>
+                            </div>
+
+                            <cl:lastUpdated date="${instance.lastUpdated}" />
+                        </div>
+                    </div>
+
+                    <div id="usage-stats" class="card detached-card">
+                        <a data-toggle="collapse" href="#usage">
+                            <div class="card-header">
+                                <h4>
+                                    <g:message code="public.usagestats.label" />
+                                </h4>
+                            </div>
+                        </a>
+
+                        <div id="usage" class="collapse card-body" data-parent="#usage-stats">
+                            <p>
+                                <g:message code="public.usage.des" />...
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <script type="text/javascript">

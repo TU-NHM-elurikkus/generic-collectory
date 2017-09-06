@@ -175,3 +175,12 @@ ul.facets {
     overflow-x: auto;
     overflow-y: hidden;
 }
+
+.erk-card-minimal {
+    border: 0;
+}
+
+.erk-card-header-minimal {
+    background-color: transparent;
+    padding: .75rem;
+}
