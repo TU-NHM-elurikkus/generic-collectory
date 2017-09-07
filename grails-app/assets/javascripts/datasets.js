@@ -91,6 +91,8 @@ function appendResource(value) {
     $rowHeader.append(
         '<span class="result-name">' +
             '<a href="' + baseUrl + '/public/showDataResource/' + value.uid + '">' +
+                '<span class="fa fa-database"></span>' +
+                '&nbsp;' +
                 value.name +
             '</a>' +
         '</span>'
@@ -650,8 +652,6 @@ function displayFacetValue(facet, value, hide) {
 
     var $item = $(
         '<li class="datasets-facet__value">' +
-            '<span class="fa fa-square-o"></span>' +
-            '&nbsp;' +
         '</li>'
     );
 
@@ -661,6 +661,8 @@ function displayFacetValue(facet, value, hide) {
 
     var $link = $(
         '<span class="erk-link">' +
+            '<span class="fa fa-square-o"></span>' +
+            '&nbsp;' +
             labelFor(attr) + ' (' + count + ')' +
         '</span>'
     );
