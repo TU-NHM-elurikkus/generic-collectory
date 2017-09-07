@@ -322,7 +322,7 @@
                 </div>
 
                 <div class="col-md-9">
-                    <div class="card erk-card">
+                    <div class="card detached-card">
                         <div class="card-header">
                             <g:if test="${instance.pubDescription || instance.techDescription || instance.focus}">
                                 <h4>
@@ -427,7 +427,7 @@
                     </div>
 
                     <g:if test="${instance.resourceType == 'records'}">
-                        <div class="card erk-card">
+                        <div class="card detached-card">
                             <div class="card-header">
                                 <h4>
                                     <g:message code="public.sdr.content.label09" />
@@ -474,7 +474,7 @@
                     </g:if>
 
                     <g:if test="${!grailsApplication.config.disableLoggerLinks.toBoolean() && (instance.resourceType == 'website' || instance.resourceType == 'records')}">
-                        <div id="usage-stats" class="card erk-card">
+                        <div id="usage-stats" class="card detached-card">
                             <a data-toggle="collapse" href="#usage-card-content">
                                 <div class="card-header">
                                     <h4>

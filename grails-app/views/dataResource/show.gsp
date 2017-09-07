@@ -21,6 +21,12 @@
               height: 170px;
               float: right;
             }
+
+            .privateMenuLink {
+                margin-right: 1rem;
+                text-decoration: underline;
+            }
+
         </style>
 
         <div class="row">

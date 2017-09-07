@@ -226,23 +226,6 @@
                 </div>
 
                 <div class="col-md-9">
-                    <g:if test="${!grailsApplication.config.disableLoggerLinks.toBoolean() && grailsApplication.config.loggerURL}">
-                        <div class="row">
-                            <div class="col">
-                                <div class="float-right">
-                                    <p>
-                                        <a href="${grailsApplication.config.loggerURL}/reasonBreakdownCSV?eventId=1002&entityUid=${instance.uid}">
-                                            <button class="erk-button erk-button--light">
-                                                <span class="fa fa-download"></span>&nbsp;
-                                                <g:message code="dataAccess.download.stats" />
-                                            </button>
-                                        </a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </g:if>
-
                     <g:if test="${instance.pubDescription}">
                         <h2>
                             <g:message code="public.des" />
@@ -276,6 +259,7 @@
                                 <g:each var="c" in="${instance.listCollections().sort { it.name }}">
                                     <li class="erk-olist__item">
                                         <g:link controller="public" action="show" id="${c.uid}">
+                                            <span class="fa fa-archive"></span>
                                             ${c?.name}
                                         </g:link>
 
@@ -316,7 +300,7 @@
                         </div>
                     </div>
 
-                    <div id="usage-stats" class="card detached-card">
+                    <div id="usage-stats" class="card">
                         <a data-toggle="collapse" href="#usage">
                             <div class="card-header">
                                 <h4>

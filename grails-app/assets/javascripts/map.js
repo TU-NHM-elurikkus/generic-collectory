@@ -35,7 +35,7 @@ var featuresUrl;
 // flag to make sure we only apply the url initial filter once
 var firstLoad = true;
 
-if (altMap == undefined) {
+if(altMap == undefined) {
     var altMap = false;
 }
 
@@ -168,7 +168,7 @@ function initMap(mapOptions) {
 *   load features via ajax call
 \************************************************************/
 function reloadData() {
-    if (altMap) {
+    if(altMap) {
         $.get(featuresUrl, {filters: 'all'}, dataRequestHandler);
     } else {
         $.get(featuresUrl, {filters: getAll()}, dataRequestHandler);
@@ -249,7 +249,7 @@ function dataRequestHandler(data) {
 function getSelectedFiltersAsString() {
     var list;
     //alert(altMap);
-    if (altMap) {
+    if(altMap) {
         // new style
         list = getSelectedFilters();
     } else {
@@ -261,12 +261,12 @@ function getSelectedFiltersAsString() {
     list = list.replace(/microbes/,'microbial');
 
     // remove trailing comma
-    if (list.substr(list.length - 1) == ',') {
+    if(list.substr(list.length - 1) == ',') {
         list = list.substring(0,list.length - 1);
     }
     // replace last with 'and'
     var last = list.lastIndexOf(',');
-    if (last > 0) {
+    if(last > 0) {
         list = list.substr(0,last) + ' and ' + list.substr(last + 1);
     }
     // insert space after remaining commas
@@ -301,41 +301,65 @@ function updateList(features) {
     var innerHtml = '';
     var orphansHtml = '';
 
-    for (var i = 0; i < sortedParents.length; i++) {
+    for(var i = 0; i < sortedParents.length; i++) {
         var collList = sortedParents[i];
         // show institution - use name of institution from first collection
         var firstColl = collList[0];
         var content = '';
-        if (firstColl.attributes.instName == null && firstColl.attributes.entityType == 'Collection') {
-            content += '<li class="indented-list-item"><span class="highlight">' + jQuery.i18n.prop('collections.with.no.institution') + '</span><ul>';
-        } else if (firstColl.attributes.instName == null && firstColl.attributes.entityType == 'DataProvider') {
-            content += '<li class="indented-list-item"><span class="highlight">' + jQuery.i18n.prop('dataproviders.list') + '</span><ul>';
+        if(firstColl.attributes.instName == null && firstColl.attributes.entityType == 'Collection') {
+            content +=
+                '<li class="indented-list-item">' +
+                    '<span class="highlight">' +
+                        '<span class="fa fa-archive"></span>' +
+                        '&nbsp;' +
+                        jQuery.i18n.prop('collections.with.no.institution') +
+                    '</span>' +
+                '<ul class="list-unstyled">';
+        } else if(firstColl.attributes.instName == null && firstColl.attributes.entityType == 'DataProvider') {
+            content +=
+                '<li class="indented-list-item">' +
+                    '<span class="highlight">' +
+                        '<span class="fa fa-database"></span>' +
+                        '&nbsp;' +
+                        jQuery.i18n.prop('dataproviders.list') +
+                    '</span>' +
+                '<ul class="list-unstyled">';
 
         } else {
-            content += '<li class="indented-list-item"><a class="highlight" href="' + baseUrl + '/public/show/' + firstColl.attributes.instUid + '">' +
-                    firstColl.attributes.instName + '</a><ul>';
+            content +=
+                '<li class="indented-list-item">' +
+                    '<a class="highlight" href="' + baseUrl + '/public/show/' + firstColl.attributes.instUid + '">' +
+                        '<span class="fa fa-university"></span>' +
+                        '&nbsp;' +
+                        firstColl.attributes.instName +
+                    '</a>' +
+                '<ul class="list-unstyled">';
         }
         // show each collection
-        for (var c = 0; c < collList.length; c++) {
+        for(var c = 0; c < collList.length; c++) {
             var coll = collList[c];
             var acronym = '';
 
-            if (coll.attributes.acronym != undefined) {
+            if(coll.attributes.acronym != undefined) {
                 acronym = ' (' + coll.attributes.acronym + ')'
             }
 
-            content += '<li class="indented-list-item">';
-            content += '<a href="' + baseUrl + '/public/show/' + coll.attributes.uid + '">' +
-                    coll.attributes.name + acronym + '</a>';
+            content +=
+                '<li class="indented-list-item">' +
+                    '<a href="' + baseUrl + '/public/show/' + coll.attributes.uid + '">' +
+                        '<span class="fa fa-archive"></span>' +
+                        '&nbsp;' +
+                        coll.attributes.name + acronym +
+                    '</a>';
 
-            if (!coll.attributes.isMappable) {
-              content += '<img style="vertical-align:middle" src="' + baseUrl + '/images/map/nomap.gif"/>';
-            }
+            // if(!coll.attributes.isMappable) {
+            //     content += '<img style="vertical-align:middle" src="' + baseUrl + '/images/map/nomap.gif"/>';
+            // }
 
             content += '</li>';
         }
         content += '</ul></li>'
-        if (firstColl.attributes.instName == null) {
+        if(firstColl.attributes.instName == null) {
             orphansHtml = content;
         } else {
             innerHtml += content;
@@ -350,7 +374,7 @@ function updateList(features) {
 \************************************************************/
 function hoverOff(evt) {
     feature = evt.feature;
-    if (feature != null && feature.popup != null) {
+    if(feature != null && feature.popup != null) {
         map.removePopup(feature.popup);
         feature.destroyPopup(feature.popup);
     }
@@ -362,7 +386,7 @@ function hoverOff(evt) {
 function hoverOn(evt) {
   feature = evt.feature;
     var content = '';
-    if (feature.cluster) {
+    if(feature.cluster) {
         content = '<ul class="hoverPop">';
         for(var c = 0; c < feature.cluster.length; c++) {
             content += '<li>'
@@ -402,7 +426,7 @@ function moved(evt) {
             totalCount += f.cluster.length;
 
             // for clusters count each feature
-            if (f.onScreen(true)) {
+            if(f.onScreen(true)) {
                 visibleCount += f.cluster.length;
             }
         } else {
@@ -431,7 +455,7 @@ function moved(evt) {
 
             break;
         default:
-            if (visibleCount == totalCount) {
+            if(visibleCount == totalCount) {
                 innerFeatures = jQuery.i18n.prop('map.js.allarecurrentlyvisible');
             } else {
                 innerFeatures = visibleCount + ' ' + jQuery.i18n.prop('map.js.collectionarecurrentlyvisible');
@@ -456,7 +480,7 @@ function selected(evt) {
     // build content
     var content = '';
 
-    if (feature.cluster) {
+    if(feature.cluster) {
         content = outputClusteredFeature(feature);
     } else {
         content = outputSingleFeature(feature);
@@ -470,7 +494,7 @@ function selected(evt) {
             null, true, onPopupClose);
 
     // control shape
-    if (!feature.cluster) {
+    if(!feature.cluster) {
         popup.maxSize = new OpenLayers.Size(350, 500);
     }
 
@@ -487,20 +511,20 @@ function selected(evt) {
 *   generate html for a single collection
 \************************************************************/
 function outputSingleFeature(feature) {
-    if ($('div#all').hasClass('inst') && $('div#all').hasClass('selected')) { // simple list if showing institutions
+    if($('div#all').hasClass('inst') && $('div#all').hasClass('selected')) { // simple list if showing institutions
         return outputSingleInstitution(feature);
     } else {
         var address = '';
-        if (feature.attributes.address != null && feature.attributes.address != '') {
+        if(feature.attributes.address != null && feature.attributes.address != '') {
             address = feature.attributes.address;
         }
         var desc = feature.attributes.desc;
         var acronym = '';
-        if (feature.attributes.acronym != undefined) {
+        if(feature.attributes.acronym != undefined) {
             acronym = ' (' + feature.attributes.acronym + ')'
         }
         var instLink = '';
-        if (feature.attributes.instUid != null) {
+        if(feature.attributes.instUid != null) {
             instLink = outputInstitutionOnOwnLine(feature) + '<br/>';
             return instLink + '<a style="margin-left:5px;" href="' + feature.attributes.url + '">'
                         + getShortCollectionName(feature) + '</a>' + acronym
@@ -520,11 +544,11 @@ function outputSingleFeature(feature) {
 \************************************************************/
 function outputSingleInstitution(feature) {
     var address = '';
-    if (feature.attributes.address != null && feature.attributes.address != '') {
+    if(feature.attributes.address != null && feature.attributes.address != '') {
         address = feature.attributes.address;
     }
     var acronym = '';
-    if (feature.attributes.instAcronym != undefined) {
+    if(feature.attributes.instAcronym != undefined) {
         acronym = ' (' + feature.attributes.instAcronym + ')'
     }
     var content = '<a class="highlight" href="' + baseUrl + '/public/show/' + feature.attributes.instUid + '">' + feature.attributes.instName + '</a>';
@@ -542,15 +566,15 @@ function groupByParent(features, groupOrphans) {
     for(var c = 0; c < features.length; c++) {
         var collectionFeature = features[c];
         var instUid = collectionFeature.attributes.instUid;
-        if (instUid == undefined && groupOrphans) {
+        if(instUid == undefined && groupOrphans) {
             instUid = 'zz-other';
         }
-        if (instUid == undefined) {
+        if(instUid == undefined) {
             // add as orphan collection
             parents[collectionFeature.attributes.uid] = collectionFeature;
         } else {
             var collList = parents[instUid];
-            if (collList == undefined) {
+            if(collList == undefined) {
                 // create new inst entry
                 collList = new Array();
                 collList.push(collectionFeature);
@@ -563,16 +587,16 @@ function groupByParent(features, groupOrphans) {
     }
     // move to an array so we can sort
     var sortedParents = [];
-    for (var key in parents) {
+    for(var key in parents) {
         sortedParents.push(parents[key]);
     }
     // sort
     sortedParents.sort(function(a,b) {
         var aname = getName(a);
         var bname = getName(b);
-        if (aname < bname)
+        if(aname < bname)
             return -1;
-        if (aname > bname)
+        if(aname > bname)
             return 1;
         return 0;
     });
@@ -586,18 +610,18 @@ function outputClusteredFeature(feature) {
     var sortedParents = groupByParent(feature.cluster, false);
     // output the parents list
     var content = '<ul>';
-    if ($('div#all').hasClass('inst') && $('div#all').hasClass('selected')) { // simple list if showing institutions
+    if($('div#all').hasClass('inst') && $('div#all').hasClass('selected')) { // simple list if showing institutions
         content += outputMultipleInstitutions(sortedParents);
     } else {
         // adopt different collapsing strategies based on number to display
         var strategy = 'verbose';
-        if (sortedParents.length == 1) {strategy = 'veryVerbose';}
-        if (sortedParents.length > 4) {strategy = 'brief';}
-        if (sortedParents.length > 6) {strategy = 'terse';}
+        if(sortedParents.length == 1) {strategy = 'veryVerbose';}
+        if(sortedParents.length > 4) {strategy = 'brief';}
+        if(sortedParents.length > 6) {strategy = 'terse';}
         // show them
-        for (var k = 0; k < sortedParents.length; k++) {
+        for(var k = 0; k < sortedParents.length; k++) {
             var item = sortedParents[k];
-            if (item instanceof Array) {
+            if(item instanceof Array) {
                 content += outputMultipleCollections(item, strategy);
             } else {
                 content += outputCollectionOnOwnLine(item);
@@ -614,13 +638,13 @@ function outputClusteredFeature(feature) {
 \************************************************************/
 function outputMultipleInstitutions(parents) {
     var content = '';
-    for (var i = 0; i < parents.length; i++) {
+    for(var i = 0; i < parents.length; i++) {
         var obj = parents[i];
         // use name of institution from first collection
-        if (obj instanceof Array) {obj = obj[0]}
+        if(obj instanceof Array) {obj = obj[0]}
         // skip collections with no institution
         var name = obj.attributes.instName;
-        if (name != null && name != undefined) {
+        if(name != null && name != undefined) {
             content += '<li><a class="highlight" href="' + baseUrl + '/public/show/' + obj.attributes.instUid + '">' + getTightInstitutionName(obj, 55) + '</a></li>';
         }
     }
@@ -632,20 +656,20 @@ function outputMultipleInstitutions(parents) {
 \************************************************************/
 function getName(obj) {
 
-    if ($.isArray(obj) && obj[0].attributes && obj[0].attributes.name && obj[0].attributes.entityType != 'Collection') {
+    if($.isArray(obj) && obj[0].attributes && obj[0].attributes.name && obj[0].attributes.entityType != 'Collection') {
         return obj[0].attributes.name;
-    } else if (!$.isArray(obj) && obj.attributes && obj.attributes.name && obj.attributes.entityType != 'Collection') {
+    } else if(!$.isArray(obj) && obj.attributes && obj.attributes.name && obj.attributes.entityType != 'Collection') {
         return obj.attributes.name;
     }
 
     var name;
-    if ($.isArray(obj)) {
+    if($.isArray(obj)) {
         name = obj[0].attributes.instName;
     } else {
         name = obj.attributes.instName;
     }
     // remove leading 'The ' so the institutions sort by first significant letter
-    if (name !== null && name.length > 4 && name.substr(0,4) === 'The ') {
+    if(name !== null && name.length > 4 && name.substr(0,4) === 'The ') {
         name = name.substr(4);
     }
     return name;
@@ -658,17 +682,17 @@ function outputMultipleCollections(obj, strategy) {
     // use name of institution from first collection
     var content;
     var limit = 4;
-    if (strategy == 'brief') {limit = 2;}
-    if (strategy == 'terse') {limit = 0;}
-    if (strategy == 'veryVerbose') {limit = 10;}
-    if (obj.length < limit) {
+    if(strategy == 'brief') {limit = 2;}
+    if(strategy == 'terse') {limit = 0;}
+    if(strategy == 'veryVerbose') {limit = 10;}
+    if(obj.length < limit) {
     content = '<li>' + outputInstitutionOnOwnLine(obj[0]) + '<ul>';
         for(var c = 0;c < obj.length;c++) {
             content += outputCollectionOnOwnLine(obj[c]);
         }
         content += '</ul>';
     } else {
-        if (obj.length == 1) {
+        if(obj.length == 1) {
             content = outputCollectionWithInstitution(obj[0], strategy);
         } else {
             content = '<li>' + outputInstitutionOnOwnLine(obj[0]) + ' - ' + obj.length + ' ' + jQuery.i18n.prop('map.js.collections') + '</li>'
@@ -681,7 +705,7 @@ function outputMultipleCollections(obj, strategy) {
 * abbreviates institution name if long (assumes inst is present)
 \************************************************************/
 function getTightInstitutionName(obj, max) {
-    if (obj.attributes.instName.length > max && obj.attributes.instAcronym != null) {
+    if(obj.attributes.instName.length > max && obj.attributes.instAcronym != null) {
         return obj.attributes.instAcronym;
     } else {
         return obj.attributes.instName;
@@ -694,14 +718,14 @@ function getTightInstitutionName(obj, max) {
 function getShortCollectionName(obj) {
     var inst = obj.attributes.instName;
     var shortName = obj.attributes.name;
-    if (inst != null && inst.match('^The ') == 'The ') {
+    if(inst != null && inst.match('^The ') == 'The ') {
         inst = inst.substr(4);
     }
-    if (inst != null && obj.attributes.name.match('^' + inst) == inst && // coll starts with the inst name
+    if(inst != null && obj.attributes.name.match('^' + inst) == inst && // coll starts with the inst name
             inst != shortName) { // but not if inst name is the whole of the coll name (ie they are the same)
         shortName = obj.attributes.name.substr(inst.length);
         // check for stupid collection names
-        if (shortName.substr(0,2) == ', ') {
+        if(shortName.substr(0,2) == ', ') {
             shortName = shortName.substr(2);
         }
     }
@@ -721,13 +745,13 @@ function outputInstitutionOnOwnLine(obj) {
 function outputCollectionWithInstitution(obj, strategy) {
     var max = 60;
     var acronym = '';
-    if (obj.attributes.acronym != undefined) {
+    if(obj.attributes.acronym != undefined) {
         acronym = ' (' + obj.attributes.acronym + ')'
     }
     var instLink = '<a class="highlight" href="' + baseUrl + '/public/show/' + obj.attributes.instUid + '">';
 
-    if (strategy == 'verbose') {
-        if (obj.attributes.name.length + acronym.length > max) {
+    if(strategy == 'verbose') {
+        if(obj.attributes.name.length + acronym.length > max) {
             // drop acronym
             return '<li>' + instLink + obj.attributes.instName + '</a><ul>'
                     + '<li>' + '<a href="' + obj.attributes.url + '">'
@@ -744,42 +768,42 @@ function outputCollectionWithInstitution(obj, strategy) {
         var coll = obj.attributes.name;
 
         // try full inst + full coll + acronym
-        if (inst.length + coll.length  + acronym.length <max) {
+        if(inst.length + coll.length  + acronym.length <max) {
             return '<li>' + instLink + inst + '</a> - <a href="' + obj.attributes.url + '">'
                 + coll + acronym  + '</a>' + '</li>';
 
         // try full inst + short coll + acronym
-        } else if (inst.length + getShortCollectionName(obj).length + acronym.length < max) {
+        } else if(inst.length + getShortCollectionName(obj).length + acronym.length < max) {
             return '<li>' + instLink + inst + '</a> - <a href="' + obj.attributes.url + '">'
                 + getShortCollectionName(obj) + acronym + '</a>' + '</li>';
 
         // try full inst + short coll
-        } else if (inst.length + getShortCollectionName(obj).length < max) {
+        } else if(inst.length + getShortCollectionName(obj).length < max) {
             return '<li>' + instLink + inst + '</a> - <a href="' + obj.attributes.url + '">'
                 + getShortCollectionName(obj) + '</a>' + '</li>';
 
         // try acronym of inst + full coll + acronym
-        } else if (briefInst.length + coll.length  + acronym.length < max) {
+        } else if(briefInst.length + coll.length  + acronym.length < max) {
             return '<li>' + instLink + briefInst + '</a> - <a href="' + obj.attributes.url + '">'
                 + coll + '</a>' + '</li>';
 
         // try acronym of inst + full coll
-        } else if (briefInst.length + coll.length < max) {
+        } else if(briefInst.length + coll.length < max) {
             return '<li>' + instLink + briefInst + '</a> - <a href="' + obj.attributes.url + '">'
                 + coll + '</a>' + '</li>';
 
         // try acronym of inst + short coll
-        } else if (briefInst.length + getShortCollectionName(obj).length < max) {
+        } else if(briefInst.length + getShortCollectionName(obj).length < max) {
             return '<li>' + instLink + briefInst + '</a> - <a href="' + obj.attributes.url + '">'
                 + getShortCollectionName(obj) + '</a>' + '</li>';
 
         // try acronym of inst + coll acronym
-        } else if (acronym != '') {
+        } else if(acronym != '') {
             return '<li>' + instLink + briefInst + '</a> - <a href="' + obj.attributes.url + '">'
                 + acronym + '</a>' + '</li>';
 
         // try full inst + 1 collection
-        } else if (inst.length < max - 12) {
+        } else if(inst.length < max - 12) {
             //console.log('Collection: ' + jQuery.i18n.prop('collection'));
             return '<li>' + instLink + inst + '</a> - 1 ' + jQuery.i18n.prop('collection') + '</li>';
 
@@ -797,30 +821,30 @@ function outputCollectionOnOwnLine(obj) {
     var max = 60;
     // build acronym
     var acronym = '';
-    if (obj.attributes.acronym != undefined) {
+    if(obj.attributes.acronym != undefined) {
         acronym = ' <span>(' + obj.attributes.acronym + ')</span>';
     }
 
     /* try combos in order of preference */
     var name;
     // try full name + acronym
-    if (obj.attributes.name.length + acronym.length < max/2) { // favour next option unless very short
+    if(obj.attributes.name.length + acronym.length < max/2) { // favour next option unless very short
         name = obj.attributes.name + '</a>' + acronym;
 
     // try short name + acronym
-    } else if (getShortCollectionName(obj).length + acronym.length < max){
+    } else if(getShortCollectionName(obj).length + acronym.length < max){
         name = getShortCollectionName(obj) + acronym + '</a>';
 
     // try name
-    } else if (obj.attributes.name.length < max) {
+    } else if(obj.attributes.name.length < max) {
         name = obj.attributes.name + '</a>';
 
     // try short name
-    } else if (getShortCollectionName(obj).length < max){
+    } else if(getShortCollectionName(obj).length < max){
         name = getShortCollectionName(obj) + '</a>';
 
     // try acronym
-    //} else if (acronym != '') {
+    //} else if(acronym != '') {
     //    name = acronym + '</a>';
 
     // stuck with name
@@ -844,7 +868,7 @@ function onPopupClose(evt) {
 *   clear all pop-ups
 \************************************************************/
 function clearPopups() {
-    for (pop in map.popups) {
+    for(pop in map.popups) {
         map.removePopup(map.popups[pop])
     }
     // maybe iterate features and clear popups?
@@ -878,12 +902,12 @@ function setAll() {
 *   build comma-separated string representing all selected boxes
 \************************************************************/
 function getAll() {
-    if ($('input#all').is(':checked')) {
+    if($('input#all').is(':checked')) {
         return 'all';
     }
     var checked = '';
     $('input[name=filter]').each(function(index, element){
-        if (element.checked) {
+        if(element.checked) {
             checked += element.value + ',';
         }
     });
@@ -898,7 +922,7 @@ function getAll() {
 \************************************************************/
 function entoChange() {
     // set state of faunal box
-    if ($('input#fauna').is(':checked') && !$('input#ento').is(':checked')) {
+    if($('input#fauna').is(':checked') && !$('input#ento').is(':checked')) {
         $('input#fauna').attr('checked', false);
     }
     filterChange();
@@ -911,20 +935,20 @@ function entoChange() {
 function filterChange() {
     // set ento based on faunal
     // set state of faunal box
-    if ($('input#fauna').is(':checked') && !$('input#ento').is(':checked')) {
+    if($('input#fauna').is(':checked') && !$('input#ento').is(':checked')) {
         $('input#ento').attr('checked', true);
     }
     // find out if they are all checked
     var all = true;
     $('input[name=filter]').each(function(index, element){
-        if (!element.checked) {
+        if(!element.checked) {
             all = false;
         }
     });
     // set state of 'select all' box
-    if ($('input#all').is(':checked') && !all) {
+    if($('input#all').is(':checked') && !all) {
         $('input#all').attr('checked', false);
-    } else if (!$('input#all').is(':checked') && all) {
+    } else if(!$('input#all').is(':checked') && all) {
         $('input#all').attr('checked', true);
     }
 
@@ -941,7 +965,7 @@ function filterChange() {
 \************************************************************/
 function toggleButton(button) {
     // if already selected do nothing
-    if ($(button).hasClass('selected')) {
+    if($(button).hasClass('selected')) {
         return;
     }
 
@@ -969,14 +993,14 @@ function selectInitialFilter() {
         start = params.start,
         filter;
 
-    if (start) {
+    if(start) {
         if(start === 'insects') {
             start = 'entomology';
         }
 
         filter = $('#' + start);
 
-        if (filter.length > 0) {
+        if(filter.length > 0) {
             toggleButton(filter[0]);
         }
     }
@@ -988,11 +1012,11 @@ function selectInitialFilter() {
 function getSelectedFilters() {
     var checked = '';
     $('.filter-button').each(function(index, element){
-        if ($(element).hasClass('selected')) {
+        if($(element).hasClass('selected')) {
             checked += element.id + ',';
         }
     });
-    if (checked == 'fauna,entomology,microbes,plants,') {
+    if(checked == 'fauna,entomology,microbes,plants,') {
         checked = 'all';
     }
 

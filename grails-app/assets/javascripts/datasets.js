@@ -1,23 +1,3 @@
-/*
- * Copyright (C) 2011 Atlas of Living Australia
- * All Rights Reserved.
- *
- * The contents of this file are subject to the Mozilla Public
- * License Version 1.1 (the "License"); you may not use this file
- * except in compliance with the License. You may obtain a copy of
- * the License at http://www.mozilla.org/MPL/
- *
- * Software distributed under the License is distributed on an "AS
- * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
- * implied. See the License for the specific language governing
- * rights and limitations under the License.
- */
-/**
- * User: markew
- * Date: 15/08/11
- * Time: 8:47 AM
- */
-
 /* holds full list of resources */
 var allResources;
 
@@ -52,7 +32,7 @@ var tooltipOptions = {
 function loadResources(serverUrl, biocacheRecordsUrl) {
     baseUrl = serverUrl;
     biocacheUrl = biocacheRecordsUrl;
-    $.getJSON(baseUrl + "/public/resources.json", function(data) {
+    $.getJSON(baseUrl + '/public/resources.json', function(data) {
         allResources = data;
         // no filtering at this stage
         resources = allResources;
@@ -72,7 +52,7 @@ function loadResources(serverUrl, biocacheRecordsUrl) {
         $('div.collectory-content [title][id!="downloadButton"]').tooltip(tooltipOptions);
     });
 }
-/*************************************************\
+/** ***********************************************\
  *  List display
  \*************************************************/
 /** display a page **/
@@ -81,11 +61,11 @@ function displayPage() {
     $('#results-container div').remove();
 
     // paginate and show list
-    for (var i = 0; i < pageSize(); i++) {
+    for(var i = 0; i < pageSize(); i++) {
         var item = resources[offset + i];
 
         // item will be undefined if there are less items than the page size
-        if (item != undefined) {
+        if(item) {
             appendResource(item);
         }
     }
@@ -111,6 +91,8 @@ function appendResource(value) {
     $rowHeader.append(
         '<span class="result-name">' +
             '<a href="' + baseUrl + '/public/showDataResource/' + value.uid + '">' +
+                '<span class="fa fa-database"></span>' +
+                '&nbsp;' +
                 value.name +
             '</a>' +
         '</span>'
@@ -123,7 +105,7 @@ function appendResource(value) {
     $rowSummary.append(
         '<span class="dataset__summary-part">' +
             '<label class="dataset__label">' +
-                jQuery.i18n.prop('datasets.js.appendresource06') + ': ' +
+                $.i18n.prop('datasets.js.appendresource06') + ': ' +
             '</label>' +
             value.resourceType +
         '</span>'
@@ -134,7 +116,7 @@ function appendResource(value) {
         $rowSummary.append(
             '<span class="dataset__summary-part">' +
                 '<label class="dataset__label">' +
-                    jQuery.i18n.prop('datasets.js.appendresource07') +': ' +
+                    $.i18n.prop('datasets.js.appendresource07') + ': ' +
                 '</label>' +
                 value.licenseType +
             '</span>'
@@ -146,32 +128,32 @@ function appendResource(value) {
         $rowSummary.append(
             '<span class="dataset__summary-part">' +
                 '<label class="dataset__label">' +
-                    jQuery.i18n.prop('datasets.js.appendresource08') + ': ' +
+                    $.i18n.prop('datasets.js.appendresource08') + ': ' +
                 '</strong>' +
                 value.licenseVersion +
             '</span>'
         );
     }
 
-    if(value.resourceType == 'records') {
+    if(value.resourceType === 'records') {
         // records link
         $rowSummary.append(
             '<span class="dataset__summary-part">' +
                 '<a href="' + biocacheUrl + '/occurrences/search?q=data_resource_uid:' + value.uid + '">' +
                     '<span class="fa fa-list"></span>' +
                     '&nbsp;' +
-                    jQuery.i18n.prop('datasets.js.appendresource10') +
+                    $.i18n.prop('datasets.js.appendresource10') +
                 '</a>' +
             '</span>'
         );
     }
 
-    if(value.resourceType == 'website' && value.websiteUrl) {
+    if(value.resourceType === 'website' && value.websiteUrl) {
         // website link
         $rowSummary.append(
             '<span class="dataset__summary-part">' +
                 '<a class="external" target="_blank" href="' + value.websiteUrl + '">' +
-                    jQuery.i18n.prop('datasets.js.appendresource11') +
+                    $.i18n.prop('datasets.js.appendresource11') +
                 '</a>' +
             '</span>'
         );
@@ -189,19 +171,22 @@ function clearList() {
     offset = 0;
     $.bbq.removeState('offset');
 }
+
 /** display the current size of the filtered list **/
 function updateTotal() {
     total = resources.length;
-    $('#resultsReturned').html(jQuery.i18n.prop('datasets.js.updatetotal03') +  ' <strong>' + total + '</strong> ' + jQuery.i18n.prop('datasets.js.updatetotal04') + (total == 1 ? jQuery.i18n.prop('datasets.js.updatetotal05') : jQuery.i18n.prop('datasets.js.updatetotal06')));
-    $('#downloadButton').attr('title', jQuery.i18n.prop('datasets.js.updatetotal01') + ' ' + total + ' ' + jQuery.i18n.prop('datasets.js.updatetotal02'));
+    $('#resultsReturned').html($.i18n.prop('datasets.js.updatetotal03') + ' <strong>' + total + '</strong> ' + $.i18n.prop('datasets.js.updatetotal04') + (total === 1 ? $.i18n.prop('datasets.js.updatetotal05') : $.i18n.prop('datasets.js.updatetotal06')));
+    $('#downloadButton').attr('title', $.i18n.prop('datasets.js.updatetotal01') + ' ' + total + ' ' + $.i18n.prop('datasets.js.updatetotal02'));
 }
+
 function hideTooltip(element) {
-    if (element == undefined) return;
-    if ($(element).data("tooltip") != null) {
-        $(element).data("tooltip").hide();
+    if(element === undefined) { return; }
+    if($(element).data('tooltip')) {
+        $(element).data('tooltip').hide();
     }
 }
-/*************************************************\
+
+/** ***********************************************\
  *  Filters
  \************************************************/
 /** applies current filters to the list **/
@@ -216,34 +201,33 @@ function filterList() {
     // aggregate all search criteria
     var searchTerms = [];
     $.each(currentFilters, function(i, obj) {
-        if (obj.name == 'contains') {
+        if(obj.name === 'contains') {
             searchTerms.push(obj.value.toLowerCase());
         }
     });
 
     // perform any solr search and wait for result
-    if (searchTerms.length > 0) {
-        $('.collectory-content').css('cursor','wait');
+    if(searchTerms.length > 0) {
+        $('.collectory-content').css('cursor', 'wait');
         // build query string from terms
         var query = '';
         $.each(searchTerms, function(i, term) {
-            query += (i == 0) ? term : "&fq=text:" + term
+            query += (i === 0) ? term : '&fq=text:' + term;
         });
         // do search
         console.log('Doing a search with query: ' + query);
-        $.ajax({url: baseUrl + "/public/dataSetSearch?q=" + query,
+        $.ajax({ url: baseUrl + '/public/dataSetSearch?q=' + query,
             success: function(uids) {
                 applyFilters(uids);
-                $('.collectory-content').css('cursor','default');
+                $('.collectory-content').css('cursor', 'default');
             }
         });
-    }
-    // no search - so just do it now
-    else {
+    } else {
         // do it now
         applyFilters();
     }
 }
+
 function applyFilters(uidList) {
     // apply each filter in effect
     $.each(currentFilters, function(i, obj) {
@@ -262,22 +246,19 @@ function filterBy(filter, uidList) {
     $.each(resources, function(index, resource) {
 
         // filter by has
-        if (facet.action == "has") {
-            if (resource[filter.name] && resource[filter.name].indexOf(filter.value) > 0) {
+        if(facet.action === 'has') {
+            if(resource[filter.name] && resource[filter.name].indexOf(filter.value) > 0) {
                 newResourcesList.push(resource);
             }
-        }
-        // filter by search results
-        else if (facet.action == "containedIn") {
-            if (uidList.length == 1 && resource.uid == uidList[0]) { // don't know why this is needed - seems to be a bug
+        } else if(facet.action === 'containedIn') {
+            // filter by search results
+            if(uidList.length === 1 && resource.uid === uidList[0]) { // don't know why this is needed - seems to be a bug
+                newResourcesList.push(resource);
+            } else if(uidList && $.inArray(resource.uid, uidList) >= 0) {
                 newResourcesList.push(resource);
             }
-            else if (uidList && $.inArray(resource.uid,uidList) >= 0) {
-                newResourcesList.push(resource);
-            }
-        }
-        // filter by equality
-        else if (resource[filter.name] == filter.value || (filter.value == 'noValue' && resource[filter.name] == null)) {
+        } else if(resource[filter.name] === filter.value || (filter.value === 'noValue' && resource[filter.name] === null)) {
+            // filter by equality
             newResourcesList.push(resource);
         }
     });
@@ -295,7 +276,7 @@ function showFilters() {
     $('#currentFilterHolder').append(
         '<p id="currentFilters" class="active-filters">' +
             '<span class="active-filters__title">' +
-                jQuery.i18n.prop('public.datasets.drsearch.currentfilters') +
+                $.i18n.prop('public.datasets.drsearch.currentfilters') +
             '</span>' +
             ' : &nbsp;' +
         '</p>'
@@ -304,7 +285,7 @@ function showFilters() {
     var container = $('#currentFilters');
 
     currentFilters.forEach(function(obj) {
-        var displayValue = obj.name == 'contains' ? obj.value : labelFor(obj.value);
+        var displayValue = obj.name === 'contains' ? obj.value : labelFor(obj.value);
         var onclick = 'removeFilter(\'' + obj.name + '\',\'' + obj.value + '\',this);return false;';
 
         container.append(
@@ -321,7 +302,7 @@ function showFilters() {
     if(currentFilters.length > 1) {
         container.append(
             '<span class="active-filters__clear-all-button" onclick="reset()">' +
-                jQuery.i18n.prop('public.datasets.drsearch.clearfilters') +
+                $.i18n.prop('public.datasets.drsearch.clearfilters') +
             '</span>'
         );
     }
@@ -332,19 +313,20 @@ function addFilter(facet, value, element) {
     // hide tooltip
     hideTooltip(element);
 
-    if (findInCurrentFilters(facet, value) >= 0) {
+    if(findInCurrentFilters(facet, value) >= 0) {
         // duplicate of existing filter so do nothing
         return;
     }
-    var filter = {name:facet, value:value, action: facets[facet].action};
+    var filter = { name: facet, value: value, action: facets[facet].action };
     currentFilters.push(filter);
     serialiseFiltersToHash();
     filterList();
 }
+
 /** removes a filter and re-filters list**/
 function removeFilter(facet, value, element) {
     var idx = findInCurrentFilters(facet, value);
-    if (idx > -1) {
+    if(idx > -1) {
         currentFilters.splice(idx, 1);
     }
     // make sure no tooltips are left visible
@@ -352,106 +334,115 @@ function removeFilter(facet, value, element) {
     serialiseFiltersToHash();
     filterList();
 }
+
 function findInCurrentFilters(facet, value) {
     var idx = -1;
     $.each(currentFilters, function(index, obj) {
-        if (obj.name == facet && obj.value == value) {
+        if(obj.name === facet && obj.value === value) {
             idx = index;
         }
     });
     return idx;
 }
-/*************************************************\
+
+/** ***********************************************\
  *  Pagination
  \*************************************************/
 /** build and append the pagination widget **/
 function showPaginator() {
-    if (total <= pageSize()) {
+    if(total <= pageSize()) {
         // no pagination required
-        $('div#navLinks').html("");
+        $('div#navLinks').html('');
         return;
     }
     var currentPage = Math.floor(offset / pageSize()) + 1;
     var maxPage = Math.ceil(total / pageSize());
-    var $pagination = $("<div class='pagination'></div>");
+    var $pagination = $('<div class="pagination"></div>');
 
     // add prev
-    if (offset > 0) {
+    if(offset > 0) {
         $pagination.append(
             '<a href="javascript:prevPage();" class="pagination__step">' +
-                jQuery.i18n.prop('general.paginate.prev') +
+                $.i18n.prop('general.paginate.prev') +
             '</a>'
         );
     }
 
-    for (var i = 1; i <= maxPage && i < 20; i++) {
-        if (i == currentPage) {
+    for(var i = 1; i <= maxPage && i < 20; i++) {
+        if(i === currentPage) {
             $pagination.append('<span class="pagination__step pagination__step--current currentPage disabled">' + i + '</span>');
-        }
-        else {
+        } else {
             $pagination.append('<a href="javascript:gotoPage(' + i + ');" class="pagination__step">' + i + '</a>');
         }
     }
 
     // add next
-    if ((offset + pageSize()) < total) {
+    if((offset + pageSize()) < total) {
         $pagination.append(
             '<a href="javascript:nextPage();" class="pagination__step">' +
-                jQuery.i18n.prop('general.paginate.next') +
+                $.i18n.prop('general.paginate.next') +
             '</a>'
         );
     }
 
     $('div#navLinks').html($pagination);
 }
+
 /** get current page size **/
 function pageSize() {
     return parseInt($('select#per-page').val());
 }
+
 /** show the specified page **/
 function gotoPage(pageNum) {
     // calculate new offset
     offset = (pageNum - 1) * pageSize();
     displayPage();
 }
+
 /** show the previous page **/
 function prevPage() {
     // calculate new offset
-    offset = offset - pageSize();
+    offset -= pageSize();
     displayPage();
 }
+
 /** show the next page **/
 function nextPage() {
     // calculate new offset
-    offset = offset + pageSize();
-    $.bbq.pushState({offset:offset});
+    offset += pageSize();
+    $.bbq.pushState({ offset: offset });
     displayPage();
 }
+
 /** action for changes to the pageSize widget */
 function onPageSizeChange() {
     offset = 0;
-    $.bbq.pushState({pageSize:pageSize()});
+    $.bbq.pushState({ pageSize: pageSize() });
     displayPage();
 }
+
 /** action for changes to the sort widget */
 function onSortChange() {
     offset = 0;
-    $.bbq.pushState({sort:$('select#sort').val()});
+    $.bbq.pushState({ sort: $('select#sort').val() });
     resources.sort(comparator);
     displayPage();
 }
+
 /** action for changes to the sort order widget */
 function onDirChange() {
     offset = 0;
-    $.bbq.pushState({dir:$('select#dir').val()});
+    $.bbq.pushState({ dir: $('select#dir').val() });
     resources.sort(comparator);
     displayPage();
 }
+
 /* comparator for data resources */
 function comparator(a, b) {
     var va, vb;
     var sortBy = $('select#sort').val();
-    switch ($('select#sort').val()) {
+    switch($('select#sort').val()) {
         case 'name':
             va = a.name;
             vb = b.name;
@@ -468,24 +459,23 @@ function comparator(a, b) {
             va = a.name;
             vb = b.name;
     }
-    if (va == vb) {
+    if(va === vb) {
         // sort on name
         va = a.name;
         vb = b.name;
     }
     // use lowercase
-    va = va == null ? "" : va.toLowerCase();
-    vb = vb == null ? "" : vb.toLowerCase();
+    va = va === null ? '' : va.toLowerCase();
+    vb = vb === null ? '' : vb.toLowerCase();
 
-    if ($('select#dir').val() == 'ascending') {
+    if($('select#dir').val() === 'ascending') {
         return (va < vb ? -1 : (va > vb ? 1 : 0));
-    }
-    else {
+    } else {
         return (vb < va ? -1 : (vb > va ? 1 : 0));
     }
 }
 
-/*************************************************\
+/** ***********************************************\
  *  Facet management
  \*************************************************/
 
@@ -493,42 +483,75 @@ function comparator(a, b) {
 // the default if not in this list is to capitalise the record value
 // also holds display text for the facet categories
 var displayText = {
-    ccby:jQuery.i18n.prop('datasets.js.displaytext01'), ccbync:jQuery.i18n.prop('datasets.js.displaytext02'), ccbysa:jQuery.i18n.prop('datasets.js.displaytext03'), ccbyncsa:jQuery.i18n.prop('datasets.js.displaytext04'), other:jQuery.i18n.prop('datasets.js.displaytext05'),
-    noLicense:jQuery.i18n.prop('datasets.js.displaytext06'), noValue:jQuery.i18n.prop('datasets.js.displaytext07'), '3.0':jQuery.i18n.prop('datasets.js.displaytext08'), '2.5':jQuery.i18n.prop('datasets.js.displaytext09'),
-    dataAvailable:jQuery.i18n.prop('datasets.js.displaytext10'),linksAvailable:jQuery.i18n.prop('datasets.js.displaytext11'),inProgress:jQuery.i18n.prop('datasets.js.displaytext12')
+    ccby: $.i18n.prop('datasets.js.displaytext01'),
+    ccbync: $.i18n.prop('datasets.js.displaytext02'),
+    ccbysa: $.i18n.prop('datasets.js.displaytext03'),
+    ccbyncsa: $.i18n.prop('datasets.js.displaytext04'),
+    other: $.i18n.prop('datasets.js.displaytext05'),
+    noLicense: $.i18n.prop('datasets.js.displaytext06'),
+    noValue: $.i18n.prop('datasets.js.displaytext07'),
+    '3.0': $.i18n.prop('datasets.js.displaytext08'),
+    '2.5': $.i18n.prop('datasets.js.displaytext09'),
+    dataAvailable: $.i18n.prop('datasets.js.displaytext10'),
+    linksAvailable: $.i18n.prop('datasets.js.displaytext11'),
+    inProgress: $.i18n.prop('datasets.js.displaytext12')
 };
 
 var helpText = {
-    records:jQuery.i18n.prop('datasets.js.helptext01'),website:jQuery.i18n.prop('datasets.js.helptext02'),
-    document:jQuery.i18n.prop('datasets.js.helptext03'),uploads:jQuery.i18n.prop('datasets.js.helptext04'),
-    'CC BY':jQuery.i18n.prop('datasets.js.helptext05'), 'CC BY-NC':jQuery.i18n.prop('datasets.js.helptext06'),
-    'CC BY-SA':jQuery.i18n.prop('datasets.js.helptext07'), 'CC BY-NC-SA':jQuery.i18n.prop('datasets.js.helptext08'),
-    other:jQuery.i18n.prop('datasets.js.helptext09'),noLicense:jQuery.i18n.prop('datasets.js.helptext10'), noValue:jQuery.i18n.prop('datasets.js.helptext11'),
-    '3.0':jQuery.i18n.prop('datasets.js.helptext12'), '2.5':jQuery.i18n.prop('datasets.js.helptext13'),
-    dataAvailable:jQuery.i18n.prop('datasets.js.helptext14'),linksAvailable:jQuery.i18n.prop('datasets.js.helptext15'),
-    inProgress:jQuery.i18n.prop('datasets.js.helptext16'),declined:jQuery.i18n.prop('datasets.js.helptext17'),
-    identified:jQuery.i18n.prop('datasets.js.helptext18')
+    records: $.i18n.prop('datasets.js.helptext01'),
+    website: $.i18n.prop('datasets.js.helptext02'),
+    document: $.i18n.prop('datasets.js.helptext03'),
+    uploads: $.i18n.prop('datasets.js.helptext04'),
+    'CC BY': $.i18n.prop('datasets.js.helptext05'),
+    'CC BY-NC': $.i18n.prop('datasets.js.helptext06'),
+    'CC BY-SA': $.i18n.prop('datasets.js.helptext07'),
+    'CC BY-NC-SA': $.i18n.prop('datasets.js.helptext08'),
+    other: $.i18n.prop('datasets.js.helptext09'),
+    noLicense: $.i18n.prop('datasets.js.helptext10'),
+    noValue: $.i18n.prop('datasets.js.helptext11'),
+    '3.0': $.i18n.prop('datasets.js.helptext12'),
+    '2.5': $.i18n.prop('datasets.js.helptext13'),
+    dataAvailable: $.i18n.prop('datasets.js.helptext14'),
+    linksAvailable: $.i18n.prop('datasets.js.helptext15'),
+    inProgress: $.i18n.prop('datasets.js.helptext16'),
+    declined: $.i18n.prop('datasets.js.helptext17'),
+    identified: $.i18n.prop('datasets.js.helptext18')
 };
 
 /* Map of dataset attributes to treat as facets */
 var facets = {
-    resourceType:{name:"resourceType",display:jQuery.i18n.prop('datasets.js.facets01')},
-    licenseType:{name:"licenseType",display:jQuery.i18n.prop('datasets.js.facets02')},
-    licenseVersion:{name:"licenseVersion",display:jQuery.i18n.prop('datasets.js.facets03')},
-    status:{name:"status",display:jQuery.i18n.prop('datasets.js.facets04'),help:jQuery.i18n.prop('datasets.js.facets05')},
-    contentTypes:{name:"contentTypes", action:"has",display:jQuery.i18n.prop('datasets.js.facets06'),help:jQuery.i18n.prop('datasets.js.facets07')},
-    contains:{name:"contains", action:"containedIn", display:jQuery.i18n.prop('datasets.js.facets08')},
-    institution:{name:"institution", display:jQuery.i18n.prop('datasets.js.facets09'),help:jQuery.i18n.prop('datasets.js.facets10')}};
+    resourceType: {
+        name: 'resourceType', display: $.i18n.prop('datasets.js.facets01')
+    },
+    licenseType: {
+        name: 'licenseType', display: $.i18n.prop('datasets.js.facets02')
+    },
+    licenseVersion: {
+        name: 'licenseVersion', display: $.i18n.prop('datasets.js.facets03')
+    },
+    status: {
+        name: 'status', display: $.i18n.prop('datasets.js.facets04'), help: $.i18n.prop('datasets.js.facets05')
+    },
+    contentTypes: {
+        name: 'contentTypes', action: 'has', display: $.i18n.prop('datasets.js.facets06'), help: $.i18n.prop('datasets.js.facets07')
+    },
+    contains: {
+        name: 'contains', action: 'containedIn', display: $.i18n.prop('datasets.js.facets08')
+    },
+    institution: {
+        name: 'institution', display: $.i18n.prop('datasets.js.facets09'), help: $.i18n.prop('datasets.js.facets10')
+    }
+};
 
 /** calculate facet totals and display them **/
 function calculateFacets() {
     $('#dsFacets div').remove();
 
     $.each(facets, function(i, obj) {
-        if (obj.name != 'contains') {
+        if(obj.name !== 'contains') {
             var list = sortByCount(getSetOfFacetValuesAndCounts(obj));
             // don't show if only one value
-            if (list.length > 1) {
+            if(list.length > 1) {
                 $('#dsFacets').append(displayFacet(obj, list));
             }
         }
@@ -540,17 +563,16 @@ function getSetOfFacetValuesAndCounts(facet) {
     var map = {};
     $.each(resources, function(index, value) {
         var attr = value[facet.name];
-        if (facet.action == 'has') {
-            if (attr) {
+        if(facet.action === 'has') {
+            if(attr) {
                 // treat each value in the json list as a facet value
                 $.each($.parseJSON(attr), function(i, v) {
                     addToMap(map, v);
                 });
             }
-        }
-        else {
-            if (!attr) {
-                attr = "noValue"
+        } else {
+            if(!attr) {
+                attr = 'noValue';
             }
             addToMap(map, attr);
         }
@@ -559,10 +581,9 @@ function getSetOfFacetValuesAndCounts(facet) {
 }
 /* add the count of an value to the map */
 function addToMap(map, attr) {
-    if (map[attr] == undefined) {
+    if(map[attr] === undefined) {
         map[attr] = 1;
-    }
-    else {
+    } else {
         map[attr]++;
     }
 }
@@ -573,8 +594,6 @@ var SHOWN_FACET_VALUE_COUNT = 5;
 function displayFacet(facet, list) {
     // add facet header
     var $header = $('<h4 class="datasets-facet__header">' + facet.display + '</h4>');
-
-    $header.tooltip(tooltipOptions);
 
     // add each value
     var $list = $('<ul class="datasets-facet__values"></ul>');
@@ -602,46 +621,48 @@ function displayFacet(facet, list) {
 }
 
 function moreLink() {
-    var $more = $('<li class="link"><i class="icon-hand-right"></i> '+ jQuery.i18n.prop('datasets.js.morelink')+'</li>');
+    var $more = $('<li class="link"><i class="icon-hand-right"></i> ' + $.i18n.prop('datasets.js.morelink') + '</li>');
     $more.click(function() {
         // make following items visible and add a 'less' link
-        $(this).parent().find('li').css('display','list-item');
+        $(this).parent().find('li').css('display', 'list-item');
         // add 'less' link
         $(this).parent().append(lessLink());
         // remove this link
         $(this).remove();
     });
-    return $more
+    return $more;
 }
+
 function lessLink() {
-    var $less = $('<li class="link"><i class="icon-hand-right"></i> ' + jQuery.i18n.prop('datasets.js.lesslink') + '</li>');
+    var $less = $('<li class="link"><i class="icon-hand-right"></i> ' + $.i18n.prop('datasets.js.lesslink') + '</li>');
     $less.click(function() {
         // make items > 5 hidden and add a 'more' link
-        $(this).parent().find('li:gt(4)').css('display','none');
+        $(this).parent().find('li:gt(4)').css('display', 'none');
         // add 'more' link
         $(this).parent().append(moreLink());
         // remove this link
         $(this).remove();
     });
-    return $less
+    return $less;
 }
+
 function displayFacetValue(facet, value, hide) {
     var attr = value.facetValue;
     var count = value.count;
 
     var $item = $(
         '<li class="datasets-facet__value">' +
-            '<span class="fa fa-square-o"></span>' +
-            '&nbsp;' +
         '</li>'
     );
 
-    if (hide) {
-        $item.css('display','none');
-    }
+    // if(hide) {
+    //     $item.css('display', 'none');
+    // }
 
     var $link = $(
         '<span class="erk-link">' +
+            '<span class="fa fa-square-o"></span>' +
+            '&nbsp;' +
             labelFor(attr) + ' (' + count + ')' +
         '</span>'
     );
@@ -652,18 +673,18 @@ function displayFacetValue(facet, value, hide) {
 
     $item.append($link);
 
-    return $item
+    return $item;
 }
 
 /* sorts a map in desc order based on the map values */
 function sortByCount(map) {
     // turn it into an array of maps
     var list = [];
-    for (var item in map) {
-        list.push({facetValue:item, count:map[item]});
+    for(var item in map) {
+        list.push({ facetValue: item, count: map[item] });
     }
     list.sort(function(a, b) {
-        return b.count - a.count
+        return b.count - a.count;
     });
     return list;
 }
@@ -671,7 +692,7 @@ function sortByCount(map) {
 /* returns a display label for the facet */
 function labelFor(item) {
     var text = displayText[item];
-    if (text == undefined) {
+    if(text === undefined) {
         // just capitalise - TODO: break out camel case
         text = capitalise(item);
     }
@@ -680,95 +701,96 @@ function labelFor(item) {
 
 /* capitalises the first letter of the passed string */
 function capitalise(item) {
-    if (!item) {
+    if(!item) {
         return item;
     }
-    if (item.length == 1) {
+    if(item.length === 1) {
         return item.toUpperCase();
     }
     return item.substring(0, 1).toUpperCase() + item.substring(1, item.length);
 }
 
-/*************************************************\
+/** ***********************************************\
  *  Download csv of data sets
 \*************************************************/
 function wireDownloadButton() {
     $('#downloadButton').click(function() {
         var uids = [];
-        $.each(resources, function(i,obj) {
+        $.each(resources, function(i, obj) {
             uids.push(obj.uid);
         });
-        document.location.href = baseUrl + "/public/downloadDataSets?uids=" + uids.join(',');
+        document.location.href = baseUrl + '/public/downloadDataSets?uids=' + uids.join(',');
         return false;
     });
 }
 
-/*************************************************\
+/** ***********************************************\
  *  Searching
 \*************************************************/
 function wireSearchLink() {
     $('#dr-search-link').click(function() {
-        if ($('#dr-search').val() != "") {
-            addFilter('contains',$('#dr-search').val());
+        if($('#dr-search').val() !== '') {
+            addFilter('contains', $('#dr-search').val());
         }
     });
     $('#dr-search').keypress(function(event) {
-        if (event.which == 13 && $('#dr-search').val() != "") {
+        if(event.which === 13 && $('#dr-search').val() !== '') {
             event.preventDefault();
-            addFilter('contains',$('#dr-search').val());
+            addFilter('contains', $('#dr-search').val());
         }
     });
 }
+
 function extractListOfUidsFromSearchResults(data) {
     var list = [];
-    $.each(data.searchResults.results,  function(i, obj) {
+    $.each(data.searchResults.results, function(i, obj) {
         var uri = obj.guid;
         var slash = uri.lastIndexOf('/');
-        if (slash > 0) {
+        if(slash > 0) {
             list.push(uri.substr(slash + 1, uri.length - slash));
         }
     });
     return list;
 }
-/*************************************************\
+
+/** ***********************************************\
  *  State handling
  \*************************************************/
 /* called on page load to set the initial state */
 function setStateFromHash() {
     var hash = $.deparam.fragment(true);
-    if (hash.pageSize) {
-         $('select#per-page').val(hash.pageSize);
+    if(hash.pageSize) {
+        $('select#per-page').val(hash.pageSize);
     }
-    if (hash.sort) {
+    if(hash.sort) {
         $('select#sort').val(hash.sort);
     }
-    if (hash.dir) {
+    if(hash.dir) {
         $('select#dir').val(hash.dir);
     }
-    if (hash.filters) {
+    if(hash.filters) {
         deserialiseFilters(hash.filters);
     }
-    if (hash.offset && hash.offset < total) {
+    if(hash.offset && hash.offset < total) {
         offset = hash.offset;
     }
 }
 /* puts the current filter state into the hash */
 function serialiseFiltersToHash() {
-    var str = "";
+    var str = '';
     $.each(currentFilters, function(i, obj) {
-        str += obj.name + ":" + obj.value + ";";
+        str += obj.name + ':' + obj.value + ';';
     });
-    if (str.length == 0) {
+    if(str.length === 0) {
         $.bbq.removeState('filters');
-    }
-    else {
-        str = str .substr(0,str.length - 1);
-        $.bbq.pushState({filters:str});
+    } else {
+        str = str.substr(0, str.length - 1);
+        $.bbq.pushState({ filters: str });
     }
 }
 /* reinstates current filters from the specified hash */
 function deserialiseFilters(filters) {
-    var list = filters.split(";");
+    var list = filters.split(';');
     $.each(list, function(i, obj) {
         var bits = obj.split(':');
         addFilter(bits[0], bits[1]);
