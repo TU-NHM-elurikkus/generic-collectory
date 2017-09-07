@@ -23,9 +23,13 @@
                 <%-- XXX MAGIC. TODO: place it. --%>
                 <cl:pageOptionsPopup instance="${instance}" />
 
-                <cl:h1 value="${instance.name}" class="page-header__title" />
+                <h1 class="page-header__title">
+                    ${instance.name}
+                </h1>
 
-                <%-- <div class="page-header__subtitle"></div> --%>
+                <div class="page-header__subtitle">
+                    data resource
+                </div>
 
                 <div class="page-header-links">
                     <a href="/generic-collectory/datasets/" title="List" class="page-header-links__link">
@@ -76,6 +80,23 @@
             </div>
 
             <div class="row">
+                <div class="col-md-3">
+                    <g:if test="${dp?.logoRef?.file}">
+                        <g:link action="show" id="${dp.uid}">
+                            <img
+                                class="institutionImage"
+                                src='${resource(absolute: "true", dir: "data/dataProvider/", file: fieldValue(bean: dp, field: 'logoRef.file'))}'
+                            />
+                        </g:link>
+                    </g:if>
+                    <g:elseif test="${instance?.logoRef?.file}">
+                        <img
+                            class="institutionImage"
+                            src='${resource(absolute: "true", dir: "data/dataResource/", file: fieldValue(bean: instance, field: 'logoRef.file'))}'
+                        />
+                    </g:elseif>
+                </div>
+
                 <div class="col-md-9">
                     <g:set var="dp" value="${instance.dataProvider}" />
                     <g:if test="${dp}">
@@ -105,200 +126,9 @@
                         LSID: ${fieldValue(bean: instance, field: "guid")}
                     </g:if>
                 </div>
-
-                <div class="col-md-3">
-                    <g:if test="${dp?.logoRef?.file}">
-                        <g:link action="show" id="${dp.uid}">
-                            <img
-                                class="institutionImage"
-                                src='${resource(absolute: "true", dir: "data/dataProvider/", file: fieldValue(bean: dp, field: 'logoRef.file'))}'
-                            />
-                        </g:link>
-                    </g:if>
-                    <g:elseif test="${instance?.logoRef?.file}">
-                        <img
-                            class="institutionImage"
-                            src='${resource(absolute: "true", dir: "data/dataResource/", file: fieldValue(bean: instance, field: 'logoRef.file'))}'
-                        />
-                    </g:elseif>
-                </div>
             </div>
 
             <div class="row">
-                <div class="col-md-9">
-                    <div class="card card-body">
-                        <g:if test="${instance.pubDescription || instance.techDescription || instance.focus}">
-                            <h2>
-                                <g:message code="public.des" />
-                            </h2>
-                        </g:if>
-
-                        <cl:formattedText>
-                            ${fieldValue(bean: instance, field: "pubDescription")}
-                        </cl:formattedText>
-                        <cl:formattedText>
-                            ${fieldValue(bean: instance, field: "techDescription")}
-                        </cl:formattedText>
-                        <cl:formattedText>
-                            ${fieldValue(bean: instance, field: "focus")}
-                        </cl:formattedText>
-                        <cl:dataResourceContribution resourceType="${instance.resourceType}" status="${instance.status}" tag="p" />
-
-                        <g:if test="${instance.contentTypes}">
-                            <h2>
-                                <g:message code="public.sdr.content.label02" />
-                            </h2>
-                            <cl:contentTypes types="${instance.contentTypes}" />
-                        </g:if>
-
-                        <h2>
-                            <g:message code="public.sdr.content.label03" />
-                        </h2>
-
-                        <g:if test="${instance.citation}">
-                            <cl:formattedText>
-                                ${fieldValue(bean: instance, field: "citation")}
-                            </cl:formattedText>
-                        </g:if>
-                        <g:else>
-                            <p>
-                                <g:message code="public.sdr.content.des01" />.
-                            </p>
-                        </g:else>
-
-                        <g:if test="${instance.rights || instance.licenseType}">
-                            <h2>
-                                <g:message code="public.sdr.content.label04" />
-                            </h2>
-
-                            <cl:formattedText>
-                                ${fieldValue(bean: instance, field: "rights")}
-                            </cl:formattedText>
-
-                            <p>
-                                <cl:displayLicenseType type="${instance.licenseType}" version="${instance.licenseVersion}" />
-                            </p>
-                        </g:if>
-
-                        <g:if test="${instance.dataGeneralizations}">
-                            <h2>
-                                <g:message code="public.sdr.content.label05" />
-                            </h2>
-
-                            <cl:formattedText>
-                                ${fieldValue(bean: instance, field: "dataGeneralizations")}
-                            </cl:formattedText>
-                        </g:if>
-
-                        <g:if test="${instance.informationWithheld}">
-                            <h2>
-                                <g:message code="public.sdr.content.label06" />
-                            </h2>
-
-                            <cl:formattedText>
-                                ${fieldValue(bean: instance, field: "informationWithheld")}
-                            </cl:formattedText>
-                        </g:if>
-
-                        <g:if test="${instance.downloadLimit}">
-                            <h2>
-                                <g:message code="public.sdr.content.label07" />
-                            </h2>
-
-                            <p>
-                                <g:message code="public.sdr.content.des02" />
-                                ${fieldValue(bean: instance, field: "downloadLimit")}
-                                <g:message code="public.sdr.content.des03" />.
-                            </p>
-                        </g:if>
-
-                        <div id="pagesContributed"></div>
-
-                        <g:if test="${instance.resourceType == 'website' && (instance.lastChecked || instance.dataCurrency)}">
-                            <h2>
-                                <g:message code="public.sdr.content.label08" />
-                            </h2>
-
-                            <p>
-                                <cl:lastChecked date="${instance.lastChecked}" />
-                                <cl:dataCurrency date="${instance.dataCurrency}" />
-                            </p>
-                        </g:if>
-                    </div> <%-- main card --%>
-
-                    <g:if test="${!grailsApplication.config.disableLoggerLinks.toBoolean() && (instance.resourceType == 'website' || instance.resourceType == 'records')}">
-                        <div id="usage-stats" class="card">
-                            <a data-toggle="collapse" href="#usage-card-content">
-                                <div class="card-header">
-                                    <h2>
-                                        <g:message code="public.sdr.usagestats.label" />
-                                    </h2>
-                                </div>
-                            </a>
-
-                            <div id="usage-card-content" class="card-body collapse">
-                                <div id="usage">
-                                    <p>
-                                        <g:message code="public.usage.des" />...
-                                    </p>
-                                </div>
-
-                                <g:if test="${instance.resourceType == 'website'}">
-                                    <div id="usage-visualization" style="width: 600px; height: 200px;"></div>
-                                </g:if>
-                            </div>
-                        </div>
-                    </g:if>
-
-                    <g:if test="${instance.resourceType == 'records'}">
-                        <div class="card">
-                            <div class="card-header">
-                                <h2>
-                                    <g:message code="public.sdr.content.label09" />
-                                </h2>
-                            </div>
-
-                            <div class="card-body">
-                                <p>
-                                    <span id="numBiocacheRecords">
-                                        <g:message code="public.sdr.content.des04" />
-                                    </span>
-
-                                    <g:message code="public.sdr.content.des05" />.
-
-                                    <cl:lastChecked date="${instance.lastChecked}" />
-                                    <cl:dataCurrency date="${instance.dataCurrency}" />
-                                </p>
-
-                                <cl:recordsLink collection="${instance}">
-                                    <span class="fa fa-list"></span>
-                                    <g:message code="public.numbrs.link" />
-                                    ${instance.name}
-                                    <g:message code="public.sdr.content.link02" />.
-                                </cl:recordsLink>
-
-                                <cl:downloadPublicArchive uid="${instance.uid}" available="${instance.publicArchiveAvailable}" />
-                            </div>
-
-                            <div class="card-body">
-                                <div id="recordsBreakdown" class="section vertical-charts">
-                                    <g:if test="${!grailsApplication.config.disableOverviewMap}">
-                                        <h3>
-                                            <g:message code="public.sdr.content.label10" />
-                                        </h3>
-
-                                        <cl:recordsMapDirect uid="${instance.uid}" />
-                                    </g:if>
-
-                                    <div id="tree" class="well"></div>
-                                    <div id="charts"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </g:if>
-                    <cl:lastUpdated date="${instance.lastUpdated}" />
-                </div><!--close column-one-->
-
                 <div class="col-md-3">
                     <g:if test="${fieldValue(bean: instance, field: 'imageRef') && fieldValue(bean: instance, field: 'imageRef.file')}">
                         <div class="section">
@@ -490,6 +320,185 @@
                         </div>
                     </g:if>
                 </div>
+
+                <div class="col-md-9">
+                    <div class="card detached-card">
+                        <div class="card-header">
+                            <g:if test="${instance.pubDescription || instance.techDescription || instance.focus}">
+                                <h4>
+                                    <g:message code="public.des" />
+                                </h4>
+                            </g:if>
+                        </div>
+
+                        <div class="card-body">
+                            <cl:formattedText>
+                                ${fieldValue(bean: instance, field: "pubDescription")}
+                            </cl:formattedText>
+                            <cl:formattedText>
+                                ${fieldValue(bean: instance, field: "techDescription")}
+                            </cl:formattedText>
+                            <cl:formattedText>
+                                ${fieldValue(bean: instance, field: "focus")}
+                            </cl:formattedText>
+                            <cl:dataResourceContribution resourceType="${instance.resourceType}" status="${instance.status}" tag="p" />
+
+                            <g:if test="${instance.contentTypes}">
+                                <h2>
+                                    <g:message code="public.sdr.content.label02" />
+                                </h2>
+                                <cl:contentTypes types="${instance.contentTypes}" />
+                            </g:if>
+
+                            <h2>
+                                <g:message code="public.sdr.content.label03" />
+                            </h2>
+
+                            <g:if test="${instance.citation}">
+                                <cl:formattedText>
+                                    ${fieldValue(bean: instance, field: "citation")}
+                                </cl:formattedText>
+                            </g:if>
+                            <g:else>
+                                <p>
+                                    <g:message code="public.sdr.content.des01" />.
+                                </p>
+                            </g:else>
+
+                            <g:if test="${instance.rights || instance.licenseType}">
+                                <h2>
+                                    <g:message code="public.sdr.content.label04" />
+                                </h2>
+
+                                <cl:formattedText>
+                                    ${fieldValue(bean: instance, field: "rights")}
+                                </cl:formattedText>
+
+                                <p>
+                                    <cl:displayLicenseType type="${instance.licenseType}" version="${instance.licenseVersion}" />
+                                </p>
+                            </g:if>
+
+                            <g:if test="${instance.dataGeneralizations}">
+                                <h2>
+                                    <g:message code="public.sdr.content.label05" />
+                                </h2>
+
+                                <cl:formattedText>
+                                    ${fieldValue(bean: instance, field: "dataGeneralizations")}
+                                </cl:formattedText>
+                            </g:if>
+
+                            <g:if test="${instance.informationWithheld}">
+                                <h2>
+                                    <g:message code="public.sdr.content.label06" />
+                                </h2>
+
+                                <cl:formattedText>
+                                    ${fieldValue(bean: instance, field: "informationWithheld")}
+                                </cl:formattedText>
+                            </g:if>
+
+                            <g:if test="${instance.downloadLimit}">
+                                <h2>
+                                    <g:message code="public.sdr.content.label07" />
+                                </h2>
+
+                                <p>
+                                    <g:message code="public.sdr.content.des02" />
+                                    ${fieldValue(bean: instance, field: "downloadLimit")}
+                                    <g:message code="public.sdr.content.des03" />.
+                                </p>
+                            </g:if>
+
+                            <div id="pagesContributed"></div>
+
+                            <g:if test="${instance.resourceType == 'website' && (instance.lastChecked || instance.dataCurrency)}">
+                                <h2>
+                                    <g:message code="public.sdr.content.label08" />
+                                </h2>
+
+                                <p>
+                                    <cl:lastChecked date="${instance.lastChecked}" />
+                                    <cl:dataCurrency date="${instance.dataCurrency}" />
+                                </p>
+                            </g:if>
+                        </div> <%-- main card --%>
+                    </div>
+
+                    <g:if test="${instance.resourceType == 'records'}">
+                        <div class="card detached-card">
+                            <div class="card-header">
+                                <h4>
+                                    <g:message code="public.sdr.content.label09" />
+                                </h4>
+                            </div>
+
+                            <div class="card-body">
+                                <p>
+                                    <span id="numBiocacheRecords">
+                                        <g:message code="public.sdr.content.des04" />
+                                    </span>
+
+                                    <g:message code="public.sdr.content.des05" />.
+
+                                    <cl:lastChecked date="${instance.lastChecked}" />
+                                    <cl:dataCurrency date="${instance.dataCurrency}" />
+                                </p>
+
+                                <cl:recordsLink collection="${instance}">
+                                    <span class="fa fa-list"></span>
+                                    <g:message code="public.numbrs.link" />
+                                    ${instance.name}
+                                    <g:message code="public.sdr.content.link02" />.
+                                </cl:recordsLink>
+
+                                <cl:downloadPublicArchive uid="${instance.uid}" available="${instance.publicArchiveAvailable}" />
+                            </div>
+
+                            <div class="card-body">
+                                <div id="recordsBreakdown" class="section vertical-charts">
+                                    <g:if test="${!grailsApplication.config.disableOverviewMap}">
+                                        <h3>
+                                            <g:message code="public.sdr.content.label10" />
+                                        </h3>
+
+                                        <cl:recordsMapDirect uid="${instance.uid}" />
+                                    </g:if>
+
+                                    <div id="tree" class="well"></div>
+                                    <div id="charts"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </g:if>
+
+                    <g:if test="${!grailsApplication.config.disableLoggerLinks.toBoolean() && (instance.resourceType == 'website' || instance.resourceType == 'records')}">
+                        <div id="usage-stats" class="card detached-card">
+                            <a data-toggle="collapse" href="#usage-card-content">
+                                <div class="card-header">
+                                    <h4>
+                                        <g:message code="public.sdr.usagestats.label" />
+                                    </h4>
+                                </div>
+                            </a>
+
+                            <div id="usage-card-content" class="card-body collapse">
+                                <div id="usage">
+                                    <p>
+                                        <g:message code="public.usage.des" />...
+                                    </p>
+                                </div>
+
+                                <g:if test="${instance.resourceType == 'website'}">
+                                    <div id="usage-visualization" style="width: 600px; height: 200px;"></div>
+                                </g:if>
+                            </div>
+                        </div>
+                    </g:if>
+
+                    <cl:lastUpdated date="${instance.lastUpdated}" />
+                </div><!--close column-one-->
             </div>
         </div>
 
