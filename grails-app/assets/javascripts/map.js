@@ -186,6 +186,7 @@ function updateMap(filters) {
         var geomObjects = data.features;
         for(geomObj of geomObjects) {
             var mapMarker = L.marker(geomObj.geometry.coordinates.reverse(), { icon: mapIcon }).addTo(mymap);
+            mapMarker.bindPopup(outputSingleFeature(geomObj));
             markers.addLayer(mapMarker);
         }
     });
@@ -499,11 +500,22 @@ function outputSingleFeature(feature) {
         }
         var instLink = '';
         if(feature.properties.instUid) {
-            instLink = outputInstitutionOnOwnLine(feature) + '<br/>';
-            return instLink + '<a style="margin-left:5px;" href="' + feature.properties.url + '">'
-                        + getShortCollectionName(feature) + '</a>' + acronym
-                        + '<div class="address">' + address + '</div><hr>'
-                        + '<div class="desc">' + desc + '</div>';
+            instLink = outputInstitutionOnOwnLine(feature) +
+                '<br />' +
+                '<a style="margin-left:5px;" href="' + feature.properties.url + '">' +
+                    '<span class="fa fa-archive"></span>' +
+                    '&nbsp;' +
+                    getShortCollectionName(feature) +
+                '</a>' +
+                acronym +
+                '<div class="address">' +
+                    address +
+                '</div>' +
+                '<hr />' +
+                '<div class="desc">' +
+                    desc +
+                '</div>';
+            return instLink;
         } else {
             return '<a href="' + feature.properties.url + '">'
                         + feature.properties.name + '</a>' + acronym
@@ -723,7 +735,13 @@ function getShortCollectionName(obj) {
 *   build html for an institution on its own line
 \************************************************************/
 function outputInstitutionOnOwnLine(obj) {
-    return '<a class="highlight" href="' + baseUrl + '/public/show/' + obj.properties.instUid + '">' + getTightInstitutionName(obj, 55) + '</a>';
+    var instLink =
+        '<a class="highlight" href="' + baseUrl + '/public/show/' + obj.properties.instUid + '">' +
+            '<span class="fa fa-university"></span>' +
+            '&nbsp;' +
+            getTightInstitutionName(obj, 55) +
+        '</a>';
+    return instLink;
 }
 
 /** **********************************************************\
