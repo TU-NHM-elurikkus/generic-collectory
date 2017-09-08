@@ -2,7 +2,6 @@
 //= require common
 //= require jquery-ui
 //= require jquery-migration-plugins
-//= require openlayers
 //= require leaflet
 //= require map
 

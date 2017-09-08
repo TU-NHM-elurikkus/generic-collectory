@@ -171,34 +171,5 @@
                 </div>
             </div>
         </div>
-
-        <script>
-            var altMap = true;
-            var COLLECTIONS_MAP_OPTIONS = {
-                serverUrl:   "${grailsApplication.config.grails.serverURL}",
-            }
-
-            // initMap(COLLECTIONS_MAP_OPTIONS);
-            updateList();
-            var mymap = L.map('map_canvas', {
-                center: [58.7283, 25.4169192],
-                zoom: 7
-            });
-
-            L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
-                maxZoom: 18,
-                attribution:
-                    '&copy; ' +
-                    '<a href="http://www.openstreetmap.org/copyright">' +
-                        'OpenStreetMap' +
-                    '</a>' +
-                    ', &copy;' +
-                    '<a href="https://carto.com/attribution">' +
-                        'CARTO' +
-                    '</a>'
-            }).addTo(mymap);
-
-            updateMap('all');
-        </script>
     </body>
 </html>

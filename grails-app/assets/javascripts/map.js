@@ -1,177 +1,54 @@
-var COLLECTORY_CONF;  // Populated by map3.gsp inline script
+var COLLECTORY_CONF;  // Populated by _global.gsp layout inline script
 var altMap; // Populated by some of the templates
+var myMap;
+var baseUrl; // The server base url
+
+// represents the number in 'all' collections - used in case the total number changes on an ajax request
+var maxCollections = 0;
+
+var markers = new L.FeatureGroup();
 
 $(document).ready(function() {
+    updateList();
+    myMap = L.map('map_canvas', {
+        center: [58.7283, 25.4169192],
+        zoom: 7
+    });
+
+    L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution:
+            '&copy; ' +
+            '<a href="http://www.openstreetmap.org/copyright">' +
+                'OpenStreetMap' +
+            '</a>' +
+            ', &copy;' +
+            '<a href="https://carto.com/attribution">' +
+                'CARTO' +
+            '</a>'
+    }).addTo(myMap);
+
+    updateMap('all');
+
     $('#map-tab-header').on('shown.bs.tab', function(e) {
-        mymap.invalidateSize(true);
-        mymap.setView([58.7283, 25.4169192], 7);
+        myMap.invalidateSize(true);
+        myMap.setView([58.7283, 25.4169192], 7);
     });
 });
-/*
- * Mapping - plot collection locations
- */
 
-/** **********************************************************\
+/**
  * i18n
- \************************************************************/
+*/
 $.i18n.properties({
     name: 'messages',
     path: COLLECTORY_CONF.contextPath + '/messages/i18n/',
     mode: 'map',
     language: COLLECTORY_CONF.locale // default is to use browser specified locale
 });
-/** **********************************************************/
-
-/* some globals */
-// the map
-var map;
-
-// the WGS projection
-var proj = new OpenLayers.Projection('EPSG:4326');
-
-// projection options for interpreting GeoJSON data
-var proj_options;
-
-// the data layer
-var vectors;
-
-// the server base url
-var baseUrl;
-
-// the ajax url for getting filtered features
-var featuresUrl;
-
-// flag to make sure we only apply the url initial filter once
-var firstLoad = true;
 
 if(altMap === undefined) {
     altMap = false;
 }
-
-// centre point for map of Australia - this value is transformed
-// to the map projection once the map is created.
-var centrePoint;
-
-var defaultZoom;
-
-// represents the number in 'all' collections - used in case the total number changes on an ajax request
-var maxCollections = 0;
-
-/** **********************************************************\
-* initialise the map
-* note this must be called from body.onload() not $ document.ready() as the latter is too early
-\************************************************************/
-function initMap(mapOptions) {
-    centrePoint = new OpenLayers.LonLat(mapOptions.centreLon, mapOptions.centreLat);
-    defaultZoom = mapOptions.defaultZoom;
-
-    // serverUrl is the base url for the site eg http://collections.ala.org.au in production
-    // cannot use relative url as the context path varies with environment
-    baseUrl = mapOptions.serverUrl;
-    featuresUrl = mapOptions.serverUrl + '/public/mapFeatures';
-
-    // var featureGraphicUrl = mapOptions.serverUrl + '/static/images/map/orange-dot.png';
-    // var clusterGraphicUrl = mapOptions.serverUrl + '/static/images/map/orange-dot-multiple.png';
-    var featureGraphicUrl = mapOptions.serverUrl + '/assets/marker.png';
-    var clusterGraphicUrl = mapOptions.serverUrl + '/assets/markermultiple.png';
-
-    // create the map
-    map = new OpenLayers.Map('map_canvas', {
-        controls: [],
-        sphericalMercator: true,
-        layers: [
-            new OpenLayers.Layer.XYZ('Base layer',
-            ['http://${s}.basemaps.cartocdn.com/light_all/${z}/${x}/${y}.png'], {
-                sphericalMercator: true,
-                wrapDateLine: true
-            })
-        ]
-    });
-
-    // restrict mouse wheel chaos
-    map.addControl(new OpenLayers.Control.Navigation({ zoomWheelEnabled: false }));
-    map.addControl(new OpenLayers.Control.ZoomPanel());
-    map.addControl(new OpenLayers.Control.PanPanel());
-
-    // zoom map
-    map.zoomToMaxExtent();
-
-    // add layer switcher for now - review later
-    map.addControl(new OpenLayers.Control.LayerSwitcher());
-
-    // centre the map on Australia
-    map.setCenter(centrePoint.transform(proj, map.getProjectionObject()), defaultZoom);
-
-    // set projection options
-    proj_options = {
-        'internalProjection': map.baseLayer.projection,
-        'externalProjection': proj
-    };
-
-    // create a style that handles clusters
-    var style = new OpenLayers.Style({
-        externalGraphic: '${pin}',
-        graphicHeight: '${size}',
-        graphicWidth: '${size}',
-        graphicYOffset: -23
-    }, {
-        context: {
-            pin: function(feature) {
-                return (feature.cluster) ? clusterGraphicUrl : featureGraphicUrl;
-            },
-            size: function(feature) {
-                return (feature.cluster) ? 25 : 23;
-            }
-        }
-    });
-
-    // create a layer for markers and set style
-    var clusterStrategy = new OpenLayers.Strategy.Cluster({ distance: 11, threshold: 2 });
-    vectors = new OpenLayers.Layer.Vector('Collections', {
-        strategies: [clusterStrategy],
-        styleMap: new OpenLayers.StyleMap({ 'default': style })
-    });
-
-    // listen for feature selection
-    vectors.events.register('featureselected', vectors, selected);
-    map.addLayer(vectors);
-
-    // listen for changes to visible region
-    map.events.register('moveend', map, moved);
-
-    // control for selecting features (on click)
-    var control = new OpenLayers.Control.SelectFeature(vectors, {
-        clickout: true
-    });
-    map.addControl(control);
-    control.activate();
-
-    // create custom button to zoom extents to Australia
-    var button = new OpenLayers.Control.Button({
-        displayClass: 'resetZoom',
-        title: $.i18n.prop('zoom.to.australia'),
-        trigger: resetZoom
-    });
-    var panel = new OpenLayers.Control.Panel({ defaultControl: button });
-    panel.addControls([button]);
-    map.addControl(panel);
-
-    // initial data load
-    reloadData();
-}
-
-/** **********************************************************\
-*   load features via ajax call
-\************************************************************/
-function reloadData() {
-    if(altMap) {
-        $.get(featuresUrl, { filters: 'all' }, dataRequestHandler);
-    } else {
-        $.get(featuresUrl, { filters: getAll() }, dataRequestHandler);
-    }
-}
-
-var markers = new L.FeatureGroup();
 
 function updateMap(filters) {
     var mapIcon = L.icon({
@@ -185,116 +62,56 @@ function updateMap(filters) {
         var geomObj;
         var geomObjects = data.features;
         for(geomObj of geomObjects) {
-            var mapMarker = L.marker(geomObj.geometry.coordinates.reverse(), { icon: mapIcon }).addTo(mymap);
+            var mapMarker = L.marker(geomObj.geometry.coordinates.reverse(), { icon: mapIcon }).addTo(myMap);
             mapMarker.bindPopup(outputSingleFeature(geomObj));
             markers.addLayer(mapMarker);
         }
     });
-    mymap.addLayer(markers);
+    myMap.addLayer(markers);
 }
 
-/** **********************************************************\
-*   handler for loading features
-\************************************************************/
-function dataRequestHandler(data) {
-
-    // clear existing
-    // vectors.destroyFeatures();
-    //
-    // // parse returned json
-    // var features = new OpenLayers.Format.GeoJSON(proj_options).read(data);
-    //
-    // // add features to map
-    // vectors.addFeatures(features);
-    //
-    // // remove non-mappable collections
-    // var unMappable = [];
-    //
-    // for(var i = 0; i < features.length; i++) {
-    //     if(!features[i].properties.isMappable) {
-    //         unMappable.push(features[i]);
-    //     }
-    // }
-    //
-    // vectors.destroyFeatures(unMappable);
-    //
-    // // update number of unmappable collections
-    // var unMappedText = '';
-    //
-    // switch(unMappable.length) {
-    //     case 0: unMappedText = ''; break;
-    //     case 1: unMappedText = $.i18n.prop('map.js.collectioncannotbemapped'); break;
-    //     default: unMappedText = $.i18n.prop('map.js.collectionscannotbemapped', unMappable.length); break;
-    // }
-    //
-    // $('#numUnMappable').html(unMappedText);
-    //
-    // // update display of number of features
-    // var selectedFilters = getSelectedFiltersAsString();
-    // var selectedFrom = $.i18n.prop('map.js.collectionstotal', features.length);
-    //
-    // // TODO
-    // if(selectedFilters !== 'all') {
-    //     selectedFrom = features.length + ' ' + $.i18n.prop('map.js.' + selectedFilters) + ' ' +
-    //         $.i18n.prop('map.js.collections') + '.';
-    // }
-    //
-    // var innerFeatures = '';
-    //
-    // switch(features.length) {
-    //     case 0: innerFeatures = $.i18n.prop('map.js.nocollectionsareselected'); break;
-    //     case 1: innerFeatures = $.i18n.prop('map.js.onecollectionisselected'); break;
-    //     default: innerFeatures = selectedFrom; break;
-    // }
-    //
-    // $('#numFeatures').html(innerFeatures);
-    //
-    // // fire moved to initialise number visible
-    // moved(null);
-    //
-    // // first time only: select the filter if one is specified in the url
-    // if(firstLoad) {
-    //     selectInitialFilter();
-    //     firstLoad = false;
-    // }
-}
-
-/** **********************************************************\
-*   build human-readable string from selected filter list
-\************************************************************/
-function getSelectedFiltersAsString() {
-    var list;
-    if(altMap) {
-        // new style
-        list = getSelectedFilters();
-    } else {
-        // old style
-        list = getAll();
-    }
-    // transform some
-    list = list.replace(/plants/, 'plant');
-    list = list.replace(/microbes/, 'microbial');
-
-    // remove trailing comma
-    if(list.substr(list.length - 1) === ',') {
-        list = list.substring(0, list.length - 1);
-    }
-    // replace last with 'and'
-    var last = list.lastIndexOf(',');
-    if(last > 0) {
-        list = list.substr(0, last) + ' and ' + list.substr(last + 1);
-    }
-    // insert space after remaining commas
-    list = list.replace(/,/g, ', ');
-    return list;
-}
-
-/** **********************************************************\
-*   regenerate list of collections - update total number
-\************************************************************/
+/**
+* Regenerate list of collections - update total number
+*/
 function updateList() {
     $.get('http://ala-test.ut.ee/collectory/public/mapFeatures?filters=all', function(data) {
         var features = data.features;
+
+        // Populate general tooltip
+        var selectedFrom = $.i18n.prop('map.js.collectionstotal', features.length);
+        // update display of number of features
+        var selectedFilters = $('button.selected')[0].id;
+        if(selectedFilters !== 'all') {
+            selectedFrom = features.length + ' ' + $.i18n.prop('map.js.' + selectedFilters) + ' ' +
+                $.i18n.prop('map.js.collections') + '.';
+        }
+        var innerFeatures = '';
+        switch(features.length) {
+            case 0: innerFeatures = $.i18n.prop('map.js.nocollectionsareselected'); break;
+            case 1: innerFeatures = $.i18n.prop('map.js.onecollectionisselected'); break;
+            default: innerFeatures = selectedFrom; break;
+        }
+
+        $('#numFeatures').html(innerFeatures);
+
+        var unMappable = [];
+
+        for(var i = 0; i < features.length; i++) {
+            if(!features[i].properties.isMappable) {
+                unMappable.push(features[i]);
+            }
+        }
+
+        var unMappedText = '';
+
+        switch(unMappable.length) {
+            case 0: unMappedText = ''; break;
+            case 1: unMappedText = $.i18n.prop('map.js.collectioncannotbemapped'); break;
+            default: unMappedText = $.i18n.prop('map.js.collectionscannotbemapped', unMappable.length); break;
+        }
+
+        $('#numUnMappable').html(unMappedText);
+
         // update the potential total
         maxCollections = Math.max(features.length, maxCollections);
 
@@ -303,14 +120,11 @@ function updateList() {
         }
 
         // update display of number of features
-        var innerFeatures = '';
-
         switch(features.length) {
             case 0: innerFeatures = $.i18n.prop('map.js.nocollectionsareselected'); break;
             case 1: innerFeatures = features.length + ' ' + $.i18n.prop('map.js.collectionislisted'); break;
             default: innerFeatures = $.i18n.prop('map.js.collectionsarelistedalphabetically'); break;
         }
-
         $('span#numFilteredCollections').html(innerFeatures);
 
         // group by institution
@@ -318,8 +132,8 @@ function updateList() {
         var innerHtml = '';
         var orphansHtml = '';
 
-        for(var i = 0; i < sortedParents.length; i++) {
-            var collList = sortedParents[i];
+        for(var j = 0; j < sortedParents.length; j++) {
+            var collList = sortedParents[j];
             // show institution - use name of institution from first collection
             var firstColl = collList[0];
             var content = '';
@@ -387,104 +201,9 @@ function updateList() {
     });
 }
 
-/** **********************************************************\
-*   handle map movement (zoom pan)
-\************************************************************/
-function moved(evt) {
-    // determine how many individual features are visible
-    var visibleCount = 0;
-    var totalCount = 0;
-
-    for(var c = 0; c < vectors.features.length; c++) {
-        var f = vectors.features[c];
-
-        if(f.cluster) {
-            totalCount += f.cluster.length;
-
-            // for clusters count each feature
-            if(f.onScreen(true)) {
-                visibleCount += f.cluster.length;
-            }
-        } else {
-            totalCount++;
-
-            // single feature
-            if(f.onScreen(true)) {
-                visibleCount++;
-            }
-        }
-    }
-
-    // update display of number of features visible
-    var innerFeatures = '';
-
-    switch(visibleCount) {
-        case 0:
-            innerFeatures = $.i18n.prop('map.js.nocollectionsarecurrentlyvisible');
-            break;
-        case 1:
-            if(totalCount === 1) {
-                innerFeatures = $.i18n.prop('map.js.itiscurrentlyvisible');
-            } else {
-                innerFeatures = visibleCount + ' ' + $.i18n.prop('map.js.collectioniscurrentlyvisible');
-            }
-
-            break;
-        default:
-            if(visibleCount === totalCount) {
-                innerFeatures = $.i18n.prop('map.js.allarecurrentlyvisible');
-            } else {
-                innerFeatures = visibleCount + ' ' + $.i18n.prop('map.js.collectionarecurrentlyvisible');
-            }
-
-            break;
-    }
-
-    $('#numVisible').html(innerFeatures);
-}
-
-/** **********************************************************\
-*   handle feature selection
-\************************************************************/
-function selected(evt) {
-    var feature = evt.feature;
-
-    // get rid of any dags - hopefully
-    clearPopups();
-
-    // build content
-    var content = '';
-
-    if(feature.cluster) {
-        content = outputClusteredFeature(feature);
-    } else {
-        content = outputSingleFeature(feature);
-    }
-
-    // create popoup
-    var popup = new OpenLayers.Popup.FramedCloud('featurePopup',
-            feature.geometry.getBounds().getCenterLonLat(),
-            new OpenLayers.Size(50, 100),
-            content,
-            null, true, onPopupClose);
-
-    // control shape
-    if(!feature.cluster) {
-        popup.maxSize = new OpenLayers.Size(350, 500);
-    }
-
-    popup.onmouseup(function() {
-        alert('up');
-    });
-
-    // add to map
-    map.addPopup(popup);
-
-}
-
-/** **********************************************************\
-*   generate html for a single collection
-\************************************************************/
+/**
+* Generate html for a single collection
+*/
 function outputSingleFeature(feature) {
     if($('div#all').hasClass('inst') && $('div#all').hasClass('selected')) { // simple list if showing institutions
         return outputSingleInstitution(feature);
@@ -532,9 +251,9 @@ function outputSingleFeature(feature) {
     }
 }
 
-/** **********************************************************\
-*   generate html for a single institution
-\************************************************************/
+/**
+* Generate html for a single institution
+*/
 function outputSingleInstitution(feature) {
     var address = '';
     if(feature.properties.address && feature.properties.address !== '') {
@@ -555,10 +274,10 @@ function outputSingleInstitution(feature) {
     return content;
 }
 
-/** **********************************************************\
-*   group features by their parent institutions
-*   groupOrphans = true -> orphans are grouped in zz-other rather than interspersed
-\************************************************************/
+/**
+* Group features by their parent institutions
+* groupOrphans = true -> orphans are grouped in zz-other rather than interspersed
+*/
 function groupByParent(features, groupOrphans) {
     // build 'map' of institutions and orphan collections
     var parents = {};
@@ -604,9 +323,9 @@ function groupByParent(features, groupOrphans) {
     return sortedParents;
 }
 
-/** **********************************************************\
-*   generate html for a clustered feature
-\************************************************************/
+/**
+* Generate html for a clustered feature
+*/
 function outputClusteredFeature(feature) {
     var sortedParents = groupByParent(feature.cluster, false);
     // output the parents list
@@ -634,9 +353,9 @@ function outputClusteredFeature(feature) {
     return content;
 }
 
-/** **********************************************************\
-*   generate html for a list of institutions
-\************************************************************/
+/**
+* Generate html for a list of institutions
+*/
 function outputMultipleInstitutions(parents) {
     var content = '';
     for(var i = 0; i < parents.length; i++) {
@@ -657,9 +376,9 @@ function outputMultipleInstitutions(parents) {
     return content;
 }
 
-/** **********************************************************\
-*   grab name from institution
-\************************************************************/
+/**
+* Grab name from institution
+*/
 function getName(obj) {
 
     if($.isArray(obj) && obj[0].properties && obj[0].properties.name && obj[0].properties.entityType !== 'Collection') {
@@ -681,9 +400,9 @@ function getName(obj) {
     return name;
 }
 
-/** **********************************************************\
-*   build html for multiple collection for an institution
-\************************************************************/
+/**
+* Build html for multiple collection for an institution
+*/
 function outputMultipleCollections(obj, strategy) {
     // use name of institution from first collection
     var content;
@@ -707,9 +426,9 @@ function outputMultipleCollections(obj, strategy) {
     return content;
 }
 
-/** **********************************************************\
-* abbreviates institution name if long (assumes inst is present)
-\************************************************************/
+/**
+* Abbreviates institution name if long (assumes inst is present)
+*/
 function getTightInstitutionName(obj, max) {
     if(obj.properties.instName.length > max && obj.properties.instAcronym) {
         return obj.properties.instAcronym;
@@ -718,9 +437,9 @@ function getTightInstitutionName(obj, max) {
     }
 }
 
-/** **********************************************************\
-* abbreviates collections name by removing leading institution name
-\************************************************************/
+/**
+* Abbreviates collections name by removing leading institution name
+*/
 function getShortCollectionName(obj) {
     var inst = obj.properties.instName;
     var shortName = obj.properties.name;
@@ -738,9 +457,9 @@ function getShortCollectionName(obj) {
     return shortName;
 }
 
-/** **********************************************************\
-*   build html for an institution on its own line
-\************************************************************/
+/**
+* Build html for an institution on its own line
+*/
 function outputInstitutionOnOwnLine(obj) {
     var instLink =
         '<a class="highlight" href="' + baseUrl + '/public/show/' + obj.properties.instUid + '">' +
@@ -751,9 +470,9 @@ function outputInstitutionOnOwnLine(obj) {
     return instLink;
 }
 
-/** **********************************************************\
-*   build html for a single collection with an institution
-\************************************************************/
+/**
+* Build html for a single collection with an institution
+*/
 function outputCollectionWithInstitution(obj, strategy) {
     var max = 60;
     var acronym = '';
@@ -906,9 +625,9 @@ function outputCollectionWithInstitution(obj, strategy) {
     }
 }
 
-/** **********************************************************\
-*   build html for a collection on its own line
-\************************************************************/
+/**
+* Build html for a collection on its own line
+*/
 function outputCollectionOnOwnLine(obj) {
     var max = 60;
     // build acronym
@@ -943,108 +662,9 @@ function outputCollectionOnOwnLine(obj) {
     return '<li><a href="' + obj.properties.url + '">' + name + '</li>';
 }
 
-/** **********************************************************\
-*   remove pop-ups on close
-\************************************************************/
-function onPopupClose(evt) {
-    map.removePopup(this);
-}
-
-/** **********************************************************\
-*   clear all pop-ups
-\************************************************************/
-function clearPopups() {
-    for(pop in map.popups) {
-        map.removePopup(map.popups[pop])
-    }
-    // maybe iterate features and clear popups?
-}
-
-/** **********************************************************\
-*   reset map to initial view of Australia
-\************************************************************/
-function resetZoom() {
-    // centre the map on Australia
-    // note that the point has already been transformed
-    map.setCenter(centrePoint);
-    map.zoomTo(4);
-}
-/* END plot collection locations */
-
-/*
- * Helpers for managing Filter checkboxes
- */
-/** **********************************************************\
-*   set all boxes checked and trigger change handler
-\************************************************************/
-function setAll() {
-    $('input[name=filter]').attr('checked', $('input#all').is(':checked'));
-    filterChange();
-}
-
-/** **********************************************************\
-*   build comma-separated string representing all selected boxes
-\************************************************************/
-function getAll() {
-    if($('input#all').is(':checked')) {
-        return 'all';
-    }
-    var checked = '';
-    $('input[name=filter]').each(function(index, element) {
-        if(element.checked) {
-            checked += element.value + ',';
-        }
-    });
-
-    return checked;
-}
-
-/** **********************************************************\
-*   need separate handler for ento change because we need to know which checkbox changed
-*   to manage the ento-fauna paradigm
-\************************************************************/
-function entoChange() {
-    // set state of faunal box
-    if($('input#fauna').is(':checked') && !$('input#ento').is(':checked')) {
-        $('input#fauna').attr('checked', false);
-    }
-    filterChange();
-}
-
-/** **********************************************************\
-*   handler for filter selection change
-\************************************************************/
-function filterChange() {
-    // set ento based on faunal
-    // set state of faunal box
-    if($('input#fauna').is(':checked') && !$('input#ento').is(':checked')) {
-        $('input#ento').attr('checked', true);
-    }
-    // find out if they are all checked
-    var all = true;
-    $('input[name=filter]').each(function(index, element) {
-        if(!element.checked) {
-            all = false;
-        }
-    });
-    // set state of 'select all' box
-    if($('input#all').is(':checked') && !all) {
-        $('input#all').attr('checked', false);
-    } else if(!$('input#all').is(':checked') && all) {
-        $('input#all').attr('checked', true);
-    }
-
-    // reload features based on new filter selections
-    reloadData();
-}
-/* END filter checkboxes */
-
-/*
- * Helpers for managing Filter buttons
- */
-/** **********************************************************\
-*   Handle filter button click. Doesn't actually toggle.
-\************************************************************/
+/**
+* Handle filter button click. Doesn't actually toggle.
+*/
 function toggleButton(button) {
     // if already selected do nothing
     if($(button).hasClass('selected')) {
@@ -1052,7 +672,7 @@ function toggleButton(button) {
     }
 
     // Clear map before new markers
-    mymap.removeLayer(markers);
+    myMap.removeLayer(markers);
     markers = new L.FeatureGroup();
 
     // de-select all
@@ -1069,43 +689,3 @@ function toggleButton(button) {
     }
     updateMap(filters);
 }
-
-/** **********************************************************\
- *  select filter if one is specified in the url
-\************************************************************/
-function selectInitialFilter() {
-    var params = $.deparam.querystring(),
-        start = params.start,
-        filter;
-
-    if(start) {
-        if(start === 'insects') {
-            start = 'entomology';
-        }
-
-        filter = $('#' + start);
-
-        if(filter.length > 0) {
-            toggleButton(filter[0]);
-        }
-    }
-}
-
-/** **********************************************************\
-*   build comma separated string of selected buttons - NOT USED
-\************************************************************/
-function getSelectedFilters() {
-    var checked = '';
-    $('.filter-button').each(function(index, element) {
-        if($(element).hasClass('selected')) {
-            checked += element.id + ',';
-        }
-    });
-    if(checked === 'fauna,entomology,microbes,plants,') {
-        checked = 'all';
-    }
-
-    return checked;
-}
-
-/* END filter buttons */
