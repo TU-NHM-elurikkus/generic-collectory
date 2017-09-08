@@ -188,7 +188,7 @@
                 accessToken: "pk.eyJ1IjoicGx1dG9mIiwiYSI6ImNpcWo4OHV3MTAwYzVocG1jZHZpcmYwM3kifQ.EJxPtfHAmx70baunS5WoiA"
             }).addTo(mymap);
 
-            updateMap();
+            updateMap('all');
         </script>
     </body>
 </html>

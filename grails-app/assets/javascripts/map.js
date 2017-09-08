@@ -171,20 +171,25 @@ function reloadData() {
     }
 }
 
-function updateMap() {
+var markers = new L.FeatureGroup();
+
+function updateMap(filters) {
     var mapIcon = L.icon({
         iconUrl: 'assets/marker.png',
         iconSize: [25, 25]
     });
-    'markermultiple';
 
-    $.get('http://ala-test.ut.ee/collectory/public/mapFeatures?filters=all', function(data) {
+    var queryUrl = 'http://ala-test.ut.ee/collectory/public/mapFeatures?filters=' + filters;
+
+    $.get(queryUrl, function(data) {
         var geomObj;
         var geomObjects = data.features;
         for(geomObj of geomObjects) {
-            L.marker(geomObj.geometry.coordinates.reverse(), { icon: mapIcon }).addTo(mymap);
+            var mapMarker = L.marker(geomObj.geometry.coordinates.reverse(), { icon: mapIcon }).addTo(mymap);
+            markers.addLayer(mapMarker);
         }
     });
+    mymap.addLayer(markers);
 }
 
 /** **********************************************************\
@@ -1021,6 +1026,10 @@ function toggleButton(button) {
         return;
     }
 
+    // Clear map before new markers
+    mymap.removeLayer(markers);
+    markers = new L.FeatureGroup();
+
     // de-select all
     $('.filter-button').toggleClass('selected', false);
 
@@ -1033,8 +1042,7 @@ function toggleButton(button) {
     if(filters === 'fauna') {
         filters = 'fauna,entomology';
     }
-
-    $.get(featuresUrl, { filters: filters }, dataRequestHandler);
+    updateMap(filters);
 }
 
 /** **********************************************************\
