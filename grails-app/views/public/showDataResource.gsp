@@ -27,14 +27,12 @@
                     ${instance.name}
                 </h1>
 
-                <div class="page-header__subtitle">
-                    data resource
-                </div>
+                <%-- <div class="page-header__subtitle"></div> --%>
 
                 <div class="page-header-links">
                     <a href="/generic-collectory/datasets/" title="List" class="page-header-links__link">
                         <span class="fa fa-arrow-left"></span>
-                        <g:message code="page.navigation.list" />
+                        <g:message code="page.navigation.datasets" />
                     </a>
 
                     <a href="${request.contextPath}/" class="page-header-links__link">
@@ -326,12 +324,16 @@
                         <div class="card-header">
                             <g:if test="${instance.pubDescription || instance.techDescription || instance.focus}">
                                 <h4>
-                                    <g:message code="public.des" />
+                                    <g:message code="public.show.overviewtabs.overview" />
                                 </h4>
                             </g:if>
                         </div>
 
                         <div class="card-body">
+                            <h2>
+                                <g:message code="public.des" />
+                            </h2>
+
                             <cl:formattedText>
                                 ${fieldValue(bean: instance, field: "pubDescription")}
                             </cl:formattedText>
