@@ -2,6 +2,6 @@
 *= require jquery-ui
 *= require openlayers
 *= require temp-style
-*= require openlayers
-*= requite map
+*= require map
+*= require public
 */

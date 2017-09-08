@@ -427,10 +427,10 @@ function drawTaxonomyChart(data, chartOptions, query) {
     // draw the back button / instructions
     var $backLink = $('#backLink');
     if ($backLink.length == 0) {
-        $backLink = $('<div class="erk-button erk-button--inline" id="backLink">&laquo; ' + jQuery.i18n.prop('charts2.js.previousrank') + '</div>').appendTo($outerContainer);  // create it
+        $backLink = $('<div class="erk-link-button erk-button--inline" id="backLink">&laquo; ' + jQuery.i18n.prop('charts2.js.previousrank') + '</div>').appendTo($outerContainer);  // create it
         $backLink.click(function() {
             // only act if link was real
-            if (!$backLink.hasClass('erk-button')) return;
+            if (!$backLink.hasClass('erk-link-button')) return;
 
             // show spinner while loading
             $container.append($('<img class="loading" style="position:absolute;left:130px;top:220px;z-index:2000" ' +
@@ -449,11 +449,11 @@ function drawTaxonomyChart(data, chartOptions, query) {
     }
     if (chartOptions.history) {
         // show the prev link
-        $backLink.html("&laquo; " + jQuery.i18n.prop('charts2.js.previousrank')).addClass('erk-button');
+        $backLink.html("&laquo; " + jQuery.i18n.prop('charts2.js.previousrank')).addClass('erk-link-button');
     }
     else {
         // show the instruction
-        $backLink.html(jQuery.i18n.prop('charts.js.slicetodrill')).removeClass('erk-button');
+        $backLink.html(jQuery.i18n.prop('charts.js.slicetodrill')).removeClass('erk-link-button');
     }
 
     // draw records link
