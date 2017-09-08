@@ -121,22 +121,21 @@
                         <div class="tabbable">
                             <ul id="home-tabs" class="nav nav-tabs">
                                 <li class="nav-item">
-                                    <a href="#list" data-toggle="tab" class="nav-link">
+                                    <a href="#list" data-toggle="tab" class="nav-link active">
                                         <g:message code="public.map3.maplistcol.list" />
                                     </a>
                                 </li>
 
                                 <li class="nav-item">
-                                    <a href="#map" data-toggle="tab" class="nav-link active">
+                                    <a id="map-tab-header" href="#map" data-toggle="tab" class="nav-link">
                                         <g:message code="public.map3.maplistcol.map" />
                                     </a>
                                 </li>
-
                             </ul>
                         </div>
 
                         <div class="tab-content">
-                            <div id="map" class="tab-pane active">
+                            <div id="map" class="tab-pane">
                                 <div class="map-column">
                                     <div class="section">
                                         <p>
@@ -155,7 +154,7 @@
                                 </div>
                             </div>
 
-                            <div id="list" class="tab-pane">
+                            <div id="list" class="tab-pane active">
                                 <div class="list-column">
                                     <div id="names" class="nameList section">
                                         <p>
