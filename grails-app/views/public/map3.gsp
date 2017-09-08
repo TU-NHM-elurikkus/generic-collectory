@@ -180,12 +180,22 @@
 
             // initMap(COLLECTIONS_MAP_OPTIONS);
             updateList();
-            var mymap = L.map('map_canvas').setView([58.3735552, 26.7169192], 6);
-            L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+            var mymap = L.map('map_canvas', {
+                center: [58.7283, 25.4169192],
+                zoom: 7
+            });
+
+            L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
                 maxZoom: 18,
-                id: 'mapbox.streets',
-                accessToken: "pk.eyJ1IjoicGx1dG9mIiwiYSI6ImNpcWo4OHV3MTAwYzVocG1jZHZpcmYwM3kifQ.EJxPtfHAmx70baunS5WoiA"
+                attribution:
+                    '&copy; ' +
+                    '<a href="http://www.openstreetmap.org/copyright">' +
+                        'OpenStreetMap' +
+                    '</a>' +
+                    ', &copy;' +
+                    '<a href="https://carto.com/attribution">' +
+                        'CARTO' +
+                    '</a>'
             }).addTo(mymap);
 
             updateMap('all');

@@ -4,7 +4,7 @@ var altMap; // Populated by some of the templates
 $(document).ready(function() {
     $('#map-tab-header').on('shown.bs.tab', function(e) {
         mymap.invalidateSize(true);
-        mymap.setView([58.3735552, 26.7169192], 6);
+        mymap.setView([58.7283, 25.4169192], 7);
     });
 });
 /*
