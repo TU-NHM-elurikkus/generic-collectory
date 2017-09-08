@@ -159,7 +159,7 @@
                                     <div id="names" class="nameList section">
                                         <p>
                                             <span class="fa fa-info-circle"></span>
-                                            <g:message code="public.map3.maplistcol.des04" />
+                                            <g:message code="public.map3.maplistcol.des01" />.
                                         </p>
 
                                         <ul id="filtered-list" class="list-unstyled"></ul>
