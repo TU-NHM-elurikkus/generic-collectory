@@ -10,6 +10,7 @@
     },
     "globals": {
         "$": true,
+        "L": true,
         "OpenLayers": true
     },
     "extends": "eslint:recommended",

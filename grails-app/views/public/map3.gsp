@@ -115,86 +115,55 @@
                                 </button>
                             </div>
                         </div>
-
-                        <%--
-                        <div id="adminLink" class="dropdown" style="margin-top:110px;">
-                            <g:link controller="manage" action="list" style="color:#DDDDDD; margin-top:80px;">
-                                <g:message code="public.map3.adminlink" />
-                            </g:link>
-                        filter-</div>
-                        --%>
                     </div>
 
-                    <div class="col-md-7" id="map-list-col">
+                    <div id="map-list-col" class="col-md-7">
                         <div class="tabbable">
-                            <ul class="nav nav-tabs" id="home-tabs">
+                            <ul id="home-tabs" class="nav nav-tabs">
+                                <li class="nav-item">
+                                    <a href="#list" data-toggle="tab" class="nav-link">
+                                        <g:message code="public.map3.maplistcol.list" />
+                                    </a>
+                                </li>
+
                                 <li class="nav-item">
                                     <a href="#map" data-toggle="tab" class="nav-link active">
                                         <g:message code="public.map3.maplistcol.map" />
                                     </a>
                                 </li>
 
-                                <li class="nav-item">
-                                    <a href="#list" data-toggle="tab" class="nav-link">
-                                        <g:message code="public.map3.maplistcol.list" />
-                                    </a>
-                                </li>
                             </ul>
                         </div>
 
                         <div class="tab-content">
-                            <div class="tab-pane active" id="map">
-                                <div  class="map-column">
+                            <div id="map" class="tab-pane active">
+                                <div class="map-column">
                                     <div class="section">
                                         <p>
                                             <span class="fa fa-info-circle"></span>
                                             <g:message code="public.map3.maplistcol.des01" />.
-                                        <p>
+                                        </p>
 
                                         <p class="vertical-block">
-                                            <%-- <span class="fa fa-info-circle"></span> --%>
                                             <img src="${resource(dir:'images', file:'markermultiple.png')}" class="map-legend-img" />
 
                                             <g:message code="public.map3.maplistcol.des02" />.
                                         </p>
 
-                                        <div id="map-container">
-                                            <div id="map_canvas"></div>
-                                        </div>
-
-                                        <%--
-                                        <div class="map-footer">
-                                            <span class="fa fa-info-circle"></span>
-                                            <img src="${resource(dir:'images', file:'markermultiple.png')}" class="map-legend-img" />
-
-                                            <g:message code="public.map3.maplistcol.des02" />.
-                                        </div>
-                                        --%>
+                                        <div id="map_canvas"></div>
                                     </div>
                                 </div>
                             </div>
 
                             <div id="list" class="tab-pane">
                                 <div class="list-column">
-                                    <div class="nameList section" id="names">
+                                    <div id="names" class="nameList section">
                                         <p>
                                             <span class="fa fa-info-circle"></span>
-                                            <g:message code="public.map3.maplistcol.des04" />&nbsp;
+                                            <g:message code="public.map3.maplistcol.des04" />
                                         </p>
 
-                                        <ul id="filtered-list" class="list-unstyled">
-                                            <g:each var="c" in="${collections}" status="i">
-                                                <li>
-                                                    <g:link controller="public" action="show" id="${c.uid}">
-                                                        ${fieldValue(bean: c, field: "name")}
-                                                    </g:link>
-
-                                                    <g:if test="${!c.canBeMapped()}">
-                                                        <img style="vertical-align:middle" src="${resource(dir:'assets/map', file:'nomap.gif')}" />
-                                                    </g:if>
-                                                </li>
-                                            </g:each>
-                                        </ul>
+                                        <ul id="filtered-list" class="list-unstyled"></ul>
                                     </div>
                                 </div>
                             </div>
@@ -208,12 +177,19 @@
             var altMap = true;
             var COLLECTIONS_MAP_OPTIONS = {
                 serverUrl:   "${grailsApplication.config.grails.serverURL}",
-                centreLat:   ${grailsApplication.config.collectionsMap.centreMapLat?:"-28.2"},
-                centreLon:   ${grailsApplication.config.collectionsMap.centreMapLon?:"134"},
-                defaultZoom: ${grailsApplication.config.collectionsMap.defaultZoom?:"4"}
             }
 
-            initMap(COLLECTIONS_MAP_OPTIONS);
+            // initMap(COLLECTIONS_MAP_OPTIONS);
+            updateList();
+            var mymap = L.map('map_canvas').setView([58.3735552, 26.7169192], 6);
+            L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+                maxZoom: 18,
+                id: 'mapbox.streets',
+                accessToken: "pk.eyJ1IjoicGx1dG9mIiwiYSI6ImNpcWo4OHV3MTAwYzVocG1jZHZpcmYwM3kifQ.EJxPtfHAmx70baunS5WoiA"
+            }).addTo(mymap);
+
+            updateMap();
         </script>
     </body>
 </html>

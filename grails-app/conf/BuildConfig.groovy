@@ -3,8 +3,8 @@ grails.project.class.dir = "target/classes"
 grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
 grails.project.work.dir = "target/work"
-grails.project.target.level = 1.7
-grails.project.source.level = 1.7
+grails.project.target.level = 1.8
+grails.project.source.level = 1.8
 
 //grails.plugin.location."collectory-plugin" = "../collectory-plugin"
 
@@ -44,15 +44,16 @@ grails.project.dependency.resolution = {
         build ":rest-client-builder:1.0.3"
         build ":release:3.0.1"
         build ":tomcat:7.0.70"
+
         compile ":asset-pipeline:2.14.1"
         compile ":cache:1.1.8"
-        runtime ":elurikkus-commons:0.2-SNAPSHOT"
-        runtime ":hibernate:3.6.10.11"
-        runtime ":jquery:1.11.1"
-        runtime ":audit-logging:1.0.7"
-        runtime ":cache-headers:1.1.6"
-        runtime ":rest:0.8"
-        runtime ":tiny-mce:3.4.4"
-        runtime ":cors:1.1.8"
+        compile ":elurikkus-commons:0.2-SNAPSHOT"
+        compile ":hibernate:3.6.10.11"
+        compile ":jquery:1.11.1"
+        compile ":audit-logging:1.0.7"
+        compile ":cache-headers:1.1.6"
+        compile ":rest:0.8"
+        compile ":tiny-mce:3.4.4"
+        compile ":cors:1.1.8"
     }
 }

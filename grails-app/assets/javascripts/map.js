@@ -165,72 +165,86 @@ function reloadData() {
     }
 }
 
+function updateMap() {
+    var mapIcon = L.icon({
+        iconUrl: 'assets/marker.png',
+        iconSize: [25, 25]
+    });
+    'markermultiple';
+
+    $.get('http://ala-test.ut.ee/collectory/public/mapFeatures?filters=all', function(data) {
+        var geomObj;
+        var geomObjects = data.features;
+        for(geomObj of geomObjects) {
+            L.marker(geomObj.geometry.coordinates.reverse(), { icon: mapIcon }).addTo(mymap);
+        }
+    });
+}
+
 /** **********************************************************\
 *   handler for loading features
 \************************************************************/
 function dataRequestHandler(data) {
+
     // clear existing
-    vectors.destroyFeatures();
-
-    // parse returned json
-    var features = new OpenLayers.Format.GeoJSON(proj_options).read(data);
-
-    // update list
-    updateList(features);
-
-    // add features to map
-    vectors.addFeatures(features);
-
-    // remove non-mappable collections
-    var unMappable = [];
-
-    for(var i = 0; i < features.length; i++) {
-        if(!features[i].attributes.isMappable) {
-            unMappable.push(features[i]);
-        }
-    }
-
-    vectors.destroyFeatures(unMappable);
-
-    // update number of unmappable collections
-    var unMappedText = '';
-
-    switch(unMappable.length) {
-        case 0: unMappedText = ''; break;
-        case 1: unMappedText = $.i18n.prop('map.js.collectioncannotbemapped'); break;
-        default: unMappedText = $.i18n.prop('map.js.collectionscannotbemapped', unMappable.length); break;
-    }
-
-    $('#numUnMappable').html(unMappedText);
-
-    // update display of number of features
-    var selectedFilters = getSelectedFiltersAsString();
-    var selectedFrom = $.i18n.prop('map.js.collectionstotal', features.length);
-
-    // TODO
-    if(selectedFilters !== 'all') {
-        selectedFrom = features.length + ' ' + $.i18n.prop('map.js.' + selectedFilters) + ' ' +
-            $.i18n.prop('map.js.collections') + '.';
-    }
-
-    var innerFeatures = '';
-
-    switch(features.length) {
-        case 0: innerFeatures = $.i18n.prop('map.js.nocollectionsareselected'); break;
-        case 1: innerFeatures = $.i18n.prop('map.js.onecollectionisselected'); break;
-        default: innerFeatures = selectedFrom; break;
-    }
-
-    $('#numFeatures').html(innerFeatures);
-
-    // fire moved to initialise number visible
-    moved(null);
-
-    // first time only: select the filter if one is specified in the url
-    if(firstLoad) {
-        selectInitialFilter();
-        firstLoad = false;
-    }
+    // vectors.destroyFeatures();
+    //
+    // // parse returned json
+    // var features = new OpenLayers.Format.GeoJSON(proj_options).read(data);
+    //
+    // // add features to map
+    // vectors.addFeatures(features);
+    //
+    // // remove non-mappable collections
+    // var unMappable = [];
+    //
+    // for(var i = 0; i < features.length; i++) {
+    //     if(!features[i].properties.isMappable) {
+    //         unMappable.push(features[i]);
+    //     }
+    // }
+    //
+    // vectors.destroyFeatures(unMappable);
+    //
+    // // update number of unmappable collections
+    // var unMappedText = '';
+    //
+    // switch(unMappable.length) {
+    //     case 0: unMappedText = ''; break;
+    //     case 1: unMappedText = $.i18n.prop('map.js.collectioncannotbemapped'); break;
+    //     default: unMappedText = $.i18n.prop('map.js.collectionscannotbemapped', unMappable.length); break;
+    // }
+    //
+    // $('#numUnMappable').html(unMappedText);
+    //
+    // // update display of number of features
+    // var selectedFilters = getSelectedFiltersAsString();
+    // var selectedFrom = $.i18n.prop('map.js.collectionstotal', features.length);
+    //
+    // // TODO
+    // if(selectedFilters !== 'all') {
+    //     selectedFrom = features.length + ' ' + $.i18n.prop('map.js.' + selectedFilters) + ' ' +
+    //         $.i18n.prop('map.js.collections') + '.';
+    // }
+    //
+    // var innerFeatures = '';
+    //
+    // switch(features.length) {
+    //     case 0: innerFeatures = $.i18n.prop('map.js.nocollectionsareselected'); break;
+    //     case 1: innerFeatures = $.i18n.prop('map.js.onecollectionisselected'); break;
+    //     default: innerFeatures = selectedFrom; break;
+    // }
+    //
+    // $('#numFeatures').html(innerFeatures);
+    //
+    // // fire moved to initialise number visible
+    // moved(null);
+    //
+    // // first time only: select the filter if one is specified in the url
+    // if(firstLoad) {
+    //     selectInitialFilter();
+    //     firstLoad = false;
+    // }
 }
 
 /** **********************************************************\
@@ -266,96 +280,99 @@ function getSelectedFiltersAsString() {
 /** **********************************************************\
 *   regenerate list of collections - update total number
 \************************************************************/
-function updateList(features) {
-    // update the potential total
-    maxCollections = Math.max(features.length, maxCollections);
+function updateList() {
+    $.get('http://ala-test.ut.ee/collectory/public/mapFeatures?filters=all', function(data) {
+        var features = data.features;
+        // update the potential total
+        maxCollections = Math.max(features.length, maxCollections);
 
-    if(!$('div#all').hasClass('inst')) {  // don't change text if showing institutions
-        $('#collections-total').html($.i18n.prop('public.map3.link.showall', maxCollections));
-    }
-
-    // update display of number of features
-    var innerFeatures = '';
-
-    switch(features.length) {
-        case 0: innerFeatures = $.i18n.prop('map.js.nocollectionsareselected'); break;
-        case 1: innerFeatures = features.length + ' ' + $.i18n.prop('map.js.collectionislisted'); break;
-        default: innerFeatures = $.i18n.prop('map.js.collectionsarelistedalphabetically'); break;
-    }
-
-    $('span#numFilteredCollections').html(innerFeatures);
-
-    // group by institution
-    var sortedParents = groupByParent(features, true);
-    var innerHtml = '';
-    var orphansHtml = '';
-
-    for(var i = 0; i < sortedParents.length; i++) {
-        var collList = sortedParents[i];
-        // show institution - use name of institution from first collection
-        var firstColl = collList[0];
-        var content = '';
-        if(firstColl.attributes.instName === null && firstColl.attributes.entityType === 'Collection') {
-            content +=
-                '<li class="indented-list-item">' +
-                    '<span class="highlight">' +
-                        '<span class="fa fa-archive"></span>' +
-                        '&nbsp;' +
-                        $.i18n.prop('collections.with.no.institution') +
-                    '</span>' +
-                '<ul class="list-unstyled">';
-        } else if(firstColl.attributes.instName === null && firstColl.attributes.entityType === 'DataProvider') {
-            content +=
-                '<li class="indented-list-item">' +
-                    '<span class="highlight">' +
-                        '<span class="fa fa-database"></span>' +
-                        '&nbsp;' +
-                        $.i18n.prop('dataproviders.list') +
-                    '</span>' +
-                '<ul class="list-unstyled">';
-
-        } else {
-            content +=
-                '<li class="indented-list-item">' +
-                    '<a class="highlight" href="' + baseUrl + '/public/show/' + firstColl.attributes.instUid + '">' +
-                        '<span class="fa fa-university"></span>' +
-                        '&nbsp;' +
-                        firstColl.attributes.instName +
-                    '</a>' +
-                '<ul class="list-unstyled">';
+        if(!$('div#all').hasClass('inst')) {  // don't change text if showing institutions
+            $('#collections-total').html($.i18n.prop('public.map3.link.showall', maxCollections));
         }
-        // show each collection
-        for(var c = 0; c < collList.length; c++) {
-            var coll = collList[c];
-            var acronym = '';
 
-            if(coll.attributes.acronym !== undefined) {
-                acronym = ' (' + coll.attributes.acronym + ')'
+        // update display of number of features
+        var innerFeatures = '';
+
+        switch(features.length) {
+            case 0: innerFeatures = $.i18n.prop('map.js.nocollectionsareselected'); break;
+            case 1: innerFeatures = features.length + ' ' + $.i18n.prop('map.js.collectionislisted'); break;
+            default: innerFeatures = $.i18n.prop('map.js.collectionsarelistedalphabetically'); break;
+        }
+
+        $('span#numFilteredCollections').html(innerFeatures);
+
+        // group by institution
+        var sortedParents = groupByParent(features, true);
+        var innerHtml = '';
+        var orphansHtml = '';
+
+        for(var i = 0; i < sortedParents.length; i++) {
+            var collList = sortedParents[i];
+            // show institution - use name of institution from first collection
+            var firstColl = collList[0];
+            var content = '';
+            if(!firstColl.properties.instName && firstColl.properties.entityType === 'Collection') {
+                content +=
+                    '<li class="indented-list-item">' +
+                        '<span class="highlight">' +
+                            '<span class="fa fa-archive"></span>' +
+                            '&nbsp;' +
+                            $.i18n.prop('collections.with.no.institution') +
+                        '</span>' +
+                    '<ul class="list-unstyled">';
+            } else if(!firstColl.properties.instName && firstColl.properties.entityType === 'DataProvider') {
+                content +=
+                    '<li class="indented-list-item">' +
+                        '<span class="highlight">' +
+                            '<span class="fa fa-database"></span>' +
+                            '&nbsp;' +
+                            $.i18n.prop('dataproviders.list') +
+                        '</span>' +
+                    '<ul class="list-unstyled">';
+
+            } else {
+                content +=
+                    '<li class="indented-list-item">' +
+                        '<a class="highlight" href="' + baseUrl + '/public/show/' + firstColl.properties.instUid + '">' +
+                            '<span class="fa fa-university"></span>' +
+                            '&nbsp;' +
+                            firstColl.properties.instName +
+                        '</a>' +
+                    '<ul class="list-unstyled">';
             }
+            // show each collection
+            for(var c = 0; c < collList.length; c++) {
+                var coll = collList[c];
+                var acronym = '';
 
-            content +=
-                '<li class="indented-list-item">' +
-                    '<a href="' + baseUrl + '/public/show/' + coll.attributes.uid + '">' +
-                        '<span class="fa fa-archive"></span>' +
-                        '&nbsp;' +
-                        coll.attributes.name + acronym +
-                    '</a>';
+                if(coll.properties.acronym) {
+                    acronym = ' (' + coll.properties.acronym + ')';
+                }
 
-            // if(!coll.attributes.isMappable) {
-            //     content += '<img style="vertical-align:middle" src="' + baseUrl + '/images/map/nomap.gif"/>';
-            // }
+                content +=
+                    '<li class="indented-list-item">' +
+                        '<a href="' + baseUrl + '/public/show/' + coll.properties.uid + '">' +
+                            '<span class="fa fa-archive"></span>' +
+                            '&nbsp;' +
+                            coll.properties.name + acronym +
+                        '</a>';
 
-            content += '</li>';
+                // if(!coll.properties.isMappable) {
+                //     content += '<img style="vertical-align:middle" src="' + baseUrl + '/images/map/nomap.gif"/>';
+                // }
+
+                content += '</li>';
+            }
+            content += '</ul></li>';
+            if(!firstColl.properties.instName) {
+                orphansHtml = content;
+            } else {
+                innerHtml += content;
+            }
         }
-        content += '</ul></li>';
-        if(firstColl.attributes.instName === null) {
-            orphansHtml = content;
-        } else {
-            innerHtml += content;
-        }
-    }
-    innerHtml += orphansHtml;
-    $('ul#filtered-list').html(innerHtml);
+        innerHtml += orphansHtml;
+        $('ul#filtered-list').html(innerHtml);
+    });
 }
 
 /** **********************************************************\
@@ -461,24 +478,24 @@ function outputSingleFeature(feature) {
         return outputSingleInstitution(feature);
     } else {
         var address = '';
-        if(feature.attributes.address !== null && feature.attributes.address !== '') {
-            address = feature.attributes.address;
+        if(feature.properties.address && feature.properties.address !== '') {
+            address = feature.properties.address;
         }
-        var desc = feature.attributes.desc;
+        var desc = feature.properties.desc;
         var acronym = '';
-        if(feature.attributes.acronym !== undefined) {
-            acronym = ' (' + feature.attributes.acronym + ')';
+        if(feature.properties.acronym) {
+            acronym = ' (' + feature.properties.acronym + ')';
         }
         var instLink = '';
-        if(feature.attributes.instUid !== null) {
+        if(feature.properties.instUid) {
             instLink = outputInstitutionOnOwnLine(feature) + '<br/>';
-            return instLink + '<a style="margin-left:5px;" href="' + feature.attributes.url + '">'
+            return instLink + '<a style="margin-left:5px;" href="' + feature.properties.url + '">'
                         + getShortCollectionName(feature) + '</a>' + acronym
                         + '<div class="address">' + address + '</div><hr>'
                         + '<div class="desc">' + desc + '</div>';
         } else {
-            return '<a href="' + feature.attributes.url + '">'
-                        + feature.attributes.name + '</a>' + acronym
+            return '<a href="' + feature.properties.url + '">'
+                        + feature.properties.name + '</a>' + acronym
                         + '<div class="address">' + address + '</div><hr>'
                         + '<div class="desc">' + desc + '</div>';
         }
@@ -490,16 +507,16 @@ function outputSingleFeature(feature) {
 \************************************************************/
 function outputSingleInstitution(feature) {
     var address = '';
-    if(feature.attributes.address !== null && feature.attributes.address !== '') {
-        address = feature.attributes.address;
+    if(feature.properties.address && feature.properties.address !== '') {
+        address = feature.properties.address;
     }
     var acronym = '';
-    if(feature.attributes.instAcronym !== undefined) {
-        acronym = ' (' + feature.attributes.instAcronym + ')';
+    if(feature.properties.instAcronym) {
+        acronym = ' (' + feature.properties.instAcronym + ')';
     }
     var content =
-        '<a class="highlight" href="' + baseUrl + '/public/show/' + feature.attributes.instUid + '">' +
-            feature.attributes.instName +
+        '<a class="highlight" href="' + baseUrl + '/public/show/' + feature.properties.instUid + '">' +
+            feature.properties.instName +
         '</a>' +
         acronym +
         '<div class="address">' +
@@ -517,16 +534,16 @@ function groupByParent(features, groupOrphans) {
     var parents = {};
     for(var c = 0; c < features.length; c++) {
         var collectionFeature = features[c];
-        var instUid = collectionFeature.attributes.instUid;
-        if(instUid === undefined && groupOrphans) {
+        var instUid = collectionFeature.properties.instUid;
+        if(!instUid && groupOrphans) {
             instUid = 'zz-other';
         }
-        if(instUid === undefined) {
+        if(!instUid) {
             // add as orphan collection
-            parents[collectionFeature.attributes.uid] = collectionFeature;
+            parents[collectionFeature.properties.uid] = collectionFeature;
         } else {
             var collList = parents[instUid];
-            if(collList === undefined) {
+            if(!collList) {
                 // create new inst entry
                 collList = [];
                 collList.push(collectionFeature);
@@ -597,11 +614,11 @@ function outputMultipleInstitutions(parents) {
         // use name of institution from first collection
         if(obj instanceof Array) { obj = obj[0]; }
         // skip collections with no institution
-        var name = obj.attributes.instName;
+        var name = obj.properties.instName;
         if(!name) {
             content +=
                 '<li>' +
-                    '<a class="highlight" href="' + baseUrl + '/public/show/' + obj.attributes.instUid + '">' +
+                    '<a class="highlight" href="' + baseUrl + '/public/show/' + obj.properties.instUid + '">' +
                         getTightInstitutionName(obj, 55) +
                     '</a>' +
                 '</li>';
@@ -615,20 +632,20 @@ function outputMultipleInstitutions(parents) {
 \************************************************************/
 function getName(obj) {
 
-    if($.isArray(obj) && obj[0].attributes && obj[0].attributes.name && obj[0].attributes.entityType !== 'Collection') {
-        return obj[0].attributes.name;
-    } else if(!$.isArray(obj) && obj.attributes && obj.attributes.name && obj.attributes.entityType !== 'Collection') {
-        return obj.attributes.name;
+    if($.isArray(obj) && obj[0].properties && obj[0].properties.name && obj[0].properties.entityType !== 'Collection') {
+        return obj[0].properties.name;
+    } else if(!$.isArray(obj) && obj.properties && obj.properties.name && obj.properties.entityType !== 'Collection') {
+        return obj.properties.name;
     }
 
     var name;
     if($.isArray(obj)) {
-        name = obj[0].attributes.instName;
+        name = obj[0].properties.instName;
     } else {
-        name = obj.attributes.instName;
+        name = obj.properties.instName;
     }
     // remove leading 'The ' so the institutions sort by first significant letter
-    if(name !== null && name.length > 4 && name.substr(0, 4) === 'The ') {
+    if(name && name.length > 4 && name.substr(0, 4) === 'The ') {
         name = name.substr(4);
     }
     return name;
@@ -664,10 +681,10 @@ function outputMultipleCollections(obj, strategy) {
 * abbreviates institution name if long (assumes inst is present)
 \************************************************************/
 function getTightInstitutionName(obj, max) {
-    if(obj.attributes.instName.length > max && obj.attributes.instAcronym !== null) {
-        return obj.attributes.instAcronym;
+    if(obj.properties.instName.length > max && obj.properties.instAcronym) {
+        return obj.properties.instAcronym;
     } else {
-        return obj.attributes.instName;
+        return obj.properties.instName;
     }
 }
 
@@ -675,14 +692,14 @@ function getTightInstitutionName(obj, max) {
 * abbreviates collections name by removing leading institution name
 \************************************************************/
 function getShortCollectionName(obj) {
-    var inst = obj.attributes.instName;
-    var shortName = obj.attributes.name;
+    var inst = obj.properties.instName;
+    var shortName = obj.properties.name;
     if(!inst && inst.match('^The ') === 'The ') {
         inst = inst.substr(4);
     }
-    if(!inst && obj.attributes.name.match('^' + inst) === inst && // coll starts with the inst name
+    if(!inst && obj.properties.name.match('^' + inst) === inst && // coll starts with the inst name
             inst !== shortName) { // but not if inst name is the whole of the coll name (ie they are the same)
-        shortName = obj.attributes.name.substr(inst.length);
+        shortName = obj.properties.name.substr(inst.length);
         // check for stupid collection names
         if(shortName.substr(0, 2) === ', ') {
             shortName = shortName.substr(2);
@@ -695,7 +712,7 @@ function getShortCollectionName(obj) {
 *   build html for an institution on its own line
 \************************************************************/
 function outputInstitutionOnOwnLine(obj) {
-    return '<a class="highlight" href="' + baseUrl + '/public/show/' + obj.attributes.instUid + '">' + getTightInstitutionName(obj, 55) + '</a>';
+    return '<a class="highlight" href="' + baseUrl + '/public/show/' + obj.properties.instUid + '">' + getTightInstitutionName(obj, 55) + '</a>';
 }
 
 /** **********************************************************\
@@ -704,26 +721,26 @@ function outputInstitutionOnOwnLine(obj) {
 function outputCollectionWithInstitution(obj, strategy) {
     var max = 60;
     var acronym = '';
-    if(!obj.attributes.acronym) {
-        acronym = ' (' + obj.attributes.acronym + ')';
+    if(!obj.properties.acronym) {
+        acronym = ' (' + obj.properties.acronym + ')';
     }
-    var instLink = '<a class="highlight" href="' + baseUrl + '/public/show/' + obj.attributes.instUid + '">';
+    var instLink = '<a class="highlight" href="' + baseUrl + '/public/show/' + obj.properties.instUid + '">';
 
     var result;
 
     if(strategy === 'verbose') {
 
-        if(obj.attributes.name.length + acronym.length > max) {
+        if(obj.properties.name.length + acronym.length > max) {
             // drop acronym
             result =
             '<li>' +
                 instLink +
-                    obj.attributes.instName +
+                    obj.properties.instName +
                 '</a>' +
                 '<ul>' +
                     '<li>' +
-                        '<a href="' + obj.attributes.url + '">' +
-                            obj.attributes.name +
+                        '<a href="' + obj.properties.url + '">' +
+                            obj.properties.name +
                         '</a>' +
                     '</li>' +
                 '</ul>' +
@@ -733,12 +750,12 @@ function outputCollectionWithInstitution(obj, strategy) {
             result =
                 '<li>' +
                     instLink +
-                        obj.attributes.instName +
+                        obj.properties.instName +
                     '</a>' +
                     '<ul>' +
                         '<li>' +
-                            '<a href="' + obj.attributes.url + '"/>' +
-                                obj.attributes.name + acronym +
+                            '<a href="' + obj.properties.url + '"/>' +
+                                obj.properties.name + acronym +
                             '</a>' +
                         '</li>' +
                     '</ul>' +
@@ -747,9 +764,9 @@ function outputCollectionWithInstitution(obj, strategy) {
         }
     } else {
         // present both in one line
-        var inst = obj.attributes.instName;
+        var inst = obj.properties.instName;
         var briefInst = getTightInstitutionName(obj, 25);
-        var coll = obj.attributes.name;
+        var coll = obj.properties.name;
 
         // try full inst + full coll + acronym
         if(inst.length + coll.length + acronym.length < max) {
@@ -758,7 +775,7 @@ function outputCollectionWithInstitution(obj, strategy) {
                     instLink +
                         inst +
                     '</a>' +
-                    ' - <a href="' + obj.attributes.url + '">' +
+                    ' - <a href="' + obj.properties.url + '">' +
                         coll + acronym +
                     '</a>' +
                 '</li>';
@@ -771,7 +788,7 @@ function outputCollectionWithInstitution(obj, strategy) {
                     instLink +
                         inst +
                     '</a>' +
-                    ' - <a href="' + obj.attributes.url + '">' +
+                    ' - <a href="' + obj.properties.url + '">' +
                         getShortCollectionName(obj) + acronym +
                     '</a>' +
                 '</li>';
@@ -784,7 +801,7 @@ function outputCollectionWithInstitution(obj, strategy) {
                     instLink +
                         inst +
                     '</a>' +
-                    ' - <a href="' + obj.attributes.url + '">' +
+                    ' - <a href="' + obj.properties.url + '">' +
                         getShortCollectionName(obj) +
                     '</a>' +
                 '</li>';
@@ -797,7 +814,7 @@ function outputCollectionWithInstitution(obj, strategy) {
                     instLink +
                         briefInst +
                     '</a>' +
-                    ' - <a href="' + obj.attributes.url + '">' +
+                    ' - <a href="' + obj.properties.url + '">' +
                         coll +
                     '</a>' +
                 '</li>';
@@ -810,7 +827,7 @@ function outputCollectionWithInstitution(obj, strategy) {
                     instLink +
                         briefInst +
                     '</a>' +
-                    ' - <a href="' + obj.attributes.url + '">' +
+                    ' - <a href="' + obj.properties.url + '">' +
                         coll +
                     '</a>' +
                 '</li>';
@@ -823,7 +840,7 @@ function outputCollectionWithInstitution(obj, strategy) {
                     instLink +
                         briefInst +
                     '</a>' +
-                    ' - <a href="' + obj.attributes.url + '">' +
+                    ' - <a href="' + obj.properties.url + '">' +
                         getShortCollectionName(obj) +
                     '</a>' +
                 '</li>';
@@ -836,7 +853,7 @@ function outputCollectionWithInstitution(obj, strategy) {
                     instLink +
                         briefInst +
                     '</a>' +
-                    ' - <a href="' + obj.attributes.url + '">' +
+                    ' - <a href="' + obj.properties.url + '">' +
                         acronym +
                     '</a>' +
                 '</li>';
@@ -860,23 +877,23 @@ function outputCollectionOnOwnLine(obj) {
     var max = 60;
     // build acronym
     var acronym = '';
-    if(!obj.attributes.acronym) {
-        acronym = ' <span>(' + obj.attributes.acronym + ')</span>';
+    if(!obj.properties.acronym) {
+        acronym = ' <span>(' + obj.properties.acronym + ')</span>';
     }
 
     /* try combos in order of preference */
     var name;
     // try full name + acronym
-    if(obj.attributes.name.length + acronym.length < max / 2) { // favour next option unless very short
-        name = obj.attributes.name + '</a>' + acronym;
+    if(obj.properties.name.length + acronym.length < max / 2) { // favour next option unless very short
+        name = obj.properties.name + '</a>' + acronym;
 
     // try short name + acronym
     } else if(getShortCollectionName(obj).length + acronym.length < max) {
         name = getShortCollectionName(obj) + acronym + '</a>';
 
     // try name
-    } else if(obj.attributes.name.length < max) {
-        name = obj.attributes.name + '</a>';
+    } else if(obj.properties.name.length < max) {
+        name = obj.properties.name + '</a>';
 
     // try short name
     } else if(getShortCollectionName(obj).length < max) {
@@ -884,10 +901,10 @@ function outputCollectionOnOwnLine(obj) {
 
     // stuck with name
     } else {
-        name = obj.attributes.name + '</a>';
+        name = obj.properties.name + '</a>';
     }
 
-    return '<li><a href="' + obj.attributes.url + '">' + name + '</li>';
+    return '<li><a href="' + obj.properties.url + '">' + name + '</li>';
 }
 
 /** **********************************************************\
