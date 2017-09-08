@@ -490,7 +490,7 @@ function outputSingleFeature(feature) {
         return outputSingleInstitution(feature);
     } else {
         var address = '';
-        if(feature.properties.address && feature.properties.address !== '') {
+        if(feature.properties.address) {
             address = feature.properties.address;
         }
         var desc = feature.properties.desc;
@@ -499,14 +499,26 @@ function outputSingleFeature(feature) {
             acronym = ' (' + feature.properties.acronym + ')';
         }
         var instLink = '';
+
         if(feature.properties.instUid) {
-            instLink = outputInstitutionOnOwnLine(feature) +
+            instLink =
+                outputInstitutionOnOwnLine(feature) +
                 '<br />' +
                 '<a style="margin-left:5px;" href="' + feature.properties.url + '">' +
                     '<span class="fa fa-archive"></span>' +
                     '&nbsp;' +
                     getShortCollectionName(feature) +
-                '</a>' +
+                '</a>';
+        } else {
+            instLink =
+                '<a href="' + feature.properties.url + '">' +
+                    feature.properties.name +
+                '</a>';
+        }
+
+        instLink =
+            '<div class="map-popup">' +
+                instLink +
                 acronym +
                 '<div class="address">' +
                     address +
@@ -514,14 +526,9 @@ function outputSingleFeature(feature) {
                 '<hr />' +
                 '<div class="desc">' +
                     desc +
-                '</div>';
-            return instLink;
-        } else {
-            return '<a href="' + feature.properties.url + '">'
-                        + feature.properties.name + '</a>' + acronym
-                        + '<div class="address">' + address + '</div><hr>'
-                        + '<div class="desc">' + desc + '</div>';
-        }
+                '</div>' +
+            '</div>';
+        return instLink;
     }
 }
 
