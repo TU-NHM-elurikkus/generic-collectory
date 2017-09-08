@@ -287,72 +287,76 @@
                                         </p>
                                     </g:if>
 
-                                    <h2>
-                                        <g:message code="public.show.oc.taxonomicRange" />
-                                    </h2>
-
-                                    <g:if test="${fieldValue(bean: instance, field: 'focus')}">
-                                        <cl:formattedText>
-                                            ${fieldValue(bean: instance, field: "focus")}
-                                        </cl:formattedText>
-                                    </g:if>
-
-                                    <g:if test="${fieldValue(bean: instance, field: 'kingdomCoverage')}">
-                                        <p>
-                                            <g:message code="public.show.oc.des01" />: <cl:concatenateStrings values='${fieldValue(bean: instance, field: "kingdomCoverage")}' />.
-                                        </p>
-                                    </g:if>
-
-                                    <g:if test="${fieldValue(bean: instance, field: 'scientificNames')}">
-                                        <p>
-                                            <cl:collectionName name="${instance.name}" prefix="The "/> <g:message code="public.show.oc.des02" />:
-                                            <br />
-                                            <cl:JSONListAsStrings json='${instance.scientificNames}' />.
-                                        </p>
-                                    </g:if>
-
-                                    <g:if test="${instance?.geographicDescription || instance.states}">
+                                    <%-- TAXONOMIC RANGE --%>
+                                    <p>
                                         <h2>
-                                            <g:message code="public.show.oc.label03" />
+                                            <g:message code="public.show.oc.taxonomicRange" />
                                         </h2>
 
-                                        <g:if test="${fieldValue(bean: instance, field: 'geographicDescription')}">
+                                        <g:if test="${fieldValue(bean: instance, field: 'focus')}">
+                                            <cl:formattedText>
+                                                ${fieldValue(bean: instance, field: "focus")}
+                                            </cl:formattedText>
+                                        </g:if>
+
+                                        <g:if test="${fieldValue(bean: instance, field: 'kingdomCoverage')}">
                                             <p>
-                                                ${fieldValue(bean: instance, field: "geographicDescription")}
+                                                <g:message code="public.show.oc.des01" />: <cl:concatenateStrings values='${fieldValue(bean: instance, field: "kingdomCoverage")}' />.
                                             </p>
                                         </g:if>
 
-                                        <g:if test="${fieldValue(bean: instance, field: 'states')}">
+                                        <g:if test="${fieldValue(bean: instance, field: 'scientificNames')}">
                                             <p>
-                                                <cl:stateCoverage states='${fieldValue(bean: instance, field: "states")}' />
+                                                <cl:collectionName name="${instance.name}" prefix="The "/> <g:message code="public.show.oc.des02" />:
+                                                <br />
+                                                <cl:JSONListAsStrings json='${instance.scientificNames}' />.
                                             </p>
                                         </g:if>
 
-                                        <g:if test="${instance.westCoordinate != -1}">
-                                            <p>
-                                                <g:message code="public.show.oc.des03" />: <cl:showDecimal value='${instance.westCoordinate}' degree='true' />
-                                            </p>
-                                        </g:if>
+                                        <g:if test="${instance?.geographicDescription || instance.states}">
+                                            <h2>
+                                                <g:message code="public.show.oc.label03" />
+                                            </h2>
 
-                                        <g:if test="${instance.eastCoordinate != -1}">
-                                            <p>
-                                                <g:message code="public.show.oc.des04" />: <cl:showDecimal value='${instance.eastCoordinate}' degree='true' />
-                                            </p>
-                                        </g:if>
+                                            <g:if test="${fieldValue(bean: instance, field: 'geographicDescription')}">
+                                                <p>
+                                                    ${fieldValue(bean: instance, field: "geographicDescription")}
+                                                </p>
+                                            </g:if>
 
-                                        <g:if test="${instance.northCoordinate != -1}">
-                                            <p>
-                                                <g:message code="public.show.oc.des05" />: <cl:showDecimal value='${instance.northCoordinate}' degree='true' />
-                                            </p>
-                                        </g:if>
+                                            <g:if test="${fieldValue(bean: instance, field: 'states')}">
+                                                <p>
+                                                    <cl:stateCoverage states='${fieldValue(bean: instance, field: "states")}' />
+                                                </p>
+                                            </g:if>
 
-                                        <g:if test="${instance.southCoordinate != -1}">
-                                            <p>
-                                                <g:message code="public.show.oc.des06" />: <cl:showDecimal value='${instance.southCoordinate}' degree='true' />
-                                            </p>
-                                        </g:if>
-                                    </g:if>
+                                            <g:if test="${instance.westCoordinate != -1}">
+                                                <p>
+                                                    <g:message code="public.show.oc.des03" />: <cl:showDecimal value='${instance.westCoordinate}' degree='true' />
+                                                </p>
+                                            </g:if>
 
+                                            <g:if test="${instance.eastCoordinate != -1}">
+                                                <p>
+                                                    <g:message code="public.show.oc.des04" />: <cl:showDecimal value='${instance.eastCoordinate}' degree='true' />
+                                                </p>
+                                            </g:if>
+
+                                            <g:if test="${instance.northCoordinate != -1}">
+                                                <p>
+                                                    <g:message code="public.show.oc.des05" />: <cl:showDecimal value='${instance.northCoordinate}' degree='true' />
+                                                </p>
+                                            </g:if>
+
+                                            <g:if test="${instance.southCoordinate != -1}">
+                                                <p>
+                                                    <g:message code="public.show.oc.des06" />: <cl:showDecimal value='${instance.southCoordinate}' degree='true' />
+                                                </p>
+                                            </g:if>
+                                        </g:if>
+                                    </p>
+
+                                    <%-- NUMBER OF SPECIMENS IN THE COLLECTION --%>
                                     <g:set var="nouns" value="${cl.nounForTypes(types:instance.listCollectionTypes())}" />
 
                                     <h2>
