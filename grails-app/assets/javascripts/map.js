@@ -96,9 +96,9 @@ function updateList() {
 
         var unMappable = [];
 
-        for(var i = 0; i < features.length; i++) {
-            if(!features[i].properties.isMappable) {
-                unMappable.push(features[i]);
+        for(var geomObj of features) {
+            if(!geomObj.properties.isMappable) {
+                unMappable.push(geomObj);
             }
         }
 
@@ -136,39 +136,37 @@ function updateList() {
             var collList = sortedParents[j];
             // show institution - use name of institution from first collection
             var firstColl = collList[0];
-            var content = '';
+            var content;
             if(!firstColl.properties.instName && firstColl.properties.entityType === 'Collection') {
-                content +=
-                    '<li class="indented-list-item">' +
-                        '<span class="highlight">' +
-                            '<span class="fa fa-archive"></span>' +
-                            '&nbsp;' +
-                            $.i18n.prop('collections.with.no.institution') +
-                        '</span>' +
-                    '<ul class="list-unstyled">';
+                content =
+                    '<span class="highlight">' +
+                        '<span class="fa fa-archive"></span>' +
+                        '&nbsp;' +
+                        $.i18n.prop('collections.with.no.institution') +
+                    '</span>';
             } else if(!firstColl.properties.instName && firstColl.properties.entityType === 'DataProvider') {
-                content +=
-                    '<li class="indented-list-item">' +
-                        '<span class="highlight">' +
-                            '<span class="fa fa-database"></span>' +
-                            '&nbsp;' +
-                            $.i18n.prop('dataproviders.list') +
-                        '</span>' +
+                content =
+                    '<span class="highlight">' +
+                        '<span class="fa fa-database"></span>' +
+                        '&nbsp;' +
+                        $.i18n.prop('dataproviders.list') +
+                    '</span>';
+            } else {
+                content =
+                    '<a class="highlight" href="' + baseUrl + '/public/show/' + firstColl.properties.instUid + '">' +
+                        '<span class="fa fa-university"></span>' +
+                        '&nbsp;' +
+                        firstColl.properties.instName +
+                    '</a>';
+            }
+
+            content =
+                '<li class="indented-list-item">' +
+                    content +
                     '<ul class="list-unstyled">';
 
-            } else {
-                content +=
-                    '<li class="indented-list-item">' +
-                        '<a class="highlight" href="' + baseUrl + '/public/show/' + firstColl.properties.instUid + '">' +
-                            '<span class="fa fa-university"></span>' +
-                            '&nbsp;' +
-                            firstColl.properties.instName +
-                        '</a>' +
-                    '<ul class="list-unstyled">';
-            }
             // show each collection
-            for(var c = 0; c < collList.length; c++) {
-                var coll = collList[c];
+            for(var coll of collList) {
                 var acronym = '';
 
                 if(coll.properties.acronym) {
@@ -181,14 +179,10 @@ function updateList() {
                             '<span class="fa fa-archive"></span>' +
                             '&nbsp;' +
                             coll.properties.name + acronym +
-                        '</a>';
-
-                // if(!coll.properties.isMappable) {
-                //     content += '<img style="vertical-align:middle" src="' + baseUrl + '/images/map/nomap.gif"/>';
-                // }
-
-                content += '</li>';
+                        '</a>' +
+                    '</li>';
             }
+
             content += '</ul></li>';
             if(!firstColl.properties.instName) {
                 orphansHtml = content;
@@ -209,16 +203,16 @@ function outputSingleFeature(feature) {
         return outputSingleInstitution(feature);
     } else {
         var address = '';
+        var acronym = '';
+        var instLink;
+        var desc = feature.properties.desc;
+
         if(feature.properties.address) {
             address = feature.properties.address;
         }
-        var desc = feature.properties.desc;
-        var acronym = '';
         if(feature.properties.acronym) {
             acronym = ' (' + feature.properties.acronym + ')';
         }
-        var instLink = '';
-
         if(feature.properties.instUid) {
             instLink =
                 outputInstitutionOnOwnLine(feature) +
@@ -235,7 +229,7 @@ function outputSingleFeature(feature) {
                 '</a>';
         }
 
-        instLink =
+        var popUpHtml =
             '<div class="map-popup">' +
                 instLink +
                 acronym +
@@ -247,7 +241,7 @@ function outputSingleFeature(feature) {
                     desc +
                 '</div>' +
             '</div>';
-        return instLink;
+        return popUpHtml;
     }
 }
 
@@ -256,10 +250,11 @@ function outputSingleFeature(feature) {
 */
 function outputSingleInstitution(feature) {
     var address = '';
-    if(feature.properties.address && feature.properties.address !== '') {
+    var acronym = '';
+
+    if(feature.properties.address) {
         address = feature.properties.address;
     }
-    var acronym = '';
     if(feature.properties.instAcronym) {
         acronym = ' (' + feature.properties.instAcronym + ')';
     }
@@ -329,15 +324,24 @@ function groupByParent(features, groupOrphans) {
 function outputClusteredFeature(feature) {
     var sortedParents = groupByParent(feature.cluster, false);
     // output the parents list
-    var content = '<ul>';
+    var content = '';
     if($('div#all').hasClass('inst') && $('div#all').hasClass('selected')) { // simple list if showing institutions
         content += outputMultipleInstitutions(sortedParents);
     } else {
         // adopt different collapsing strategies based on number to display
-        var strategy = 'verbose';
-        if(sortedParents.length === 1) { strategy = 'veryVerbose'; }
-        if(sortedParents.length > 4) { strategy = 'brief'; }
-        if(sortedParents.length > 6) { strategy = 'terse'; }
+        var strategy;
+        var parentsCount = sortedParents.length;
+
+        if(parentsCount === 1) {
+            strategy = 'veryVerbose';
+        } else if(parentsCount < 5) {
+            strategy = 'verbose';
+        } else if(parentsCount < 7) {
+            strategy = 'brief';
+        } else {
+            strategy = 'terse';
+        }
+
         // show them
         for(var k = 0; k < sortedParents.length; k++) {
             var item = sortedParents[k];
@@ -349,8 +353,11 @@ function outputClusteredFeature(feature) {
         }
     }
 
-    content += '</ul>';
-    return content;
+    var result =
+        '<ul>' +
+            content +
+        '</ul>';
+    return result;
 }
 
 /**
@@ -380,19 +387,20 @@ function outputMultipleInstitutions(parents) {
 * Grab name from institution
 */
 function getName(obj) {
+    var newObj;
 
-    if($.isArray(obj) && obj[0].properties && obj[0].properties.name && obj[0].properties.entityType !== 'Collection') {
-        return obj[0].properties.name;
-    } else if(!$.isArray(obj) && obj.properties && obj.properties.name && obj.properties.entityType !== 'Collection') {
-        return obj.properties.name;
-    }
-
-    var name;
     if($.isArray(obj)) {
-        name = obj[0].properties.instName;
+        newObj = obj[0];
     } else {
-        name = obj.properties.instName;
+        newObj = obj;
     }
+
+    if(newObj.properties && newObj.properties.name && newObj.properties.entityType !== 'Collection') {
+        return obj[0].properties.name;
+    }
+
+    var name = newObj.properties.instName;
+
     // remove leading 'The ' so the institutions sort by first significant letter
     if(name && name.length > 4 && name.substr(0, 4) === 'The ') {
         name = name.substr(4);
@@ -480,149 +488,112 @@ function outputCollectionWithInstitution(obj, strategy) {
         acronym = ' (' + obj.properties.acronym + ')';
     }
     var instLink = '<a class="highlight" href="' + baseUrl + '/public/show/' + obj.properties.instUid + '">';
+    var briefInst = getTightInstitutionName(obj, 25);
+    var briefInstLink = instLink + briefInst + '</a>';
+    var instName = obj.properties.instName;
+    var collName = obj.properties.name;
+    var url = obj.properties.url
 
     var result;
 
     if(strategy === 'verbose') {
+        var linkName;
 
-        if(obj.properties.name.length + acronym.length > max) {
+        if(collName.length + acronym.length > max) {
             // drop acronym
-            result =
-            '<li>' +
-                instLink +
-                    obj.properties.instName +
-                '</a>' +
-                '<ul>' +
-                    '<li>' +
-                        '<a href="' + obj.properties.url + '">' +
-                            obj.properties.name +
-                        '</a>' +
-                    '</li>' +
-                '</ul>' +
-            '</li>';
-            return result;
+            linkName = collName;
         } else {
-            result =
-                '<li>' +
-                    instLink +
-                        obj.properties.instName +
-                    '</a>' +
-                    '<ul>' +
-                        '<li>' +
-                            '<a href="' + obj.properties.url + '"/>' +
-                                obj.properties.name + acronym +
-                            '</a>' +
-                        '</li>' +
-                    '</ul>' +
-                '</li>';
-            return result;
+            linkName = collName + acronym;
         }
+
+        result =
+            instLink +
+                instName +
+            '</a>' +
+            '<ul>' +
+                '<li>' +
+                    '<a href="' + url + '">' +
+                        linkName +
+                    '</a>' +
+                '</li>' +
+            '</ul>';
     } else {
         // present both in one line
-        var inst = obj.properties.instName;
-        var briefInst = getTightInstitutionName(obj, 25);
-        var coll = obj.properties.name;
-
         // try full inst + full coll + acronym
-        if(inst.length + coll.length + acronym.length < max) {
+        if(instName.length + collName.length + acronym.length < max) {
             result =
-                '<li>' +
-                    instLink +
-                        inst +
-                    '</a>' +
-                    ' - <a href="' + obj.properties.url + '">' +
-                        coll + acronym +
-                    '</a>' +
-                '</li>';
-            return result;
-
+                instLink +
+                    instName +
+                '</a>' +
+                ' - ' +
+                '<a href="' + url + '">' +
+                    collName + acronym +
+                '</a>';
         // try full inst + short coll + acronym
-        } else if(inst.length + getShortCollectionName(obj).length + acronym.length < max) {
+        } else if(instName.length + getShortCollectionName(obj).length + acronym.length < max) {
             result =
-                '<li>' +
-                    instLink +
-                        inst +
-                    '</a>' +
-                    ' - <a href="' + obj.properties.url + '">' +
-                        getShortCollectionName(obj) + acronym +
-                    '</a>' +
-                '</li>';
-            return result;
-
+                instLink +
+                    instName +
+                '</a>' +
+                ' - ' +
+                '<a href="' + url + '">' +
+                    getShortCollectionName(obj) + acronym +
+                '</a>';
         // try full inst + short coll
-        } else if(inst.length + getShortCollectionName(obj).length < max) {
+        } else if(instName.length + getShortCollectionName(obj).length < max) {
             result =
-                '<li>' +
-                    instLink +
-                        inst +
-                    '</a>' +
-                    ' - <a href="' + obj.properties.url + '">' +
-                        getShortCollectionName(obj) +
-                    '</a>' +
-                '</li>';
-            return result;
-
+                instLink +
+                    instName +
+                '</a>' +
+                ' - ' +
+                '<a href="' + url + '">' +
+                    getShortCollectionName(obj) +
+                '</a>';
         // try acronym of inst + full coll + acronym
-        } else if(briefInst.length + coll.length + acronym.length < max) {
+        } else if(briefInst.length + collName.length + acronym.length < max) {
             result =
-                '<li>' +
-                    instLink +
-                        briefInst +
-                    '</a>' +
-                    ' - <a href="' + obj.properties.url + '">' +
-                        coll +
-                    '</a>' +
-                '</li>';
-            return result;
-
+                briefInstLink +
+                ' - ' +
+                '<a href="' + url + '">' +
+                    collName +
+                '</a>';
         // try acronym of inst + full coll
-        } else if(briefInst.length + coll.length < max) {
+        } else if(briefInst.length + collName.length < max) {
             result =
-                '<li>' +
-                    instLink +
-                        briefInst +
-                    '</a>' +
-                    ' - <a href="' + obj.properties.url + '">' +
-                        coll +
-                    '</a>' +
-                '</li>';
-            return result;
-
+                briefInstLink +
+                ' - ' +
+                '<a href="' + url + '">' +
+                    collName +
+                '</a>';
         // try acronym of inst + short coll
         } else if(briefInst.length + getShortCollectionName(obj).length < max) {
             result =
-                '<li>' +
-                    instLink +
-                        briefInst +
-                    '</a>' +
-                    ' - <a href="' + obj.properties.url + '">' +
-                        getShortCollectionName(obj) +
-                    '</a>' +
-                '</li>';
-            return result;
-
+                briefInstLink +
+                ' - ' +
+                '<a href="' + url + '">' +
+                    getShortCollectionName(obj) +
+                '</a>';
         // try acronym of inst + coll acronym
         } else if(acronym !== '') {
             result =
-                '<li>' +
-                    instLink +
-                        briefInst +
-                    '</a>' +
-                    ' - <a href="' + obj.properties.url + '">' +
-                        acronym +
-                    '</a>' +
-                '</li>';
-            return result;
-
+                briefInstLink +
+                ' - ' +
+                '<a href="' + url + '">' +
+                    acronym +
+                '</a>';
         // try full inst + 1 collection
-        } else if(inst.length < max - 12) {
-            return '<li>' + instLink + inst + '</a> - 1 ' + $.i18n.prop('collection') + '</li>';
-
+        } else if(instName.length < max - 12) {
+            result =
+                instLink +
+                    instName +
+                '</a>' +
+                ' - 1 ' + $.i18n.prop('collection');
         // try acronym of inst + 1 collection (worst case!)
         } else {
-            return '<li>' + instLink + briefInst + '</a> - 1 ' + $.i18n.prop('collection') + '</li>';
+            result = briefInstLink + ' - 1 ' + $.i18n.prop('collection');
         }
     }
+    return '<li>' + result + '</li>';
 }
 
 /**
@@ -640,26 +611,32 @@ function outputCollectionOnOwnLine(obj) {
     var name;
     // try full name + acronym
     if(obj.properties.name.length + acronym.length < max / 2) { // favour next option unless very short
-        name = obj.properties.name + '</a>' + acronym;
+        name = obj.properties.name + acronym;
 
     // try short name + acronym
     } else if(getShortCollectionName(obj).length + acronym.length < max) {
-        name = getShortCollectionName(obj) + acronym + '</a>';
+        name = getShortCollectionName(obj) + acronym;
 
     // try name
     } else if(obj.properties.name.length < max) {
-        name = obj.properties.name + '</a>';
+        name = obj.properties.name;
 
     // try short name
     } else if(getShortCollectionName(obj).length < max) {
-        name = getShortCollectionName(obj) + '</a>';
+        name = getShortCollectionName(obj);
 
     // stuck with name
     } else {
-        name = obj.properties.name + '</a>';
+        name = obj.properties.name;
     }
 
-    return '<li><a href="' + obj.properties.url + '">' + name + '</li>';
+    var result =
+        '<li>' +
+            '<a href="' + obj.properties.url + '">' +
+                name +
+            '</a>' +
+        '</li>';
+    return result;
 }
 
 /**
