@@ -9,7 +9,7 @@ var maxCollections = 0;
 var markers = new L.FeatureGroup();
 
 $(document).ready(function() {
-    updateList();
+    updateList('all');
     myMap = L.map('map_canvas', {
         center: [58.7283, 25.4169192],
         zoom: 7
@@ -73,8 +73,8 @@ function updateMap(filters) {
 /**
 * Regenerate list of collections - update total number
 */
-function updateList() {
-    $.get('http://ala-test.ut.ee/collectory/public/mapFeatures?filters=all', function(data) {
+function updateList(filters) {
+    $.get('http://ala-test.ut.ee/collectory/public/mapFeatures?filters=' + filters, function(data) {
         var features = data.features;
 
         // Populate general tooltip
@@ -648,15 +648,13 @@ function toggleButton(button) {
         return;
     }
 
-    // Clear map before new markers
+    // Focus on new clicked button
+    $('.filter-button').toggleClass('selected', false);
+    $(button).toggleClass('selected', true);
+
+    // Clear map of previous markers
     myMap.removeLayer(markers);
     markers = new L.FeatureGroup();
-
-    // de-select all
-    $('.filter-button').toggleClass('selected', false);
-
-    // select the one that was clicked
-    $(button).toggleClass('selected', true);
 
     // reloadData
     var filters = button.id;
@@ -664,5 +662,7 @@ function toggleButton(button) {
     if(filters === 'fauna') {
         filters = 'fauna,entomology';
     }
+
     updateMap(filters);
+    updateList(filters);
 }
