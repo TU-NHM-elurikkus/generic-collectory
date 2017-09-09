@@ -37,7 +37,54 @@ $(document).ready(function() {
         collectionsMap.invalidateSize(true);
         collectionsMap.setView([58.7283, 25.4169192], 7);
     });
+
+    // Add tooltip for cluster icons on map
+    clusterMarkers.on('clustermouseout', function(c) {
+        // collectionsMap.closePopup();
+    }).on('clusterclick', function(c) {
+        var popupContent = clusterPopup(c.layer.getAllChildMarkers());
+        L.popup()
+            .setLatLng(c.layer.getLatLng())
+            .setContent(popupContent)
+            .openOn(collectionsMap);
+    });
 });
+
+/**
+* Generate cluster popup from child elements
+*/
+function clusterPopup(children) {
+    var popupContent = '';
+    var mapping = {};
+    var instName;
+
+    for(var child of children) {
+        instName = $(child._popup._content).find('a').html();
+        if(!mapping.hasOwnProperty(instName)) {
+            mapping[instName] = [];
+        }
+        mapping[instName].push($(child._popup._content).find('.collection-acro').html());
+
+    }
+
+    for(var key in mapping) {
+        popupContent +=
+            '<li>' +
+                key +
+                '<ul>';
+
+        for(var coll of mapping[key]) {
+            popupContent += '<li>' + coll + '</li>';
+        }
+
+        popupContent +=
+                '</ul>' +
+            '</li>';
+    }
+
+    popupContent = '<ul style="font-size:14px;">' + popupContent + '</ul>';
+    return popupContent;
+}
 
 /**
  * i18n
@@ -71,6 +118,8 @@ function updateMap(filters) {
     var queryUrl = 'http://ala-test.ut.ee/collectory/public/mapFeatures?filters=' + filters;
 
     clusterMarkers = L.markerClusterGroup({
+        showCoverageOnHover: true,
+        zoomToBoundsOnClick: false,
         iconCreateFunction: function(cluster) {
             return L.icon({
                 iconUrl: 'assets/markermultiple.png',
@@ -242,7 +291,7 @@ function outputSingleFeature(feature) {
             instLink =
                 outputInstitutionOnOwnLine(feature) +
                 '<br />' +
-                '<a style="margin-left:5px;" href="' + feature.properties.url + '">' +
+                '<a class="collection-acro" style="margin-left:5px;" href="' + feature.properties.url + '">' +
                     '<span class="fa fa-archive"></span>' +
                     '&nbsp;' +
                     getShortCollectionName(feature) +
