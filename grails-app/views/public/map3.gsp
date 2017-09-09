@@ -30,9 +30,15 @@
                         </span>
 
                         <span class="active-filters__filter">
-                            <span id="numFeatures"></span>
-                            <span id="numVisible"></span>
-                            <span id="numUnMappable"></span>
+                            <span id="numFeatures">
+                                <%-- Filled by map.js --%>
+                            </span>
+                            <span id="numVisible">
+                                <%-- Filled by map.js --%>
+                            </span>
+                            <span id="numUnMappable">
+                                <%-- Filled by map.js --%>
+                            </span>
                         </span>
                     </p>
 
