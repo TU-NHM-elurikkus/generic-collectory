@@ -2,8 +2,6 @@
 //= require common
 //= require jquery-ui
 //= require jquery-migration-plugins
-//= require leaflet/leaflet-1.2.0
-//= require map
 
 /************************************************************\
  * i18n

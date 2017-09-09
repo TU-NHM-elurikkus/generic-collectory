@@ -2,5 +2,6 @@
 *= require jquery-ui
 *= require temp-style
 *= require leaflet/leaflet.css
+*= require leaflet-marker-cluster/MarkerCluster
 *= requite map
 */

@@ -4,6 +4,7 @@
         <meta name="layout" content="${grailsApplication.config.skin.layout}" />
 
         <asset:stylesheet src="map3.css" />
+        <asset:javascript src="map.js" />
 
         <title>
             <g:message code="public.map3.title" /> | ${grailsApplication.config.projectName}
@@ -31,9 +32,6 @@
 
                         <span class="active-filters__filter">
                             <span id="numFeatures">
-                                <%-- Filled by map.js --%>
-                            </span>
-                            <span id="numVisible">
                                 <%-- Filled by map.js --%>
                             </span>
                             <span id="numUnMappable">
@@ -177,5 +175,9 @@
                 </div>
             </div>
         </div>
+
+        <g:javascript>
+            var baseUrl = "${grailsApplication.config.grails.serverURL}";
+        </g:javascript>
     </body>
 </html>

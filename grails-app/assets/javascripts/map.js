@@ -1,16 +1,19 @@
+//= require leaflet/leaflet-1.2.0
+//= require leaflet-marker-cluster/leaflet.markercluster
+
 var COLLECTORY_CONF;  // Populated by _global.gsp layout inline script
 var altMap; // Populated by some of the templates
-var myMap;
+var collectionsMap;
 var baseUrl; // The server base url
 
 // represents the number in 'all' collections - used in case the total number changes on an ajax request
 var maxCollections = 0;
 
-var markers = new L.FeatureGroup();
+var clusterMarkers;
 
 $(document).ready(function() {
     updateList('all');
-    myMap = L.map('map_canvas', {
+    collectionsMap = L.map('map_canvas', {
         center: [58.7283, 25.4169192],
         zoom: 7
     });
@@ -26,13 +29,13 @@ $(document).ready(function() {
             '<a href="https://carto.com/attribution">' +
                 'CARTO' +
             '</a>'
-    }).addTo(myMap);
+    }).addTo(collectionsMap);
 
     updateMap('all');
 
     $('#map-tab-header').on('shown.bs.tab', function(e) {
-        myMap.invalidateSize(true);
-        myMap.setView([58.7283, 25.4169192], 7);
+        collectionsMap.invalidateSize(true);
+        collectionsMap.setView([58.7283, 25.4169192], 7);
     });
 });
 
@@ -50,6 +53,15 @@ if(altMap === undefined) {
     altMap = false;
 }
 
+function getRandomLatLng(map) {
+    var bounds = map.getBounds();
+    var southWest = bounds.getSouthWest();
+    var northEast = bounds.getNorthEast();
+    var lngSpan = northEast.lng - southWest.lng;
+    var latSpan = northEast.lat - southWest.lat;
+    return new L.LatLng(southWest.lat + latSpan * Math.random(), southWest.lng + lngSpan * Math.random());
+}
+
 function updateMap(filters) {
     var mapIcon = L.icon({
         iconUrl: 'assets/marker.png',
@@ -58,16 +70,69 @@ function updateMap(filters) {
 
     var queryUrl = 'http://ala-test.ut.ee/collectory/public/mapFeatures?filters=' + filters;
 
+    clusterMarkers = L.markerClusterGroup({
+        iconCreateFunction: function(cluster) {
+            return L.icon({
+                iconUrl: 'assets/markermultiple.png',
+                iconSize: [25, 25]
+            });
+        }
+    });
+
     $.get(queryUrl, function(data) {
         var geomObj;
         var geomObjects = data.features;
+
         for(geomObj of geomObjects) {
-            var mapMarker = L.marker(geomObj.geometry.coordinates.reverse(), { icon: mapIcon }).addTo(myMap);
+            var mapMarker = L.marker(geomObj.geometry.coordinates.reverse(), { icon: mapIcon });
+            clusterMarkers.addLayer(mapMarker);
             mapMarker.bindPopup(outputSingleFeature(geomObj));
-            markers.addLayer(mapMarker);
         }
     });
-    myMap.addLayer(markers);
+    collectionsMap.addLayer(clusterMarkers);
+}
+
+/**
+* Inject the number of collections without geom info to template
+*/
+function findUnMappable(features) {
+    var unMappable = [];
+
+    for(var geomObj of features) {
+        if(!geomObj.properties.isMappable) {
+            unMappable.push(geomObj);
+        }
+    }
+
+    var unMappedText = '';
+
+    switch(unMappable.length) {
+        case 0: unMappedText = ''; break;
+        case 1: unMappedText = $.i18n.prop('map.js.collectioncannotbemapped'); break;
+        default: unMappedText = $.i18n.prop('map.js.collectionscannotbemapped', unMappable.length); break;
+    }
+
+    $('#numUnMappable').html(unMappedText);
+}
+
+/**
+* Inject the number of currently selected collections to template
+*/
+function findSelected(features) {
+    var selectedFrom = $.i18n.prop('map.js.collectionstotal', features.length);
+    var selectedFilters = $('button.selected')[0].id;
+    if(selectedFilters !== 'all') {
+        selectedFrom = features.length + ' ' + $.i18n.prop('map.js.' + selectedFilters) + ' ' +
+            $.i18n.prop('map.js.collections') + '.';
+    }
+    var innerFeatures = '';
+    switch(features.length) {
+        case 0: innerFeatures = $.i18n.prop('map.js.nocollectionsareselected'); break;
+        case 1: innerFeatures = $.i18n.prop('map.js.onecollectionisselected'); break;
+        default: innerFeatures = selectedFrom; break;
+    }
+
+    $('#numFeatures').html(innerFeatures);
 }
 
 /**
@@ -77,40 +142,8 @@ function updateList(filters) {
     $.get('http://ala-test.ut.ee/collectory/public/mapFeatures?filters=' + filters, function(data) {
         var features = data.features;
 
-        // Populate general tooltip
-        var selectedFrom = $.i18n.prop('map.js.collectionstotal', features.length);
-        // update display of number of features
-        var selectedFilters = $('button.selected')[0].id;
-        if(selectedFilters !== 'all') {
-            selectedFrom = features.length + ' ' + $.i18n.prop('map.js.' + selectedFilters) + ' ' +
-                $.i18n.prop('map.js.collections') + '.';
-        }
-        var innerFeatures = '';
-        switch(features.length) {
-            case 0: innerFeatures = $.i18n.prop('map.js.nocollectionsareselected'); break;
-            case 1: innerFeatures = $.i18n.prop('map.js.onecollectionisselected'); break;
-            default: innerFeatures = selectedFrom; break;
-        }
-
-        $('#numFeatures').html(innerFeatures);
-
-        var unMappable = [];
-
-        for(var geomObj of features) {
-            if(!geomObj.properties.isMappable) {
-                unMappable.push(geomObj);
-            }
-        }
-
-        var unMappedText = '';
-
-        switch(unMappable.length) {
-            case 0: unMappedText = ''; break;
-            case 1: unMappedText = $.i18n.prop('map.js.collectioncannotbemapped'); break;
-            default: unMappedText = $.i18n.prop('map.js.collectionscannotbemapped', unMappable.length); break;
-        }
-
-        $('#numUnMappable').html(unMappedText);
+        findSelected(features);
+        findUnMappable(features);
 
         // update the potential total
         maxCollections = Math.max(features.length, maxCollections);
@@ -118,14 +151,6 @@ function updateList(filters) {
         if(!$('div#all').hasClass('inst')) {  // don't change text if showing institutions
             $('#collections-total').html($.i18n.prop('public.map3.link.showall', maxCollections));
         }
-
-        // update display of number of features
-        switch(features.length) {
-            case 0: innerFeatures = $.i18n.prop('map.js.nocollectionsareselected'); break;
-            case 1: innerFeatures = features.length + ' ' + $.i18n.prop('map.js.collectionislisted'); break;
-            default: innerFeatures = $.i18n.prop('map.js.collectionsarelistedalphabetically'); break;
-        }
-        $('span#numFilteredCollections').html(innerFeatures);
 
         // group by institution
         var sortedParents = groupByParent(features, true);
@@ -653,8 +678,8 @@ function toggleButton(button) {
     $(button).toggleClass('selected', true);
 
     // Clear map of previous markers
-    myMap.removeLayer(markers);
-    markers = new L.FeatureGroup();
+    collectionsMap.removeLayer(clusterMarkers);
+    clusterMarkers = null;
 
     // reloadData
     var filters = button.id;
