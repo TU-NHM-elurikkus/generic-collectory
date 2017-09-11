@@ -1,7 +1,8 @@
 /*
 *= require jquery-ui
-*= require openlayers
 *= require temp-style
+*= require leaflet/leaflet.css
+*= require leaflet-marker-cluster/MarkerCluster
 *= require map
 *= require public
 */
