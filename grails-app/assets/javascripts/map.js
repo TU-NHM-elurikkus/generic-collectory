@@ -56,15 +56,14 @@ $(document).ready(function() {
 function clusterPopup(children) {
     var popupContent = '';
     var mapping = {};
-    var instName;
+    var instLinkTag;
 
     for(var child of children) {
-        instName = $(child._popup._content).find('a').html();
-        if(!mapping.hasOwnProperty(instName)) {
-            mapping[instName] = [];
+        instLinkTag = $(child._popup._content).find('a')[0].outerHTML;
+        if(!mapping.hasOwnProperty(instLinkTag)) {
+            mapping[instLinkTag] = [];
         }
-        mapping[instName].push($(child._popup._content).find('.collection-acro').html());
-
+        mapping[instLinkTag].push($(child._popup._content).find('.collection-acro')[0].outerHTML);
     }
 
     for(var key in mapping) {
@@ -98,15 +97,6 @@ $.i18n.properties({
 
 if(altMap === undefined) {
     altMap = false;
-}
-
-function getRandomLatLng(map) {
-    var bounds = map.getBounds();
-    var southWest = bounds.getSouthWest();
-    var northEast = bounds.getNorthEast();
-    var lngSpan = northEast.lng - southWest.lng;
-    var latSpan = northEast.lat - southWest.lat;
-    return new L.LatLng(southWest.lat + latSpan * Math.random(), southWest.lng + lngSpan * Math.random());
 }
 
 function updateMap(filters) {
@@ -393,71 +383,6 @@ function groupByParent(features, groupOrphans) {
 }
 
 /**
-* Generate html for a clustered feature
-*/
-function outputClusteredFeature(feature) {
-    var sortedParents = groupByParent(feature.cluster, false);
-    // output the parents list
-    var content = '';
-    if($('div#all').hasClass('inst') && $('div#all').hasClass('selected')) { // simple list if showing institutions
-        content += outputMultipleInstitutions(sortedParents);
-    } else {
-        // adopt different collapsing strategies based on number to display
-        var strategy;
-        var parentsCount = sortedParents.length;
-
-        if(parentsCount === 1) {
-            strategy = 'veryVerbose';
-        } else if(parentsCount < 5) {
-            strategy = 'verbose';
-        } else if(parentsCount < 7) {
-            strategy = 'brief';
-        } else {
-            strategy = 'terse';
-        }
-
-        // show them
-        for(var k = 0; k < sortedParents.length; k++) {
-            var item = sortedParents[k];
-            if(item instanceof Array) {
-                content += outputMultipleCollections(item, strategy);
-            } else {
-                content += outputCollectionOnOwnLine(item);
-            }
-        }
-    }
-
-    var result =
-        '<ul>' +
-            content +
-        '</ul>';
-    return result;
-}
-
-/**
-* Generate html for a list of institutions
-*/
-function outputMultipleInstitutions(parents) {
-    var content = '';
-    for(var i = 0; i < parents.length; i++) {
-        var obj = parents[i];
-        // use name of institution from first collection
-        if(obj instanceof Array) { obj = obj[0]; }
-        // skip collections with no institution
-        var name = obj.properties.instName;
-        if(!name) {
-            content +=
-                '<li>' +
-                    '<a class="highlight" href="' + baseUrl + '/public/show/' + obj.properties.instUid + '">' +
-                        getTightInstitutionName(obj, 55) +
-                    '</a>' +
-                '</li>';
-        }
-    }
-    return content;
-}
-
-/**
 * Grab name from institution
 */
 function getName(obj) {
@@ -480,32 +405,6 @@ function getName(obj) {
         name = name.substr(4);
     }
     return name;
-}
-
-/**
-* Build html for multiple collection for an institution
-*/
-function outputMultipleCollections(obj, strategy) {
-    // use name of institution from first collection
-    var content;
-    var limit = 4;
-    if(strategy === 'brief') { limit = 2; }
-    if(strategy === 'terse') { limit = 0; }
-    if(strategy === 'veryVerbose') { limit = 10; }
-    if(obj.length < limit) {
-        content = '<li>' + outputInstitutionOnOwnLine(obj[0]) + '<ul>';
-        for(var c = 0; c < obj.length; c++) {
-            content += outputCollectionOnOwnLine(obj[c]);
-        }
-        content += '</ul>';
-    } else {
-        if(obj.length === 1) {
-            content = outputCollectionWithInstitution(obj[0], strategy);
-        } else {
-            content = '<li>' + outputInstitutionOnOwnLine(obj[0]) + ' - ' + obj.length + ' ' + $.i18n.prop('map.js.collections') + '</li>';
-        }
-    }
-    return content;
 }
 
 /**
@@ -550,167 +449,6 @@ function outputInstitutionOnOwnLine(obj) {
             getTightInstitutionName(obj, 55) +
         '</a>';
     return instLink;
-}
-
-/**
-* Build html for a single collection with an institution
-*/
-function outputCollectionWithInstitution(obj, strategy) {
-    var max = 60;
-    var acronym = '';
-    if(!obj.properties.acronym) {
-        acronym = ' (' + obj.properties.acronym + ')';
-    }
-    var instLink = '<a class="highlight" href="' + baseUrl + '/public/show/' + obj.properties.instUid + '">';
-    var briefInst = getTightInstitutionName(obj, 25);
-    var briefInstLink = instLink + briefInst + '</a>';
-    var instName = obj.properties.instName;
-    var collName = obj.properties.name;
-    var url = obj.properties.url
-
-    var result;
-
-    if(strategy === 'verbose') {
-        var linkName;
-
-        if(collName.length + acronym.length > max) {
-            // drop acronym
-            linkName = collName;
-        } else {
-            linkName = collName + acronym;
-        }
-
-        result =
-            instLink +
-                instName +
-            '</a>' +
-            '<ul>' +
-                '<li>' +
-                    '<a href="' + url + '">' +
-                        linkName +
-                    '</a>' +
-                '</li>' +
-            '</ul>';
-    } else {
-        // present both in one line
-        // try full inst + full coll + acronym
-        if(instName.length + collName.length + acronym.length < max) {
-            result =
-                instLink +
-                    instName +
-                '</a>' +
-                ' - ' +
-                '<a href="' + url + '">' +
-                    collName + acronym +
-                '</a>';
-        // try full inst + short coll + acronym
-        } else if(instName.length + getShortCollectionName(obj).length + acronym.length < max) {
-            result =
-                instLink +
-                    instName +
-                '</a>' +
-                ' - ' +
-                '<a href="' + url + '">' +
-                    getShortCollectionName(obj) + acronym +
-                '</a>';
-        // try full inst + short coll
-        } else if(instName.length + getShortCollectionName(obj).length < max) {
-            result =
-                instLink +
-                    instName +
-                '</a>' +
-                ' - ' +
-                '<a href="' + url + '">' +
-                    getShortCollectionName(obj) +
-                '</a>';
-        // try acronym of inst + full coll + acronym
-        } else if(briefInst.length + collName.length + acronym.length < max) {
-            result =
-                briefInstLink +
-                ' - ' +
-                '<a href="' + url + '">' +
-                    collName +
-                '</a>';
-        // try acronym of inst + full coll
-        } else if(briefInst.length + collName.length < max) {
-            result =
-                briefInstLink +
-                ' - ' +
-                '<a href="' + url + '">' +
-                    collName +
-                '</a>';
-        // try acronym of inst + short coll
-        } else if(briefInst.length + getShortCollectionName(obj).length < max) {
-            result =
-                briefInstLink +
-                ' - ' +
-                '<a href="' + url + '">' +
-                    getShortCollectionName(obj) +
-                '</a>';
-        // try acronym of inst + coll acronym
-        } else if(acronym !== '') {
-            result =
-                briefInstLink +
-                ' - ' +
-                '<a href="' + url + '">' +
-                    acronym +
-                '</a>';
-        // try full inst + 1 collection
-        } else if(instName.length < max - 12) {
-            result =
-                instLink +
-                    instName +
-                '</a>' +
-                ' - 1 ' + $.i18n.prop('collection');
-        // try acronym of inst + 1 collection (worst case!)
-        } else {
-            result = briefInstLink + ' - 1 ' + $.i18n.prop('collection');
-        }
-    }
-    return '<li>' + result + '</li>';
-}
-
-/**
-* Build html for a collection on its own line
-*/
-function outputCollectionOnOwnLine(obj) {
-    var max = 60;
-    // build acronym
-    var acronym = '';
-    if(!obj.properties.acronym) {
-        acronym = ' <span>(' + obj.properties.acronym + ')</span>';
-    }
-
-    /* try combos in order of preference */
-    var name;
-    // try full name + acronym
-    if(obj.properties.name.length + acronym.length < max / 2) { // favour next option unless very short
-        name = obj.properties.name + acronym;
-
-    // try short name + acronym
-    } else if(getShortCollectionName(obj).length + acronym.length < max) {
-        name = getShortCollectionName(obj) + acronym;
-
-    // try name
-    } else if(obj.properties.name.length < max) {
-        name = obj.properties.name;
-
-    // try short name
-    } else if(getShortCollectionName(obj).length < max) {
-        name = getShortCollectionName(obj);
-
-    // stuck with name
-    } else {
-        name = obj.properties.name;
-    }
-
-    var result =
-        '<li>' +
-            '<a href="' + obj.properties.url + '">' +
-                name +
-            '</a>' +
-        '</li>';
-    return result;
 }
 
 /**
