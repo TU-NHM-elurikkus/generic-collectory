@@ -39,11 +39,6 @@
                             </span>
                         </span>
                     </p>
-
-                    <p class="vertical-block">
-                        <span class="fa fa-info-circle"></span>
-                        <g:message code="public.map3.filtercollections" />
-                    </p>
                 </div>
 
                 <g:if test="${flash.message}">
@@ -54,6 +49,10 @@
 
                 <div class="row">
                     <div class="col-md-5">
+                        <p class="vertical-block">
+                            <span class="fa fa-info-circle"></span>
+                            <g:message code="public.map3.filtercollections" />
+                        </p>
                         <div class="section">
                             <div class="filter-button-container">
                                 <button type="button" class="filter-button all selected" id="all" onclick="toggleButton(this);return false;">
@@ -122,6 +121,11 @@
                     </div>
 
                     <div id="map-list-col" class="col-md-7">
+                        <p class="vertical-block">
+                            <span class="fa fa-info-circle"></span>
+                            <g:message code="public.map3.maplistcol.des01" />.
+                        </p>
+
                         <div class="tabbable">
                             <ul id="home-tabs" class="nav nav-tabs">
                                 <li class="nav-item">
@@ -142,17 +146,10 @@
                             <div id="map" class="tab-pane">
                                 <div class="map-column">
                                     <div class="section">
-                                        <p>
-                                            <span class="fa fa-info-circle"></span>
-                                            <g:message code="public.map3.maplistcol.des01" />.
-                                        </p>
-
                                         <p class="vertical-block">
                                             <img src="${resource(dir:'images', file:'markermultiple.png')}" class="map-legend-img" />
-
                                             <g:message code="public.map3.maplistcol.des02" />.
                                         </p>
-
                                         <div id="map_canvas"></div>
                                     </div>
                                 </div>
@@ -161,11 +158,6 @@
                             <div id="list" class="tab-pane active">
                                 <div class="list-column">
                                     <div id="names" class="nameList section">
-                                        <p>
-                                            <span class="fa fa-info-circle"></span>
-                                            <g:message code="public.map3.maplistcol.des01" />.
-                                        </p>
-
                                         <ul id="filtered-list" class="list-unstyled"></ul>
                                     </div>
                                 </div>

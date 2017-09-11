@@ -108,7 +108,7 @@ function updateMap(filters) {
     var queryUrl = 'http://ala-test.ut.ee/collectory/public/mapFeatures?filters=' + filters;
 
     clusterMarkers = L.markerClusterGroup({
-        showCoverageOnHover: true,
+        showCoverageOnHover: false,
         zoomToBoundsOnClick: false,
         iconCreateFunction: function(cluster) {
             return L.icon({
