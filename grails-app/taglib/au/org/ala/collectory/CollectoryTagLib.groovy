@@ -1290,7 +1290,7 @@ class CollectoryTagLib {
      * Adds site context to page title.
      */
     def pageTitle = { attrs, body ->
-        out << "${body()} | Natural History Collections | Atlas of Living Australia"
+        out << "${body()} | Natural History Collections"
     }
 
     /**
