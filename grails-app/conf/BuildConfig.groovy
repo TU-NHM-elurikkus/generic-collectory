@@ -53,7 +53,6 @@ grails.project.dependency.resolution = {
         compile ":audit-logging:1.0.7"
         compile ":cache-headers:1.1.6"
         compile ":rest:0.8"
-        compile ":tiny-mce:3.4.4"
         compile ":cors:1.1.8"
     }
 }

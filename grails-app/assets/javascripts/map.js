@@ -58,28 +58,29 @@ function clusterPopup(children) {
     var mapping = {};
     var instLinkTag;
 
-    for(var child of children) {
+    children.forEach(function(child) {
         instLinkTag = $(child._popup._content).find('a')[0].outerHTML;
         if(!mapping.hasOwnProperty(instLinkTag)) {
             mapping[instLinkTag] = [];
         }
         mapping[instLinkTag].push($(child._popup._content).find('.collection-acro')[0].outerHTML);
-    }
+    });
 
-    for(var key in mapping) {
+    var keys = Object.keys(mapping);
+    keys.forEach(function(key) {
         popupContent +=
             '<li>' +
                 key +
                 '<ul>';
 
-        for(var coll of mapping[key]) {
+        mapping[key].forEach(function(coll) {
             popupContent += '<li>' + coll + '</li>';
-        }
+        });
 
         popupContent +=
                 '</ul>' +
             '</li>';
-    }
+    });
 
     popupContent = '<ul style="font-size:14px;">' + popupContent + '</ul>';
     return popupContent;
@@ -119,14 +120,13 @@ function updateMap(filters) {
     });
 
     $.get(queryUrl, function(data) {
-        var geomObj;
         var geomObjects = data.features;
 
-        for(geomObj of geomObjects) {
+        geomObjects.forEach(function(geomObj) {
             var mapMarker = L.marker(geomObj.geometry.coordinates.reverse(), { icon: mapIcon });
             clusterMarkers.addLayer(mapMarker);
             mapMarker.bindPopup(outputSingleFeature(geomObj));
-        }
+        });
     });
     collectionsMap.addLayer(clusterMarkers);
 }
@@ -137,11 +137,11 @@ function updateMap(filters) {
 function findUnMappable(features) {
     var unMappable = [];
 
-    for(var geomObj of features) {
+    features.forEach(function(geomObj) {
         if(!geomObj.properties.isMappable) {
             unMappable.push(geomObj);
         }
-    }
+    });
 
     var unMappedText = '';
 
@@ -196,8 +196,7 @@ function updateList(filters) {
         var innerHtml = '';
         var orphansHtml = '';
 
-        for(var j = 0; j < sortedParents.length; j++) {
-            var collList = sortedParents[j];
+        sortedParents.forEach(function(collList) {
             // show institution - use name of institution from first collection
             var firstColl = collList[0];
             var content;
@@ -230,7 +229,7 @@ function updateList(filters) {
                     '<ul class="list-unstyled">';
 
             // show each collection
-            for(var coll of collList) {
+            collList.forEach(function(coll) {
                 var acronym = '';
 
                 if(coll.properties.acronym) {
@@ -245,7 +244,7 @@ function updateList(filters) {
                             coll.properties.name + acronym +
                         '</a>' +
                     '</li>';
-            }
+            });
 
             content += '</ul></li>';
             if(!firstColl.properties.instName) {
@@ -253,7 +252,7 @@ function updateList(filters) {
             } else {
                 innerHtml += content;
             }
-        }
+        });
         innerHtml += orphansHtml;
         $('ul#filtered-list').html(innerHtml);
     });
@@ -340,8 +339,7 @@ function outputSingleInstitution(feature) {
 function groupByParent(features, groupOrphans) {
     // build 'map' of institutions and orphan collections
     var parents = {};
-    for(var c = 0; c < features.length; c++) {
-        var collectionFeature = features[c];
+    features.forEach(function(collectionFeature) {
         var instUid = collectionFeature.properties.instUid;
         if(!instUid && groupOrphans) {
             instUid = 'zz-other';
@@ -361,12 +359,13 @@ function groupByParent(features, groupOrphans) {
                 collList.push(collectionFeature);
             }
         }
-    }
+    });
+
     // move to an array so we can sort
     var sortedParents = [];
-    for(var key in parents) {
+    Object.keys(parents).forEach(function(key) {
         sortedParents.push(parents[key]);
-    }
+    });
     // sort
     sortedParents.sort(function(a, b) {
         var aname = getName(a);
