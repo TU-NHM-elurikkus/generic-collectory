@@ -25,7 +25,7 @@ Tags: two-columns, fixed-width, right-sidebar, threaded-comments, sticky-post
 /*	##################################
    	GENERAL
 	################################## */
-	
+
 body {
 	margin: 0px;
 	padding: 0px;
@@ -58,13 +58,13 @@ ul, ol {
 /*	##################################
    	BASIC LAYOUT
 	################################## */
-	
+
 #page {
 	/*width: 940px;*/
 	width: 768px;
 	margin: 0 auto;
 }
-	
+
 #header {
 	position: relative;
 	/*height: 200px;*/
@@ -110,7 +110,7 @@ ul, ol {
 /*	##################################
    	HEADINGS
 	################################## */
-	
+
 h1, h1 {
 	margin: 0 0 20px 0;
 }
@@ -119,7 +119,7 @@ h2, h3, h4, h5, h6 {
 	margin: 0 0 10px 0;
 	line-height: 1.2em;
 }
-	
+
 h1#blog-title {
 	display: none;
 	position: absolute;
@@ -196,7 +196,7 @@ h4.sidebar-title {
 /*	##################################
    	HEADER
 	################################## */
-	
+
 div#menu {
     border-top: 1px solid white;
 }
@@ -223,7 +223,7 @@ div#menu {
 /*	##################################
    	CONTENT
 	################################## */
-	
+
 /** CONTENTN LEFT */
 
 .box-left, .post, .page {
@@ -383,7 +383,7 @@ div.aligncenter {
 /*	##################################
    	USEFUL
 	################################## */
-	
+
 .clear {
 	clear: both;
 	padding-bottom: 10px;
@@ -492,7 +492,7 @@ input.button {
 	color: #fff;
 }
 
-/* MEW added for YUI date picker 
+/* MEW added for YUI date picker
 div.datefield {
     width: 200px;
 }*/
@@ -556,12 +556,12 @@ div.page > div.alignright {
 
 form#cse-search-box div {
 	display: inline;
-	/* width: 280px; */ 
+	/* width: 280px; */
 }
 
-#searchbar { 
-	display: block; 
-	float: right; 
+#searchbar {
+	display: block;
+	float: right;
 	background-color: white;
 	/* width: 280px; */
 	padding: 4px;
@@ -574,7 +574,7 @@ div#page > div#searchbar {
 	padding-left: 476px;
 }
 
-div#searchbar .text { 
+div#searchbar .text {
 	width: auto; /* 200px; */
 	height: auto;
 	float: left;
@@ -582,31 +582,16 @@ div#searchbar .text {
 	padding: 2px;
 }
 
-form#cse-search-box > div > .text { 
+form#cse-search-box > div > .text {
 	width: 216px;
 }
 
-#searchbar .submit { 
+#searchbar .submit {
 	height: 20px;
 	float: right;
-	width: auto; 
+	width: auto;
 	margin: 0 0 0 4px;
 	padding: 0 4px;
-}
-
-.sf-menu li {
-	border-right: 1px solid white;
-}
-
-.sf-menu li:hover {
-	visibility:		inherit; /* fixes IE7 'sticky bug' */
-	background-color: #5A5A5A;
-}
-
-.sf-menu li.current_page_item, 
-.sf-menu li.current_page_ancestor, 
-.sf-menu li.current_page_parent {
-    background-color: #3E3E3E;
 }
 
 #crumbtrail {
@@ -615,7 +600,7 @@ form#cse-search-box > div > .text {
 	margin: 0;
 	margin-top: -28px;
 		background-color: white;
-	width: 450px; 
+	width: 450px;
 	padding: 4px;
 	padding-left: 10px;
 	/* padding-bottom: 25px; */
@@ -731,7 +716,7 @@ span.changeTo {
 }
 
 .emulate-public .follow {
-    margin-left: 20px;    
+    margin-left: 20px;
 }
 
 .partner {

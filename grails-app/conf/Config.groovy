@@ -23,9 +23,6 @@ if (!skin.layout) {
     //skin.layout = 'ala2'
     skin.layout = 'generic'
 }
-if (!skin.orgNameLong) {
-    skin.orgNameLong = "Atlas of Living Australia"
-}
 if (!skin.orgNameShort) {
     skin.orgNameShort = "ALA"
 }

@@ -1,3 +1,7 @@
 .indented-list-item {
     padding-left: 20px;
 }
+
+.map-popup {
+    font-size: 14px;
+}

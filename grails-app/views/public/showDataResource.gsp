@@ -3,9 +3,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="${grailsApplication.config.skin.layout}" />
         <title>
-            <cl:pageTitle>
-                ${fieldValue(bean: instance, field: "name")}
-            </cl:pageTitle>
+            ${instance.name}
         </title>
 
         <asset:javascript src="public-show-data-resource.js" />
