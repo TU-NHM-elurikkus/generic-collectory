@@ -4,7 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="${grailsApplication.config.skin.layout}" />
         <title>
-            <g:message code="public.datasets.title" /> | ${grailsApplication.config.projectName}
+            <g:message code="public.datasets.title" />
         </title>
 
         <asset:javascript src="datasets.js" />
