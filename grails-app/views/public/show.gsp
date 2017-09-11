@@ -410,104 +410,84 @@
                             </h3>
 
                             <div class="row">
-                                <div class="col-md-9">
+                                <div class="col">
                                     <g:if test="${instance.numRecords != -1}">
                                         <p>
                                             <cl:collectionName prefix="The " name="${instance.name}" />
                                             has an estimated ${fieldValue(bean: instance, field: "numRecords")} ${nouns}.
+                                        </p>
+
+                                        <div class="vertical-block">
+                                            <div class="erk-collection-progress">
+                                                <div class="progress">
+                                                    <div id="progress-bar" class="progress-bar erk-progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                                    </div>
+                                                </div>
+
+                                                <p>
+                                                    <span id="numBiocacheRecords">
+                                                        <g:message code="public.show.rt.des04" />
+                                                    </span>
+
+                                                    <g:message code="public.show.rt.des05" />.
+
+                                                    <span id="speedoCaption">
+                                                        <g:message code="public.show.speedocaption" />.
+                                                    </span>
+                                                </p>
+
+                                                    <g:if test="${biocacheRecordsAvailable}">
+                                                        <cl:warnIfInexactMapping collection="${instance}" />
+
+                                                        <div>
+                                                            <cl:recordsLink entity="${instance}">
+                                                                <span class="fa fa-list"></span>
+                                                                <g:message code="public.show.rt.recordsLink" args="[cl.collectionName(name: instance.name)]" />
+                                                            </cl:recordsLink>
+                                                        </div>
+                                                    </g:if>
+                                            </div>
 
                                             <g:if test="${instance.numRecordsDigitised != -1}">
-                                                <g:message
-                                                    code="public.show.rt.description"
-                                                    args="[
-                                                        cl.percentIfKnown(dividend: instance.numRecordsDigitised, divisor: instance.numRecords),
-                                                        fieldValue(bean: instance, field: 'numRecordsDigitised')
-                                                    ]"
-                                                />
+                                                <p>
+                                                    <g:message
+                                                        code="public.show.rt.description"
+                                                        args="[
+                                                            cl.percentIfKnown(dividend: instance.numRecordsDigitised, divisor: instance.numRecords),
+                                                            fieldValue(bean: instance, field: 'numRecordsDigitised')
+                                                        ]"
+                                                    />
+                                                </p>
                                             </g:if>
-                                        </p>
+                                        </div>
                                     </g:if>
 
                                     <g:if test="${biocacheRecordsAvailable}">
-                                        <p>
-                                            <span id="numBiocacheRecords">
-                                                <g:message code="public.show.rt.des04" />
-                                            </span>
+                                        <%-- XXX UNEXPECTED MAP OF AUSTRALIA
+                                            <g:if test="${!grailsApplication.config.disableOverviewMap?.asBoolean()}">
+                                                <div id="collectionRecordsMapContainer">
+                                                    <h3>
+                                                        <g:message code="public.show.crmc.title" />
+                                                        ${grailsApplication.config.disableOverviewMap?.asBoolean()}
+                                                    </h3>
 
-                                            <g:message code="public.show.rt.des05" />.
-                                        </p>
+                                                    <cl:recordsMapDirect uid="${instance.uid}" />
+                                                </div>
+                                            </g:if>
+                                        --%>
 
-                                        <cl:warnIfInexactMapping collection="${instance}" />
-
-                                        <cl:recordsLink entity="${instance}">
-                                            <span class="fa fa-list"></span>
-                                            <g:message code="public.show.rt.recordsLink" args="[cl.collectionName(name: instance.name)]" />
-                                        </cl:recordsLink>
+                                        <div id="charts"></div>
                                     </g:if>
-
                                     <g:else>
                                         <p>
                                             <g:message code="public.show.rt.noRecords" />.
                                         </p>
                                     </g:else>
-
-                                    <g:if test="${biocacheRecordsAvailable}">
-                                        <div style="clear:both;"></div>
-
-                                        <g:if test="${!grailsApplication.config.disableOverviewMap?.asBoolean()}">
-                                            <div id="collectionRecordsMapContainer">
-                                                <h3>
-                                                    <g:message code="public.show.crmc.title" />
-                                                    ${grailsApplication.config.disableOverviewMap?.asBoolean()}
-                                                </h3>
-
-                                                <cl:recordsMapDirect uid="${instance.uid}" />
-                                            </div>
-                                        </g:if>
-
-                                        <div id="charts"></div>
-                                        <div id="iehack"></div>
-                                    </g:if>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <div id="progress" class="well">
-                                        <div class="progress">
-                                            <div id="progressBar" class="bar bar-success" style="width: 0%;"></div>
-                                        </div>
-
-                                        <p class="caption">
-                                            <span id="speedoCaption">
-                                                <g:message code="public.show.speedocaption" />.
-                                            </span>
-                                        </p>
-                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         <div id="imagesTab" class="tab-pane">
-                            <style type="text/css">
-                                #imagesList {
-                                    margin: 0;
-                                }
-
-                                #imagesList .imgCon {
-                                    display: inline-block;
-                                    margin-right: 8px;
-                                    text-align: center;
-                                    line-height: 1.3em;
-                                    background-color: #DDD;
-                                    color: #DDD;
-                                    padding: 5px;
-                                    margin-bottom: 8px;
-                                }
-
-                                #imagesList .imgCon img {
-                                    max-height: 150px;
-                                }
-                            </style>
-
                             <h3>
                                 <g:message code="public.show.it.title" />
                             </h3>
@@ -728,6 +708,7 @@
                 var recordsClause = "";
 
                 switch (totalBiocacheRecords) {
+                    // TODO: translte
                     case 0: recordsClause = "No records"; break;
                     case 1: recordsClause = "1 record"; break;
                     default: recordsClause = addCommas(totalBiocacheRecords) + " records";
@@ -742,6 +723,7 @@
                         // don't show greater than 100 if the mapping is not exact as the estimated num records may be correct
                         percent = 100;
                     }
+
                     setProgress(percent);
                 } else {
                     // to update the speedo caption
@@ -797,7 +779,7 @@
                     if(percentage < 0.1) {
                         displayPercent = percentage.toFixed(2)
                     } else if(percentage > 100) {
-                        displayPercent = ">100"
+                        displayPercent = '>100'
                     } else if(percentage > 20) {
                         displayPercent = percentage.toFixed(0)
                     }
@@ -810,14 +792,7 @@
                 }
 
                 $('#speedoCaption').html(captionText);
-
-                if(percentage > 100) {
-                    $('#progressBar').removeClass('percentImage1');
-                    $('#progressBar').addClass('percentImage4');
-                    percentage = 101;
-                }
-                //var newProgress = eval(initial)+eval(percentageWidth)+'px';
-                $('#progressBar').css('width', percentage +'%');
+                $('#progress-bar').css('width', percentage + '%');
             }
 
             /************************************************************\

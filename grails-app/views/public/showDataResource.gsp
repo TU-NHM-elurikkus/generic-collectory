@@ -64,6 +64,7 @@
                         />
                     </g:elseif>
 
+                    <%-- We are going to use only logo for now and not the reference image.
                     <g:if test="${fieldValue(bean: instance, field: 'imageRef') && fieldValue(bean: instance, field: 'imageRef.file')}">
                         <div class="section">
                             <img
@@ -91,6 +92,7 @@
                             </cl:valueOrOtherwise>
                         </div>
                     </g:if>
+                    --%>
 
                     <div id="dataAccessWrapper" style="display:none;">
                         <g:render template="dataAccess" model="[instance:instance]" />
@@ -325,13 +327,19 @@
                                     <g:message code="public.sdr.content.label04" />
                                 </h3>
 
-                                <cl:formattedText>
-                                    ${fieldValue(bean: instance, field: "rights")}
-                                </cl:formattedText>
+                                <g:if test="${instance.rights}">
+                                    <cl:formattedText>
+                                        ${fieldValue(bean: instance, field: "rights")}
+                                    </cl:formattedText>
+                                </g:if>
+                            </g:if>
 
-                                <p>
-                                    <cl:displayLicenseType type="${instance.licenseType}" version="${instance.licenseVersion}" />
-                                </p>
+                            <g:if test="${instance.licenseType}">
+                                <h3>
+                                    <g:message code="dataResource.licenseType.label" />
+                                </h3>
+
+                                <cl:displayLicenseType type="${instance.licenseType}" version="${instance.licenseVersion}" />
                             </g:if>
 
                             <g:if test="${instance.dataGeneralizations}">
