@@ -33,9 +33,7 @@
             </h1>
 
             <div class="page-header__subtitle">
-                <g:message code="public.datasets.header.message01" />
-                ${grailsApplication.config.projectName},
-                <g:message code="public.datasets.header.message02" />.
+                <g:message code="public.datasets.title.description" />
             </div>
 
             <div class="page-header-links">

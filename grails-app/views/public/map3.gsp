@@ -7,7 +7,7 @@
         <asset:javascript src="map.js" />
 
         <title>
-            <g:message code="public.map3.title" /> | ${grailsApplication.config.projectName}
+            <g:message code="public.map3.title" />
         </title>
     </head>
 
