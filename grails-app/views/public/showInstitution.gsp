@@ -32,11 +32,11 @@
                 <div class="page-header__subtitle">
                     <g:set var="parents" value="${instance.listParents()}" />
                     <g:each var="p" in="${parents}">
-                        <h2>
+                        <h3>
                             <g:link action="show" id="${p.uid}">
                                 ${p.name}
                             </g:link>
-                        </h2>
+                        </h3>
                     </g:each>
 
                     <cl:valueOrOtherwise value="${instance.acronym}">
@@ -70,13 +70,6 @@
                             </div>
                         </div>
                     </g:if>
-
-                    <g:if test="${fieldValue(bean: instance, field: 'logoRef') && fieldValue(bean: instance, field: 'logoRef.file')}">
-                        <img
-                            class="institutionImage"
-                            src='${resource(absolute: "true", dir: "data/institution/", file: fieldValue(bean: instance, field: 'logoRef.file'))}'
-                        />
-                    </g:if>
                 </div>
 
                 <div class="page-header-links">
@@ -98,15 +91,34 @@
                 </div>
             </div> <%-- /header --%>
 
+            <g:if test="${!grailsApplication.config.disableLoggerLinks.toBoolean() && grailsApplication.config.loggerURL}">
+                <div class="row">
+                    <div class="col">
+                        <div class="float-right">
+                            <p>
+                            <a href="${grailsApplication.config.loggerURL}/reasonBreakdownCSV?eventId=1002&entityUid=${instance.uid}">
+                                <button class="erk-button erk-button--light">
+                                    <span class="fa fa-download"></span>&nbsp;
+                                    <g:message code="dataAccess.download.stats" />
+                                </button>
+                            </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </g:if>
+
             <div class="row">
                 <div class="col-md-3">
-                    <g:if test="${fieldValue(bean: instance, field: 'imageRef') && fieldValue(bean: instance, field: 'imageRef.file')}">
+                    <g:if test="${fieldValue(bean: instance, field: 'logoRef') && fieldValue(bean: instance, field: 'logoRef.file')}">
                         <div class="section">
                             <img
-                                alt="${fieldValue(bean: instance, field: 'imageRef.file')}"
-                                src="${resource(absolute: 'true', dir: 'data/institution/', file: instance.imageRef.file)}"
+                                src="${resource(absolute:"true", dir:"data/institution/", file: instance.logoRef.file)}"
+                                alt="${fieldValue(bean: instance, field: "logoRef.file")}"
+                                class="sidebar-image"
                             />
 
+                            <%-- Not sure whether or not we want to display this information
                             <cl:formattedText pClass="caption">
                                 ${fieldValue(bean: instance, field: "imageRef.caption")}
                             </cl:formattedText>
@@ -120,6 +132,7 @@
                                     ${fieldValue(bean: instance, field: "imageRef.copyright")}
                                 </p>
                             </cl:valueOrOtherwise>
+                            --%>
                         </div>
                     </g:if>
 
@@ -227,9 +240,9 @@
 
                 <div class="col-md-9">
                     <g:if test="${instance.pubDescription}">
-                        <h2>
+                        <h3>
                             <g:message code="public.des" />
-                        </h2>
+                        </h3>
                         <cl:formattedText>
                             ${fieldValue(bean: instance, field: "pubDescription")}
                         </cl:formattedText>
@@ -239,9 +252,9 @@
                     </g:if>
 
                     <g:if test="${instance.focus}">
-                        <h2>
+                        <h3>
                             <g:message code="public.si.content.label02" />
-                        </h2>
+                        </h3>
                         <cl:formattedText>
                             ${fieldValue(bean: instance, field: "focus")}
                         </cl:formattedText>
@@ -300,16 +313,14 @@
                         </div>
                     </div>
 
-                    <div id="usage-stats" class="card">
-                        <a data-toggle="collapse" href="#usage">
-                            <div class="card-header">
-                                <h4>
-                                    <g:message code="public.usagestats.label" />
-                                </h4>
-                            </div>
-                        </a>
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>
+                                <g:message code="public.usagestats.label" />
+                            </h4>
+                        </div>
 
-                        <div id="usage" class="collapse card-body" data-parent="#usage-stats">
+                        <div id="usage" class="card-body">
                             <p>
                                 <g:message code="public.usage.des" />...
                             </p>

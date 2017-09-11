@@ -30,7 +30,7 @@
                 <%-- <div class="page-header__subtitle"></div> --%>
 
                 <div class="page-header-links">
-                    <a href="/generic-collectory/datasets/" title="List" class="page-header-links__link">
+                    <a href="${request.contextPath}/datasets/" title="List" class="page-header-links__link">
                         <span class="fa fa-arrow-left"></span>
                         <g:message code="page.navigation.datasets" />
                     </a>
@@ -45,36 +45,6 @@
                         ${instance.name} records
                     </a>
                 </div>
-
-                <g:set var="dp" value="${instance.dataProvider}" />
-
-                <%-- XXX --%>
-                <g:if test="${dp}">
-                    <h2>
-                        <g:link action="show" id="${dp.uid}">
-                            ${dp.name}
-                        </g:link>
-                    </h2>
-                </g:if>
-
-                <g:if test="${instance.institution}">
-                    <h2>
-                        <g:link action="show" id="${instance.institution.uid}">
-                            ${instance.institution.name}
-                        </g:link>
-                    </h2>
-                </g:if>
-
-                <cl:valueOrOtherwise value="${instance.acronym}">
-                    <span class="acronym">
-                        <g:message code="public.show.header.acronym" />:
-                        ${fieldValue(bean: instance, field: "acronym")}
-                    </span>
-                </cl:valueOrOtherwise>
-
-                <g:if test="${instance.guid}">
-                    LSID: ${fieldValue(bean: instance, field: "guid")}
-                </g:if>
             </div>
 
             <div class="row">
@@ -82,55 +52,27 @@
                     <g:if test="${dp?.logoRef?.file}">
                         <g:link action="show" id="${dp.uid}">
                             <img
-                                class="institutionImage"
-                                src='${resource(absolute: "true", dir: "data/dataProvider/", file: fieldValue(bean: dp, field: 'logoRef.file'))}'
-                            />
+                                src="${resource(absolute: 'true', dir: 'data/dataProvider/', file: fieldValue(bean: dp, field: 'logoRef.file'))}"
+                                alt="${fieldValue(bean: dp, field: 'logoRef.file')}"
+                                class="sidebar-image"
+                              />
                         </g:link>
                     </g:if>
                     <g:elseif test="${instance?.logoRef?.file}">
                         <img
-                            class="institutionImage"
-                            src='${resource(absolute: "true", dir: "data/dataResource/", file: fieldValue(bean: instance, field: 'logoRef.file'))}'
+                            src="${resource(absolute: 'true', dir: 'data/dataResource/', file: instance.logoRef.file)}"
+                            alt="${fieldValue(bean: instance, field: 'logoRef.file')}"
+                            class="sidebar-image"
                         />
                     </g:elseif>
-                </div>
 
-                <div class="col-md-9">
-                    <g:set var="dp" value="${instance.dataProvider}" />
-                    <g:if test="${dp}">
-                        <h2>
-                            <g:link action="show" id="${dp.uid}">
-                                ${dp.name}
-                            </g:link>
-                        </h2>
-                    </g:if>
-
-                    <g:if test="${instance.institution}">
-                        <h2>
-                            <g:link action="show" id="${instance.institution.uid}">
-                                ${instance.institution.name}
-                            </g:link>
-                        </h2>
-                    </g:if>
-
-                    <cl:valueOrOtherwise value="${instance.acronym}">
-                        <span class="acronym">
-                            <g:message code="public.show.header.acronym" />:
-                            ${fieldValue(bean: instance, field: "acronym")}
-                        </span>
-                    </cl:valueOrOtherwise>
-
-                    <g:if test="${instance.guid}">
-                        LSID: ${fieldValue(bean: instance, field: "guid")}
-                    </g:if>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-3">
                     <g:if test="${fieldValue(bean: instance, field: 'imageRef') && fieldValue(bean: instance, field: 'imageRef.file')}">
                         <div class="section">
-                            <img alt="${fieldValue(bean: instance, field: "imageRef.file")}" src="${resource(absolute: "true", dir: "data/dataResource/", file: instance.imageRef.file)}" />
+                            <img
+                                src="${resource(absolute: 'true', dir: 'data/dataResource/', file: instance.imageRef.file)}"
+                                alt="${fieldValue(bean: instance, field: 'imageRef.file')}"
+                                class="sidebar-image"
+                            />
 
                             <p class="caption">
                                 <cl:formattedText>
@@ -155,6 +97,19 @@
                     <div id="dataAccessWrapper" style="display:none;">
                         <g:render template="dataAccess" model="[instance:instance]" />
                     </div>
+
+                    <%-- LSID & DATA PROVIDER IMAGE --%>
+                    <g:if test="${instance.guid}">
+                        <div>
+                            <h3>
+                                LSID
+                            </h3>
+
+                            <p>
+                                ${fieldValue(bean: instance, field: "guid")}
+                            </p>
+                        </div>
+                    </g:if>
 
                     <!-- use parent location if the collection is blank -->
                     <g:set var="address" value="${instance.address}" />
@@ -330,9 +285,9 @@
                         </div>
 
                         <div class="card-body">
-                            <h2>
+                            <h3>
                                 <g:message code="public.des" />
-                            </h2>
+                            </h3>
 
                             <cl:formattedText>
                                 ${fieldValue(bean: instance, field: "pubDescription")}
@@ -346,15 +301,15 @@
                             <cl:dataResourceContribution resourceType="${instance.resourceType}" status="${instance.status}" tag="p" />
 
                             <g:if test="${instance.contentTypes}">
-                                <h2>
+                                <h3>
                                     <g:message code="public.sdr.content.label02" />
-                                </h2>
+                                </h3>
                                 <cl:contentTypes types="${instance.contentTypes}" />
                             </g:if>
 
-                            <h2>
+                            <h3>
                                 <g:message code="public.sdr.content.label03" />
-                            </h2>
+                            </h3>
 
                             <g:if test="${instance.citation}">
                                 <cl:formattedText>
@@ -368,9 +323,9 @@
                             </g:else>
 
                             <g:if test="${instance.rights || instance.licenseType}">
-                                <h2>
+                                <h3>
                                     <g:message code="public.sdr.content.label04" />
-                                </h2>
+                                </h3>
 
                                 <cl:formattedText>
                                     ${fieldValue(bean: instance, field: "rights")}
@@ -382,9 +337,9 @@
                             </g:if>
 
                             <g:if test="${instance.dataGeneralizations}">
-                                <h2>
+                                <h3>
                                     <g:message code="public.sdr.content.label05" />
-                                </h2>
+                                </h3>
 
                                 <cl:formattedText>
                                     ${fieldValue(bean: instance, field: "dataGeneralizations")}
@@ -392,9 +347,9 @@
                             </g:if>
 
                             <g:if test="${instance.informationWithheld}">
-                                <h2>
+                                <h3>
                                     <g:message code="public.sdr.content.label06" />
-                                </h2>
+                                </h3>
 
                                 <cl:formattedText>
                                     ${fieldValue(bean: instance, field: "informationWithheld")}
@@ -402,9 +357,9 @@
                             </g:if>
 
                             <g:if test="${instance.downloadLimit}">
-                                <h2>
+                                <h3>
                                     <g:message code="public.sdr.content.label07" />
-                                </h2>
+                                </h3>
 
                                 <p>
                                     <g:message code="public.sdr.content.des02" />
@@ -416,9 +371,9 @@
                             <div id="pagesContributed"></div>
 
                             <g:if test="${instance.resourceType == 'website' && (instance.lastChecked || instance.dataCurrency)}">
-                                <h2>
+                                <h3>
                                     <g:message code="public.sdr.content.label08" />
-                                </h2>
+                                </h3>
 
                                 <p>
                                     <cl:lastChecked date="${instance.lastChecked}" />
@@ -476,16 +431,14 @@
                     </g:if>
 
                     <g:if test="${!grailsApplication.config.disableLoggerLinks.toBoolean() && (instance.resourceType == 'website' || instance.resourceType == 'records')}">
-                        <div id="usage-stats" class="card detached-card">
-                            <a data-toggle="collapse" href="#usage-card-content">
-                                <div class="card-header">
-                                    <h4>
-                                        <g:message code="public.sdr.usagestats.label" />
-                                    </h4>
-                                </div>
-                            </a>
+                        <div class="card detached-card">
+                            <div class="card-header">
+                                <h4>
+                                    <g:message code="public.sdr.usagestats.label" />
+                                </h4>
+                            </div>
 
-                            <div id="usage-card-content" class="card-body collapse">
+                            <div class="card-body">
                                 <div id="usage">
                                     <p>
                                         <g:message code="public.usage.des" />...
@@ -609,7 +562,7 @@
 
                         if(pages) {
                             var $contrib = $('#pagesContributed');
-                            $contrib.append($('<h2>Contribution to the Atlas</h2><p>This resource has contributed to <strong>' +
+                            $contrib.append($('<h3>Contribution to the Atlas</h3><p>This resource has contributed to <strong>' +
                                 pages + '</strong> pages of taxa. ' +
                                 '<a href="' + CHARTS_CONFIG.bieWebappUrl  + '/search?q=*&fq=uid:' + "${instance.uid}" + '">View a list</a></p>'));
                         }

@@ -80,16 +80,6 @@
                     </div>
                 </div>
 
-                <%-- TODO: institution logo, but not necessary here. Probably.
-                <div class="col-4">
-                    <g:if test="${inst?.logoRef?.file}">
-                        <g:link action="showInstitution" id="${inst.id}">
-                            <img class="institutionImage" src='${resource(absolute:"true", dir:"data/institution/",file:fieldValue(bean: inst, field: 'logoRef.file'))}' />
-                        </g:link>
-                    </g:if>
-                </div>
-                --%>
-
                 <div class="page-header-links">
                     <a href="${request.contextPath}/" class="page-header-links__link">
                         <span class="fa fa-arrow-left"></span>
@@ -112,9 +102,12 @@
                 <div id="overview-sidebar" class="col-md-3">
                     <g:if test="${fieldValue(bean: instance, field: 'imageRef') && fieldValue(bean: instance, field: 'imageRef.file')}">
                         <div class="section">
-                            <img style="max-width:100%;max-height:350px;" alt="${fieldValue(bean: instance, field: "imageRef.file")}"
+                            <img
                                 src="${resource(absolute:"true", dir:"data/collection/", file:instance.imageRef.file)}"
+                                alt="${fieldValue(bean: instance, field: "imageRef.file")}"
+                                class="sidebar-image"
                             />
+                            <%-- Not sure whether or not we want to display this information
                             <cl:formattedText pClass="caption">
                                 ${fieldValue(bean: instance, field: "imageRef.caption")}
                             </cl:formattedText>
@@ -128,6 +121,7 @@
                                     ${fieldValue(bean: instance, field: "imageRef.copyright")}
                                 </p>
                             </cl:valueOrOtherwise>
+                            --%>
                         </div>
                     </g:if>
 
@@ -271,9 +265,9 @@
                         <div id="overviewTab" role="tabpanel" class="tab-pane active">
                             <div class="row">
                                 <div id="overview-content" class="col">
-                                    <h2>
+                                    <h3>
                                         <g:message code="public.des" />
-                                    </h2>
+                                    </h3>
 
                                     <cl:formattedText body="${instance.pubDescription}" />
 
@@ -289,9 +283,9 @@
 
                                     <%-- TAXONOMIC RANGE --%>
                                     <p>
-                                        <h2>
+                                        <h3>
                                             <g:message code="public.show.oc.taxonomicRange" />
-                                        </h2>
+                                        </h3>
 
                                         <g:if test="${fieldValue(bean: instance, field: 'focus')}">
                                             <cl:formattedText>
@@ -314,9 +308,9 @@
                                         </g:if>
 
                                         <g:if test="${instance?.geographicDescription || instance.states}">
-                                            <h2>
+                                            <h3>
                                                 <g:message code="public.show.oc.label03" />
-                                            </h2>
+                                            </h3>
 
                                             <g:if test="${fieldValue(bean: instance, field: 'geographicDescription')}">
                                                 <p>
@@ -359,11 +353,11 @@
                                     <%-- NUMBER OF SPECIMENS IN THE COLLECTION --%>
                                     <g:set var="nouns" value="${cl.nounForTypes(types:instance.listCollectionTypes())}" />
 
-                                    <h2>
+                                    <h3>
                                         <g:message code="public.show.oc.label04" />
                                         <cl:nounForTypes types="${instance.listCollectionTypes()}" />
                                         <g:message code="public.show.oc.label05" />
-                                    </h2>
+                                    </h3>
 
                                     <g:if test="${fieldValue(bean: instance, field: 'numRecords') != '-1'}">
                                         <p>
@@ -388,9 +382,9 @@
                                     </p>
 
                                     <g:if test="${instance.listSubCollections()?.size() > 0}">
-                                        <h2>
+                                        <h3>
                                             <g:message code="public.show.oc.label06" />
-                                        </h2>
+                                        </h3>
 
                                         <p>
                                             <g:message code="public.show.oc.des14" args="[instance.name]" />:
@@ -400,13 +394,11 @@
                                     </g:if>
 
                                     <g:if test="${biocacheRecordsAvailable && !grailsApplication.config.disableLoggerLinks?.toBoolean()}">
-                                        <div id='usage-stats' style="">
-                                            <h2>
-                                                <g:message code="public.show.oc.label07" />
-                                            </h2>
+                                        <h3>
+                                            <g:message code="public.show.oc.label07" />
+                                        </h3>
 
-                                            <div id='usage'></div>
-                                        </div>
+                                        <div id="usage"></div>
                                     </g:if>
 
                                     <cl:lastUpdated date="${instance.lastUpdated}" />
@@ -415,9 +407,9 @@
                         </div>
 
                         <div id="recordsTab" class="tab-pane">
-                            <h2>
+                            <h3>
                                 <g:message code="public.show.rt.title" />
-                            </h2>
+                            </h3>
 
                             <div class="row">
                                 <div class="col-md-9">
@@ -518,9 +510,9 @@
                                 }
                             </style>
 
-                            <h2>
+                            <h3>
                                 <g:message code="public.show.it.title" />
-                            </h2>
+                            </h3>
 
                             <div id="imagesSpiel"></div>
                             <div id="imagesList"></div>
@@ -665,10 +657,12 @@
                                         description += '<a href="' + queryUrl + '"><span class="fa fa-list"></span> ' + (facet.count + ' ' + facet.label) + '</a>';
                                     })
                                 }
+
+                                // Was ist das Spiel?
                                 $('#imagesSpiel').html(
                                     '<p>' +
                                         '<a href="'+biocacheWebappUrl + uiBase + imagesQueryUrl +'">' +
-                                            '<span class="fa fa-list"></span>' +
+                                            '<span class="fa fa-list"></span>&nbsp;' +
                                             data.totalRecords + ' images' +
                                         '</a> have been made available from the ${instance.name}.' +
                                         '<br /> ' +
@@ -682,7 +676,16 @@
                                         imageText = item.typeStatus + " - " + imageText;
                                     }
 
-                                    $('#imagesList').append('<div class="imgCon"><a href="'+biocacheWebappUrl + '/occurrences/' + item.uuid + '"><img src="' + item.smallImageUrl+'"/><br/>'+ imageText + '</a></div>');
+                                    $('#imagesList').append(
+                                        '<div class="gallery-thumb">' +
+                                            '<a href="' + biocacheWebappUrl + '/occurrences/' + item.uuid + '">' +
+                                                '<img class="gallery-thumb__img" src="' + item.smallImageUrl+'" />' +
+                                                '<div class="gallery-thumb__footer">' +
+                                                    imageText +
+                                                '</div>' +
+                                            '</a>' +
+                                        '</div>'
+                                    );
                                 })
                             }
                         }
