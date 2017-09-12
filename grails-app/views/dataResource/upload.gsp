@@ -10,7 +10,7 @@
         <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.3&sensor=false"></script>
 
         <asset:javascript src="fileupload.js" />
-        <asset:stylesheet stc="fileupload.css" />
+        <asset:stylesheet src="fileupload.css" />
     </head>
 
     <body>
