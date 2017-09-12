@@ -146,11 +146,11 @@
                             <div id="map" class="tab-pane">
                                 <div class="map-column">
                                     <div class="section">
+                                        <div id="map_canvas"></div>
                                         <p class="vertical-block">
                                             <img src="${resource(dir:'images', file:'markermultiple.png')}" class="map-legend-img" />
                                             <g:message code="public.map3.maplistcol.des02" />.
                                         </p>
-                                        <div id="map_canvas"></div>
                                     </div>
                                 </div>
                             </div>
