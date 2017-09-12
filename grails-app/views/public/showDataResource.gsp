@@ -38,7 +38,10 @@
                         <g:message code="page.navigation.collections" />
                     </a>
 
-                    <a href="${grailsApplication.config.biocacheUiURL}/occurrences/search?q=data_resource_uid:${instance.uid}" class="page-header-links__link">
+                    <a
+                        href="${grailsApplication.config.biocacheUiURL}/occurrences/search?q=data_resource_uid:${instance.uid}"
+                        class="page-header-links__link"
+                    >
                         <span class="fa fa-list"></span>
                         ${instance.name} records
                     </a>

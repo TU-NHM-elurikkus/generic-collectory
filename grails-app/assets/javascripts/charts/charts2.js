@@ -15,28 +15,37 @@
 /**
  * Load Spring i18n messages into JS
  */
-jQuery.i18n.properties({
+$.i18n.properties({
     name: 'messages',
     path: COLLECTORY_CONF.contextPath + '/messages/i18n/',
     mode: 'map',
     language: COLLECTORY_CONF.locale // default is to use browser specified locale
-    //callback: function(){} //alert( "facet.conservationStatus = " + jQuery.i18n.prop('facet.conservationStatus')); }
+    //callback: function(){} //alert( "facet.conservationStatus = " + $.i18n.prop('facet.conservationStatus')); }
 });
 /*------------------------------------------------------------------------------------------*
  *---------------- FACET BREAKDOWN CHARTS USING THE MODULE PATTERN -------------------------*
  *------------------------------------------------------------------------------------------*/
 // define a base object with the major defaults that we can inherit from (prototypically)
 var baseFacetChart = {
-    collectionsUrl: "http://no-default-collectory",
+    collectionsUrl: "http://ala-test.ut.ee/collectory/",
     biocacheServicesUrl: "http://no-default-biocache/ws",
     biocacheWebappUrl: "http://no-default-biocache",
     chartsDiv: null,  // the container for the chart
     chart: null,    // the google chart object
     width: 600,
     height: 450,
-    chartArea: {left:0, top:30, width:"90%", height: "70%"},
+    chartArea: {
+        left: 0,
+        top: 30,
+        width: "90%",
+        height: "70%"
+    },
     is3D: true,
-    titleTextStyle: {color: "#555", fontName: 'Arial', fontSize: 15},
+    titleTextStyle: {
+        color: "#555",
+        fontName: 'Arial',
+        fontSize: 15
+    },
     sliceVisibilityThreshold: 0,
     legend: {position: "right"},
     chartType: "pie",
@@ -46,28 +55,28 @@ var baseFacetChart = {
     // defaults for individual facet charts
     /*
     individualChartOptions: {
-        state_conservation: {chartArea: {left:60, height: "58%"}, title: jQuery.i18n.prop('charts2.js.stateconservationstatus')},
+        state_conservation: {chartArea: {left:60, height: "58%"}, title: $.i18n.prop('charts2.js.stateconservationstatus')},
         occurrence_year: {chartArea: {left:60, height: "55%"}, requestFacetName: 'decade'},
         decade: {chartArea: {left:60, height: "55%"}, responseFacetName: 'occurrence_year'},
         year: {width: 600},
         month: {width: 600},
         institution_uid: {chartArea: {left: 0, width: "100%"}},
         collection_uid: {chartArea: {left: 0, width: "100%"}},
-        species_group: {title: jQuery.i18n.prop('charts2.js.higherlevelgroup'), ignore: ['Animals'], chartType: 'column',
+        species_group: {title: $.i18n.prop('charts2.js.higherlevelgroup'), ignore: ['Animals'], chartType: 'column',
             width: 450, chartArea: {left:60, height:"58%"},
             vAxis: {minValue: 0, textPosition:'in', gridlines:{color: '#ddd', count: 4}},
             colors: ['#108628'], reverseCategories:true, hAxis:{slantedTextAngle:60}},
         state: {ignore: ['Unknown1']},
-        type_status: {title: jQuery.i18n.prop('charts2.js.typestatus'), ignore: ['notatype']},
-        el895: {hAxis: {title: jQuery.i18n.prop('charts2.js.moistureindex')}},
-        el882: {hAxis: {title: jQuery.i18n.prop('charts2.js.mm')}},
-        el889: {hAxis: {title: jQuery.i18n.prop('charts2.js.mm')}},
-        el887: {hAxis: {title: jQuery.i18n.prop('charts2.js.mjm2day')}},
-        el865: {hAxis: {title: jQuery.i18n.prop('charts2.js.moistureindex')}},
-        el894: {hAxis: {title: jQuery.i18n.prop('charts2.js.mjmeday')}},
-        radiation: {hAxis: {title:jQuery.i18n.prop('charts2.js.mjm2day')}, chartArea: {width: "65%"}, facets: ['el887','el894'], facetLabels: [jQuery.i18n.prop('charts2.js.seasonalitybio23'),jQuery.i18n.prop('charts2.js.warmestquarter')]},
-        precipitation: {hAxis: {title:jQuery.i18n.prop('charts2.js.mm')}, chartArea: {width: "65%"}, facets: ['el882','el889'], facetLabels: [jQuery.i18n.prop('charts2.js.seasonalitybio15'),jQuery.i18n.prop('charts2.js.driestquarterbio17')]},
-        moisture: {hAxis: {title:jQuery.i18n.prop('charts2.js.moistureindex')}, chartArea: {width: "65%"}, facets: ['el895','el865'], facetLabels: [jQuery.i18n.prop('charts2.js.lowestperiodbio30'),jQuery.i18n.prop('charts2.js.highestquartermeanbio32')]}
+        type_status: {title: $.i18n.prop('charts2.js.typestatus'), ignore: ['notatype']},
+        el895: {hAxis: {title: $.i18n.prop('charts2.js.moistureindex')}},
+        el882: {hAxis: {title: $.i18n.prop('charts2.js.mm')}},
+        el889: {hAxis: {title: $.i18n.prop('charts2.js.mm')}},
+        el887: {hAxis: {title: $.i18n.prop('charts2.js.mjm2day')}},
+        el865: {hAxis: {title: $.i18n.prop('charts2.js.moistureindex')}},
+        el894: {hAxis: {title: $.i18n.prop('charts2.js.mjmeday')}},
+        radiation: {hAxis: {title:$.i18n.prop('charts2.js.mjm2day')}, chartArea: {width: "65%"}, facets: ['el887','el894'], facetLabels: [$.i18n.prop('charts2.js.seasonalitybio23'),$.i18n.prop('charts2.js.warmestquarter')]},
+        precipitation: {hAxis: {title:$.i18n.prop('charts2.js.mm')}, chartArea: {width: "65%"}, facets: ['el882','el889'], facetLabels: [$.i18n.prop('charts2.js.seasonalitybio15'),$.i18n.prop('charts2.js.driestquarterbio17')]},
+        moisture: {hAxis: {title:$.i18n.prop('charts2.js.moistureindex')}, chartArea: {width: "65%"}, facets: ['el895','el865'], facetLabels: [$.i18n.prop('charts2.js.lowestperiodbio30'),$.i18n.prop('charts2.js.highestquartermeanbio32')]}
     },
     */
 
@@ -110,20 +119,20 @@ var baseFacetChart = {
     // these override the facet names in chart titles
     /*
     chartLabels: {
-        institution_uid: jQuery.i18n.prop('charts2.js.institution'),
-        data_resource_uid: jQuery.i18n.prop('charts2.js.dataset'),
-        assertions: jQuery.i18n.prop('charts2.js.dataassertion'),
-        biogeographic_region: jQuery.i18n.prop('charts2.js.biogeographicregion'),
-        occurrence_year: jQuery.i18n.prop('charts2.js.decade'),
-        el895: jQuery.i18n.prop('charts2.js.bio30'),
-        el882: jQuery.i18n.prop('charts2.js.bio15'),
-        el889: jQuery.i18n.prop('charts2.js.bio17'),
-        el887: jQuery.i18n.prop('charts2.js.bio23'),
-        el865: jQuery.i18n.prop('charts2.js.bio32'),
-        el894: jQuery.i18n.prop('charts2.js.bio26'),
-        radiation: jQuery.i18n.prop('charts2.js.radiation'),
-        precipitation: jQuery.i18n.prop('charts2.js.precipitation'),
-        moisture: jQuery.i18n.prop('charts2.js.moisture')
+        institution_uid: $.i18n.prop('charts2.js.institution'),
+        data_resource_uid: $.i18n.prop('charts2.js.dataset'),
+        assertions: $.i18n.prop('charts2.js.dataassertion'),
+        biogeographic_region: $.i18n.prop('charts2.js.biogeographicregion'),
+        occurrence_year: $.i18n.prop('charts2.js.decade'),
+        el895: $.i18n.prop('charts2.js.bio30'),
+        el882: $.i18n.prop('charts2.js.bio15'),
+        el889: $.i18n.prop('charts2.js.bio17'),
+        el887: $.i18n.prop('charts2.js.bio23'),
+        el865: $.i18n.prop('charts2.js.bio32'),
+        el894: $.i18n.prop('charts2.js.bio26'),
+        radiation: $.i18n.prop('charts2.js.radiation'),
+        precipitation: $.i18n.prop('charts2.js.precipitation'),
+        moisture: $.i18n.prop('charts2.js.moisture')
     },
     */
 
@@ -228,9 +237,9 @@ var baseFacetChart = {
     },
     labelFormatters: {
         month: function (data) {
-            var months = [jQuery.i18n.prop('charts2.js.jan'),jQuery.i18n.prop('charts2.js.feb'),jQuery.i18n.prop('charts2.js.mar'),jQuery.i18n.prop('charts2.js.apr'),jQuery.i18n.prop('charts2.js.may'),
-                    jQuery.i18n.prop('charts2.js.jun'),jQuery.i18n.prop('charts2.js.jul'),jQuery.i18n.prop('charts2.js.aug'),jQuery.i18n.prop('charts2.js.sep'),jQuery.i18n.prop('charts2.js.oct'),
-                    jQuery.i18n.prop('charts2.js.nov'),jQuery.i18n.prop('charts2.js.dec')],
+            var months = [$.i18n.prop('charts2.js.jan'),$.i18n.prop('charts2.js.feb'),$.i18n.prop('charts2.js.mar'),$.i18n.prop('charts2.js.apr'),$.i18n.prop('charts2.js.may'),
+                    $.i18n.prop('charts2.js.jun'),$.i18n.prop('charts2.js.jul'),$.i18n.prop('charts2.js.aug'),$.i18n.prop('charts2.js.sep'),$.i18n.prop('charts2.js.oct'),
+                    $.i18n.prop('charts2.js.nov'),$.i18n.prop('charts2.js.dec')],
                 monthIdx;
             $.each(data, function(i,obj) {
                 monthIdx = obj.label;
@@ -644,11 +653,11 @@ var genericChartOptions = {
 /*
 var individualChartOptions = {
     state_conservation: {chartType: 'column', width: 450, chartArea: {left:60, height: "58%"},
-        title: jQuery.i18n.prop('charts2.js.stateconservationstatus'), hAxis: {slantedText: true}},
+        title: $.i18n.prop('charts2.js.stateconservationstatus'), hAxis: {slantedText: true}},
     occurrence_year: {chartType: 'column', width: 450, chartArea: {left:60, height: "65%"}, hAxis: {slantedText: true}},
-    species_group: {title: jQuery.i18n.prop('charts2.js.higherlevelgroup'), ignore: ['Animals']},
+    species_group: {title: $.i18n.prop('charts2.js.higherlevelgroup'), ignore: ['Animals']},
     state: {ignore: ['Unknown1']},
-    type_status: {title: jQuery.i18n.prop('charts2.js.typestatus'), ignore: ['notatype']},
+    type_status: {title: $.i18n.prop('charts2.js.typestatus'), ignore: ['notatype']},
     assertions: {chartType: 'bar', chartArea: {left:170}}
 };
 */
@@ -666,11 +675,11 @@ var individualChartOptions = {
 // these override the facet names in chart titles
 /*
 var chartLabels = {
-    institution_uid: jQuery.i18n.prop('charts2.js.institution'),
-    data_resource_uid: jQuery.i18n.prop('charts2.js.dataset'),
-    assertions: jQuery.i18n.prop('charts2.js.dataassertion'),
-    biogeographic_region: jQuery.i18n.prop('charts2.js.biogeographicregion'),
-    occurrence_year: jQuery.i18n.prop('charts2.js.decade')
+    institution_uid: $.i18n.prop('charts2.js.institution'),
+    data_resource_uid: $.i18n.prop('charts2.js.dataset'),
+    assertions: $.i18n.prop('charts2.js.dataassertion'),
+    biogeographic_region: $.i18n.prop('charts2.js.biogeographicregion'),
+    occurrence_year: $.i18n.prop('charts2.js.decade')
 }
 */
 var chartLabels = {
@@ -1081,17 +1090,17 @@ var taxonomyChart = {
         }
         if (this.hasState()) {
             // show the prev link
-            $backLink.html("&laquo; " + jQuery.i18n.prop('charts2.js.previousrank')).addClass('link');
+            $backLink.html("&laquo; " + $.i18n.prop('charts2.js.previousrank')).addClass('link');
         }
         else {
             // show the instruction
-            $backLink.html(jQuery.i18n.prop('charts2.js.slicetodrill')).removeClass('link');
+            $backLink.html($.i18n.prop('charts2.js.slicetodrill')).removeClass('link');
         }
 
         // draw records link
         var $recordsLink = $('#recordsLink');
         if ($recordsLink.length == 0) {
-            $recordsLink = $('<div class="link under" id="recordsLink">' + jQuery.i18n.prop('charts2.js.viewrecords') + '</div>').appendTo($outerContainer);  // create it
+            $recordsLink = $('<div class="link under" id="recordsLink">' + $.i18n.prop('charts2.js.viewrecords') + '</div>').appendTo($outerContainer);  // create it
             $recordsLink.css('position','relative').css('top','-75px');
             $recordsLink.click(function () {
                 thisChart.showRecords();  // called explicitly so we have the correct 'this' context
@@ -1100,10 +1109,10 @@ var taxonomyChart = {
 
         // set link text
         if (this.hasState()) {
-            $recordsLink.html(jQuery.i18n.prop('charts2.js.viewrecordsfor') + ' ' + this.rank + ' ' + this.name);
+            $recordsLink.html($.i18n.prop('charts2.js.viewrecordsfor') + ' ' + this.rank + ' ' + this.name);
         }
         else {
-            $recordsLink.html('<span class="fa fa-list"></span>' + jQuery.i18n.prop('charts2.js.viewallrecords'));
+            $recordsLink.html('<span class="fa fa-list"></span>' + $.i18n.prop('charts2.js.viewallrecords'));
         }
 
         // setup a click handler - if requested
@@ -1136,7 +1145,7 @@ var taxonomyChart = {
                 else if (clickThru) {
                     // show occurrence records
                     document.location = urlConcat(biocacheWebappUrl, "/occurrences/search?q=") + query +
-                            "&fq=" + data.rank + ":" + name;
+                        "&fq=" + data.rank + ":" + name;
                 }
             });
         }
@@ -1178,7 +1187,7 @@ function initTaxonTree(treeOptions) {
 
     var targetDivId = treeOptions.targetDivId ? treeOptions.targetDivId : 'tree';
     var $container = $('#' + targetDivId);
-    var title = treeOptions.title || jQuery.i18n.prop('charts2.js.explorerecords');
+    var title = treeOptions.title || $.i18n.prop('charts2.js.explorerecords');
     if (treeOptions.title !== "") {
         $container.append($('<h4>' + title + '</h4>'));
     }
@@ -1190,103 +1199,152 @@ function initTaxonTree(treeOptions) {
         minWidth: 500
     });
     var $tree = $('<div id="taxaTree"></div>').appendTo($treeContainer);
-    $tree
-            .bind("after_open.jstree", function(event, data) {
+    $tree.bind("after_open.jstree", function(event, data) {
         var children = $.jstree._reference(data.rslt.obj)._get_children(data.rslt.obj);
         // automatically open if only one child node
-        if (children.length == 1) {
-            $tree.jstree("open_node",children[0]);
+        if(children.length == 1) {
+            $tree.jstree("open_node", children[0]);
         }
         // adjust container size
         var fullHeight = $tree[0].scrollHeight;
-        if (fullHeight > $tree.height()) {
+        if(fullHeight > $tree.height()) {
             fullHeight = Math.min(fullHeight, 700);
-            $treeContainer.animate({height:fullHeight});
+            $treeContainer.animate({
+                height: fullHeight
+            });
         }
     })
-            .bind("select_node.jstree", function (event, data) {
-                // click will show the context menu
-                $tree.jstree("show_contextmenu", data.rslt.obj);
-            })
-            .bind("loaded.jstree", function (event, data) {
-                // get rid of the anchor click handler because it hides the context menu (which we are 'binding' to click)
-                //$tree.undelegate("a", "click.jstree");
-                $tree.jstree("open_node","#top");
-            })
-            .jstree({
-                json_data: {
-                    data: {"data":"Kingdoms", "state":"closed", "attr":{"rank":"kingdoms", "id":"top"}},
-                    ajax: {
-                        url: function(node) {
-                            var rank = $(node).attr("rank");
-                            var u = urlConcat(biocacheServicesUrl, "/breakdown.json?q=") + query + "&rank=";
-                            if (rank == 'kingdoms') {
-                                u += 'kingdom';  // starting node
-                            }
-                            else {
-                                u += rank + "&name=" + $(node).attr('id');
-                            }
-                            return u;
-                        },
-                        dataType: 'jsonp',
-                        success: function(data) {
-                            var nodes = [];
-                            var rank = data.rank;
-                            $.each(data.taxa, function(i, obj) {
-                                var label = obj.label + " - " + obj.count;
-                                if (rank == 'species') {
-                                    nodes.push({"data":label, "attr":{"rank":rank, "id":obj.label}});
-                                }
-                                else {
-                                    nodes.push({"data":label, "state":"closed", "attr":{"rank":rank, "id":obj.label}});
-                                }
-                            });
-                            return nodes;
-                        },
-                        error: function(xhr, text_status) {
-                            //alert(text_status);
-                        }
+        .bind("select_node.jstree", function (event, data) {
+            // click will show the context menu
+            $tree.jstree("show_contextmenu", data.rslt.obj);
+        })
+        .bind("loaded.jstree", function (event, data) {
+            // get rid of the anchor click handler because it hides the context menu (which we are 'binding' to click)
+            //$tree.undelegate("a", "click.jstree");
+            $tree.jstree("open_node", "#top");
+        })
+        .jstree({
+            json_data: {
+                data: {
+                    'data': 'Kingdoms',
+                    'state': 'closed',
+                    'attr': {
+                        'rank': 'kingdoms',
+                        'id': 'top'
                     }
                 },
-                core: { animation: 200, open_parents: true },
-                themes:{
-                    theme: treeOptions.theme || 'default',
-                    icons: treeOptions.icons || false,
-                    url: treeOptions.serverUrl + "/js/themes/" + (treeOptions.theme || 'default') + "/style.css"
-                },
-                checkbox: {override_ui:true},
-                contextmenu: {select_node: false, show_at_node: false, items: {
-                    records: {label: jQuery.i18n.prop('charts2.js.showrecords'), action: function(obj) {showRecords(obj, query);}},
-                    bie: {label: jQuery.i18n.prop('charts2.js.showinformation'), action: function(obj) {showBie(obj);}},
+                ajax: {
+                    url: function(node) {
+                        var rank = $(node).attr('rank');
+                        var u = urlConcat(biocacheServicesUrl, '/breakdown.json?q=') + query + '&rank=';
+                        if (rank == 'kingdoms') {
+                            u += 'kingdom';  // starting node
+                        } else {
+                            u += rank + '&name=' + $(node).attr('id');
+                        }
+                        return u;
+                    },
+                    dataType: 'jsonp',
+                    success: function(data) {
+                        var nodes = [];
+                        var rank = data.rank;
+                        $.each(data.taxa, function(i, obj) {
+                            var label = obj.label ? obj.label : $.i18n.prop('general.value.missing');
+                            label += ' - ' + obj.count;
+                            if (rank == 'species') {
+                                nodes.push({
+                                    "data": label,
+                                    "attr": {
+                                        "rank": rank,
+                                        "id": obj.label
+                                    }
+                                });
+                            }
+                            else {
+                                nodes.push({
+                                    "data": label,
+                                    "state": "closed",
+                                    "attr": {
+                                        "rank": rank,
+                                        "id": obj.label
+                                    }
+                                });
+                            }
+                        });
+                        return nodes;
+                    },
+                    error: function(xhr, text_status) {
+                        //alert(text_status);
+                    }
+                }
+            },
+            core: {
+                animation: 200,
+                open_parents: true
+            },
+            themes: {
+                theme: treeOptions.theme || 'default',
+                icons: treeOptions.icons || false,
+                url: treeOptions.serverUrl + "/js/themes/" + (treeOptions.theme || 'default') + "/style.css"
+            },
+            checkbox: {
+                override_ui: true
+            },
+            contextmenu: {
+                select_node: false,
+                show_at_node: false,
+                items: {
+                    records: {
+                        label: '<span class="fa fa-list"></span>&nbsp;' + $.i18n.prop('charts2.js.viewRecords'),
+                        action: function(obj) {
+                            showRecords(obj, query);
+                        }
+                    },
+                    bie: {
+                        label: '<span class="fa fa-info-circle"></span>&nbsp;' + $.i18n.prop('charts2.js.viewSpecies'),
+                        action: function(obj) {
+                            showBie(obj);
+                        }
+                    },
                     create: false,
                     rename: false,
                     remove: false,
                     ccp: false }
-                },
-                plugins: ['json_data','themes','ui','contextmenu']
-            });
+            },
+            plugins: ['json_data', 'themes', 'ui', 'contextmenu']
+        });
 }
 /************************************************************\
  * Go to occurrence records for selected node
  \************************************************************/
 function showRecords(node, query) {
+    var recordsUrl = urlConcat(biocacheWebappUrl, '/occurrences/search?q=') + query;
     var rank = node.attr('rank');
-    if (rank == 'kingdoms') return;
     var name = node.attr('id');
-    // url for records list
-    var recordsUrl = urlConcat(biocacheWebappUrl, "/occurrences/search?q=") + query +
-            "&fq=" + rank + ":" + name;
+    if(rank === 'kingdoms') {
+        recordsUrl += '&fq=rank:"kingdom"';
+    } else if(!name) {
+        recordsUrl += '&fq=rank:' + rank;
+    } else {
+        recordsUrl += '&fq=' + rank + ':' + node.attr('id');
+    }
     document.location.href = recordsUrl;
 }
+
 /************************************************************\
  * Go to 'species' page for selected node
  \************************************************************/
 function showBie(node) {
+    var sppUrl = 'http://ala-test.ut.ee/bie-hub/search?';
     var rank = node.attr('rank');
-    if (rank == 'kingdoms') return;
     var name = node.attr('id');
-    var sppUrl = "http://bie.ala.org.au/species/" + name;
-    if (rank != 'species') { sppUrl += "_(" + rank + ")"; }
+    if(rank === 'kingdoms') {
+        sppUrl += '&fq=rank:"kingdom"';
+    } else if(!name) {
+        sppUrl += '&fq=rank:' + rank;
+    } else {
+        sppUrl += 'q=' + node.attr('id') + '&fq=rank:' + rank;
+    }
     document.location.href = sppUrl;
 }
 
