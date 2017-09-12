@@ -6,13 +6,11 @@ grails.project.work.dir = "target/work"
 grails.project.target.level = 1.8
 grails.project.source.level = 1.8
 
-//grails.plugin.location."collectory-plugin" = "../collectory-plugin"
-
 grails.project.fork = [
-    test:   false,
-    run:    false,
-    console:    false,
-    war:        false
+    test: [maxMemory: 768, minMemory: 64, debug: false, maxPerm: 256, daemon:true], // configure settings for the test-app JVM
+    run: [maxMemory: 768, minMemory: 64, debug: false, maxPerm: 256], // configure settings for the run-app JVM
+    war: [maxMemory: 768, minMemory: 64, debug: false, maxPerm: 256], // configure settings for the run-war JVM
+    console: [maxMemory: 768, minMemory: 64, debug: false, maxPerm: 256] // configure settings for the Console UI JVM
 ]
 
 grails.project.dependency.resolver = "maven"
