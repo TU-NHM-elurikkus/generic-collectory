@@ -277,11 +277,9 @@
                 <div class="col-md-9">
                     <div class="card detached-card">
                         <div class="card-header">
-                            <g:if test="${instance.pubDescription || instance.techDescription || instance.focus}">
-                                <h4>
-                                    <g:message code="public.show.overviewtabs.overview" />
-                                </h4>
-                            </g:if>
+                            <h4>
+                                <g:message code="public.show.overviewtabs.overview" />
+                            </h4>
                         </div>
 
                         <div class="card-body">
