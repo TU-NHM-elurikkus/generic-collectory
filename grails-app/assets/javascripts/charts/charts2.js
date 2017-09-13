@@ -1301,7 +1301,7 @@ function initTaxonTree(treeOptions) {
                         }
                     },
                     bie: {
-                        label: '<span class="fa fa-info-circle"></span>&nbsp;' + $.i18n.prop('charts2.js.viewSpecies'),
+                        label: '<span class="fa fa-search"></span>&nbsp;' + $.i18n.prop('charts2.js.viewSpecies'),
                         action: function(obj) {
                             showBie(obj);
                         }
