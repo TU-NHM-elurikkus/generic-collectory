@@ -103,14 +103,14 @@
                 <%-- TODO: Mobile responsiveness. --%>
                 <div id="data-set-list" class="col-sm-7 col-md-7 col-lg-9">
                     <div class="card card-body">
-                        <div class="search-controls">
-                            <button id="downloadButton" class="erk-button erk-button--light">
+                        <div>
+                            <button id="downloadButton" class="erk-button erk-button--light float-left">
                                 <span class="fa fa-download"></span>
                                 <g:message code="public.datasets.downloadlink.label" />
                             </button>
 
-                            <form class="form-inline float-right">
-                                <div class="form-group">
+                            <div class="inline-controls inline-controls--right">
+                                <div class="inline-controls__group">
                                     <label for="per-page">
                                         <g:message code="public.datasets.sortwidgets.rpp" />
                                     </label>
@@ -118,7 +118,7 @@
                                     <g:select id="per-page" name="per-page" from="${[10,20,50,100,500]}" value="${pageSize ?: 20}" class="input-sm" />
                                 </div>
 
-                                <div class="form-group">
+                                <div class="inline-controls__group">
                                     <label for="sort">
                                         <g:message code="public.datasets.sortwidgets.sb" />
                                     </label>
@@ -126,15 +126,15 @@
                                     <g:select id="sort" name="sort" from="${['name','type','license']}" class="input-sm" />
                                 </div>
 
-                                <div class="form-group">
+                                <div class="inline-controls__group">
                                     <label for="dir">
                                         <g:message code="public.datasets.sortwidgets.so" />
                                     </label>
 
                                     <g:select id="dir" name="dir" from="${['ascending','descending']}" class="input-sm" />
                                 </div>
-                            </form>
-                        </div><!--drop downs-->
+                            </div>
+                        </div>
 
                         <div id="results-container">
                             <div id="loading">
