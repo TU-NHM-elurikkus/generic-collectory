@@ -37,17 +37,6 @@ $(document).ready(function() {
         collectionsMap.invalidateSize(true);
         collectionsMap.setView([58.7283, 25.4169192], 7);
     });
-
-    // Add tooltip for cluster icons on map
-    clusterMarkers.on('clustermouseout', function(c) {
-        // collectionsMap.closePopup();
-    }).on('clusterclick', function(c) {
-        var popupContent = clusterPopup(c.layer.getAllChildMarkers());
-        L.popup()
-            .setLatLng(c.layer.getLatLng())
-            .setContent(popupContent)
-            .openOn(collectionsMap);
-    });
 });
 
 /**
@@ -71,10 +60,10 @@ function clusterPopup(children) {
         popupContent +=
             '<li>' +
                 key +
-                '<ul>';
+                '<ul class="list-unstyled">';
 
         mapping[key].forEach(function(coll) {
-            popupContent += '<li>' + coll + '</li>';
+            popupContent += '<li class="indented-list-item">' + coll + '</li>';
         });
 
         popupContent +=
@@ -82,7 +71,8 @@ function clusterPopup(children) {
             '</li>';
     });
 
-    popupContent = '<ul style="font-size:14px;">' + popupContent + '</ul>';
+    popupContent = '<ul class="list-unstyled" style="font-size: 14px;">' + popupContent + '</ul>';
+
     return popupContent;
 }
 
@@ -124,11 +114,24 @@ function updateMap(filters) {
 
         geomObjects.forEach(function(geomObj) {
             var mapMarker = L.marker(geomObj.geometry.coordinates.reverse(), { icon: mapIcon });
+
             clusterMarkers.addLayer(mapMarker);
             mapMarker.bindPopup(outputSingleFeature(geomObj));
         });
     });
+
+    collectionsMap.closePopup();
     collectionsMap.addLayer(clusterMarkers);
+
+    // Add tooltip for cluster icons on map
+    clusterMarkers.on('clusterclick', function(c) {
+        var popupContent = clusterPopup(c.layer.getAllChildMarkers());
+
+        L.popup()
+            .setLatLng(c.layer.getLatLng())
+            .setContent(popupContent)
+            .openOn(collectionsMap);
+    });
 }
 
 /**
