@@ -595,7 +595,7 @@ var facetChartGroup = {
 
         // update total if requested
         if (options.totalRecordsSelector) {
-            $(options.totalRecordsSelector).html(addCommas(data.totalRecords));
+            $(options.totalRecordsSelector).html(data.totalRecords.toLocaleString(COLLECTORY_CONF.locale));
         }
 
         // transform facet results list into map keyed on field name (the facet name in the data)
@@ -749,7 +749,7 @@ function drawFacetCharts(data, chartOptions) {
 
     // update total if requested
     if (chartOptions.totalRecordsSelector) {
-        $(chartOptions.totalRecordsSelector).html(addCommas(data.totalRecords));
+        $(chartOptions.totalRecordsSelector).html(data.totalRecords.toLocaleString(COLLECTORY_CONF.locale));
     }
 
     // transform facet results into map
@@ -1399,20 +1399,4 @@ function urlConcat(base, context) {
     context = context.replace(/^\//, '');
     // join
     return base + "/" + context;
-}
-
-/************************************************************\
- * Add commas to number strings
- \************************************************************/
-function addCommas(nStr)
-{
-    nStr += '';
-    x = nStr.split('.');
-    x1 = x[0];
-    x2 = x.length > 1 ? '.' + x[1] : '';
-    var rgx = /(\d+)(\d{3})/;
-    while (rgx.test(x1)) {
-        x1 = x1.replace(rgx, '$1' + ',' + '$2');
-    }
-    return x1 + x2;
 }

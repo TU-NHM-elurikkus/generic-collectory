@@ -1268,22 +1268,28 @@ class CollectoryTagLib {
      */
     def nounForTypes = {attrs ->
         def nouns = []
+
         if (attrs.types =~ "seedbank") {
-            nouns << "accessions"
+            nouns << g.message(code: "nouns.accessions")
         }
+
         if (attrs.types =~ "preserved") {
-            nouns << "specimens"
+            nouns << g.message(code: "nouns.specimens")
         }
+
         if (attrs.types =~ "cellcultures" || attrs.types =~ "living") {
-            nouns << "cultures"
+            nouns << g.message(code: "nouns.cultures")
         }
+
         if (attrs.types =~ "genetic") {
-            nouns << "samples"
+            nouns << g.message(code: "nouns.samples")
         }
+
         if (!nouns) {
-            nouns << "specimens"  // default
+            nouns << g.message(code: "nouns.specimens")  // default
         }
-        out << nouns.join(" and ")
+
+        out << nouns.join(" " + g.message(code: "nouns.and ") + " ")
     }
 
     /**

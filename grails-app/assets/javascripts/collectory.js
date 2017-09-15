@@ -24,7 +24,7 @@ function setNumbers(totalBiocacheRecords) {
     //default: recordsClause = addCommas(totalBiocacheRecords) + " records";
     case 0: recordsClause = jQuery.i18n.prop('collectory.js.norecord'); break;
     case 1: recordsClause = "1 " + jQuery.i18n.prop('collectory.js.record'); break;
-    default: recordsClause = addCommas(totalBiocacheRecords) + " " + jQuery.i18n.prop('collectory.js.records');
+    default: recordsClause = totalBiocacheRecords.toLocaleString(COLLECTORY_CONF.locale) + " " + jQuery.i18n.prop('collectory.js.records');
   }
   $('#numBiocacheRecords').html(recordsClause);
 }
@@ -52,20 +52,6 @@ function sortKV(items) {
     return values;
 }
 
-/************************************************************\
-* Add commas to number strings
-\************************************************************/
-function addCommas(nStr){
-    nStr += '';
-    x = nStr.split('.');
-    x1 = x[0];
-    x2 = x.length > 1 ? '.' + x[1] : '';
-    var rgx = /(\d+)(\d{3})/;
-    while (rgx.test(x1)) {
-        x1 = x1.replace(rgx, '$1' + ',' + '$2');
-    }
-    return x1 + x2;
-}
 /************************************************************\
 *
 \************************************************************/
@@ -201,7 +187,21 @@ function loadDownloadStats(loggerServicesUrl, uid, name, eventType) {
 
                 var nonTestingRecords  = (value.reasonBreakdown["testing"] == undefined) ? value.records : value.records -  value.reasonBreakdown["testing"].records;
                 var nonTestingEvents   = (value.reasonBreakdown["testing"] == undefined) ? value.events  : value.events  -  value.reasonBreakdown["testing"].events;
-                $usageDiv.html('<div class="card-header erk-card-header-minimal"><h4><span>' + displayString + "</span><span class='float-right'>" + addCommas(nonTestingRecords) + " " + jQuery.i18n.prop('collectory.js.recordsdownloaded') + " " +  addCommas(nonTestingEvents) + " downloads. </span></h4></div>");
+
+                $usageDiv.html(
+                    '<div class="card-header erk-card-header-minimal">' +
+                        '<h4>' +
+                            '<span>' + displayString + '</span>' +
+                            '<span class="float-right">' +
+                                $.i18n.prop(
+                                    'collectory.js.recordsDownloaded',
+                                    nonTestingRecords.toLocaleString(COLLECTORY_CONF.locale),
+                                    nonTestingEvents.toLocaleString(COLLECTORY_CONF.locale)
+                                ) +
+                            '</span>' +
+                        '</h4>' +
+                    '</div>'
+                );
 
                 var $usageContent = $('<div class="card-block" />');
                 var $usageTable = $('<table class="table"/>');
@@ -221,7 +221,11 @@ function loadDownloadStats(loggerServicesUrl, uid, name, eventType) {
                         usageTableRow += "<br/><span style='font-size: 12px;'> *" + jQuery.i18n.prop('collectory.js.testingstatistics') + "</span>";
                     }
 
-                    usageTableRow += '</td><td style="text-align: right;">' + addCommas(details.value.events) + ' events</td><td style="text-align: right">'  + addCommas(details.value.records)  + ' records </td></tr>';
+                    usageTableRow += '</td><td style="text-align: right;">' +
+                        details.value.events.toLocaleString(COLLECTORY_CONF.locale) +
+                        ' events</td><td style="text-align: right">' +
+                        details.value.records.toLocaleString(COLLECTORY_CONF.locale)  +
+                        ' records </td></tr>';
                     $usageTable.append($(usageTableRow));
                 });
 

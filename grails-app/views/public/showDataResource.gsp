@@ -43,7 +43,7 @@
                         class="page-header-links__link"
                     >
                         <span class="fa fa-list"></span>
-                        ${instance.name} records
+                        <g:message code="page.navigation.records" args="${ [instance.name] }" />
                     </a>
                 </div>
             </div>
@@ -608,7 +608,11 @@
 
                                 if(data.totalRecords > 0) {
                                     $('#dataAccessWrapper').css({display:'block'});
-                                    $('#totalRecordCountLink').html('<span class="fa fa-list"></span> ' + data.totalRecords.toLocaleString() + " ${g.message(code: 'public.show.rt.des03')}");
+                                    $('#totalRecordCountLink').html(
+                                        '<span class="fa fa-list"></span> ' +
+                                        data.totalRecords.toLocaleString(COLLECTORY_CONF.locale) +
+                                        ' ${g.message(code: "public.show.rt.des03")}'
+                                    );
                                 }
                             }
                         }
