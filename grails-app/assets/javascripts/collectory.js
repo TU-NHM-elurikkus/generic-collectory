@@ -209,23 +209,21 @@ function loadDownloadStats(loggerServicesUrl, uid, name, eventType) {
                 var reasons = sortKV(value['reasonBreakdown']);
 
                 $.each(reasons, function( index, details ) {
-                    var usageTableRow = '<tr';
+                    var usageTableRow = details.key.indexOf('test') !== -1 ?'<tr style="color:#999999;">' : '<tr>';
 
-                    if (details.key.indexOf("test") >=0){
-                        usageTableRow += " style=color:#999999;";
-                    }
+                    usageTableRow += '<td>' + capitalise(details.key) ;
 
-                    usageTableRow += '><td>' + capitalise(details.key) ;
-
-                    if (details.key.indexOf("test") >=0){
+                    if(details.key.indexOf('test') !== -1) {
                         usageTableRow += "<br/><span style='font-size: 12px;'> *" + jQuery.i18n.prop('collectory.js.testingstatistics') + "</span>";
                     }
 
-                    usageTableRow += '</td><td style="text-align: right;">' +
-                        details.value.events.toLocaleString(COLLECTORY_CONF.locale) +
-                        ' events</td><td style="text-align: right">' +
-                        details.value.records.toLocaleString(COLLECTORY_CONF.locale)  +
-                        ' records </td></tr>';
+                    usageTableRow +=
+                        '</td><td style="text-align: right;">' +
+                        jQuery.i18n.prop('collectory.js.stats.events', details.value.events.toLocaleString(COLLECTORY_CONF.locale)) +
+                        '</td><td style="text-align: right">' +
+                        jQuery.i18n.prop('collectory.js.stats.records', details.value.records.toLocaleString(COLLECTORY_CONF.locale)) +
+                        '</td></tr>';
+
                     $usageTable.append($(usageTableRow));
                 });
 
