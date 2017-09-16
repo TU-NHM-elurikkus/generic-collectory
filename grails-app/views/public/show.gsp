@@ -727,7 +727,6 @@
                 var recordsClause = "";
 
                 switch (totalBiocacheRecords) {
-                    // TODO: translate
                     case 0: recordsClause = jQuery.i18n.prop('public.show.portalRecordsBit.noRecords'); break;
                     case 1: recordsClause = jQuery.i18n.prop('public.show.portalRecordsBit.oneRecord'); break;
                     default: recordsClause = jQuery.i18n.prop('public.show.portalRecordsBit.records', totalBiocacheRecords.toLocaleString(COLLECTORY_CONF.locale));

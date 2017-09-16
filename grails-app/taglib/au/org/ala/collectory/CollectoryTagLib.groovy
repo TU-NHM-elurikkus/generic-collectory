@@ -1943,14 +1943,16 @@ class CollectoryTagLib {
 
     def lastChecked = { attrs ->
         if (attrs.date) {
-            out << """<span id="updated">This resource was last checked for updated data on
+            out << """<span id="updated">
+                ${message(code: "public.show.resource.lastChecked")}
                 <b>${new SimpleDateFormat("dd MMM yyyy").format(attrs.date)}</b>.</span>"""
         }
     }
 
     def dataCurrency = { attrs ->
         if (attrs.date) {
-            out << """<span id="currency">The most recent data was published on
+            out << """<span id="currency">
+                ${message(code: "public.show.resource.lastPublished")}
                 <b>${new SimpleDateFormat("dd MMM yyyy").format(attrs.date)}</b>.</span>"""
         }
     }

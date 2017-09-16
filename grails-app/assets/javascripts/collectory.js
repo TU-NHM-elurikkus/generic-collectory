@@ -17,16 +17,15 @@ jQuery.i18n.properties({
 * Build phrase with num records and set to elements with id = numBiocacheRecords
 \************************************************************/
 function setNumbers(totalBiocacheRecords) {
-  var recordsClause = "";
-  switch (totalBiocacheRecords) {
-    //case 0: recordsClause = "No records"; break;
-    //case 1: recordsClause = "1 record"; break;
-    //default: recordsClause = addCommas(totalBiocacheRecords) + " records";
-    case 0: recordsClause = jQuery.i18n.prop('collectory.js.norecord'); break;
-    case 1: recordsClause = "1 " + jQuery.i18n.prop('collectory.js.record'); break;
-    default: recordsClause = totalBiocacheRecords.toLocaleString(COLLECTORY_CONF.locale) + " " + jQuery.i18n.prop('collectory.js.records');
-  }
-  $('#numBiocacheRecords').html(recordsClause);
+    var recordsClause = '';
+
+    switch (totalBiocacheRecords) {
+        case 0: recordsClause = jQuery.i18n.prop('public.show.portalRecordsBit.noRecords'); break;
+        case 1: recordsClause = jQuery.i18n.prop('public.show.portalRecordsBit.oneRecord'); break;
+        default: recordsClause = jQuery.i18n.prop('public.show.portalRecordsBit.records', totalBiocacheRecords.toLocaleString(COLLECTORY_CONF.locale));
+    }
+
+    $('#numBiocacheRecords').html(recordsClause);
 }
 /************************************************************\
  * Called when an ajax request returns no records.

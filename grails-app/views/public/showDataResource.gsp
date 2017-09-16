@@ -401,10 +401,10 @@
                             <div class="card-body">
                                 <p>
                                     <span id="numBiocacheRecords">
-                                        <g:message code="public.sdr.content.des04" />
+                                        <g:message code="public.show.portalRecordsBit.searching" />
                                     </span>
 
-                                    <g:message code="public.sdr.content.des05" />.
+                                    <g:message code="public.show.portalRecordsBit.available" />.
 
                                     <cl:lastChecked date="${instance.lastChecked}" />
                                     <cl:dataCurrency date="${instance.dataCurrency}" />
@@ -412,9 +412,7 @@
 
                                 <cl:recordsLink collection="${instance}">
                                     <span class="fa fa-list"></span>
-                                    <g:message code="public.numbrs.link" />
-                                    ${instance.name}
-                                    <g:message code="public.sdr.content.link02" />.
+                                    <g:message code="page.navigation.records" args="${ [instance.name] }" />
                                 </cl:recordsLink>
 
                                 <cl:downloadPublicArchive uid="${instance.uid}" available="${instance.publicArchiveAvailable}" />
@@ -448,7 +446,7 @@
                             <div class="card-body">
                                 <div id="usage">
                                     <p>
-                                        <g:message code="public.usage.des" />...
+                                        <g:message code="general.loading" />...
                                     </p>
                                 </div>
 

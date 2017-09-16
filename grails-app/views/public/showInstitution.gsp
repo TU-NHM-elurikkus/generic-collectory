@@ -292,14 +292,15 @@
                             <div>
                                 <p>
                                     <span id="numBiocacheRecords">
-                                        <g:message code="public.numbrs.des01" />
+                                        <g:message code="public.show.portalRecordsBit.searching" />
                                     </span>
-                                    <g:message code="public.numbrs.des02" />.
+
+                                    <g:message code="public.show.portalRecordsBit.available" />.
                                 </p>
 
                                 <cl:recordsLink entity="${instance}">
                                     <span class="fa fa-list"></span>
-                                    <g:message code="public.numbrs.link" /> ${instance.name}.
+                                    <g:message code="page.navigation.records" args="${ [instance.name] }" />
                                 </cl:recordsLink>
                             </div>
 
@@ -320,7 +321,7 @@
 
                         <div id="usage" class="card-body">
                             <p>
-                                <g:message code="public.usage.des" />...
+                                <g:message code="general.loading" />...
                             </p>
                         </div>
                     </div>
