@@ -61,16 +61,16 @@
 
                             <button type="submit" class="erk-button erk-button--dark input-plus__addon">
                                 <span class="fa fa-search"></span>
-                                <g:message code="public.datasets.drsearch.search" />
+                                <g:message code="general.btn.search" />
                             </button>
                         </div>
                     </form>
 
                     <p>
                         <span id="resultsReturned">
-                            <g:message code="public.datasets.resultsreturned.message01" />
+                            <g:message code="public.datasets.resultsReturned.showing" />
                                 <strong></strong>&nbsp;
-                            <g:message code="public.datasets.resultsreturned.message02" />.
+                            <g:message code="public.datasets.resultsReturned.datasets" />
                         </span>
                     </p>
 
@@ -88,10 +88,10 @@
                 </div<
             </g:if>
 
-            <div class="datasets-header">
+            <p>
                 <span class="fa fa-info-circle"></span>
                 <g:message code="public.datasets.sidebar.header" />
-            </div>
+            </p>
 
             <div class="collectory-content row">
                 <div class="col-sm-5 col-md-5 col-lg-3">
@@ -100,7 +100,6 @@
                     </div>
                 </div>
 
-                <%-- TODO: Mobile responsiveness. --%>
                 <div id="data-set-list" class="col-sm-7 col-md-7 col-lg-9">
                     <div class="card card-body">
                         <div>
@@ -112,7 +111,7 @@
                             <div class="inline-controls inline-controls--right">
                                 <div class="inline-controls__group">
                                     <label for="per-page">
-                                        <g:message code="public.datasets.sortwidgets.rpp" />
+                                        <g:message code="general.list.pageSize.label" />
                                     </label>
 
                                     <g:select id="per-page" name="per-page" from="${[10,20,50,100,500]}" value="${pageSize ?: 20}" class="input-sm" />
@@ -120,7 +119,7 @@
 
                                 <div class="inline-controls__group">
                                     <label for="sort">
-                                        <g:message code="public.datasets.sortwidgets.sb" />
+                                        <g:message code="general.list.orderBy.label" />
                                     </label>
 
                                     <g:select id="sort" name="sort" from="${['name','type','license']}" class="input-sm" />
@@ -128,7 +127,7 @@
 
                                 <div class="inline-controls__group">
                                     <label for="dir">
-                                        <g:message code="public.datasets.sortwidgets.so" />
+                                        <g:message code="general.list.sortBy.label" />
                                     </label>
 
                                     <g:select id="dir" name="dir" from="${['ascending','descending']}" class="input-sm" />
@@ -138,7 +137,7 @@
 
                         <div id="results-container">
                             <div id="loading">
-                                <g:message code="public.datasets.loading" /> ..
+                                <g:message code="general.loading" />...
                             </div>
                         </div>
 

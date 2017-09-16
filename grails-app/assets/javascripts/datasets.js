@@ -107,7 +107,7 @@ function appendResource(value) {
             '<label class="dataset__label">' +
                 $.i18n.prop('datasets.js.appendresource06') + ': ' +
             '</label>' +
-            value.resourceType +
+            $.i18n.prop('datasets.js.resourceTypes.' + value.resourceType) +
         '</span>'
     );
 
@@ -118,7 +118,7 @@ function appendResource(value) {
                 '<label class="dataset__label">' +
                     $.i18n.prop('datasets.js.appendresource07') + ': ' +
                 '</label>' +
-                value.licenseType +
+                (value.licenseType === 'other' ? $.i18n.prop('datasets.js.licenseTypes.other') : value.licenseType) +
             '</span>'
         );
     }
@@ -175,7 +175,13 @@ function clearList() {
 /** display the current size of the filtered list **/
 function updateTotal() {
     total = resources.length;
-    $('#resultsReturned').html($.i18n.prop('datasets.js.updatetotal03') + ' <strong>' + total + '</strong> ' + $.i18n.prop('datasets.js.updatetotal04') + (total === 1 ? $.i18n.prop('datasets.js.updatetotal05') : $.i18n.prop('datasets.js.updatetotal06')));
+
+    $('#resultsReturned').html(
+        $.i18n.prop('public.datasets.resultsReturned.showing') +
+        ' <strong>' + total + '</strong> ' +
+        (total === 1 ? $.i18n.prop('public.datasets.resultsReturned.dataset') : $.i18n.prop('public.datasets.resultsReturned.datasets'))
+    );
+
     $('#downloadButton').attr('title', $.i18n.prop('datasets.js.updatetotal01') + ' ' + total + ' ' + $.i18n.prop('datasets.js.updatetotal02'));
 }
 
@@ -278,7 +284,7 @@ function showFilters() {
             '<span class="active-filters__title">' +
                 $.i18n.prop('public.datasets.drsearch.currentfilters') +
             '</span>' +
-            ' : &nbsp;' +
+            ': &nbsp;' +
         '</p>'
     );
 
@@ -293,7 +299,7 @@ function showFilters() {
                 '<span class="active-filters__label">' +
                     labelFor(obj.name) + ': ' + displayValue +
                 '</span>' +
-                '<span class="fa fa-close active-filters__close-button" onclick="' + onclick + '">' +
+                '&nbsp;<span class="fa fa-close active-filters__close-button" onclick="' + onclick + '">' +
                 '</span>' +
             '</span>'
         );
@@ -302,7 +308,7 @@ function showFilters() {
     if(currentFilters.length > 1) {
         container.append(
             '<span class="active-filters__clear-all-button" onclick="reset()">' +
-                $.i18n.prop('public.datasets.drsearch.clearfilters') +
+                $.i18n.prop('general.btn.clearAll.label') +
             '</span>'
         );
     }
