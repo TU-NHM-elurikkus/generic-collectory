@@ -137,7 +137,7 @@
 
                         <div id="results-container">
                             <div id="loading">
-                                <g:message code="general.loading" />...
+                                <g:message code="general.loading" />&hellip;
                             </div>
                         </div>
 
