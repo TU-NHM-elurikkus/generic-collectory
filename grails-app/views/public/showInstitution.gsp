@@ -78,7 +78,7 @@
 
                     <a href="${grailsApplication.config.biocacheUiURL}/occurrences/search?q=institution_uid:${instance.uid}" class="page-header-links__link">
                         <span class="fa fa-list"></span>
-                        ${instance.name} records
+                        <g:message code="page.navigation.records" args="${ [instance.name] }" />
                     </a>
 
                     <%-- TODO SHOULD BE A BUTTON
@@ -292,14 +292,15 @@
                             <div>
                                 <p>
                                     <span id="numBiocacheRecords">
-                                        <g:message code="public.numbrs.des01" />
+                                        <g:message code="public.show.portalRecordsBit.searching" />
                                     </span>
-                                    <g:message code="public.numbrs.des02" />.
+
+                                    <g:message code="public.show.portalRecordsBit.available" />.
                                 </p>
 
                                 <cl:recordsLink entity="${instance}">
                                     <span class="fa fa-list"></span>
-                                    <g:message code="public.numbrs.link" /> ${instance.name}.
+                                    <g:message code="page.navigation.records" args="${ [instance.name] }" />
                                 </cl:recordsLink>
                             </div>
 
@@ -320,7 +321,7 @@
 
                         <div id="usage" class="card-body">
                             <p>
-                                <g:message code="public.usage.des" />...
+                                <g:message code="general.loading" />...
                             </p>
                         </div>
                     </div>
@@ -394,7 +395,11 @@
                         drawFacetCharts(data, facetChartOptions);
                         if(data.totalRecords > 0){
                             $('#dataAccessWrapper').css({display:'block'});
-                            $('#totalRecordCountLink').html('<span class="fa fa-list"></span> ' + data.totalRecords.toLocaleString() + " ${g.message(code: 'public.show.rt.des03')}");
+                            $('#totalRecordCountLink').html(
+                                '<span class="fa fa-list"></span> ' +
+                                data.totalRecords.toLocaleString(COLLECTORY_CONF.locale) +
+                                ' ${g.message(code: "public.show.rt.des03")}'
+                            );
                         }
                     }
                 }

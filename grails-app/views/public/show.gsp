@@ -352,9 +352,7 @@
                                     <g:set var="nouns" value="${cl.nounForTypes(types:instance.listCollectionTypes())}" />
 
                                     <h3>
-                                        <g:message code="public.show.oc.label04" />
-                                        <cl:nounForTypes types="${instance.listCollectionTypes()}" />
-                                        <g:message code="public.show.oc.label05" />
+                                        <g:message code="public.show.oc.numberOfRecords" args="${ [nouns] }" />
                                     </h3>
 
                                     <g:if test="${fieldValue(bean: instance, field: 'numRecords') != '-1'}">
@@ -375,9 +373,11 @@
                                         </p>
                                     </g:if>
 
+                                    <%-- A bit redundant
                                     <p>
                                         <g:message code="public.show.oc.des13" />.
                                     </p>
+                                    --%>
 
                                     <g:if test="${instance.listSubCollections()?.size() > 0}">
                                         <h3>
@@ -413,8 +413,20 @@
                                 <div class="col">
                                     <g:if test="${instance.numRecords != -1}">
                                         <p>
+                                            <%-- XXX TODO NOTE FIXME REMOVE IT
                                             <cl:collectionName prefix="The " name="${instance.name}" />
-                                            has an estimated ${fieldValue(bean: instance, field: "numRecords")} ${nouns}.
+                                            has an estimated
+                                            ${fieldValue(bean: instance, field: "numRecords")} ${nouns}.
+                                            --%>
+
+                                            <g:message
+                                                code="public.show.oc.estimatedRecords2"
+                                                args="[
+                                                    instance.name,
+                                                    fieldValue(bean: instance, field: "numRecords"),
+                                                    nouns
+                                                ]"
+                                            />
                                         </p>
 
                                         <div class="vertical-block">
@@ -426,10 +438,10 @@
 
                                                 <p>
                                                     <span id="numBiocacheRecords">
-                                                        <g:message code="public.show.rt.des04" />
+                                                        <g:message code="public.show.portalRecordsBit.searching" />
                                                     </span>
 
-                                                    <g:message code="public.show.rt.des05" />.
+                                                    <g:message code="public.show.portalRecordsBit.available" />.
 
                                                     <span id="speedoCaption">
                                                         <g:message code="public.show.speedocaption" />.
@@ -442,7 +454,7 @@
                                                         <div>
                                                             <cl:recordsLink entity="${instance}">
                                                                 <span class="fa fa-list"></span>
-                                                                <g:message code="public.show.rt.recordsLink" args="[cl.collectionName(name: instance.name)]" />
+                                                                <g:message code="public.show.rt.recordsLink" args="[instance.name]" />
                                                             </cl:recordsLink>
                                                         </div>
                                                     </g:if>
@@ -590,7 +602,11 @@
                             drawFacetCharts(data, facetChartOptions);
                             if(data.totalRecords > 0) {
                                 $('#dataAccessWrapper').css({display:'block'});
-                                $('#totalRecordCountLink').html('<span class="fa fa-list"></span> ' + data.totalRecords.toLocaleString() + " ${g.message(code: 'public.show.rt.des03')}");
+                                $('#totalRecordCountLink').html(
+                                    '<span class="fa fa-list"></span> ' +
+                                    data.totalRecords.toLocaleString(COLLECTORY_CONF.locale) +
+                                    ' ${g.message(code: "public.show.rt.des03")}'
+                                );
                             }
                         }
                     }
@@ -624,7 +640,8 @@
                                 $('#imagesTabEl').css({display:'block'});
 
                                 if(data.facetResults.length>0 && data.facetResults[0].fieldResult !== undefined) {
-                                    description = "Of these images there: ";
+                                    // XXX TODO
+                                    description = jQuery.i18n.prop('public.show.imagesAvailable.ofThese') + ' ';
                                     $.each(data.facetResults[0].fieldResult, function(idx, facet) {
                                         if(idx>0) {
                                             description += ', '
@@ -641,8 +658,10 @@
                                     '<p>' +
                                         '<a href="'+biocacheWebappUrl + uiBase + imagesQueryUrl +'">' +
                                             '<span class="fa fa-list"></span>&nbsp;' +
-                                            data.totalRecords + ' images' +
-                                        '</a> have been made available from the ${instance.name}.' +
+                                            data.totalRecords + ' ' +
+                                            jQuery.i18n.prop('public.show.imagesAvailable.images') +
+                                        '</a>' + ' ' +
+                                        jQuery.i18n.prop('public.show.imagesAvailable.available', "${instance.name}") +
                                         '<br /> ' +
                                         description +
                                     '</p>'
@@ -708,10 +727,9 @@
                 var recordsClause = "";
 
                 switch (totalBiocacheRecords) {
-                    // TODO: translte
-                    case 0: recordsClause = "No records"; break;
-                    case 1: recordsClause = "1 record"; break;
-                    default: recordsClause = addCommas(totalBiocacheRecords) + " records";
+                    case 0: recordsClause = jQuery.i18n.prop('public.show.portalRecordsBit.noRecords'); break;
+                    case 1: recordsClause = jQuery.i18n.prop('public.show.portalRecordsBit.oneRecord'); break;
+                    default: recordsClause = jQuery.i18n.prop('public.show.portalRecordsBit.records', totalBiocacheRecords.toLocaleString(COLLECTORY_CONF.locale));
                 }
 
                 $('#numBiocacheRecords').html(recordsClause);
@@ -729,24 +747,6 @@
                     // to update the speedo caption
                     setProgress(0);
                 }
-            }
-
-            /************************************************************\
-             * Add commas to number display
-            \************************************************************/
-            function addCommas(nStr) {
-                var rgx = /(\d+)(\d{3})/;
-
-                nStr += '';
-                x = nStr.split('.');
-                x1 = x[0];
-                x2 = x.length > 1 ? '.' + x[1] : '';
-
-                while (rgx.test(x1)) {
-                    x1 = x1.replace(rgx, '$1' + ',' + '$2');
-                }
-
-                return x1 + x2;
             }
 
             /************************************************************\
