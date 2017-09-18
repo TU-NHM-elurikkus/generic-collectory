@@ -164,7 +164,6 @@ function drawFacetCharts(data, chartOptions) {
 * Create and show a generic facet chart
 \************************************************************/
 function buildGenericFacetChart(name, data, query, chartsDiv, chartOptions) {
-
     // resolve chart label
     var chartLabel = chartLabels[name] ? chartLabels[name] : name;
 
@@ -363,48 +362,59 @@ function loadTaxonomyChart(chartOptions) {
 function drawTaxonomyChart(data, chartOptions, query) {
     // create the data table
     var dataTable = new google.visualization.DataTable();
+
     dataTable.addColumn('string', chartLabels[name] ? chartLabels[name] : name);
-    dataTable.addColumn('number','records');
-    $.each(data.taxa, function(i,obj) {
-        var label = obj.label === "" ? 'Unknown' : obj.label;
+    dataTable.addColumn('number', 'records');
+
+    $.each(data.taxa, function(i, obj) {
+        var label = obj.label === '' ? 'Unknown' : obj.label;
 
         dataTable.addRow([label, obj.count]);
     });
 
     // resolve the chart options
-    var rango = "";
+    var rango = '';
     var opts = $.extend({}, taxonomyPieChartOptions);
+
     opts = $.extend(true, opts, chartOptions);
+
     switch(data.rank) {
-        case "kingdom":
-            rango=jQuery.i18n.prop('charts.js.kingdom');
+        case 'kingdom':
+            rango = jQuery.i18n.prop('taxonomy.byRank.kingdom');
             break;
-        case "phylum":
-            rango=jQuery.i18n.prop('charts.js.phylum');
+        case 'phylum':
+            rango = jQuery.i18n.prop('taxonomy.byRank.phylum');
             break;
-        case "order":
-            rango=jQuery.i18n.prop('charts.js.order');
+        case 'order':
+            rango = jQuery.i18n.prop('taxonomy.byRank.order');
             break;
-        case "family":
-            rango=jQuery.i18n.prop('charts.js.family');
+        case 'family':
+            rango = jQuery.i18n.prop('taxonomy.byRank.family');
             break;
-        case "genus":
-            rango=jQuery.i18n.prop('charts.js.genus')
+        case 'genus':
+            rango = jQuery.i18n.prop('taxonomy.byRank.genus')
             break;
-        case "class":
-            rango=jQuery.i18n.prop('charts.js.class');
+        case 'class':
+            rango = jQuery.i18n.prop('taxonomy.byRank.class');
             break;
-        case "species":
-            rango=jQuery.i18n.prop('charts.js.species');
+        case 'species':
+            rango = jQuery.i18n.prop('taxonomy.byRank.species');
             break;
         default:
-            rango=data.rank;
+            rango = data.rank;
     }
-    opts.title = opts.name ? opts.name + " " + jQuery.i18n.prop('charts.js.by').toLowerCase() + " " + rango : jQuery.i18n.prop('charts.js.by') + " " + rango;
+
+    if(opts.name) {
+        opts.title = opts.name + ' ' + rango
+    } else {
+        // Capitalize the first letter. Can't do it in CSS because it's buried in third party SVG.
+        opts.title = rango.charAt(0).toUpperCase() + rango.slice(1);
+    }
 
     // create the outer div that will contain the chart and the additional links
     var $outerContainer = $('#taxa');
-    if ($outerContainer.length == 0) {
+
+    if($outerContainer.length == 0) {
         $outerContainer = $('<div id="taxa"></div>'); // create it
         var chartsDiv = $('div#' + (chartOptions.targetDivId ? chartOptions.targetDivId : 'charts'));
         // append it
@@ -413,7 +423,7 @@ function drawTaxonomyChart(data, chartOptions, query) {
 
     // create the chart container if not already there
     var $container = $('#taxaChart');
-    if ($container.length == 0) {
+    if($container.length == 0) {
         $container = $("<div id='taxaChart' class='chart-pie'></div>");
         $outerContainer.append($container);
     }
@@ -426,6 +436,7 @@ function drawTaxonomyChart(data, chartOptions, query) {
 
     // draw the back button / instructions
     var $backLink = $('#backLink');
+
     if ($backLink.length == 0) {
         $backLink = $('<div class="erk-link-button erk-button--inline" id="backLink">&laquo; ' + jQuery.i18n.prop('charts2.js.previousrank') + '</div>').appendTo($outerContainer);  // create it
         $backLink.click(function() {
@@ -453,27 +464,38 @@ function drawTaxonomyChart(data, chartOptions, query) {
     }
     else {
         // show the instruction
-        $backLink.html(jQuery.i18n.prop('charts.js.slicetodrill')).removeClass('erk-link-button');
+        $backLink.html(
+            '<span class="fa fa-info-circle"></span>&nbsp;' +
+            jQuery.i18n.prop('charts.js.slicetodrill')
+        ).removeClass('erk-link-button');
     }
 
     // draw records link
     var $recordsLink = $('#recordsLink');
+
     if ($recordsLink.length == 0) {
         $recordsLink = $('<div class="erk-link" id="recordsLink">' + jQuery.i18n.prop('charts.js.viewrecords') + '</div>').appendTo($outerContainer);  // create it
         $recordsLink.click(function() {
             // show occurrence records
             var fq = "";
-            if (chartOptions.rank != undefined && chartOptions.name != undefined) {
+
+            if(chartOptions.rank != undefined && chartOptions.name != undefined) {
                 fq = "&fq=" + chartOptions.rank + ":" + chartOptions.name;
             }
+
             document.location = urlConcat(biocacheWebappUrl, "/occurrences/search?q=") + query + fq;
         });
     }
+
     // set link text
     if (chartOptions.history) {
-        $recordsLink.html('<span class="fa fa-list"></span> ' + jQuery.i18n.prop('charts.js.viewrecordsfor') + ' ' + chartOptions.rank + ' ' + chartOptions.name);
-    }
-    else {
+        var rankLabel = $.i18n.prop('taxonomy.rank.' + chartOptions.rank);
+
+        $recordsLink.html(
+            '<span class="fa fa-list"></span> ' +
+            $.i18n.prop('charts.js.viewRecordsFor', rankLabel, chartOptions.name)
+        );
+    } else {
         $recordsLink.html('<span class="fa fa-list"></span> ' + jQuery.i18n.prop('charts.js.viewallrecords'));
     }
 

@@ -428,8 +428,8 @@
                                         <cl:recordsMapDirect uid="${instance.uid}" />
                                     </g:if>
 
-                                    <div id="tree" class="well"></div>
-                                    <div id="charts"></div>
+                                    <div id="tree" class="vertical-block"></div>
+                                    <div id="charts" class="vertical-block"></div>
                                 </div>
                             </div>
                         </div>

@@ -448,16 +448,16 @@
                                                     </span>
                                                 </p>
 
-                                                    <g:if test="${biocacheRecordsAvailable}">
-                                                        <cl:warnIfInexactMapping collection="${instance}" />
+                                                <g:if test="${biocacheRecordsAvailable}">
+                                                    <cl:warnIfInexactMapping collection="${instance}" />
 
-                                                        <div>
-                                                            <cl:recordsLink entity="${instance}">
-                                                                <span class="fa fa-list"></span>
-                                                                <g:message code="public.show.rt.recordsLink" args="[instance.name]" />
-                                                            </cl:recordsLink>
-                                                        </div>
-                                                    </g:if>
+                                                    <div>
+                                                        <cl:recordsLink entity="${instance}">
+                                                            <span class="fa fa-list"></span>
+                                                            <g:message code="public.show.rt.recordsLink" args="[instance.name]" />
+                                                        </cl:recordsLink>
+                                                    </div>
+                                                </g:if>
                                             </div>
 
                                             <g:if test="${instance.numRecordsDigitised != -1}">
@@ -488,7 +488,7 @@
                                             </g:if>
                                         --%>
 
-                                        <div id="charts"></div>
+                                        <div id="charts" class="vertical-block"></div>
                                     </g:if>
                                     <g:else>
                                         <p>
