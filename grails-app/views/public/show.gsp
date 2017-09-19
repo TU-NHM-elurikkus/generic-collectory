@@ -604,7 +604,7 @@
                                 $('#dataAccessWrapper').css({display:'block'});
                                 $('#totalRecordCountLink').html(
                                     '<span class="fa fa-list"></span> ' +
-                                    data.totalRecords.toLocaleString(COLLECTORY_CONF.locale) +
+                                    data.totalRecords.toLocaleString(GLOBAL_LOCALE_CONF.locale) +
                                     ' ${g.message(code: "public.show.rt.des03")}'
                                 );
                             }
@@ -729,7 +729,7 @@
                 switch (totalBiocacheRecords) {
                     case 0: recordsClause = jQuery.i18n.prop('public.show.portalRecordsBit.noRecords'); break;
                     case 1: recordsClause = jQuery.i18n.prop('public.show.portalRecordsBit.oneRecord'); break;
-                    default: recordsClause = jQuery.i18n.prop('public.show.portalRecordsBit.records', totalBiocacheRecords.toLocaleString(COLLECTORY_CONF.locale));
+                    default: recordsClause = jQuery.i18n.prop('public.show.portalRecordsBit.records', totalBiocacheRecords.toLocaleString(GLOBAL_LOCALE_CONF.locale));
                 }
 
                 $('#numBiocacheRecords').html(recordsClause);

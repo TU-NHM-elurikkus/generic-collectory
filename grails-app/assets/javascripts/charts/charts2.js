@@ -1,28 +1,4 @@
-/*
- * Copyright (C) 2011 Atlas of Living Australia
- * All Rights Reserved.
- *
- * The contents of this file are subject to the Mozilla Public
- * License Version 1.1 (the "License"); you may not use this file
- * except in compliance with the License. You may obtain a copy of
- * the License at http://www.mozilla.org/MPL/
- *
- * Software distributed under the License is distributed on an "AS
- * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
- * implied. See the License for the specific language governing
- * rights and limitations under the License.
- */
-/**
- * Load Spring i18n messages into JS
- */
-$.i18n.properties({
-    name: 'messages',
-    path: COLLECTORY_CONF.contextPath + '/messages/i18n/',
-    mode: 'map',
-    language: COLLECTORY_CONF.locale // default is to use browser specified locale
-    //callback: function(){} //alert( "facet.conservationStatus = " + $.i18n.prop('facet.conservationStatus')); }
-});
-/*------------------------------------------------------------------------------------------*
+/* ------------------------------------------------------------------------------------------*
  *---------------- FACET BREAKDOWN CHARTS USING THE MODULE PATTERN -------------------------*
  *------------------------------------------------------------------------------------------*/
 // define a base object with the major defaults that we can inherit from (prototypically)
@@ -595,7 +571,7 @@ var facetChartGroup = {
 
         // update total if requested
         if (options.totalRecordsSelector) {
-            $(options.totalRecordsSelector).html(data.totalRecords.toLocaleString(COLLECTORY_CONF.locale));
+            $(options.totalRecordsSelector).html(data.totalRecords.toLocaleString(GLOBAL_LOCALE_CONF.locale));
         }
 
         // transform facet results list into map keyed on field name (the facet name in the data)
@@ -749,7 +725,7 @@ function drawFacetCharts(data, chartOptions) {
 
     // update total if requested
     if (chartOptions.totalRecordsSelector) {
-        $(chartOptions.totalRecordsSelector).html(data.totalRecords.toLocaleString(COLLECTORY_CONF.locale));
+        $(chartOptions.totalRecordsSelector).html(data.totalRecords.toLocaleString(GLOBAL_LOCALE_CONF.locale));
     }
 
     // transform facet results into map

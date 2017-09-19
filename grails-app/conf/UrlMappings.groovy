@@ -7,6 +7,8 @@ class UrlMappings {
             }
         }
 
+        "/download/$root/$path**" (controller: "file")
+
         "/data/$directory/$file" {
             controller = 'data'
             action = 'serveFile'

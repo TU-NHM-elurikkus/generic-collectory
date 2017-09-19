@@ -7,7 +7,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <g:render template="/manifest" plugin="elurikkus-commons" />
-        <g:render template="/layouts/global" plugin="erkcollectory" />
 
         <title>
             <g:layoutTitle />
