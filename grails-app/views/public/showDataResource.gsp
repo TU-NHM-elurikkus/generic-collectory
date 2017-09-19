@@ -416,9 +416,7 @@
                                 </cl:recordsLink>
 
                                 <cl:downloadPublicArchive uid="${instance.uid}" available="${instance.publicArchiveAvailable}" />
-                            </div>
 
-                            <div class="card-body">
                                 <div id="recordsBreakdown" class="section vertical-charts">
                                     <g:if test="${!grailsApplication.config.disableOverviewMap}">
                                         <h3>
@@ -428,8 +426,8 @@
                                         <cl:recordsMapDirect uid="${instance.uid}" />
                                     </g:if>
 
-                                    <div id="tree" class="well"></div>
-                                    <div id="charts"></div>
+                                    <div id="tree" class="vertical-block"></div>
+                                    <div id="charts" class="vertical-block"></div>
                                 </div>
                             </div>
                         </div>

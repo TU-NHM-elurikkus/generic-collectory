@@ -304,7 +304,7 @@
                                 </cl:recordsLink>
                             </div>
 
-                            <div id="recordsBreakdown" class="section vertical-charts">
+                            <div id="recordsBreakdown" class="section vertical-block">
                                 <div id="charts"></div>
                             </div>
 
