@@ -1,19 +1,9 @@
 //= require jquery
+//= require jquery-migration-plugins
 //= require common
 //= require jquery-ui
-//= require jquery-migration-plugins
 
-/************************************************************\
- * i18n
- \************************************************************/
-jQuery.i18n.properties({
-    name: 'messages',
-    path: COLLECTORY_CONF.contextPath + '/messages/i18n/',
-    mode: 'map',
-    language: COLLECTORY_CONF.locale // default is to use browser specified locale
-});
-
-/************************************************************\
+/** **********************************************************\
 * Build phrase with num records and set to elements with id = numBiocacheRecords
 \************************************************************/
 function setNumbers(totalBiocacheRecords) {
@@ -22,7 +12,7 @@ function setNumbers(totalBiocacheRecords) {
     switch (totalBiocacheRecords) {
         case 0: recordsClause = jQuery.i18n.prop('public.show.portalRecordsBit.noRecords'); break;
         case 1: recordsClause = jQuery.i18n.prop('public.show.portalRecordsBit.oneRecord'); break;
-        default: recordsClause = jQuery.i18n.prop('public.show.portalRecordsBit.records', totalBiocacheRecords.toLocaleString(COLLECTORY_CONF.locale));
+        default: recordsClause = jQuery.i18n.prop('public.show.portalRecordsBit.records', totalBiocacheRecords.toLocaleString(GLOBAL_LOCALE_CONF.locale));
     }
 
     $('#numBiocacheRecords').html(recordsClause);
@@ -194,8 +184,8 @@ function loadDownloadStats(loggerServicesUrl, uid, name, eventType) {
                             '<span class="float-right">' +
                                 $.i18n.prop(
                                     'collectory.js.recordsDownloaded',
-                                    nonTestingRecords.toLocaleString(COLLECTORY_CONF.locale),
-                                    nonTestingEvents.toLocaleString(COLLECTORY_CONF.locale)
+                                    nonTestingRecords.toLocaleString(GLOBAL_LOCALE_CONF.locale),
+                                    nonTestingEvents.toLocaleString(GLOBAL_LOCALE_CONF.locale)
                                 ) +
                             '</span>' +
                         '</h4>' +
@@ -218,9 +208,9 @@ function loadDownloadStats(loggerServicesUrl, uid, name, eventType) {
 
                     usageTableRow +=
                         '</td><td style="text-align: right;">' +
-                        jQuery.i18n.prop('collectory.js.stats.events', details.value.events.toLocaleString(COLLECTORY_CONF.locale)) +
+                        jQuery.i18n.prop('collectory.js.stats.events', details.value.events.toLocaleString(GLOBAL_LOCALE_CONF.locale)) +
                         '</td><td style="text-align: right">' +
-                        jQuery.i18n.prop('collectory.js.stats.records', details.value.records.toLocaleString(COLLECTORY_CONF.locale)) +
+                        jQuery.i18n.prop('collectory.js.stats.records', details.value.records.toLocaleString(GLOBAL_LOCALE_CONF.locale)) +
                         '</td></tr>';
 
                     $usageTable.append($(usageTableRow));

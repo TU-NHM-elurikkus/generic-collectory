@@ -1,7 +1,6 @@
 //= require leaflet/leaflet-1.2.0
 //= require leaflet-marker-cluster/leaflet.markercluster
 
-var COLLECTORY_CONF;  // Populated by _global.gsp layout inline script
 var altMap; // Populated by some of the templates
 var collectionsMap;
 var baseUrl; // The server base url
@@ -75,16 +74,6 @@ function clusterPopup(children) {
 
     return popupContent;
 }
-
-/**
- * i18n
-*/
-$.i18n.properties({
-    name: 'messages',
-    path: COLLECTORY_CONF.contextPath + '/messages/i18n/',
-    mode: 'map',
-    language: COLLECTORY_CONF.locale // default is to use browser specified locale
-});
 
 if(altMap === undefined) {
     altMap = false;

@@ -1,23 +1,12 @@
-/*------------------------- RECORD BREAKDOWN CHARTS ------------------------------*/
+/* ------------------------- RECORD BREAKDOWN CHARTS ------------------------------*/
 
-///***** external services & links *****/
-//// an instance of the collections app - used for name lookup services
-//var collectionsUrl = "http://collections.ala.org.au";  // should be overridden from config by the calling page
-//// an instance of the biocache web services app - used for facet and taxonomic breakdowns
-//var biocacheServicesUrl = "http://biocache.ala.org.au/ws";  // should be overridden from config by the calling page
-//// an instance of a web app - used to display search results
-//var biocacheWebappUrl = "http://biocache.ala.org.au";  // should be overridden from config by the calling page
-
-/**
- * Load Spring i18n messages into JS
- */
-jQuery.i18n.properties({
-    name: 'messages',
-    path: COLLECTORY_CONF.contextPath + '/messages/i18n/',
-    mode: 'map',
-    language: COLLECTORY_CONF.locale // default is to use browser specified locale
-    //callback: function(){} //alert( "facet.conservationStatus = " + jQuery.i18n.prop('facet.conservationStatus')); }
-});
+// /***** external services & links *****/
+// // an instance of the collections app - used for name lookup services
+// var collectionsUrl = "http://collections.ala.org.au";  // should be overridden from config by the calling page
+// // an instance of the biocache web services app - used for facet and taxonomic breakdowns
+// var biocacheServicesUrl = "http://biocache.ala.org.au/ws";  // should be overridden from config by the calling page
+// // an instance of a web app - used to display search results
+// var biocacheWebappUrl = "http://biocache.ala.org.au";  // should be overridden from config by the calling page
 
 // defaults for taxa chart
 var taxonomyPieChartOptions = {
@@ -142,7 +131,7 @@ function drawFacetCharts(data, chartOptions) {
 
     // update total if requested
     if (chartOptions.totalRecordsSelector) {
-      $(chartOptions.totalRecordsSelector).html(data.totalRecords.toLocaleString(COLLECTORY_CONF.locale));
+      $(chartOptions.totalRecordsSelector).html(data.totalRecords.toLocaleString(GLOBAL_LOCALE_CONF.locale));
     }
 
     // transform facet results into map

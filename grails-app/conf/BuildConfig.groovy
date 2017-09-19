@@ -52,5 +52,7 @@ grails.project.dependency.resolution = {
         compile ":cache-headers:1.1.6"
         compile ":rest:0.8"
         compile ":cors:1.1.8"
+
+        runtime ":file-server:0.2.1"
     }
 }

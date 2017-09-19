@@ -397,7 +397,7 @@
                             $('#dataAccessWrapper').css({display:'block'});
                             $('#totalRecordCountLink').html(
                                 '<span class="fa fa-list"></span> ' +
-                                data.totalRecords.toLocaleString(COLLECTORY_CONF.locale) +
+                                data.totalRecords.toLocaleString(GLOBAL_LOCALE_CONF.locale) +
                                 ' ${g.message(code: "public.show.rt.des03")}'
                             );
                         }

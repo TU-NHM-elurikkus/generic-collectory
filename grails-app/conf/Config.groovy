@@ -181,6 +181,11 @@ grails.scaffolding.templates.domainSuffix = 'Instance'
 
 grails.plugins.cookie.cookieage.default = 86400 // if not specified default in code is 30 days
 
+// Serve i18n messages files over http. Needed for i18n support in .js files
+grails.plugins.fileserver.paths = [
+    "messages": "grails-app/i18n/"
+]
+
 // Set to false to use the new Grails 1.2 JSONBuilder in the render method
 grails.json.legacy.builder=false
 // enabled native2ascii conversion of i18n properties files
