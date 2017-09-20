@@ -1,2 +1,2 @@
 //= require charts/charts
-//= require charts/charts2
+//= require charts/taxon-tree
