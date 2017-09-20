@@ -8,15 +8,24 @@
 // // an instance of a web app - used to display search results
 // var biocacheWebappUrl = "http://biocache.ala.org.au";  // should be overridden from config by the calling page
 
+// This is needed because charts.js runs before GLOBAL_LOCALE_CONF in populated from commons
+// TODO - Find a fix.. someday
+$.i18n.properties({
+    name: 'messages',
+    path: COLLECTORY_CONF.contextPath + '/messages/i18n/',
+    mode: 'map',
+    language: COLLECTORY_CONF.locale // default is to use browser specified locale
+});
+
 // defaults for taxa chart
 var taxonomyPieChartOptions = {
     width: 600,
     height: 400,
-    chartArea: {left:0, top:30, width:"100%", height: "100%"},
+    chartArea: { left: 0, top: 30, width: '100%', height: '100%' },
     is3D: false,
-    titleTextStyle: {color: "#555", fontName: 'Arial', fontSize: 12},
+    titleTextStyle: { color: '#555', fontName: 'Arial', fontSize: 12 },
     sliceVisibilityThreshold: 0,
-    legend: {position: 'right', textStyle: {fontSize: 12}},
+    legend: { position: 'right', textStyle: { fontSize: 12 } },
     backgroundColor: 'transparent'
 };
 
@@ -24,44 +33,33 @@ var taxonomyPieChartOptions = {
 var genericChartOptions = {
     width: 600,
     height: 400,
-    chartArea: {left:0, top:30, width:"100%", height: "100%"},
+    chartArea: { left: 0, top: 30, width: '100%', height: '100%' },
     is3D: false,
-    titleTextStyle: {color: "#555", fontName: 'Arial', fontSize: 12},
+    titleTextStyle: { color: '#555', fontName: 'Arial', fontSize: 12 },
     sliceVisibilityThreshold: 0,
-    legend: {position: 'right', textStyle: {fontSize: 12}},
-    chartType: "pie",
+    legend: { position: 'right', textStyle: { fontSize: 12 } },
+    chartType: 'pie',
     backgroundColor: 'transparent'
 };
 
-// defaults for individual facet charts
-/*
 var individualChartOptions = {
-    state_conservation: {chartType: 'column', width: 700, chartArea: {left:60, height: "58%"},
-        title: jQuery.i18n.prop('charts.js.stateconservation'), hAxis: {slantedText: true}},
-    occurrence_year: {chartType: 'column', width: 700, chartArea: {left:60, height: "65%"},
-        hAxis: {slantedText: true}},
-    species_group: {title: jQuery.i18n.prop('charts.js.higherlevelgroup'), ignore: ['Animals'], chartType: 'column',
-        width: 700, chartArea: {left:60, height:"58%"}, vAxis: {minValue: 0},
-        colors: ['#108628']},
-    state: {ignore: ['Unknown1']},
-    type_status: {title: jQuery.i18n.prop('charts.js.typestatus'), ignore: ['notatype']},
-    assertions: {chartType: 'bar', width: 900, height:700, chartArea: {left:350, height:"80%", width:"100%"}}
+    state_conservation: {
+        chartType: 'column',
+        width: 450,
+        chartArea: { left: 60, height: '58%' },
+        title: $.i18n.prop('charts2.js.stateconservationstatus'),
+        hAxis: { slantedText: true }
+    },
+    occurrence_year: { chartType: 'column', width: 450, chartArea: { left: 60, height: '65%' }, hAxis: { slantedText: true } },
+    species_group: {
+        title: $.i18n.prop('charts2.js.higherlevelgroup'), ignore: ['Animals'], chartType: 'column',
+        width: 450, chartArea: { left: 60, height: '58%' }, vAxis: { minValue: 0 },
+        colors: ['#108628']
+    },
+    state: { ignore: ['Unknown1'] },
+    type_status: { title: $.i18n.prop('charts2.js.typestatus'), ignore: ['notatype'] },
+    assertions: { title: $.i18n.prop('charts2.js.dataassertion'), chartType: 'bar', chartArea: { left: 170 } }
 };
-*/
-///*
-var individualChartOptions = {
-    state_conservation: {chartType: 'column', width: 450, chartArea: {left:60, height: "58%"},
-    title: jQuery.i18n.prop('charts2.js.stateconservationstatus'), hAxis: {slantedText: true}},
-    occurrence_year: {chartType: 'column', width: 450, chartArea: {left:60, height: "65%"},
-        hAxis: {slantedText: true}},
-    species_group: {title: jQuery.i18n.prop('charts2.js.higherlevelgroup'), ignore: ['Animals'], chartType: 'column',
-        width: 450, chartArea: {left:60, height:"58%"}, vAxis: {minValue: 0},
-        colors: ['#108628']},
-    state: {ignore: ['Unknown1']},
-    type_status: {title: jQuery.i18n.prop('charts2.js.typestatus'), ignore: ['notatype']},
-    assertions: {title: jQuery.i18n.prop('charts2.js.dataassertion'), chartType: 'bar', chartArea: {left:170}}
-};
-//*/
 
 /*----------------- FACET-BASED CHARTS USING DIRECT CALLS TO BIO-CACHE SERVICES ---------------------*/
 // these override the facet names in chart titles

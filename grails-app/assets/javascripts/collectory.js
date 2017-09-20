@@ -1,6 +1,5 @@
-//= require jquery
-//= require jquery-migration-plugins
 //= require common
+//= require jquery-migration-plugins
 //= require jquery-ui
 
 /** **********************************************************\
