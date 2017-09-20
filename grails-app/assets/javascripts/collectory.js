@@ -2,6 +2,11 @@
 //= require jquery-migration-plugins
 //= require jquery-ui
 
+/* capitalises the first letter of the passed string */
+function capitalise(item) {
+    return item.replace(/^./, function(str){ return str.toUpperCase(); })
+}
+
 /** **********************************************************\
 * Build phrase with num records and set to elements with id = numBiocacheRecords
 \************************************************************/

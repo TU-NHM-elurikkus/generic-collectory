@@ -599,8 +599,7 @@
                                 setNumbers(data.totalRecords);
                                 facetChartOptions.response = data;
                                 // draw the charts
-                                drawFacetCharts(data, facetChartOptions);
-                                drawFacetCharts(data, facetChartOptions);
+                                // drawFacetCharts(data, facetChartOptions);
 
                                 if(data.totalRecords > 0) {
                                     $('#dataAccessWrapper').css({display:'block'});

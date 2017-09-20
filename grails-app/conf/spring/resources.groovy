@@ -1,5 +1,5 @@
 import org.codehaus.groovy.grails.context.support.PluginAwareResourceBundleMessageSource
-import au.org.ala.collectory.ExtendedPluginAwareResourceBundleMessageSource
+import elurikkus.commons.ExtendedPluginAwareResourceBundleMessageSource
 import grails.util.Environment
 
 doWithSpring = {
