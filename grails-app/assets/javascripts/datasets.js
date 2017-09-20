@@ -1,3 +1,12 @@
+// This is needed because datasets.js runs before GLOBAL_LOCALE_CONF in populated from commons
+// TODO - Find a fix.. someday
+$.i18n.properties({
+    name: 'messages',
+    path: COLLECTORY_CONF.contextPath + '/messages/i18n/',
+    mode: 'map',
+    language: COLLECTORY_CONF.locale // default is to use browser specified locale
+});
+
 /* holds full list of resources */
 var allResources;
 

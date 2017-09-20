@@ -6,7 +6,6 @@ jQuery.i18n.properties({
     path: COLLECTORY_CONF.contextPath + '/messages/i18n/',
     mode: 'map',
     language: COLLECTORY_CONF.locale // default is to use browser specified locale
-    //callback: function(){} //alert( "facet.conservationStatus = " + jQuery.i18n.prop('facet.conservationStatus')); }
 });
 
 // defaults for taxa chart
@@ -44,257 +43,22 @@ var genericChartOptions = {
     }
 };
 
-// defaults for individual facet charts
-var individualChartOptions = {
-    state_conservation: {chartType: 'column', width: 450, chartArea: {left:60, height: "58%"},
-    title: jQuery.i18n.prop('charts2.js.stateconservationstatus'), hAxis: {slantedText: true}},
-    occurrence_year: {chartType: 'column', width: 450, chartArea: {left:60, height: "65%"},
-        hAxis: {slantedText: true}},
-    species_group: {title: jQuery.i18n.prop('charts2.js.higherlevelgroup'), ignore: ['Animals'], chartType: 'column',
-        width: 450, chartArea: {left:60, height:"58%"}, vAxis: {minValue: 0},
-        colors: ['#108628']},
-    state: {ignore: ['Unknown1']},
-    type_status: {title: jQuery.i18n.prop('charts2.js.typestatus'), ignore: ['notatype']},
-    assertions: {title: jQuery.i18n.prop('charts2.js.dataassertion'), chartType: 'bar', chartArea: {left:170}}
-};
-
 /*----------------- FACET-BASED CHARTS USING DIRECT CALLS TO BIO-CACHE SERVICES ---------------------*/
 // these override the facet names in chart titles
 var chartLabels = {
-    institution_uid: jQuery.i18n.prop('charts2.js.institution'),
-    data_resource_uid: jQuery.i18n.prop('charts2.js.dataset'),
-    assertions: jQuery.i18n.prop('charts2.js.dataassertion'),
-    biogeographic_region: jQuery.i18n.prop('charts2.js.biogeographicregion'),
-    occurrence_year: jQuery.i18n.prop('charts2.js.decade')
-};
-// asynchronous transforms are applied after the chart is drawn, ie the chart is drawn with the original values
-// then redrawn when the ajax call for transform data returns
-var asyncTransforms = {
-    collection_uid: {method: 'lookupEntityName', param: 'collection'},
-    institution_uid: {method: 'lookupEntityName', param: 'institution'},
-    data_resource_uid: {method: 'lookupEntityName', param: 'dataResource'}
-};
-// synchronous transforms are applied to the json data before the data table is built
-var syncTransforms = {
-    occurrence_year: {method: 'transformDecadeData'}/*,
-    assertions: {method: 'expandCamelCase'}*/
+    institution_uid: jQuery.i18n.prop('charts.labels.institution'),
+    data_resource_uid: jQuery.i18n.prop('charts.labels.dataset'),
+    assertions: jQuery.i18n.prop('charts.labels.dataassertion'),
+    biogeographic_region: jQuery.i18n.prop('charts.labels.biogeographicregion'),
+    occurrence_year: jQuery.i18n.prop('charts.labels.decade')
 };
 
-/********************************************************************************\
-* Ajax request for charts based on the facets available in the biocache breakdown.
-\********************************************************************************/
-function loadFacetCharts(chartOptions) {
-    if(chartOptions.collectionsUrl !== undefined) { collectionsUrl = chartOptions.collectionsUrl; }
-    if(chartOptions.biocacheServicesUrl !== undefined) { biocacheServicesUrl = chartOptions.biocacheServicesUrl; }
-    if(chartOptions.biocacheWebappUrl !== undefined) { biocacheWebappUrl = chartOptions.biocacheWebappUrl; }
-
-    var chartsDiv = $('#' + (chartOptions.targetDivId ? chartOptions.targetDivId : 'charts'));
-    chartsDiv.append($("<span>" + jQuery.i18n.prop('charts.js.loading') + "</span>"));
-    var query = chartOptions.query ? chartOptions.query : buildQueryString(chartOptions.instanceUid);
-    $.ajax({
-        url: urlConcat(biocacheServicesUrl, "/occurrences/search.json?flimit=-1pageSize=0&q=") + query,
-        dataType: 'jsonp',
-        error: function() {
-            cleanUp();
-        },
-        success: function(data) {
-
-            // clear loading message
-            chartsDiv.find('span').remove();
-
-            // draw all charts
-            drawFacetCharts(data, chartOptions);
-
-        }
-    });
-}
 function cleanUp(chartOptions) {
     $('img.loading').remove();
     if(chartOptions !== undefined && chartOptions.error) {
         window[chartOptions.error]();
     }
 }
-/*********************************************************************\
-* Loads charts based on the facets declared in the config object.
-* - does not require any markup other than div#charts element
-\*********************************************************************/
-function drawFacetCharts(data, chartOptions) {
-    // check that we have results
-    if(data.length === 0 || data.totalRecords === undefined || data.totalRecords === 0) {
-        return;
-    }
-
-    // update total if requested
-    if(chartOptions.totalRecordsSelector) {
-        $(chartOptions.totalRecordsSelector).html(data.totalRecords.toLocaleString(COLLECTORY_CONF.locale));
-    }
-
-    // transform facet results into map
-    var facetMap = {};
-    $.each(data.facetResults, function(idx, obj) {
-        facetMap[obj.fieldName] = obj.fieldResult;
-    });
-
-    // draw the charts
-    var chartsDiv = $('#' + (chartOptions.targetDivId ? chartOptions.targetDivId : 'charts'));
-    var query = chartOptions.query ? chartOptions.query : buildQueryString(chartOptions.instanceUid);
-    $.each(chartOptions.charts, function(index, name) {
-        if(facetMap[name] !== undefined) {
-            buildGenericFacetChart(name, facetMap[name], query, chartsDiv, chartOptions);
-        }
-    });
-}
-/************************************************************\
-* Create and show a generic facet chart
-\************************************************************/
-function buildGenericFacetChart(name, data, query, chartsDiv, chartOptions) {
-    // resolve chart label
-    var chartLabel = chartLabels[name] ? chartLabels[name] : name;
-
-    // resolve the chart options
-    var opts = $.extend({}, genericChartOptions);
-
-    if (chartLabel == "state") {
-        opts.title = jQuery.i18n.prop('charts.js.byregion');
-    }else{
-        if (chartLabel == "country"){
-            opts.title = jQuery.i18n.prop('charts.js.bycountry');
-        }else{
-            opts.title = jQuery.i18n.prop('charts.js.by') + " " + chartLabel;  // default title
-        }
-    }
-    var individualOptions = individualChartOptions[name] ? individualChartOptions[name] : {};
-    // merge generic, individual and user options
-    opts = $.extend(true, {}, opts, individualOptions, chartOptions[name]);
-
-    // optionally transform the data
-    var xformedData = data;
-    if(syncTransforms[name]) {
-        xformedData = window[syncTransforms[name].method](data);
-    }
-
-    // create the data table
-    var dataTable = new google.visualization.DataTable();
-    dataTable.addColumn('string', chartLabel);
-    dataTable.addColumn('number', 'records');
-    $.each(xformedData, function(i, obj) {
-        // filter any crap
-        if(opts === undefined || opts.ignore === undefined || $.inArray(obj.label, opts.ignore) === -1) {
-            if(detectCamelCase(obj.label)) {
-                dataTable.addRow([{ v: obj.label, f: capitalise(expandCamelCase(obj.label)) }, obj.count]);
-            } else {
-                dataTable.addRow([obj.label, obj.count]);
-            }
-        }
-    });
-
-    // reject the chart if there is only one facet value (after filtering)
-    if(dataTable.getNumberOfRows() < 2) {
-        return;
-    }
-
-    // create the container
-    var $container = $('#' + name);
-    if($container.length === 0) {
-        $container = $('<div id=\'' + name + '\'></div>');
-        chartsDiv.append($container);
-    }
-
-    // specify the type (for css tweaking)
-    $container.addClass('chart-' + opts.chartType);
-
-    // create the chart
-    var chart;
-    switch(opts.chartType) {
-        case 'column': chart = new google.visualization.ColumnChart(document.getElementById(name)); break;
-        case 'bar': chart = new google.visualization.BarChart(document.getElementById(name)); break;
-        default: chart = new google.visualization.PieChart(document.getElementById(name)); break;
-    }
-
-    chart.draw(dataTable, opts);
-
-    // kick off post-draw asynch actions
-    if(asyncTransforms[name]) {
-        window[asyncTransforms[name].method](chart, dataTable, opts, asyncTransforms[name].param);
-    }
-
-    // setup a click handler - if requested
-    if(chartOptions.clickThru !== false) {  // defaults to true
-        google.visualization.events.addListener(chart, 'select', function() {
-
-            // default facet value is the name selected
-            var id = dataTable.getValue(chart.getSelection()[0].row,0);
-
-            // build the facet query
-            var facetQuery = name + ':' + id;
-
-            // the facet query can be overridden for date ranges
-            if(name === 'occurrence_year') {
-                if(id.match('^before') === 'before') { // startWith
-                    facetQuery = 'occurrence_year:[*%20TO%201850-01-01T12:00:00Z]';
-                } else {
-                    var decade = id.substr(0, 4);
-                    var dateTo = parseInt(decade) + 10;
-                    facetQuery = 'occurrence_year:[' + decade + '-01-01T00:00:00Z%20TO%20' + dateTo + '-01-01T00:00:00Z]';
-                }
-            }
-
-            // show the records
-            document.location = urlConcat(biocacheWebappUrl, '/occurrences/search?q=') + query +
-                '&fq=' + facetQuery;
-        });
-    }
-}
-
-/*---------------------- DATA TRANSFORMATION METHODS ----------------------*/
-function transformDecadeData(data) {
-    var firstDecade;
-    var transformedData = [];
-    $.each(data, function(i,obj) {
-        if (obj.label == 'before') {
-            transformedData.splice(0,0,{label: jQuery.i18n.prop('charts.js.before') + firstDecade, count: obj.count});
-        }
-        else {
-            var decade = obj.label.substr(0,4);
-            if (i == 0) { firstDecade = decade; }
-            transformedData.push({label: decade + "s", count: obj.count});
-        }
-    });
-    return transformedData;
-}
-/*--------------------- LABEL TRANSFORMATION METHODS ----------------------*/
-function detectCamelCase(name) {
-    return /[a-z][A-Z]/.test(name);
-}
-function expandCamelCase(name) {
-    return name.replace(/([a-z])([A-Z])/g, function(s, str1, str2){return str1 + " " + str2.toLowerCase();});
-}
-/* capitalises the first letter of the passed string */
-function capitalise(item) {
-    return item.replace(/^./, function(str){ return str.toUpperCase(); })
-}
-function lookupEntityName(chart, table, opts, entity) {
-    var uidList = [];
-    for (var i = 0; j = table.getNumberOfRows(), i < j; i++) {
-        uidList.push(table.getValue(i,0));
-    }
-    $.jsonp({
-      url: collectionsUrl + "/ws/resolveNames/" + uidList.join(',') + "?callback=?",
-      cache: true,
-      success: function(data) {
-          for (var i = 0;j + table.getNumberOfRows(), i < j; i++) {
-              var uid = table.getValue(i,0);
-              table.setCell(i, 0, uid, data[uid]);
-          }
-          chart.draw(table, opts);
-      },
-      error: function(d,msg) {
-          alert(msg);
-      }
-    });
-}
-/*----------- TAXONOMY BREAKDOWN CHARTS USING DIRECT CALLS TO BIO-CACHE SERVICES ------------*/
-// works for uid-based queries or q/fq general queries
 
 /********************************************************************************\
 * Ajax request for initial taxonomic breakdown.
@@ -357,6 +121,7 @@ function drawTaxonomyChart(data, chartOptions, query) {
     // resolve the chart options
     var rango = '';
     var opts = $.extend(genericChartOptions, taxonomyPieChartOptions);
+
     opts = $.extend(true, opts, chartOptions);
 
     switch(data.rank) {

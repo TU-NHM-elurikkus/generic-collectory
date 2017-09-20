@@ -599,14 +599,13 @@
                                 setNumbers(data.totalRecords);
                                 facetChartOptions.response = data;
                                 // draw the charts
-                                drawFacetCharts(data, facetChartOptions);
-                                drawFacetCharts(data, facetChartOptions);
+                                // drawFacetCharts(data, facetChartOptions);
 
                                 if(data.totalRecords > 0) {
                                     $('#dataAccessWrapper').css({display:'block'});
                                     $('#totalRecordCountLink').html(
                                         '<span class="fa fa-list"></span> ' +
-                                        data.totalRecords.toLocaleString(COLLECTORY_CONF.locale) +
+                                        data.totalRecords.toLocaleString(GLOBAL_LOCALE_CONF.locale) +
                                         ' ${g.message(code: "public.show.rt.des03")}'
                                     );
                                 }

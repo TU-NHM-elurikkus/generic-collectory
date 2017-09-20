@@ -7,7 +7,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <g:render template="/manifest" plugin="elurikkus-commons" />
-        <g:render template="/layouts/global" plugin="erkcollectory" />
+
+        <%-- This is needed because charts.js runs before GLOBAL_LOCALE_CONF in populated from commons --%>
+        <script type="text/javascript">
+            var COLLECTORY_CONF = { contextPath: "${request.contextPath}", locale: "${(org.springframework.web.servlet.support.RequestContextUtils.getLocale(request).toString())?:request.locale}" }
+        </script>
 
         <title>
             <g:layoutTitle />
