@@ -475,28 +475,6 @@
             };
 
             // configure the charts
-            var facetChartOptions = {
-                /* base url of the collectory */
-                collectionsUrl: CHARTS_CONFIG.collectionsUrl,
-                /* base url of the biocache ws*/
-                biocacheServicesUrl: CHARTS_CONFIG.biocacheServicesUrl,
-                /* base url of the biocache webapp*/
-                biocacheWebappUrl: CHARTS_CONFIG.biocacheWebappUrl,
-                /* a uid or list of uids to chart - either this or query must be present */
-                instanceUid: "${instance.uid}",
-                /* the list of charts to be drawn (these are specified in the one call because a single request can get the data for all of them) */
-                charts: [
-                    'country',
-                    'state',
-                    'species_group',
-                    'assertions',
-                    'type_status',
-                    'biogeographic_region',
-                    'state_conservation',
-                    'occurrence_year'
-                ]
-            }
-
             var taxonomyChartOptions = {
                 /* base url of the collectory */
                 collectionsUrl: CHARTS_CONFIG.collectionsUrl,
@@ -597,9 +575,6 @@
                                 noData();
                             } else {
                                 setNumbers(data.totalRecords);
-                                facetChartOptions.response = data;
-                                // draw the charts
-                                // drawFacetCharts(data, facetChartOptions);
 
                                 if(data.totalRecords > 0) {
                                     $('#dataAccessWrapper').css({display:'block'});

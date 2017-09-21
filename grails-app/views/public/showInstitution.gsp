@@ -330,21 +330,6 @@
         </div>
 
         <script type="text/javascript">
-              // configure the charts
-              var facetChartOptions = {
-                  /* base url of the collectory */
-                  collectionsUrl: "${grailsApplication.config.grails.serverURL}",
-                  /* base url of the biocache ws*/
-                  biocacheServicesUrl: biocacheServicesUrl,
-                  /* base url of the biocache webapp*/
-                  biocacheWebappUrl: biocacheWebappUrl,
-                  /* a uid or list of uids to chart - either this or query must be present
-                    (unless the facet data is passed in directly AND clickThru is set to false) */
-                  instanceUid: "${instance.descendantUids().join(',')}",
-                  /* the list of charts to be drawn (these are specified in the one call because a single request can get the data for all of them) */
-                  charts: ['country','state','species_group','assertions','type_status',
-                      'biogeographic_region','state_conservation','occurrence_year']
-              }
               var taxonomyChartOptions = {
                   /* base url of the collectory */
                   collectionsUrl: "${grailsApplication.config.grails.serverURL}",
@@ -391,8 +376,7 @@
                         noData();
                     } else {
                         setNumbers(data.totalRecords);
-                        // draw the charts
-                        drawFacetCharts(data, facetChartOptions);
+
                         if(data.totalRecords > 0){
                             $('#dataAccessWrapper').css({display:'block'});
                             $('#totalRecordCountLink').html(
