@@ -516,23 +516,6 @@
 
         <%-- XXX XXX XXX --%>
         <script type="text/javascript">
-            // configure the charts
-            var facetChartOptions = {
-                /* base url of the collectory */
-                collectionsUrl: "${grailsApplication.config.grails.serverURL}",
-                /* base url of the biocache ws*/
-                biocacheServicesUrl: biocacheServicesUrl,
-                /* base url of the biocache webapp*/
-                biocacheWebappUrl: biocacheWebappUrl,
-                /* a uid or list of uids to chart - either this or query must be present
-                   (unless the facet data is passed in directly AND clickThru is set to false) */
-                instanceUid: "${instance.uid}",
-                /* the list of charts to be drawn (these are specified in the one call because a single request can get the data for all of them) */
-                charts: ['country','state','species_group','assertions','type_status',
-                'biogeographic_region','data_resource_uid','state_conservation','occurrence_year']
-                /* override default options for individual charts */
-            };
-
             var taxonomyChartOptions = {
                 /* base url of the collectory */
                 collectionsUrl: "${grailsApplication.config.grails.serverURL}",
@@ -600,8 +583,7 @@
                             noBiocacheData();
                         } else {
                             setPercentAgeNumbers(data.totalRecords, ${instance.numRecords});
-                            // draw the charts
-                            drawFacetCharts(data, facetChartOptions);
+
                             if(data.totalRecords > 0) {
                                 $('#dataAccessWrapper').css({display:'block'});
                                 $('#totalRecordCountLink').html(
@@ -771,7 +753,7 @@
                 if(${instance.numRecords < 1}) {
                     captionText = jQuery.i18n.prop(
                         'public.show.estimation.noEstimation',
-                        jQuery.i18n.prop('public.show.nouns.${nouns}')
+                        ${nouns}
                     );
                 } else if(percentage == 0) {
                     captionText = jQuery.i18n.prop('public.show.estimation.noRecords');
@@ -789,7 +771,7 @@
                     captionText = jQuery.i18n.prop(
                         'public.show.estimation.percentRecords',
                         displayPercent,
-                        jQuery.i18n.prop('public.show.nouns.${nouns}')
+                        '${nouns}'
                     );
                 }
 
