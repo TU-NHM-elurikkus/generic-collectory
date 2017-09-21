@@ -1,7 +1,7 @@
 /**
  * Load Spring i18n messages into JS
  */
-jQuery.i18n.properties({
+$.i18n.properties({
     name: 'messages',
     path: COLLECTORY_CONF.contextPath + '/messages/i18n/',
     mode: 'map',
@@ -43,14 +43,14 @@ var genericChartOptions = {
     }
 };
 
-/*----------------- FACET-BASED CHARTS USING DIRECT CALLS TO BIO-CACHE SERVICES ---------------------*/
+/* ----------------- FACET-BASED CHARTS USING DIRECT CALLS TO BIO-CACHE SERVICES ---------------------*/
 // these override the facet names in chart titles
 var chartLabels = {
-    institution_uid: jQuery.i18n.prop('charts.labels.institution'),
-    data_resource_uid: jQuery.i18n.prop('charts.labels.dataset'),
-    assertions: jQuery.i18n.prop('charts.labels.dataassertion'),
-    biogeographic_region: jQuery.i18n.prop('charts.labels.biogeographicregion'),
-    occurrence_year: jQuery.i18n.prop('charts.labels.decade')
+    institution_uid: $.i18n.prop('charts.labels.institution'),
+    data_resource_uid: $.i18n.prop('charts.labels.dataset'),
+    assertions: $.i18n.prop('charts.labels.dataassertion'),
+    biogeographic_region: $.i18n.prop('charts.labels.biogeographicregion'),
+    occurrence_year: $.i18n.prop('charts.labels.decade')
 };
 
 function cleanUp(chartOptions) {
@@ -60,51 +60,49 @@ function cleanUp(chartOptions) {
     }
 }
 
-/********************************************************************************\
-* Ajax request for initial taxonomic breakdown.
-\********************************************************************************/
+/**
+ * Ajax request for initial taxonomic breakdown.
+ */
 function loadTaxonomyChart(chartOptions) {
-    if (chartOptions.collectionsUrl != undefined) { collectionsUrl = chartOptions.collectionsUrl; }
-    if (chartOptions.biocacheServicesUrl != undefined) { biocacheServicesUrl = chartOptions.biocacheServicesUrl; }
-    if (chartOptions.biocacheWebappUrl != undefined) { biocacheWebappUrl = chartOptions.biocacheWebappUrl; }
+    if(chartOptions.collectionsUrl != undefined) { collectionsUrl = chartOptions.collectionsUrl; }
+    if(chartOptions.biocacheServicesUrl != undefined) { biocacheServicesUrl = chartOptions.biocacheServicesUrl; }
+    if(chartOptions.biocacheWebappUrl != undefined) { biocacheWebappUrl = chartOptions.biocacheWebappUrl; }
 
     var query = chartOptions.query ? chartOptions.query : buildQueryString(chartOptions.instanceUid);
 
-    var url = urlConcat(biocacheServicesUrl, "/breakdown.json?q=") + query;
+    var url = urlConcat(biocacheServicesUrl, '/breakdown.json?q=') + query;
 
     // add url params to set state
-    if (chartOptions.rank) {
-        url += "&rank=" + chartOptions.rank + (chartOptions.name ? "&name=" + chartOptions.name: "");
-    }
-    else {
-        url += "&max=" + (chartOptions.threshold ? chartOptions.threshold : '55');
+    if(chartOptions.rank) {
+        url += '&rank=' + chartOptions.rank + (chartOptions.name ? '&name=' + chartOptions.name : '');
+    } else {
+        url += '&max=' + (chartOptions.threshold ? chartOptions.threshold : '55');
     }
 
     $.ajax({
-      url: url,
-      dataType: 'jsonp',
-      timeout: 30000,
-      complete: function(jqXHR, textStatus) {
-          if (textStatus != 'success') {
-              cleanUp(chartOptions);
-          }
-      },
-      success: function(data) {
-          // check for errors
-          if (data == undefined || data.length == 0) {
-              cleanUp(chartOptions);
-          }
-          else {
-              // draw the chart
-              drawTaxonomyChart(data, chartOptions, query);
-          }
-      }
+        url: url,
+        dataType: 'jsonp',
+        timeout: 30000,
+        complete: function(jqXHR, textStatus) {
+            if(textStatus !== 'success') {
+                cleanUp(chartOptions);
+            }
+        },
+        success: function(data) {
+            // check for errors
+            if(data == undefined || data.length === 0) {
+                cleanUp(chartOptions);
+            } else {
+                // draw the chart
+                drawTaxonomyChart(data, chartOptions, query);
+            }
+        }
     });
 }
 
-/************************************************************\
-* Create and show the taxonomy chart.
-\************************************************************/
+/**
+ * Create and show the taxonomy chart.
+ */
 function drawTaxonomyChart(data, chartOptions, query) {
     // create the data table
     var dataTable = new google.visualization.DataTable();
@@ -126,32 +124,32 @@ function drawTaxonomyChart(data, chartOptions, query) {
 
     switch(data.rank) {
         case 'kingdom':
-            rango = jQuery.i18n.prop('charts.taxonomy.byRank.kingdom');
+            rango = $.i18n.prop('charts.taxonomy.byRank.kingdom');
             break;
         case 'phylum':
-            rango = jQuery.i18n.prop('charts.taxonomy.byRank.phylum');
+            rango = $.i18n.prop('charts.taxonomy.byRank.phylum');
             break;
         case 'order':
-            rango = jQuery.i18n.prop('charts.taxonomy.byRank.order');
+            rango = $.i18n.prop('charts.taxonomy.byRank.order');
             break;
         case 'family':
-            rango = jQuery.i18n.prop('charts.taxonomy.byRank.family');
+            rango = $.i18n.prop('charts.taxonomy.byRank.family');
             break;
         case 'genus':
-            rango = jQuery.i18n.prop('charts.taxonomy.byRank.genus')
+            rango = $.i18n.prop('charts.taxonomy.byRank.genus');
             break;
         case 'class':
-            rango = jQuery.i18n.prop('charts.taxonomy.byRank.class');
+            rango = $.i18n.prop('charts.taxonomy.byRank.class');
             break;
         case 'species':
-            rango = jQuery.i18n.prop('charts.taxonomy.byRank.species');
+            rango = $.i18n.prop('charts.taxonomy.byRank.species');
             break;
         default:
             rango = data.rank;
     }
 
     if(opts.name) {
-        opts.title = opts.name + ' ' + rango
+        opts.title = opts.name + ' ' + rango;
     } else {
         // Capitalize the first letter. Can't do it in CSS because it's buried in third party SVG.
         opts.title = rango.charAt(0).toUpperCase() + rango.slice(1);
@@ -160,7 +158,7 @@ function drawTaxonomyChart(data, chartOptions, query) {
     // create the outer div that will contain the chart and the additional links
     var $outerContainer = $('#taxa');
 
-    if($outerContainer.length == 0) {
+    if($outerContainer.length === 0) {
         $outerContainer = $('<div id="taxa"></div>'); // create it
         var chartsDiv = $('div#' + (chartOptions.targetDivId ? chartOptions.targetDivId : 'charts'));
         // append it
@@ -169,7 +167,7 @@ function drawTaxonomyChart(data, chartOptions, query) {
 
     // create the chart container if not already there
     var $container = $('#taxa-chart');
-    if($container.length == 0) {
+    if($container.length === 0) {
         $container = $('<div id="taxa-chart" class="chart-pie"></div>');
         $outerContainer.append($container);
     }
@@ -183,11 +181,11 @@ function drawTaxonomyChart(data, chartOptions, query) {
     // draw the back button / instructions
     var $backLink = $('#backLink');
 
-    if ($backLink.length == 0) {
-        $backLink = $('<div class="erk-link-button erk-button--inline" id="backLink">&laquo; ' + jQuery.i18n.prop('charts.taxonPie.previousRank') + '</div>').appendTo($outerContainer);  // create it
+    if($backLink.length === 0) {
+        $backLink = $('<div class="erk-link-button erk-button--inline" id="backLink">&laquo; ' + $.i18n.prop('charts.taxonPie.previousRank') + '</div>').appendTo($outerContainer);  // create it
         $backLink.click(function() {
             // only act if link was real
-            if (!$backLink.hasClass('erk-link-button')) return;
+            if(!$backLink.hasClass('erk-link-button')) { return; }
 
             // show spinner while loading
             $container.append($('<img class="loading" style="position:absolute;left:130px;top:220px;z-index:2000" ' +
@@ -204,37 +202,36 @@ function drawTaxonomyChart(data, chartOptions, query) {
             loadTaxonomyChart(chartOptions);
         });
     }
-    if (chartOptions.history) {
+    if(chartOptions.history) {
         // show the prev link
-        $backLink.html("&laquo; " + jQuery.i18n.prop('charts.taxonPie.previousRank')).addClass('erk-link-button');
-    }
-    else {
+        $backLink.html('&laquo; ' + $.i18n.prop('charts.taxonPie.previousRank')).addClass('erk-link-button');
+    } else {
         // show the instruction
         $backLink.html(
             '<span class="fa fa-info-circle"></span>&nbsp;' +
-            jQuery.i18n.prop('charts.taxonPie.sliceToDrill')
+            $.i18n.prop('charts.taxonPie.sliceToDrill')
         ).removeClass('erk-link-button');
     }
 
     // draw records link
     var $recordsLink = $('#recordsLink');
 
-    if ($recordsLink.length == 0) {
-        $recordsLink = $('<div class="erk-link" id="recordsLink">' + jQuery.i18n.prop('charts.taxonPie.viewRecords') + '</div>').appendTo($outerContainer);  // create it
+    if($recordsLink.length === 0) {
+        $recordsLink = $('<div class="erk-link" id="recordsLink">' + $.i18n.prop('charts.taxonPie.viewRecords') + '</div>').appendTo($outerContainer);  // create it
         $recordsLink.click(function() {
             // show occurrence records
-            var fq = "";
+            var fq = '';
 
             if(chartOptions.rank != undefined && chartOptions.name != undefined) {
-                fq = "&fq=" + chartOptions.rank + ":" + chartOptions.name;
+                fq = '&fq=' + chartOptions.rank + ':' + chartOptions.name;
             }
 
-            document.location = urlConcat(biocacheWebappUrl, "/occurrences/search?q=") + query + fq;
+            document.location = urlConcat(biocacheWebappUrl, '/occurrences/search?q=') + query + fq;
         });
     }
 
     // set link text
-    if (chartOptions.history) {
+    if(chartOptions.history) {
         var rankLabel = $.i18n.prop('taxonomy.rank.' + chartOptions.rank);
 
         $recordsLink.html(
@@ -242,19 +239,19 @@ function drawTaxonomyChart(data, chartOptions, query) {
             $.i18n.prop('charts.taxonPie.viewRecordsFor', rankLabel, chartOptions.name)
         );
     } else {
-        $recordsLink.html('<span class="fa fa-list"></span> ' + jQuery.i18n.prop('charts.taxonPie.viewAllRecords'));
+        $recordsLink.html('<span class="fa fa-list"></span> ' + $.i18n.prop('charts.taxonPie.viewAllRecords'));
     }
 
     // setup a click handler - if requested
     var clickThru = chartOptions.clickThru == undefined ? true : chartOptions.clickThru;  // default to true
     var drillDown = chartOptions.drillDown == undefined ? true : chartOptions.drillDown;  // default to true
 
-    if (clickThru || drillDown) {
+    if(clickThru || drillDown) {
         google.visualization.events.addListener(chart, 'select', function() {
             // find out what they clicked
-            var name = dataTable.getValue(chart.getSelection()[0].row,0);
+            var name = dataTable.getValue(chart.getSelection()[0].row, 0);
 
-            if (name === 'Unknown') {
+            if(name === 'Unknown') {
                 var fq = '-' + data.rank + ':*';
                 var url = urlConcat(biocacheWebappUrl, '/occurrence/search?q=') + query + '&fq=' + fq;
 
@@ -263,7 +260,7 @@ function drawTaxonomyChart(data, chartOptions, query) {
                 }
 
                 document.location = url;
-            } else if (drillDown && data.rank != "species") {
+            } else if(drillDown && data.rank !== 'species') {
                 // show spinner while loading
                 $container.append($('<img class="loading" style="position:absolute;left:130px;top:220px;z-index:2000" ' +
                         'alt="loading..." src="' + collectionsUrl + '/assets/ala/ajax-loader.gif"/>'));
@@ -279,42 +276,44 @@ function drawTaxonomyChart(data, chartOptions, query) {
                 loadTaxonomyChart(chartOptions);
             } else {
                 // show occurrence records
-                document.location = urlConcat(biocacheWebappUrl, "/occurrences/search?q=") + query +
-                    "&fq=" + data.rank + ":" + name;
+                document.location = urlConcat(biocacheWebappUrl, '/occurrences/search?q=') + query +
+                    '&fq=' + data.rank + ':' + name;
             }
         });
     }
 }
-/************************************************************\
-* Add current chart state to its history.
-\************************************************************/
+
+/**
+ * Add current chart state to its history.
+ */
 function pushHistory(options) {
-    if (options.history == undefined) {
+    if(options.history == undefined) {
         options.history = [];
     }
-    options.history.push({rank:options.rank, name:options.name});
+    options.history.push({ rank: options.rank, name: options.name });
 }
-/************************************************************\
-* Pop the previous current chart state from its history.
-\************************************************************/
+
+/**
+ * Pop the previous current chart state from its history.
+ */
 function popHistory(options) {
-    if (options.history == undefined) {
+    if(options.history == undefined) {
         return {};
     }
     var state = options.history.pop();
-    if (options.history.length == 0) {
+    if(options.history.length === 0) {
         options.history = null;
     }
     return state;
 }
 
-/*------------------------- UTILITIES ------------------------------*/
-/************************************************************\
-* build records query handling multiple uids
-* uidSet can be a comma-separated string or an array
-\************************************************************/
+/** ------------------------- UTILITIES ------------------------------ */
+/**
+ * build records query handling multiple uids
+ * uidSet can be a comma-separated string or an array
+ */
 function buildQueryString(uidSet) {
-    var uids = (typeof uidSet == 'string') ? uidSet.split(',') : uidSet;
+    var uids = (typeof uidSet === 'string') ? uidSet.split(',') : uidSet;
     var str = '';
 
     $.each(uids, function(index, value) {
@@ -324,10 +323,10 @@ function buildQueryString(uidSet) {
     return str.substring(0, str.length - 4);
 }
 
-/************************************************************\
-* returns the appropriate facet name for the uid - to build
-* biocache occurrence searches
-\************************************************************/
+/**
+ * Returns the appropriate facet name for the uid - to build
+ * biocache occurrence searches
+ */
 function solrFieldNameForUid(uid) {
     switch(uid.substring(0, 2)) {
         case 'co': return 'collection_uid';
@@ -338,10 +337,11 @@ function solrFieldNameForUid(uid) {
         default: return '';
     }
 }
-/************************************************************\
-* returns the appropriate context for the uid - to build
-* biocache webservice urls
-\************************************************************/
+
+/**
+ * Returns the appropriate context for the uid - to build
+ * biocache webservice urls
+ */
 function wsEntityForBreakdown(uid) {
     switch(uid.substr(0, 2)) {
         case 'co': return 'collections';
@@ -352,9 +352,10 @@ function wsEntityForBreakdown(uid) {
         default: return '';
     }
 }
-/************************************************************\
-* Concatenate url fragments handling stray slashes
-\************************************************************/
+
+/**
+ * Concatenate url fragments handling stray slashes
+ */
 function urlConcat(base, context) {
     // remove any trailing slash from base
     base = base.replace(/\/$/, '');
