@@ -619,41 +619,48 @@
                             //noBiocacheData();
                         } else {
                             if(data.totalRecords > 0) {
-                                var description = ""
+                                var description = '';
 
-                                $('#imagesTabEl').css({display:'block'});
+                                $('#imagesTabEl').css({ display: 'block' });
+                                var typeStatusField = data.facetResults[0];
 
-                                if(data.facetResults.length>0 && data.facetResults[0].fieldResult !== undefined) {
-                                    // XXX TODO
+                                if(data.facetResults.length > 0 && typeStatusField.fieldResult && typeStatusField.fieldResult.length > 1) {
+
                                     description = jQuery.i18n.prop('public.show.imagesAvailable.ofThese') + ' ';
-                                    $.each(data.facetResults[0].fieldResult, function(idx, facet) {
-                                        if(idx>0) {
-                                            description += ', '
+
+                                    var queryLinks = typeStatusField.fieldResult.map(function(facet) {
+                                        if(facet.label) {
+                                            var queryUrl = biocacheWebappUrl + uiBase + imagesQueryUrl + '&fq=' + data.facetResults[0].fieldName + ':' + facet.label;
+                                            var queryLink =
+                                                '<a href="' + queryUrl + '">' +
+                                                    '<span class="fa fa-list"></span> ' + (facet.count + ' ' + facet.label) +
+                                                '</a>';
+                                            return queryLink;
                                         }
-
-                                        var queryUrl = biocacheWebappUrl + uiBase + imagesQueryUrl + '&fq=' + data.facetResults[0].fieldName + ':' + facet.label;
-
-                                        description += '<a href="' + queryUrl + '"><span class="fa fa-list"></span> ' + (facet.count + ' ' + facet.label) + '</a>';
-                                    })
+                                    });
+                                    queryLinks = queryLinks.filter(function(x) { return typeof x !== 'undefined'; });
+                                    description += queryLinks.join(', ');
                                 }
 
                                 // Was ist das Spiel?
                                 $('#imagesSpiel').html(
                                     '<p>' +
-                                        '<a href="'+biocacheWebappUrl + uiBase + imagesQueryUrl +'">' +
-                                            '<span class="fa fa-list"></span>&nbsp;' +
+                                        '<a href="' + biocacheWebappUrl + uiBase + imagesQueryUrl +'">' +
+                                            '<span class="fa fa-list"></span>' +
+                                            '&nbsp;' +
                                             data.totalRecords + ' ' +
-                                            jQuery.i18n.prop('public.show.imagesAvailable.images') +
+                                            $.i18n.prop('public.show.imagesAvailable.images') +
                                         '</a>' + ' ' +
-                                        jQuery.i18n.prop('public.show.imagesAvailable.available', "${instance.name}") +
+                                        $.i18n.prop('public.show.imagesAvailable.available', "${instance.name}") +
                                         '<br /> ' +
                                         description +
                                     '</p>'
                                 );
+
                                 $.each(data.occurrences, function(idx, item) {
                                     var imageText = item.scientificName;
 
-                                    if(item.typeStatus !== undefined) {
+                                    if(item.typeStatus) {
                                         imageText = item.typeStatus + " - " + imageText;
                                     }
 
