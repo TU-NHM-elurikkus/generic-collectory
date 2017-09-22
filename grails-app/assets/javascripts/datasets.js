@@ -332,6 +332,11 @@ function addFilter(facet, value, element) {
         // duplicate of existing filter so do nothing
         return;
     }
+
+    if(value === 'noValue') {
+        value = '';
+    }
+
     var filter = { name: facet, value: value, action: facets[facet].action };
     currentFilters.push(filter);
     serialiseFiltersToHash();
