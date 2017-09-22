@@ -5,7 +5,6 @@
         <title><g:message code="collection.base.label" default="Edit taxonomy hints" /></title>
 
         <asset:javascript src="jstree.js" />
-        <asset:javascript src="debug.js" />
     </head>
 
     <body>

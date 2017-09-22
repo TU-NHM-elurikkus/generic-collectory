@@ -4,9 +4,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="${grailsApplication.config.skin.layout}" />
         <title><g:message code="dataResource.base.label" default="Edit data resource metadata" /></title>
-
-        <asset:javascript src="debug.js" />
     </head>
+
     <body>
         <div class="nav">
         <h1><g:message code="collection.title.editing" />: ${command.name}</h1>
@@ -146,7 +145,6 @@
                 $('input#riskAssessment').parent().parent().css('display','none');
             }
             $('select#permissionsDocumentType').change(function(eventObject) {
-                //examine(eventObject);
                 if ($(eventObject.currentTarget).val() == "Data Provider Agreement") {
                     $('input#filed').parent().parent().css('display','table-row');
                     $('input#riskAssessment').parent().parent().css('display','table-row');
