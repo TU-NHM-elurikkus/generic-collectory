@@ -230,7 +230,6 @@ function filterList() {
             query += (i === 0) ? term : '&fq=text:' + term;
         });
         // do search
-        console.log('Doing a search with query: ' + query);
         $.ajax({ url: baseUrl + '/public/dataSetSearch?q=' + query,
             success: function(uids) {
                 applyFilters(uids);

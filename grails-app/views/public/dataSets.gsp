@@ -40,17 +40,15 @@
             <div class="col">
                 <form id="search-inpage" action="search" method="get" name="search-form">
                     <div class="input-plus">
-                        <%--
-                            TODO: Value, placeholder, autofocus, onfocus, autocomplete.
-                        --%>
                         <input
                             id="dr-search"
                             type="text"
                             name="dr-search"
                             class="input-plus__field"
+                            placeholder="${message(code: 'public.datasets.btn.search.placeholder')}"
                         />
 
-                        <button type="submit" class="erk-button erk-button--dark input-plus__addon">
+                        <button type="submit" class="erk-button erk-button--dark input-plus__addon" >
                             <span class="fa fa-search"></span>
                             <g:message code="general.btn.search" />
                         </button>
