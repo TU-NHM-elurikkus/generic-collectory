@@ -218,7 +218,7 @@
                                 <g:message code="public.show.osb.label04" />
                             </h4>
 
-                            <ul>
+                            <ul class="list-unstyled indented-list-item">
                                 <g:each var="a" in="${attribs}">
                                     <g:if test="${a.url}">
                                         <li>
@@ -236,6 +236,9 @@
                             </ul>
                         </div>
                     </g:if>
+
+                    <cl:lastUpdated date="${instance.lastUpdated}" />
+
                 </div>
 
                 <div class="col-md-9">
@@ -400,8 +403,6 @@
 
                                         <div id="usage"></div>
                                     </g:if>
-
-                                    <cl:lastUpdated date="${instance.lastUpdated}" />
                                 </div>
                             </div>
                         </div>
@@ -558,7 +559,7 @@
             \************************************************************/
             function onLoadCallback() {
                 if(loadLoggerStats) {
-                    loadDownloadStats("${grailsApplication.config.loggerURL}", "${instance.uid}","${instance.name}", "1002");
+                    loadDownloadStats("${grailsApplication.config.grails.serverURL}", "${instance.uid}","${instance.name}", "1002");
                 }
 
                 // records

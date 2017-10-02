@@ -61,21 +61,25 @@ function loadResources(serverUrl, biocacheRecordsUrl) {
         $('div.collectory-content [title][id!="downloadButton"]').tooltip(tooltipOptions);
     });
 }
-/** ***********************************************\
- *  List display
- \*************************************************/
-/** display a page **/
+
+/**
+  * List display
+  */
+
+/* display a page */
 function displayPage() {
     // clear list
     $('#results-container div').remove();
 
+    var _pageSize = pageSize();
+    var item;
     // paginate and show list
-    for(var i = 0; i < pageSize(); i++) {
-        var item = resources[offset + i];
+    for(var i = offset; i < _pageSize; i++) {
+        item = resources[i];
 
         // item will be undefined if there are less items than the page size
         if(item) {
-            appendResource(item);
+            appendResource(resources[i]);
         }
     }
 
@@ -151,7 +155,7 @@ function appendResource(value) {
                 '<a href="' + biocacheUrl + '/occurrences/search?q=data_resource_uid:' + value.uid + '">' +
                     '<span class="fa fa-list"></span>' +
                     '&nbsp;' +
-                    $.i18n.prop('datasets.js.appendresource10') +
+                    $.i18n.prop('general.btn.viewRecords') +
                 '</a>' +
             '</span>'
         );
@@ -201,10 +205,11 @@ function hideTooltip(element) {
     }
 }
 
-/** ***********************************************\
- *  Filters
- \************************************************/
-/** applies current filters to the list **/
+/**
+  *  Filters
+  */
+
+/* applies current filters to the list */
 function filterList() {
     // clear list of data sets
     clearList();

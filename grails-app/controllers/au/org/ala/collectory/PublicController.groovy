@@ -301,10 +301,10 @@ class PublicController {
      * @param threshold a guide to the selection of an appropriate rank for the breakdown
      */
     def taxonBreakdown = {
-        response.setHeader("Pragma","no-cache")
-        response.setDateHeader("Expires",1L)
-        response.setHeader("Cache-Control","no-cache")
-        response.addHeader("Cache-Control","no-store")
+        response.setHeader("Pragma", "no-cache")
+        response.setDateHeader("Expires", 1L)
+        response.setHeader("Cache-Control", "no-cache")
+        response.addHeader("Cache-Control", "no-store")
         def threshold = params.threshold ?: 20
         /* get taxon breakdown */
         def taxonUrl = Holders.config.biocacheServicesUrl + "/breakdown/{entity}/{uid}?max=" + threshold
@@ -355,10 +355,10 @@ class PublicController {
      * @param name the name of the taxon
      */
     def rankBreakdown = {
-        response.setHeader("Pragma","no-cache")
-        response.setDateHeader("Expires",1L)
-        response.setHeader("Cache-Control","no-cache")
-        response.addHeader("Cache-Control","no-store")
+        response.setHeader("Pragma", "no-cache")
+        response.setDateHeader("Expires", 1L)
+        response.setHeader("Cache-Control", "no-cache")
+        response.addHeader("Cache-Control", "no-store")
         /* get rank breakdown */
         def rankUrl = grailsApplication.config.biocacheServicesUrl + "/breakdown/{entity}/{uid}?rank=${params.rank}&name=${params.name}"
         def conn = new URL(rankUrl).openConnection()
@@ -373,7 +373,6 @@ class PublicController {
             if (breakdown && breakdown.toString() != "null") {
                 dataTable = buildTaxonChartDataTable(breakdown,params.rank,params.name)
                 if (dataTable) {
-                    //sleep delay
                     render dataTable
                 } else {
                     log.warn "unable to build data table from taxa json = " + json
@@ -527,7 +526,7 @@ class PublicController {
 
     def resources = {
         cache shared:true, validFor: 3600*24
-        def drs = DataResource.findAllByStatusNotEqual('declined',[sort:'name']).collect {
+        def drs = DataResource.findAllByStatusNotEqual('declined', [sort: 'name']).collect {
         //def drs = DataResource.list([sort:'name']).collect {
             def pdesc = it.pubDescription ? cl.formattedText(dummy:'1',limit(it.pubDescription,1000)) : ""
             def tdesc = it.techDescription ? cl.formattedText(dummy:'1',limit(it.techDescription,1000)) : ""
@@ -542,13 +541,38 @@ class PublicController {
         render drs as JSON
     }
 
+    def getReasonBreakdown = {
+        def url = "${grailsApplication.config.loggerURL}/logger/reasons"
+        def urlObj = new java.net.URL(url)
+        def connection = urlObj.openConnection()
+        connection.setRequestProperty('Accept', 'application/json')
+        connection.connect()
+
+        def slurper = new groovy.json.JsonSlurper()
+        def reasons = slurper.parse(connection.getInputStream())
+        def labels = [:]
+        reasons.each {
+            labels[it.name] = message(code: "download.form.reason.${it.id}", default: it.name).capitalize()
+        }
+        labels["unclassified"] = message(code: "download.form.reason.unclassified").capitalize()
+
+        url = "${grailsApplication.config.loggerURL}/reasonBreakdown.json?${request.queryString}"
+        urlObj = new java.net.URL(url)
+        connection = urlObj.openConnection()
+        connection.setRequestProperty('Accept', 'application/json')
+        connection.connect()
+
+        slurper = new groovy.json.JsonSlurper()
+        def breakdowns = slurper.parse(connection.getInputStream())
+        breakdowns["names"] = labels
+
+        render breakdowns as JSON
+    }
+
     def downloadDataSets = {
         def filters = params.filters ? JSON.parse(params.filters) : [];
-        println 'filters'
-        filters.each { println it }
-        println 'uids: ' + params.uids
         def uids = params.uids.tokenize(',')
-        def drs = DataResource.list([sort:'name'])
+        def drs = DataResource.list( [sort: 'name'] )
         /*if (filters) {
             drs = drs.findAll { dr ->
                 // check each filter
@@ -606,8 +630,6 @@ class PublicController {
      * Returns GEOJson for populating the map based on the selected filters.
      */
     def mapFeatures = {
-        log.info ">> Map features action called (no cross domain issues)"
-
         def locations = [type:"FeatureCollection", features: new ArrayList()]
         def showAll = params.filters == 'all'
 

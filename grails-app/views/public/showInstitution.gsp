@@ -76,18 +76,13 @@
                         <g:message code="page.navigation.collections" />
                     </a>
 
-                    <a href="${grailsApplication.config.biocacheUiURL}/occurrences/search?q=institution_uid:${instance.uid}" class="page-header-links__link">
-                        <span class="fa fa-list"></span>
-                        <g:message code="page.navigation.records" args="${ [instance.name] }" />
-                    </a>
-
                     <%-- TODO SHOULD BE A BUTTON
                     <cl:pageOptionsLink>
                         ${fieldValue(bean:instance,field:'name')}
                     </cl:pageOptionsLink>
                     --%>
                 </div>
-            </div> <%-- /header --%>
+            </div>  <%-- /header --%>
 
             <g:if test="${!grailsApplication.config.disableLoggerLinks.toBoolean() && grailsApplication.config.loggerURL}">
                 <div class="row">
@@ -234,6 +229,9 @@
                             </g:if>
                         </div>
                     </g:if>
+
+                    <cl:lastUpdated date="${instance.lastUpdated}" />
+
                 </div>
 
                 <div class="col-md-9">
@@ -308,7 +306,6 @@
                                 <div id="charts"></div>
                             </div>
 
-                            <cl:lastUpdated date="${instance.lastUpdated}" />
                         </div>
                     </div>
 
@@ -321,7 +318,7 @@
 
                         <div id="usage" class="card-body">
                             <p>
-                                <g:message code="general.loading" />...
+                                <g:message code="general.loading" />&hellip;
                             </p>
                         </div>
                     </div>
@@ -352,7 +349,7 @@
 
               // stats
               if(loadLoggerStats){
-                loadDownloadStats("${grailsApplication.config.loggerURL}", "${instance.uid}","${instance.name}", "1002");
+                loadDownloadStats("${grailsApplication.config.grails.serverURL}", "${instance.uid}","${instance.name}", "1002");
               }
 
               // records
