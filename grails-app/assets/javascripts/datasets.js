@@ -41,7 +41,6 @@ var tooltipOptions = {
 function loadResources(serverUrl, biocacheRecordsUrl) {
     baseUrl = serverUrl;
     biocacheUrl = biocacheRecordsUrl;
-    console.log(baseUrl + '/public/resources.json');
     $.getJSON(baseUrl + '/public/resources.json', function(data) {
         allResources = data;
         // no filtering at this stage
@@ -91,7 +90,6 @@ function displayPage() {
 function appendResource(value) {
     // clear the loading sign
     $('#loading').remove();
-    console.log(value);
 
     // create a container inside results
     var $container = $('<div class="dataset"></div>');

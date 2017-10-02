@@ -27,7 +27,7 @@
     <body class="two-column-right">
         <div id="content">
             <div id="header" class="page-header">
-                <%-- XXX MAGIC. TODO: place it. --%>indented-list-item
+                <%-- XXX MAGIC. TODO: place it. --%>
                 <cl:pageOptionsPopup instance="${instance}" />
 
                 <%-- Not likely to need it. --%>
