@@ -234,6 +234,9 @@
                             </g:if>
                         </div>
                     </g:if>
+
+                    <cl:lastUpdated date="${instance.lastUpdated}" />
+
                 </div>
 
                 <div class="col-md-9">
@@ -308,7 +311,6 @@
                                 <div id="charts"></div>
                             </div>
 
-                            <cl:lastUpdated date="${instance.lastUpdated}" />
                         </div>
                     </div>
 
@@ -321,7 +323,7 @@
 
                         <div id="usage" class="card-body">
                             <p>
-                                <g:message code="general.loading" />...
+                                <g:message code="general.loading" />&hellip;
                             </p>
                         </div>
                     </div>
@@ -352,7 +354,7 @@
 
               // stats
               if(loadLoggerStats){
-                loadDownloadStats("${grailsApplication.config.loggerURL}", "${instance.uid}","${instance.name}", "1002");
+                loadDownloadStats("${grailsApplication.config.grails.serverURL}", "${instance.uid}","${instance.name}", "1002");
               }
 
               // records

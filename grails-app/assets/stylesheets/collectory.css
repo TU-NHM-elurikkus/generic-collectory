@@ -5,3 +5,7 @@
 *= require leaflet-marker-cluster/MarkerCluster
 *= require public
 */
+
+.indented-list-item {
+    padding-left: 20px;
+}

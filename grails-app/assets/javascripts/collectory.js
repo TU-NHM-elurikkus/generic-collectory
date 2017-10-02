@@ -159,17 +159,18 @@ function loadDownloadStats(loggerServicesUrl, uid, name, eventType) {
 
     $('div#usage').html($.i18n.prop('collectory.js.loadingstatistics'));
 
-    var url = loggerServicesUrl + '/reasonBreakdown.json?eventId=' + eventType + '&entityUid=' + uid;
+    var url = loggerServicesUrl + '/public/reason-breakdown?eventId=' + eventType + '&entityUid=' + uid;
 
     $.ajax({
         url: url,
-        dataType: 'jsonp',
+        dataType: 'json',
         cache: false,
         error: function(jqXHR, textStatus, errorThrown) {
             $('div#usage').html($.i18n.prop('collectory.js.nousagestatistics'));
         },
         success: function(data) {
             $('div#usage').html('');
+            var labels = data.names;
             $.each(displayNameMap, function(nameKey, displayString) {
                 var value = data[nameKey];
                 var $usageDiv = $('<div class="usageDiv card erk-card-minimal"/>');
@@ -200,7 +201,7 @@ function loadDownloadStats(loggerServicesUrl, uid, name, eventType) {
                 $.each(reasons, function(index, details) {
                     var usageTableRow = details.key.indexOf('test') !== -1 ? '<tr style="color:#999999;">' : '<tr>';
 
-                    usageTableRow += '<td>' + capitalise(details.key);
+                    usageTableRow += '<td>' + (labels[details.key] || details.key);
 
                     if(details.key.indexOf('test') !== -1) {
                         usageTableRow += '<br/><span style="font-size: 12px;"> *' + $.i18n.prop('collectory.js.testingstatistics') + '</span>';

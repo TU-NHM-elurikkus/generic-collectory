@@ -178,6 +178,7 @@ class UrlMappings {
         "/ws/$entity?(.$format)?" (controller:'data', action:[GET:'getEntity', POST: 'saveEntity',  PUT:'saveEntity', DELETE: 'delete'])
 
         "/public/resources(.$format)"(controller:'public', action:'resources')
+		"/public/reason-breakdown/"(controller:'public', action:'getReasonBreakdown')
 
         "/"(controller:'public', action:'map')
 

@@ -180,7 +180,7 @@
     function onLoadCallback() {
         // stats
         if(loadLoggerStats) {
-            loadDownloadStats("${grailsApplication.config.loggerURL}", "${instance.uid}", "${instance.name}", "1002");
+            loadDownloadStats("${grailsApplication.config.grails.serverURL}", "${instance.uid}", "${instance.name}", "1002");
         }
     }
 

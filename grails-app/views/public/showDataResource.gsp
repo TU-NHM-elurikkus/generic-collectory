@@ -26,7 +26,7 @@
                 </h1>
 
                 <div class="page-header-links">
-                    <a href="${request.contextPath}/datasets/" title="List" class="page-header-links__link">
+                    <a href="${request.contextPath}/public/datasets/" title="List" class="page-header-links__link">
                         <span class="fa fa-arrow-left"></span>
                         <g:message code="page.navigation.datasets" />
                     </a>
@@ -99,7 +99,7 @@
                         </div>
                     </g:if>
 
-                    <!-- use parent location if the collection is blank -->
+                    <%-- use parent location if the collection is blank --%>
                     <g:set var="address" value="${instance.address}" />
 
                     <g:if test="${address == null || address.isEmpty()}">
@@ -249,7 +249,7 @@
                                 <g:message code="public.sdr.infosourcelist.title" />
                             </h4>
 
-                            <ul>
+                            <ul class="list-unstyled indented-list-item">
                                 <g:each var="a" in="${attribs}">
                                     <li>
                                         <a href="${a.url}" class="external" target="_blank">
@@ -260,6 +260,9 @@
                             </ul>
                         </div>
                     </g:if>
+
+                    <cl:lastUpdated date="${instance.lastUpdated}" />
+
                 </div>
 
                 <div class="col-md-9">
@@ -429,7 +432,7 @@
                             <div class="card-body">
                                 <div id="usage">
                                     <p>
-                                        <g:message code="general.loading" />...
+                                        <g:message code="general.loading" />&hellip;
                                     </p>
                                 </div>
 
@@ -439,16 +442,14 @@
                             </div>
                         </div>
                     </g:if>
-
-                    <cl:lastUpdated date="${instance.lastUpdated}" />
-                </div><!--close column-one-->
+                </div>  <%--close column-one--%>
             </div>
         </div>
 
         <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
         <script type="text/javascript">
-            google.load('visualization', '1.0', {'packages':['corechart']});
+            google.load('visualization', '1.0', {'packages': ['corechart']});
         </script>
 
         <script type="text/javascript">
@@ -513,9 +514,9 @@
                 // stats
                 if(loadLoggerStats) {
                     if (${instance.resourceType == 'website'}) {
-                        loadDownloadStats("${grailsApplication.config.loggerURL}", "${instance.uid}","${instance.name}", "2000");
+                        loadDownloadStats("${grailsApplication.config.grails.serverURL}", "${instance.uid}","${instance.name}", "2000");
                     } else if (${instance.resourceType == 'records'}) {
-                        loadDownloadStats("${grailsApplication.config.loggerURL}", "${instance.uid}","${instance.name}", "1002");
+                        loadDownloadStats("${grailsApplication.config.grails.serverURL}", "${instance.uid}","${instance.name}", "1002");
                     }
                 }
 

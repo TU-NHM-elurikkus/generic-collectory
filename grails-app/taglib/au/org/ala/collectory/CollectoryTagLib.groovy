@@ -1441,7 +1441,16 @@ class CollectoryTagLib {
      */
     def lastUpdated = {attrs ->
         if (attrs.date) {
-            out << "<p class='lastUpdated'>" + g.message(code: "metadata.last.updated", args: []) + " ${attrs.date}</p>"
+            out << """
+                <div>
+                    <h3>
+                        ${g.message(code: "metadata.last.updated")}
+                    </h3>
+
+                    <p class="lastUpdated">
+                        ${attrs.date}
+                    </p>
+                </div>"""
         }
     }
 
