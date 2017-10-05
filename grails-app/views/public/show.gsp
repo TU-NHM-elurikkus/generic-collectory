@@ -218,7 +218,7 @@
                                 <g:message code="public.show.osb.label04" />
                             </h4>
 
-                            <ul class="list-unstyled indented-list-item">
+                            <ul class="list-unstyled">
                                 <g:each var="a" in="${attribs}">
                                     <g:if test="${a.url}">
                                         <li>
