@@ -90,11 +90,6 @@
                         <span class="fa fa-institution"></span>
                         ${instance.institution.name}
                     </a>
-
-                    <a href="${grailsApplication.config.biocacheUiURL}/occurrences/search?q=collection_uid:${instance.uid}" class="page-header-links__link">
-                        <span class="fa fa-list"></span>
-                        <g:message code="page.navigation.records" args="${ [instance.name] }" />
-                    </a>
                 </div>
             </div>
 
@@ -218,7 +213,7 @@
                                 <g:message code="public.show.osb.label04" />
                             </h4>
 
-                            <ul class="list-unstyled indented-list-item">
+                            <ul class="list-unstyled">
                                 <g:each var="a" in="${attribs}">
                                     <g:if test="${a.url}">
                                         <li>
