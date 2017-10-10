@@ -55,7 +55,7 @@
                         </p>
                         <div class="section">
                             <div class="filter-button-container">
-                                <button type="button" class="filter-button all selected" id="all" onclick="toggleButton(this);return false;">
+                                <button type="button" class="filter-button all selected" id="all" onclick="toggleButton(this);">
                                     <h2 class="filter-button__title">
                                         <g:message code="public.map3.link.allcollections" />
                                     </h2>
@@ -71,49 +71,61 @@
                             </div>
 
                             <div class="filter-button-container">
-                                <button type="button" class="filter-button fauna" id="fauna" onclick="toggleButton(this);return false;">
+                                <button type="button" class="filter-button fauna" id="fauna" onclick="toggleButton(this);">
                                     <h2 class="filter-button__title">
-                                        <g:message code="public.map3.link.fauna" />
+                                        <g:message code="public.map3.link.animals" />
                                     </h2>
 
                                     <div class="filter-button__body">
-                                        <g:message code="public.map3.link.mammals" />
+                                        <g:message code="public.map3.link.animalsDescription" />
                                     </div>
                                 </button>
                             </div>
 
                             <div class="filter-button-container">
-                                <button type="button" class="filter-button insects" id="entomology" onclick="toggleButton(this);return false;">
+                                <button type="button" class="filter-button insects" id="entomology" onclick="toggleButton(this);">
                                     <h2 class="filter-button__title">
-                                        <g:message code="public.map3.link.insect" />
+                                        <g:message code="public.map3.link.insects" />
                                     </h2>
 
                                     <div class="filter-button__body">
-                                        <g:message code="public.map3.link.insects" />.
+                                        <g:message code="public.map3.link.insectsDescription" />.
                                     </div>
                                 </button>
                             </div>
 
                             <div class="filter-button-container">
-                                <button type="button" class="filter-button microbes" id="microbes" onclick="toggleButton(this);return false;">
+                                <button type="button" class="filter-button fungi" id="fungi" onclick="toggleButton(this);">
                                     <h2 class="filter-button__title">
-                                        <g:message code="public.map3.link.mos" />
+                                        <g:message code="public.map3.link.fungi" />
                                     </h2>
 
                                     <div class="filter-button__body">
-                                        <g:message code="public.map3.link.protists" />.
+                                        <g:message code="public.map3.link.fungiDescription" />.
                                     </div>
                                 </button>
                             </div>
 
                             <div class="filter-button-container">
-                                <button type="button" class="filter-button plants" id="plants" onclick="toggleButton(this);return false;">
+                                <button type="button" class="filter-button microbes" id="microbes" onclick="toggleButton(this);">
+                                    <h2 class="filter-button__title">
+                                        <g:message code="public.map3.link.microorganisms" />
+                                    </h2>
+
+                                    <div class="filter-button__body">
+                                        <g:message code="public.map3.link.microorganismsDescription" />.
+                                    </div>
+                                </button>
+                            </div>
+
+                            <div class="filter-button-container">
+                                <button type="button" class="filter-button plants" id="plants" onclick="toggleButton(this);">
                                     <h2 class="filter-button__title">
                                         <g:message code="public.map3.link.plants" />
                                     </h2>
 
                                     <div class="filter-button__body">
-                                        <g:message code="public.map3.link.vascular" />.
+                                        <g:message code="public.map3.link.plantsDescription" />.
                                     </div>
                                 </button>
                             </div>
