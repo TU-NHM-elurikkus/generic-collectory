@@ -3,18 +3,22 @@ grails.project.groupId = "au.org.ala" // change this to alter the default packag
 grails.appName = "${appName}"
 
 default_config = "/data/${appName}/config/${appName}-config.properties"
+commons_config = "/data/commons/config/commons-config.properties"
+
 if(!grails.config.locations || !(grails.config.locations instanceof List)) {
     grails.config.locations = []
 }
-if (new File(default_config).exists()) {
-    println "[${appName}] Including default configuration file: " + default_config;
-    grails.config.locations.add "file:" + default_config
-} else {
-    println "[${appName}] No external configuration file defined."
+
+if (!new File(default_config).exists()) {
+    throw ApplicationException("Config doesn't exist: " + default_config)
+} else if(!new File(commons_config).exists()) {
+    throw ApplicationException("Config doesn't exist: " + commons_config)
 }
 
+grails.config.locations.add "file:" + default_config
+grails.config.locations.add "file:" + commons_config
+
 println "[${appName}] (*) grails.config.locations = ${grails.config.locations}"
-println "default_config = ${default_config}"
 
 /******************************************************************************\
 *  SKINNING
@@ -24,7 +28,7 @@ if (!skin.layout) {
     skin.layout = 'generic'
 }
 if (!skin.orgNameShort) {
-    skin.orgNameShort = "ALA"
+    skin.orgNameShort = "eElurikkus"
 }
 if (!skin.includeBaseUrl) {
     // whether crumb trail should include a home link that is external to this webabpp - ala.baseUrl is used if true
@@ -84,7 +88,7 @@ if(!uploadExternalUrlPath){
 //reloadable.cfgPollingFrequency = 1000 * 60 * 60 // 1 hour
 //reloadable.cfgPollingRetryAttempts = 5
 //reloadable.cfgs = ["file:/data/collectory/config/Collectory-config.properties"]
-reloadable.cfgs = ["file:/data/${appName}/config/${appName}-config.properties"]
+reloadable.cfgs = ["file:" + default_config, "file:" + commons_config]
 
 /******************************************************************************\
 *  TEMPLATES

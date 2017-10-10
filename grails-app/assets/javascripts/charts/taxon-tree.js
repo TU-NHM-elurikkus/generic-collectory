@@ -10,7 +10,7 @@ $.i18n.properties({
 
 /** *** external services & links *****/
 // an instance of the collections app - used for name lookup services
-// TODO Find out whether or not this is used anywhere.l:w
+// TODO search and replace this urls from values in COLLECTORY_CONF
 var collectionsUrl = 'http://fake-collections.ala.org.au';  // should be overridden from config by the calling page
 // an instance of the biocache web services app - used for facet and taxonomic breakdowns
 var biocacheServicesUrl = 'http://fake-biocache.ala.org.au/ws';  // should be overridden from config by the calling page
@@ -171,7 +171,7 @@ function showRecords(node, query) {
  * Go to 'species' page for selected node
  */
 function showBie(node) {
-    var sppUrl = 'http://ala-test.ut.ee/bie-hub/search?';
+    var sppUrl = COLLECTORY_CONF.alaRoot + '/bie-hub/search?';
     var rank = node.attr('rank');
     var name = node.attr('id');
     if(rank === 'kingdoms') {
