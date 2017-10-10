@@ -85,7 +85,7 @@ function updateMap(filters) {
         iconSize: [25, 25]
     });
 
-    var queryUrl = 'http://ala-test.ut.ee/collectory/public/mapFeatures?filters=' + filters;
+    var queryUrl = COLLECTORY_CONF.alaRoot + COLLECTORY_CONF.contextPath + '/public/mapFeatures?filters=' + filters;
 
     clusterMarkers = L.markerClusterGroup({
         showCoverageOnHover: false,
@@ -170,7 +170,8 @@ function findSelected(features) {
 * Regenerate list of collections - update total number
 */
 function updateList(filters) {
-    $.get('http://ala-test.ut.ee/collectory/public/mapFeatures?filters=' + filters, function(data) {
+    var queryUrl = COLLECTORY_CONF.alaRoot + COLLECTORY_CONF.contextPath + '/public/mapFeatures?filters=' + filters
+    $.get(queryUrl, function(data) {
         var features = data.features;
 
         findSelected(features);
