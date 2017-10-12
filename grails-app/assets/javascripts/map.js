@@ -467,6 +467,10 @@ function toggleButton(button) {
         filters = 'fauna,entomology';
     }
 
+    if(filters === 'fungi') {
+        filters = 'fungi,lichens';
+    }
+
     updateMap(filters);
     updateList(filters);
 }
