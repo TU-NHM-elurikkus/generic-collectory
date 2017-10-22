@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<%@ page import="grails.util.Environment" %>
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -8,13 +10,18 @@
 
         <g:render template="/manifest" plugin="elurikkus-commons" />
 
-        <%-- This is needed because charts.js runs before GLOBAL_LOCALE_CONF in populated from commons --%>
+        <%-- This is needed because charts.js runs before GLOBAL_LOCALE_CONF is populated from commons --%>
         <script type="text/javascript">
             var COLLECTORY_CONF = {
                 contextPath: "${request.contextPath}",
                 locale: "${(org.springframework.web.servlet.support.RequestContextUtils.getLocale(request).toString())?:request.locale}",
                 alaRoot: "${grailsApplication.config.serverRoot}"
-            }
+            };
+
+            var GRAILS_APP = {
+                environment: "${Environment.current.name}",
+                rollbarApiKey: "${grailsApplication.config.rollbar.postApiKey}"
+            };
         </script>
 
         <title>
