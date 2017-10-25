@@ -247,31 +247,46 @@ environments {
     }
 }
 
-logging.dir = (System.getProperty('catalina.base') ? System.getProperty('catalina.base') + '/logs'  : '/var/log/tomcat7')
-if(!new File(logging.dir).exists()){
-    logging.dir  = '/tmp'
+
+def logging_dir = System.getProperty("catalina.base") ? System.getProperty("catalina.base") + "/logs" : "/var/log/tomcat7"
+if(!new File(logging_dir).exists()) {
+    logging_dir = "/tmp"
 }
 
 log4j = {
+
+    def logPattern = pattern(conversionPattern: "%d %-5p [%c{1}] %m%n")
+
     appenders {
         environments {
             production {
-                rollingFile name: "tomcatLog", maxFileSize: 102400000, file: logging.dir + "/${appName}.log", threshold: org.apache.log4j.Level.INFO, layout: pattern(conversionPattern: "%d %-5p [%c{1}] %m%n")
-            }
-            development {
-                console name: "stdout", layout: pattern(conversionPattern: "%d %-5p [%c{1}]  %m%n"), threshold: org.apache.log4j.Level.DEBUG
+                rollingFile(
+                    name: "tomcatLog",
+                    maxFileSize: "10MB",
+                    file: "${logging_dir}/specieslist.log",
+                    threshold: org.apache.log4j.Level.WARN,
+                    layout: logPattern)
             }
             test {
-                console name: "stdout", layout: pattern(conversionPattern: "%d %-5p [%c{1}]  %m%n"), threshold: org.apache.log4j.Level.INFO
+                rollingFile(
+                    name: "tomcatLog",
+                    maxFileSize: "10MB",
+                    file: "${logging_dir}/specieslist.log",
+                    threshold: org.apache.log4j.Level.WARN,
+                    layout: logPattern)
+            }
+            development {
+                console(
+                    name: "stdout",
+                    layout: logPattern,
+                    threshold: org.apache.log4j.Level.DEBUG)
             }
         }
     }
 
     root {
-        // change the root logger to my tomcatLog file
-        error 'tomcatLog'
-        warn 'tomcatLog'
-        additivity = true
+        error "tomcatLog"
+        warn "tomcatLog"
     }
 
     error   'org.codehaus.groovy.grails.web.servlet',        // controllers
