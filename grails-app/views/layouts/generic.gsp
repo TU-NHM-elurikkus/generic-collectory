@@ -15,7 +15,7 @@
             var COLLECTORY_CONF = {
                 contextPath: "${request.contextPath}",
                 locale: "${(org.springframework.web.servlet.support.RequestContextUtils.getLocale(request).toString())?:request.locale}",
-                alaRoot: "${grailsApplication.config.serverRoot}"
+                alaRoot: "${grailsApplication.config.grails.serverURL}"
             };
 
             var GRAILS_APP = {
