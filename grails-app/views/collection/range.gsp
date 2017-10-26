@@ -1,9 +1,12 @@
-<%@ page impmrt="au.org.ala.collectory.Collection;" %>
+<%@ page import="au.org.ala.collectory.Collection" %>
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="${grailsApplication.config.skin.layout}" />
-        <title><g:message code="collection.base.label" /></title>
+        <title>
+            <g:message code="collection.base.label" />
+        </title>
     </head>
 
     <body>
