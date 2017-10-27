@@ -1,4 +1,6 @@
-<%@ page import="grails.util.Holders; au.org.ala.collectory.CollectionLocation" %>
+<%@ page import="grails.util.Holders" %>
+<%@ page import="au.org.ala.collectory.CollectionLocation" %>
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />

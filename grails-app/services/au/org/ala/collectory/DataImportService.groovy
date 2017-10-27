@@ -47,22 +47,23 @@ class DataImportService {
     def importDirOfDwCA(String directoryPath){
 
         new File(directoryPath).listFiles().each { file ->
-            if(file.getName().endsWith(".zip")){
+            if(file.getName().endsWith(".zip")) {
                 def dr = null
                 def guid = getGuidFromDwCAFile(file)
-                if(guid){
+                if(guid) {
                     dr = DataResource.findByGuid(guid)
                 }
-                if(!dr){
+                if(!dr) {
                     //create a new data resource
-                    dr = new DataResource(uid: idGeneratorService.getNextDataResourceId(),
-                            name: "to be replaced",
-                            userLastModified: collectoryAuthService.username()
+                    dr = new DataResource(
+                        uid: idGeneratorService.getNextDataResourceId(),
+                        name: "to be replaced",
+                        userLastModified: collectoryAuthService.username()
                     )
-                    dr.save(flush:true)
+                    dr.save(flush: true)
                 }
 
-                importDataFileForDataResource(dr, file, ["protocol":"DwCA"], false)
+                importDataFileForDataResource(dr, file, ["protocol": "DwCA"], false)
             }
         }
     }

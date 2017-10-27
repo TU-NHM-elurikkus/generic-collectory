@@ -16,11 +16,12 @@ class CollectionController extends ProviderGroupController {
     def idGeneratorService
 
     def index = {
-        redirect(action:"list")
+        redirect(action: "list")
     }
 
     // list all collections
     def list = {
+
         if (params.message)
             flash.message = params.message
         params.sort = params.sort ?: "name"
@@ -376,4 +377,3 @@ class LocationCommand {
         phone(nullable:true)
     }
 }
-

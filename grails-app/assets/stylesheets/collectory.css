@@ -9,3 +9,7 @@
 .indented-list-item {
     padding-left: 20px;
 }
+
+.admin-multi-select {
+    height: 100px
+}
