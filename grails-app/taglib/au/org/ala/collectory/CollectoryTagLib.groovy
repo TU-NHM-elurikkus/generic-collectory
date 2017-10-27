@@ -1589,29 +1589,25 @@ class CollectoryTagLib {
      * @body the label for the button - defaults to 'Edit' if not specified
      */
     def editButton = { attrs, body ->
-        if (isAuthorisedToEdit(attrs.uid, request.getUserPrincipal()?.attributes?.email)) {
-            def paramsMap
-            // anchor class
-            paramsMap = [class:'']
-            // action
-            paramsMap << [action: (attrs.containsKey('action')) ? attrs.remove('action').toString() : 'edit']
-            // optional controller
-            if (attrs.containsKey('controller')) { paramsMap << [controller: attrs.remove('controller').toString()] }
-            // id of target
-            paramsMap << [id: (attrs.containsKey('id')) ? attrs.remove('id').toString() : attrs.uid]
-            attrs.remove('uid')
-            // add any remaining attrs as params
-            paramsMap << [params: attrs]
+        def paramsMap
+        // anchor class
+        paramsMap = [class:'']
+        // action
+        paramsMap << [action: (attrs.containsKey('action')) ? attrs.remove('action').toString() : 'edit']
+        // optional controller
+        if (attrs.containsKey('controller')) { paramsMap << [controller: attrs.remove('controller').toString()] }
+        // id of target
+        paramsMap << [id: (attrs.containsKey('id')) ? attrs.remove('id').toString() : attrs.uid]
+        attrs.remove('uid')
+        // add any remaining attrs as params
+        paramsMap << [params: attrs]
 
-            out << '<div><span class="buttons">'
-            out << link(paramsMap) {
-                '<button class="erk-button erk-button--light">Edit</button>'
-            }
-            // out << link(paramsMap) {body() ?: 'Edit'}
-            out << "</span></div>"
-        } else {
-            out << attrs.notAuthorisedMessage
+        out << '<div><span class="buttons">'
+        out << link(paramsMap) {
+            '<button class="erk-button erk-button--light">Edit</button>'
         }
+        // out << link(paramsMap) {body() ?: 'Edit'}
+        out << "</span></div>"
     }
 
     def showRecordsExceptions = {attrs ->
