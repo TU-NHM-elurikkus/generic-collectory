@@ -11,7 +11,7 @@ class CollectoryAuthService{
     def authService
 
     def username() {
-        def adminUser = User.findByUsername("user123")
+        def adminUser = User.findByUsername("elurikkus-ala")
         return adminUser.username
     }
 
