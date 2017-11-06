@@ -6,6 +6,7 @@ dataSource {
     password = ""
     logSql = false
     dbCreate = "update"
+    url = "jdbc:mysql://localhost:3306/collectory?autoReconnect=true&connectTimeout=0"
 }
 
 hibernate {
@@ -18,12 +19,11 @@ hibernate {
 environments {
     development {
         dataSource {
-            url = "jdbc:mysql://localhost:3306/collectory?autoReconnect=true&connectTimeout=0"
+
         }
     }
     test {
         dataSource {
-            url = "jdbc:mysql://localhost:3306/collectory?autoReconnect=true&connectTimeout=0"
             properties {
                 maxActive = 50
                 maxIdle = 25
@@ -38,7 +38,6 @@ environments {
     }
     production {
         dataSource {
-            url = "jdbc:mysql://alaproddb1-cbr.vm.csiro.au:3306/collectory?autoReconnect=true&connectTimeout=0"
             properties {
                 maxActive = 50
                 maxIdle = 25
