@@ -4,19 +4,6 @@
 .datasets-facet {
 }
 
-.datasets-facet__header {
-    font-size: 14px;
-}
-
-.datasets-facet__values {
-    padding: 0;
-    list-style: none;
-}
-
-.datasets-facet__value {
-    padding: 3px 0;
-}
-
 .dataset {
     border-bottom: 1px solid #ddd;
     padding-bottom: 4px;
