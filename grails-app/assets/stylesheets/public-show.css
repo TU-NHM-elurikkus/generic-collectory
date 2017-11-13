@@ -1,0 +1,13 @@
+/*
+*= require jquery-ui
+*= require temp-style
+*/
+
+.sidebar-image {
+    max-width: 100%;
+    margin-bottom: 1rem;
+}
+
+.erk-collection-progress {
+    display: inline-block;
+}

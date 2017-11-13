@@ -1,13 +1,3 @@
-/**
- * Load Spring i18n messages into JS
- */
-$.i18n.properties({
-    name: 'messages',
-    path: COLLECTORY_CONF.contextPath + '/messages/i18n/',
-    mode: 'map',
-    language: COLLECTORY_CONF.locale // default is to use browser specified locale
-});
-
 /** *** external services & links *****/
 // an instance of the collections app - used for name lookup services
 // TODO search and replace this urls from values in COLLECTORY_CONF
