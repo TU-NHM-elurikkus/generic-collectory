@@ -3,12 +3,6 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="${grailsApplication.config.skin.layout}" />
-        <title>
-            <g:message code="public.datasets.title" />
-        </title>
-
-        <asset:javascript src="datasets.js" />
-        <asset:stylesheet src="datasets.css" />
 
         <script type="text/javascript">
             var altMap = true;
@@ -23,6 +17,13 @@
                 $('select#dir').change(onDirChange);
             });
         </script>
+
+        <title>
+            <g:message code="public.datasets.title" />
+        </title>
+
+        <asset:stylesheet src="datasets.css" />
+        <asset:javascript src="datasets.js" />
     </head>
 
     <body id="page-datasets" class="nav-datasets">

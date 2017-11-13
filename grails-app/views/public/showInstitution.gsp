@@ -9,6 +9,7 @@
         </title>
         <script type="text/javascript" language="javascript" src="https://www.google.com/jsapi"></script>
 
+        <asset:stylesheet src="public-show.css" />
         <asset:javascript src="public-show.js" />
 
         <script type="text/javascript">
