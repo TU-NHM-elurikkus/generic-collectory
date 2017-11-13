@@ -591,13 +591,13 @@ var SHOWN_FACET_VALUE_COUNT = 5;
 function displayFacet(facet, list) {
     // add facet header
     var $header = $(
-        '<h4 class="datasets-facet__header">' +
+        '<h4 class="search-facet__header">' +
         $.i18n.prop(facet.labelProperty) +
         '</h4>'
     );
 
     // add each value
-    var $list = $('<ul class="datasets-facet__values"></ul>');
+    var $list = $('<ul class="erk-ulist"></ul>');
 
     list.slice(0, SHOWN_FACET_VALUE_COUNT).forEach(function(value) {
         $list.append(displayFacetValue(facet, value, false));
@@ -622,7 +622,13 @@ function displayFacet(facet, list) {
 }
 
 function moreLink() {
-    var $more = $('<li class="link"><i class="icon-hand-right"></i> ' + $.i18n.prop('datasets.js.morelink') + '</li>');
+    var $more = $(
+        '<li class="erk-ulist__item">' +
+            '<a class="erk-link" href="#">' +
+                $.i18n.prop('general.facets.showMore') +
+            '</a>' +
+        '</li>'
+    );
     $more.click(function() {
         // make following items visible and add a 'less' link
         $(this).parent().find('li').css('display', 'list-item');
@@ -635,7 +641,13 @@ function moreLink() {
 }
 
 function lessLink() {
-    var $less = $('<li class="link"><i class="icon-hand-right"></i> ' + $.i18n.prop('datasets.js.lesslink') + '</li>');
+    var $less = $(
+        '<li class="erk-ulist__item">' +
+            '<a class="erk-link" href="#">' +
+                $.i18n.prop('general.facets.showLess') +
+            '</a>' +
+        '</li>'
+    );
     $less.click(function() {
         // make items > 5 hidden and add a 'more' link
         $(this).parent().find('li:gt(4)').css('display', 'none');
@@ -652,13 +664,13 @@ function displayFacetValue(facet, value, hide) {
     var count = value.count;
 
     var $item = $(
-        '<li class="datasets-facet__value">' +
+        '<li class="erk-ulist__item">' +
         '</li>'
     );
 
-    // if(hide) {
-    //     $item.css('display', 'none');
-    // }
+    if(hide) {
+        $item.css('display', 'none');
+    }
 
     var $link = $(
         '<span class="erk-link">' +
