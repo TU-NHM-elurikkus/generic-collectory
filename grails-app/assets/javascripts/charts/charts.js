@@ -1,13 +1,3 @@
-/**
- * Load Spring i18n messages into JS
- */
-$.i18n.properties({
-    name: 'messages',
-    path: COLLECTORY_CONF.contextPath + '/messages/i18n/',
-    mode: 'map',
-    language: COLLECTORY_CONF.locale // default is to use browser specified locale
-});
-
 // defaults for taxa chart
 var taxonomyPieChartOptions = {
     width: 450,
@@ -46,11 +36,11 @@ var genericChartOptions = {
 /* ----------------- FACET-BASED CHARTS USING DIRECT CALLS TO BIO-CACHE SERVICES ---------------------*/
 // these override the facet names in chart titles
 var chartLabels = {
-    institution_uid: $.i18n.prop('charts.labels.institution'),
-    data_resource_uid: $.i18n.prop('charts.labels.dataset'),
-    assertions: $.i18n.prop('charts.labels.dataassertion'),
-    biogeographic_region: $.i18n.prop('charts.labels.biogeographicregion'),
-    occurrence_year: $.i18n.prop('charts.labels.decade')
+    institution_uid: 'charts.labels.institution',
+    data_resource_uid: 'charts.labels.dataset',
+    assertions: 'charts.labels.dataassertion',
+    biogeographic_region: 'charts.labels.biogeographicregion',
+    occurrence_year: 'charts.labels.decade'
 };
 
 function cleanUp(chartOptions) {
@@ -107,7 +97,7 @@ function drawTaxonomyChart(data, chartOptions, query) {
     // create the data table
     var dataTable = new google.visualization.DataTable();
 
-    dataTable.addColumn('string', chartLabels[name] ? chartLabels[name] : name);
+    dataTable.addColumn('string', chartLabels[name] ? $.i18n.prop(chartLabels[name]) : name);
     dataTable.addColumn('number', 'records');
 
     $.each(data.taxa, function(i, obj) {

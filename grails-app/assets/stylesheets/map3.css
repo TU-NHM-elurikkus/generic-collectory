@@ -1,3 +1,9 @@
+/*
+*= require temp-style
+*= require leaflet/leaflet.css
+*= require leaflet-marker-cluster/MarkerCluster
+*/
+
 .map-popup {
     font-size: 14px;
 }

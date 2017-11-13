@@ -6,6 +6,7 @@
             ${instance.name}
         </title>
 
+        <asset:stylesheet src="public-show.css" />
         <asset:javascript src="public-show-data-resource.js" />
 
         <script>

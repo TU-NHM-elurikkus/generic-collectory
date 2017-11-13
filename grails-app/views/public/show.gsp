@@ -360,6 +360,11 @@
                                             <g:message code="public.show.oc.estimatedRecords" args="[nouns, instance.name, fieldValue(bean: instance, field: 'numRecords')]" />
                                         </p>
                                     </g:if>
+                                    <g:else>
+                                        <p>
+                                            <g:message code="public.show.estimation.noEstimation" args="[nouns]" />
+                                        </p>
+                                    </g:else>
 
                                     <g:if test="${fieldValue(bean: instance, field: 'numRecordsDigitised') != '-1'}">
                                         <p>
@@ -756,7 +761,7 @@
                 if(${instance.numRecords < 1}) {
                     captionText = jQuery.i18n.prop(
                         'public.show.estimation.noEstimation',
-                        ${nouns}
+                        '${nouns}'
                     );
                 } else if(percentage == 0) {
                     captionText = jQuery.i18n.prop('public.show.estimation.noRecords');

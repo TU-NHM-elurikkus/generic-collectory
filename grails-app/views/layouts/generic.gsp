@@ -28,10 +28,8 @@
             <g:layoutTitle />
         </title>
 
-        <asset:javascript src="collectory.js" />
-
-        <asset:stylesheet src="elurikkus-common.css" />
         <asset:stylesheet src="collectory.css" />
+        <asset:javascript src="collectory.js" />
 
         <g:layoutHead />
     </head>

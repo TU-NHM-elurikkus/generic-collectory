@@ -1,11 +1,5 @@
-// This is needed because datasets.js runs before GLOBAL_LOCALE_CONF in populated from commons
-// TODO - Find a fix.. someday
-$.i18n.properties({
-    name: 'messages',
-    path: COLLECTORY_CONF.contextPath + '/messages/i18n/',
-    mode: 'map',
-    language: COLLECTORY_CONF.locale // default is to use browser specified locale
-});
+//= require jquery-ui
+//= require jquery-migration-plugins
 
 /* holds full list of resources */
 var allResources;
@@ -507,63 +501,42 @@ function comparator(a, b) {
 // the default if not in this list is to capitalise the record value
 // also holds display text for the facet categories
 var displayText = {
-    ccby: $.i18n.prop('datasets.js.displaytext01'),
-    ccbync: $.i18n.prop('datasets.js.displaytext02'),
-    ccbysa: $.i18n.prop('datasets.js.displaytext03'),
-    ccbyncsa: $.i18n.prop('datasets.js.displaytext04'),
-    other: $.i18n.prop('datasets.js.displaytext05'),
-    noLicense: $.i18n.prop('datasets.js.displaytext06'),
-    noValue: $.i18n.prop('datasets.js.displaytext07'),
-    '3.0': $.i18n.prop('datasets.js.displaytext08'),
-    '2.5': $.i18n.prop('datasets.js.displaytext09'),
-    dataAvailable: $.i18n.prop('datasets.js.displaytext10'),
-    linksAvailable: $.i18n.prop('datasets.js.displaytext11'),
-    inProgress: $.i18n.prop('datasets.js.displaytext12')
-};
-
-var helpText = {
-    records: $.i18n.prop('datasets.js.helptext01'),
-    website: $.i18n.prop('datasets.js.helptext02'),
-    document: $.i18n.prop('datasets.js.helptext03'),
-    uploads: $.i18n.prop('datasets.js.helptext04'),
-    'CC BY': $.i18n.prop('datasets.js.helptext05'),
-    'CC BY-NC': $.i18n.prop('datasets.js.helptext06'),
-    'CC BY-SA': $.i18n.prop('datasets.js.helptext07'),
-    'CC BY-NC-SA': $.i18n.prop('datasets.js.helptext08'),
-    other: $.i18n.prop('datasets.js.helptext09'),
-    noLicense: $.i18n.prop('datasets.js.helptext10'),
-    noValue: $.i18n.prop('datasets.js.helptext11'),
-    '3.0': $.i18n.prop('datasets.js.helptext12'),
-    '2.5': $.i18n.prop('datasets.js.helptext13'),
-    dataAvailable: $.i18n.prop('datasets.js.helptext14'),
-    linksAvailable: $.i18n.prop('datasets.js.helptext15'),
-    inProgress: $.i18n.prop('datasets.js.helptext16'),
-    declined: $.i18n.prop('datasets.js.helptext17'),
-    identified: $.i18n.prop('datasets.js.helptext18')
+    ccby: 'datasets.js.displaytext01',
+    ccbync: 'datasets.js.displaytext02',
+    ccbysa: 'datasets.js.displaytext03',
+    ccbyncsa: 'datasets.js.displaytext04',
+    other: 'datasets.js.displaytext05',
+    noLicense: 'datasets.js.displaytext06',
+    noValue: 'datasets.js.displaytext07',
+    '3.0': 'datasets.js.displaytext08',
+    '2.5': 'datasets.js.displaytext09',
+    dataAvailable: 'datasets.js.displaytext10',
+    linksAvailable: 'datasets.js.displaytext11',
+    inProgress: 'datasets.js.displaytext12'
 };
 
 /* Map of dataset attributes to treat as facets */
 var facets = {
     resourceType: {
-        name: 'resourceType', display: $.i18n.prop('datasets.js.facets01')
+        name: 'resourceType', labelProperty: 'datasets.js.facets01'
     },
     licenseType: {
-        name: 'licenseType', display: $.i18n.prop('datasets.js.facets02')
+        name: 'licenseType', labelProperty: 'datasets.js.facets02'
     },
     licenseVersion: {
-        name: 'licenseVersion', display: $.i18n.prop('datasets.js.facets03')
+        name: 'licenseVersion', labelProperty: 'datasets.js.facets03'
     },
     status: {
-        name: 'status', display: $.i18n.prop('datasets.js.facets04'), help: $.i18n.prop('datasets.js.facets05')
+        name: 'status', labelProperty: 'datasets.js.facets04'
     },
     contentTypes: {
-        name: 'contentTypes', action: 'has', display: $.i18n.prop('datasets.js.facets06'), help: $.i18n.prop('datasets.js.facets07')
+        name: 'contentTypes', action: 'has', labelProperty: 'datasets.js.facets06'
     },
     contains: {
-        name: 'contains', action: 'containedIn', display: $.i18n.prop('datasets.js.facets08')
+        name: 'contains', action: 'containedIn', labelProperty: 'datasets.js.facets08'
     },
     institution: {
-        name: 'institution', display: $.i18n.prop('datasets.js.facets09'), help: $.i18n.prop('datasets.js.facets10')
+        name: 'institution', labelProperty: 'datasets.js.facets09'
     }
 };
 
@@ -617,7 +590,11 @@ var SHOWN_FACET_VALUE_COUNT = 5;
 /** Creates DOM elements to represent the facet **/
 function displayFacet(facet, list) {
     // add facet header
-    var $header = $('<h4 class="search-facet__header">' + facet.display + '</h4>');
+    var $header = $(
+        '<h4 class="search-facet__header">' +
+        $.i18n.prop(facet.labelProperty) +
+        '</h4>'
+    );
 
     // add each value
     var $list = $('<ul class="erk-ulist"></ul>');
@@ -727,12 +704,14 @@ function sortByCount(map) {
 
 /* returns a display label for the facet */
 function labelFor(item) {
-    var text = displayText[item];
-    if(text === undefined) {
+    var labelProperty = displayText[item];
+
+    if(labelProperty === undefined) {
         // just capitalise - TODO: break out camel case
-        text = capitalise(item);
+        return capitalise(item);
+    } else {
+        return $.i18n.prop(labelProperty);
     }
-    return text;
 }
 
 /* capitalises the first letter of the passed string */
