@@ -7,6 +7,20 @@ dataSource {
     logSql = false
     dbCreate = "update"
     url = "jdbc:mysql://localhost:3306/collectory?autoReconnect=true&connectTimeout=0"
+    properties {
+        maxActive = 50
+        maxIdle = 25
+        minIdle = 5
+        initialSize = 5
+        minEvictableIdleTimeMillis = 60000
+        timeBetweenEvictionRunsMillis = 60000
+        maxWait = 10000
+
+        validationQuery = "/* ping */"  // Better than "SELECT 1"
+        testOnBorrow = true
+        testOnReturn = true
+        testWhileIdle = true
+    }
 }
 
 hibernate {
@@ -22,32 +36,15 @@ environments {
 
         }
     }
+
     test {
         dataSource {
-            properties {
-                maxActive = 50
-                maxIdle = 25
-                minIdle = 5
-                initialSize = 5
-                minEvictableIdleTimeMillis = 60000
-                timeBetweenEvictionRunsMillis = 60000
-                maxWait = 10000
-                validationQuery = ""
-            }
-        }
+
     }
+
     production {
         dataSource {
-            properties {
-                maxActive = 50
-                maxIdle = 25
-                minIdle = 5
-                initialSize = 5
-                minEvictableIdleTimeMillis = 60000
-                timeBetweenEvictionRunsMillis = 60000
-                maxWait = 10000
-                validationQuery = ""
-            }
+
         }
     }
 }
