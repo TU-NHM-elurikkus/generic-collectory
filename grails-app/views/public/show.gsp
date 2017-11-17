@@ -11,7 +11,8 @@
 
         <script type="text/javascript" language="javascript" src="https://www.google.com/jsapi"></script>
 
-        <asset:javascript src="public-show.js" />
+        <asset:javascript src="public-show" />
+        <asset:stylesheet src="public-show" />
 
         <script type="text/javascript">
             biocacheServicesUrl = "${grailsApplication.config.biocacheServicesUrl}";
