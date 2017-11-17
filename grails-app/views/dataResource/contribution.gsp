@@ -9,8 +9,6 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="${grailsApplication.config.skin.layout}" />
 
-        <asset:javascript src="jquery-ui.js" />
-
         <title>
             <g:message code="dataResource.base.label" default="Edit data resource metadata" />
         </title>
