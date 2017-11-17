@@ -15,7 +15,7 @@
         <script src="https://maps.googleapis.com/maps/api/js?key=${grailsApplication.config.google?.apikey}" type="text/javascript"></script>
     </head>
 
-    <body onload="load();">
+    <body>
         <style>
             #mapCanvas {
                 width: 500px;
@@ -250,7 +250,42 @@
             </g:form>
         </div>
 
-        <script type="text/javascript">
+        <script>
+            var map;
+            var marker;
+
+            function updateMarkerPosition(latLng) {
+                $('input#latitude').val(latLng.lat());
+                $('input#longitude').val(latLng.lng());
+            }
+
+            var lat = ${command.latitude}
+            if (lat == undefined || lat == 0 || lat == -1 ) {lat = -35.294325779329654}
+            var lng = ${command.longitude}
+            if (lng == undefined || lng == 0 || lng == -1 ) {lng = 149.10602960586547}
+            var latLng = new google.maps.LatLng(lat, lng);
+            map = new google.maps.Map(document.getElementById('mapCanvas'), {
+                zoom: 12,
+                center: latLng,
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                streetViewControl: false
+            });
+            marker = new google.maps.Marker({
+                position: latLng,
+                title: 'my collection',
+                map: map,
+                draggable: true
+            });
+
+            // Add dragging event listeners.
+            google.maps.event.addListener(marker, 'drag', function() {
+                updateMarkerPosition(marker.getPosition());
+            });
+
+            google.maps.event.addListener(marker, 'dragend', function() {
+                updateMarkerPosition(marker.getPosition());
+            });
+
             function codeAddress() {
                 var address = document.getElementById('street').value + "," + document.getElementById('city').value + "," + document.getElementById('state').value + "," + document.getElementById('country').value
                 var geocoder = new google.maps.Geocoder();
@@ -269,47 +304,6 @@
                         }
                     });
                 }
-            }
-
-            var map;
-            var marker;
-
-            function load() {
-                initialize();
-            }
-
-            function updateMarkerPosition(latLng) {
-                $('input#latitude').val(latLng.lat());
-                $('input#longitude').val(latLng.lng());
-            }
-
-            function initialize() {
-                var lat = ${command.latitude}
-                if (lat == undefined || lat == 0 || lat == -1 ) {lat = -35.294325779329654}
-                var lng = ${command.longitude}
-                if (lng == undefined || lng == 0 || lng == -1 ) {lng = 149.10602960586547}
-                var latLng = new google.maps.LatLng(lat, lng);
-                map = new google.maps.Map(document.getElementById('mapCanvas'), {
-                    zoom: 12,
-                    center: latLng,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP,
-                    streetViewControl: false
-                });
-                marker = new google.maps.Marker({
-                    position: latLng,
-                    title: 'my collection',
-                    map: map,
-                    draggable: true
-                });
-
-                // Add dragging event listeners.
-                google.maps.event.addListener(marker, 'drag', function() {
-                    updateMarkerPosition(marker.getPosition());
-                });
-
-                google.maps.event.addListener(marker, 'dragend', function() {
-                    updateMarkerPosition(marker.getPosition());
-                });
             }
         </script>
 

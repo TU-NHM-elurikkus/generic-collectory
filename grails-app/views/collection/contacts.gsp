@@ -1,4 +1,5 @@
 <%@ page import="au.org.ala.collectory.Contact; au.org.ala.collectory.Collection;" %>
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
