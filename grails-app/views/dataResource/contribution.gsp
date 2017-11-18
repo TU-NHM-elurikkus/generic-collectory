@@ -8,6 +8,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="${grailsApplication.config.skin.layout}" />
+
         <title>
             <g:message code="dataResource.base.label" default="Edit data resource metadata" />
         </title>
@@ -224,37 +225,6 @@
                     function extractLast( term ) {
                         return split( term ).pop();
                     }
-                    $( "input#termsForUniqueKey:enabled" )
-                        // don't navigate away from the field on tab when selecting an item
-                            .bind( "keydown", function( event ) {
-                                if ( event.keyCode === $.ui.keyCode.TAB &&
-                                        $( this ).data( "autocomplete" ).menu.active ) {
-                                    event.preventDefault();
-                                }
-                            })
-                            .autocomplete({
-                                minLength: 0,
-                                source: function( request, response ) {
-                                    // delegate back to autocomplete, but extract the last term
-                                    response( $.ui.autocomplete.filter(
-                                            availableTags, extractLast( request.term ) ) );
-                                },
-                                focus: function() {
-                                    // prevent value inserted on focus
-                                    return false;
-                                },
-                                select: function( event, ui ) {
-                                    var terms = split( this.value );
-                                    // remove the current input
-                                    terms.pop();
-                                    // add the selected item
-                                    terms.push( ui.item.value );
-                                    // add placeholder to get the comma-and-space at the end
-                                    terms.push( "" );
-                                    this.value = terms.join( ", " );
-                                    return false;
-                                }
-                            });
                 }
                 function changeProtocol() {
                     var protocol = $('#protocolSelector').attr('value');
@@ -274,7 +244,7 @@
                 //$('[name="start_date"]').datepicker({dateFormat: 'yy-mm-dd'});
                 /* this expands lists of urls into an array of text inputs */
                 // create a delete element that removes the element before it and itself
-                %{--var deleteImageUrl = "${resource(dir:'/images/ala',file:'delete.png')}";--}%
+                // var deleteImageUrl = "${resource(dir:'/images/ala',file:'delete.png')}";
                 var $deleteLink = $('<span class="delete btn btn-mini btn-danger"><i class="icon icon-remove icon-white"></i> </span>')
                         .click(function() {
                             $(this).prev().remove();

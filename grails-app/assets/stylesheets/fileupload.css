@@ -1,4 +1,14 @@
 /*
-*= require bootstrap
 *= require bootstrap-fileupload.min
 */
+
+.file-input {
+    border: none;
+    border-radius: 0;
+    width: 100%;
+    padding: 0;
+}
+
+.cancel {
+    margin-left: .5rem;
+}
