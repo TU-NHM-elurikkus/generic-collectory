@@ -1,10 +1,15 @@
 <%@ page import="au.org.ala.collectory.Collection" %>
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="${grailsApplication.config.skin.layout}" />
+
         <g:set var="entityName" value="${message(code: 'collection.label')}" />
-        <title><g:message code="general.list.label" args="[entityName]" /></title>
+
+        <title>
+            <g:message code="general.list.label" args="[entityName]" />
+        </title>
     </head>
 
     <body>
@@ -76,11 +81,10 @@
                         <g:each in="${collInstanceList}" status="i" var="instance">
                             <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                                 <td>
-                                  <a name="${instance.name[0]}"></a>
-
-                                  <g:link controller="collection" action="show" id="${instance.uid}">
-                                      ${fieldValue(bean: instance, field: "name")}
-                                  </g:link>
+                                    <a name="${instance.name[0]}"></a>
+                                    <g:link controller="collection" action="show" id="${instance.uid}">
+                                        ${fieldValue(bean: instance, field: "name")}
+                                    </g:link>
                                 </td>
 
                                 <td>
@@ -94,7 +98,7 @@
                                 </td>
 
                                 <td>
-                                    <cl:reportClassification keywords="${instance.keywords}"/>
+                                    <cl:reportClassification keywords="${instance.keywords}" />
                                 </td>
                             </tr>
                         </g:each>

@@ -1,10 +1,14 @@
-<%@ page import="au.org.ala.collectory.Contact; au.org.ala.collectory.Collection;" %>
+<%@ page import="au.org.ala.collectory.Contact" %>
+<%@ page import="au.org.ala.collectory.Collection" %>
 
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="${grailsApplication.config.skin.layout}" />
-        <title><g:message code="collection.base.label" /></title>
+
+        <title>
+            <g:message code="collection.base.label" />
+        </title>
     </head>
 
     <body>
@@ -16,7 +20,9 @@
 
         <div id="baseForm" class="body">
             <g:if test="${message}">
-                <div class="message">${message}</div>
+                <div class="message">
+                    ${message}
+                </div>
             </g:if>
 
             <g:hasErrors bean="${command}">
@@ -79,8 +85,12 @@
                                 <g:hiddenField name="contactId" value="${i?.id}" />
 
                                 <tr class="prop">
-                                    <td style="vertical-align:middle;">${i?.contact?.buildName()}</td>
-                                    <td valign="top" class="value"><g:textField name="role_${i.id}" value="${i?.role}" /></td>
+                                    <td style="vertical-align:middle;">
+                                        ${i?.contact?.buildName()}
+                                    </td>
+                                    <td valign="top" class="value">
+                                        <g:textField name="role_${i.id}" value="${i?.role}" />
+                                    </td>
 
                                     <td valign="top" class="name">
                                         <g:checkBox style="margin-left:7px;" name="admin_${i.id}" value="${i?.administrator}" />
@@ -109,7 +119,6 @@
 
                                 <tr>
                                     <td></td>
-
                                     <td colspan="4">
                                         <g:message code="collection.contacts.th.phone" />: ${fieldValue(bean:i.contact, field:"phone")}
                                         <g:message code="collection.contacts.th.email" />: ${fieldValue(bean:i.contact, field:"email")}
@@ -131,13 +140,13 @@
                         <g:message code="providerGroup.addAContact.label" />
                     </span>
 
-                    <img style="float:right;margin-right:20px;" class="helpButton" alt="help" src="${resource(dir:'images/skin', file:'help.gif')}" onclick="toggleRow('addExistingContact')"/>
+                    <img style="float:right;margin-right:20px;" class="helpButton" alt="help" src="${resource(dir:'images/skin', file:'help.gif')}" onclick="toggleRow('addExistingContact')" />
 
                     <table class="value">
                         <colgroup>
-                            <col width="28%"/>
-                            <col width="62%"/>
-                            <col width="10%"/>
+                            <col width="28%" />
+                            <col width="62%" />
+                            <col width="10%" />
                         </colgroup>
 
                         <tr class="prop">
@@ -167,30 +176,32 @@
                         <g:message code="collection.contacts.span01" />
                     </span>
 
-                    <img style="float:right;margin-right:20px;" class="helpButton" alt="help" src="${resource(dir:'images/skin', file:'help.gif')}" onclick="toggleRow('addNewContact')"/>
+                    <img style="float:right;margin-right:20px;" class="helpButton" alt="help" src="${resource(dir:'images/skin', file:'help.gif')}" onclick="toggleRow('addNewContact')" />
 
                     <table class="value">
                         <tr class="prop"> <!-- title-->
-                             <td valign="top" class="name">
-                                 <label for="title">
-                                     <g:message code="contact.title.label" />
-                                 </label>
+                            <td valign="top" class="name">
+                                <label for="title">
+                                    <g:message code="contact.title.label" />
+                                </label>
 
-                                 <br />
+                                <br />
 
-                                 <span style="color:#777">
-                                     e.g. Dr
-                                 </span>
-                             </td>
+                                <span style="color:#777">
+                                    e.g. Dr
+                                </span>
+                            </td>
 
-                             <td valign="top" class="value ${hasErrors(bean: contact, field: 'title', 'errors')}">
-                                 <g:textField name="title" maxlength="10" value="${fieldValue(bean: contact, field:'title')}" />
-                             </td>
+                            <td valign="top" class="value ${hasErrors(bean: contact, field: 'title', 'errors')}">
+                                <g:textField name="title" maxlength="10" value="${fieldValue(bean: contact, field:'title')}" />
+                            </td>
                         </tr>
 
                         <tr class="prop"> <!-- firstName-->
                             <td valign="top" class="name">
-                                <label for="firstName"><g:message code="contact.firstName.label" /></label>
+                                <label for="firstName">
+                                    <g:message code="contact.firstName.label" />
+                                </label>
                             </td>
 
                             <td valign="top" class="value ${hasErrors(bean: contact, field: 'firstName', 'errors')}">
@@ -200,7 +211,9 @@
 
                         <tr class="prop"> <!-- lastName-->
                             <td valign="top" class="name">
-                                <label for="lastName"><g:message code="contact.lastName.label" /></label>
+                                <label for="lastName">
+                                    <g:message code="contact.lastName.label" />
+                                </label>
                             </td>
 
                             <td valign="top" class="value ${hasErrors(bean: contact, field: 'lastName', 'errors')}">
@@ -210,7 +223,9 @@
 
                         <tr class="prop"> <!-- phone-->
                             <td valign="top" class="name">
-                                <label for="phone"><g:message code="contact.phone.label" /></label>
+                                <label for="phone">
+                                    <g:message code="contact.phone.label" />
+                                </label>
                             </td>
 
                             <td valign="top" class="value ${hasErrors(bean: contact, field: 'phone', 'errors')}">
@@ -220,7 +235,9 @@
 
                         <tr class="prop"> <!-- mobile-->
                             <td valign="top" class="name">
-                                <label for="mobile"><g:message code="contact.mobile.label" /></label>
+                                <label for="mobile">
+                                    <g:message code="contact.mobile.label" />
+                                </label>
                             </td>
 
                             <td valign="top" class="value ${hasErrors(bean: contact, field: 'mobile', 'errors')}">
@@ -228,9 +245,11 @@
                             </td>
                         </tr>
 
-                         <tr class="prop"> <!-- email-->
+                        <tr class="prop"> <!-- email-->
                             <td valign="top" class="name">
-                                <label for="email"><g:message code="contact.email.label" /></label>
+                                <label for="email">
+                                    <g:message code="contact.email.label" />
+                                </label>
                             </td>
 
                             <td valign="top" class="value ${hasErrors(bean: contact, field: 'email', 'errors')}">
@@ -238,9 +257,11 @@
                             </td>
                         </tr>
 
-                         <tr class="prop"> <!-- fax-->
+                        <tr class="prop"> <!-- fax-->
                             <td valign="top" class="name">
-                                <label for="fax"><g:message code="contact.fax.label" /></label>
+                                <label for="fax">
+                                    <g:message code="contact.fax.label" />
+                                </label>
                             </td>
 
                             <td valign="top" class="value ${hasErrors(bean: command, field: 'fax', 'errors')}">
@@ -250,7 +271,9 @@
 
                          <tr class="prop"> <!-- notes-->
                             <td valign="top" class="name">
-                                <label for="notes"><g:message code="contact.notes.label" /></label>
+                                <label for="notes">
+                                    <g:message code="contact.notes.label" />
+                                </label>
                             </td>
 
                             <td valign="top" class="value ${hasErrors(bean: contact, field: 'notes', 'errors')}">
@@ -260,7 +283,9 @@
 
                         <tr class="prop"> <!-- publish-->
                             <td class="checkbox">
-                                <label for="publish"><g:message code="contact.publish.label" /></label>
+                                <label for="publish">
+                                    <g:message code="contact.publish.label" />
+                                </label>
                             </td>
 
                             <td class="checkbox">
@@ -269,15 +294,15 @@
 
                                     <span class="hint">
                                         <g:message code="collection.contacts.span02" />
-                                     </span>
+                                    </span>
                                 </label>
                             </td>
                         </tr>
 
                         <tr>
-                             <td>
-                                 <input type="submit" onclick="return document.getElementById('event').value = 'create'" class="addAction" value="${message(code:"collection.contacts.btn.addcontact")}" />
-                             </td>
+                            <td>
+                                <input type="submit" onclick="return document.getElementById('event').value = 'create'" class="addAction" value="${message(code:"collection.contacts.btn.addcontact")}" />
+                            </td>
                         </tr>
 
                         <tr>
@@ -292,11 +317,11 @@
 
                 <div class="buttons">
                     <span class="button">
-                        <input type="submit" name="_action_updateRange" value="${message(code:"collection.button.update")}" class="save">
+                        <input type="submit" name="_action_updateRange" value="${message(code:"collection.button.update")}" class="save" />
                     </span>
 
                     <span class="button">
-                        <input type="submit" name="_action_cancel" value="${message(code:"collection.button.cancel")}" class="cancel">
+                        <input type="submit" name="_action_cancel" value="${message(code:"collection.button.cancel")}" class="cancel" />
                     </span>
                 </div>
             </g:form>
