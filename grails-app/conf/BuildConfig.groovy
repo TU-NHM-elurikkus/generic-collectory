@@ -48,7 +48,7 @@ grails.project.dependency.resolution = {
         compile ":elurikkus-commons:0.2-SNAPSHOT"
         compile ":hibernate:3.6.10.11"
         compile ":jquery:1.11.1"
-        compile ":audit-logging:1.0.7"
+        compile ":audit-logging:1.1.3"
         compile ":cache-headers:1.1.6"
         compile ":rest:0.8"
         compile ":cors:1.1.8"

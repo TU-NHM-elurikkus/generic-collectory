@@ -1,7 +1,7 @@
 package au.org.ala.collectory
 
 import groovy.json.JsonSlurper
-import org.codehaus.groovy.grails.plugins.orm.auditable.AuditLogEvent
+import au.org.ala.audit.AuditLogEvent
 
 class ManageController {
 
