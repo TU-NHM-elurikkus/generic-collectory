@@ -78,5 +78,11 @@ class SecurityFilters {
                 accessControl()
             }
         }
+        all(uri: "/manage/**") {
+            before = {
+                // Access control by convention.
+                accessControl()
+            }
+        }
     }
 }
