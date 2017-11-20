@@ -63,7 +63,7 @@ class GbifService {
     def loadMap = [:]
     def stopStatus = ["CANCELLED", "FAILED", "KILLED", "SUCCEEDED", "UNKNOWN"]
 
-    def getPublishingCountriesMap(){
+    def getPublishingCountriesMap() {
         def js = new JsonSlurper()
         def jsonText = new URL(grailsApplication.config.gbifApiUrl + "/node/country").text
         def isoCodeList = js.parseText(jsonText)
@@ -233,20 +233,20 @@ class GbifService {
      * @param userLimit The user supplied limit on the number of datasets
      * @return
      */
-    def getListOfGbifResources(String country, Integer userLimit){
+    def getListOfGbifResources(String country, Integer userLimit) {
         country = country.toUpperCase()
         //first get a request so we know how many we are dealing with
         log.debug(DATASET_SEARCH + " " + country)
         String url = grailsApplication.config.gbifApiUrl + MessageFormat.format(DATASET_SEARCH, country)
         JSONObject countJson = getJSONWS(url + "&limit=1")
         log.debug("Search URL: " + url);
-        if (countJson){
+        if (countJson) {
             def total = countJson.getInt("count")
             def limit = (userLimit == null || userLimit > total) ? total : userLimit
             log.debug("We will create " + limit + " data resources for the supplied country " + country)
             int i = 0
             def list = []
-            while(i < limit){
+            while(i < limit) {
                 def newLimit = userLimit && userLimit > DOWNLOAD_LIMIT ? userLimit-i:limit
                 def locallimit = newLimit < DOWNLOAD_LIMIT ? newLimit : DOWNLOAD_LIMIT
                 JSONObject pageObject = getJSONWS(url + "&limit=" + locallimit + "&offset=" + i)
@@ -275,7 +275,7 @@ class GbifService {
      *
      * @param uploadedFile
      */
-    def createGBIFResourceFromArchiveURL(String gbifFileUrl){
+    def createGBIFResourceFromArchiveURL(String gbifFileUrl) {
 
         //1) Save the file to the correct tmp staging location
         def fileId = System.currentTimeMillis()
@@ -300,25 +300,25 @@ class GbifService {
      * @param uploadedFile
      * @return
      */
-    def createOrUpdateGBIFResource(File uploadedFile){
+    def createOrUpdateGBIFResource(File uploadedFile) {
         //1) Extract the ZIP file
         //2) Extract the JSON for the data resource to create
         def json = extractDataResourceJSON(new ZipFile(uploadedFile), uploadedFile.getParentFile());
-        json['gbifDataset'] = true
-        json['resourceType'] = 'records'
-        json['contentTypes'] = (['point occurrence data', 'gbif import'] as JSON).toString()
+        json["gbifDataset"] = true
+        json["resourceType"] = "records"
+        json["contentTypes"] = (["point occurrence data", "gbif import"] as JSON).toString()
         log.debug("The JSON to create the dr : " + json)
 
         //3) Create or update the data resource
         def dr = DataResource.findByGuid(json.guid)
-        if (!dr){
+        if (!dr) {
             dr = crudService.insertDataResource(json)
         } else {
             crudService.updateDataResource(dr, json)
         }
         dr.lastChecked = (new Date()).toTimestamp()
 
-        log.info(dr.uid + "  " + dr.id + " " + dr.name)    //.toString() + " " + dr.hasErrors() + " " + dr.getErrors())
+        log.info(dr.uid + "  " + dr.id + " " + dr.name) //.toString() + " " + dr.hasErrors() + " " + dr.getErrors())
 
         //4) Create the DwCA for the resource using the GBIF default meta.xml and occurrences.txt
         String zipFileName = uploadedFile.getParentFile().getAbsolutePath() + File.separator + json.get("guid", "dwca") + ".zip"
@@ -336,18 +336,18 @@ class GbifService {
      * @param dr  The data resource to apply the supplied archive to
      * @return
      */
-    def applyDwCA(File file, DataResource dr){
+    def applyDwCA(File file, DataResource dr) {
         try {
             log.debug("Copying DwCA to staging and associated the file to the data resource")
             def fileId = System.currentTimeMillis()
-            String targetFileName = grailsApplication.config.uploadFilePath + fileId  + File.separator + file.getName()
+            String targetFileName = grailsApplication.config.uploadFilePath + fileId + File.separator + file.getName()
             File targetFile = new File(targetFileName)
             FileUtils.forceMkdir(targetFile.getParentFile())
             file.renameTo(targetFile)
             log.debug("Finished moving the file for " + dr.getUid())
             //move the DwCA where it needs to be
-            def connParams = (new JsonSlurper()).parseText(dr.connectionParameters?:'{}')
-            connParams.url = 'file:///'+targetFileName
+            def connParams = (new JsonSlurper()).parseText(dr.connectionParameters ?: "{}")
+            connParams.url = "file:///" + targetFileName
             connParams.protocol = "DwCA"
             connParams.termsForUniqueKey = ["gbifID"]
             //NQ we need a transaction so the this can be executed in a multi-threaded manner.
@@ -357,7 +357,7 @@ class GbifService {
                 dr.save(flush:true)
                 log.debug("Finished saving the connection params for " + dr.getUid())
             }
-        } catch(Exception e){
+        } catch(Exception e) {
             log.error(e.getClass().toString() + " : " + e.getMessage(), e)
         }
     }
@@ -368,16 +368,16 @@ class GbifService {
      * @param directoryForArchive
      * @return
      */
-    def extractDataResourceJSON(ZipFile zipFile, File directoryForArchive){
+    def extractDataResourceJSON(ZipFile zipFile, File directoryForArchive) {
         String citation = ""
         String rights = ""
         Map map = [:]
         zipFile.entries.each{ file ->
             if (file.getName() == CITATION_FILE) {
-                map.get("citation",zipFile.getInputStream(file).text.replaceAll("\n", " "))
+                map.get("citation", zipFile.getInputStream(file).text.replaceAll("\n", " "))
             } else if (file.getName() == RIGHTS_FILE) {
-                map.rights = zipFile.getInputStream(file).text.replaceAll("\n"," ")
-            } else if (file.getName().startsWith(EML_DIRECTORY)){
+                map.rights = zipFile.getInputStream(file).text.replaceAll("\n", " ")
+            } else if (file.getName().startsWith(EML_DIRECTORY)) {
 
                 //open the XML file that contains the EML details for the GBIF resource
                 def xml = new XmlSlurper().parseText(zipFile.getInputStream(file).getText("UTF-8"))
@@ -392,7 +392,7 @@ class GbifService {
 
                 log.debug(map)
 
-            } else if (file.getName() == OCCURRENCE_FILE){
+            } else if (file.getName() == OCCURRENCE_FILE) {
                 //save the record to the "directoryForArchive"
                 IOUtils.copy(zipFile.getInputStream(file), new FileOutputStream(new File(directoryForArchive, OCCURRENCE_FILE)));
             }
@@ -420,7 +420,7 @@ class GbifService {
      *
      * @param downloadId
      */
-    def getDownloadStatus(String downloadId, String userName, String password){
+    def getDownloadStatus(String downloadId, String userName, String password) {
         //http://api.gbif.org/v0.9/occurrence/download/0006020-131106143450413
         def json = getJSONWSWithAuth(grailsApplication.config.gbifApiUrl + DOWNLOAD_STATUS + downloadId, userName, password)
         log.debug("Download status for ${downloadId} : ${json?.status}")
@@ -441,7 +441,7 @@ class GbifService {
 
         HttpResponse response = http.execute(get)
         log.debug("Response code " + response.getStatusLine().getStatusCode())
-        if(response.getStatusLine().getStatusCode() == 200){
+        if(response.getStatusLine().getStatusCode() == 200) {
             ByteArrayOutputStream bos = new ByteArrayOutputStream()
             response.getEntity().writeTo(bos)
             String respText = bos.toString();
@@ -457,15 +457,15 @@ class GbifService {
      * @param url
      * @return
      */
-    def getJSONWS(String url){
+    def getJSONWS(String url) {
         def http = new HTTPBuilder(url)
-        http.request(Method.GET, ContentType.JSON){
+        http.request(Method.GET, ContentType.JSON) {
             response.success = { resp, json ->
                 log.debug("[getJSONWS] SUCCESS: " + resp)
                 log.debug(json)
                 return json
             }
-            response.failure ={ resp ->
+            response.failure = { resp ->
                 log.debug("[getJSONWS] FAILURE: " + resp)
                 return null
             }
@@ -477,18 +477,18 @@ class GbifService {
      * @param resourceId
      * @return
      */
-    def isDataAvailableForResource(String resourceId){
+    def isDataAvailableForResource(String resourceId) {
 
         //http://api.gbif.org/v1/occurrence/count?datasetKey=6679952f-649b-4888-bd97-00daca4b8cc1
         String url = grailsApplication.config.gbifApiUrl + MessageFormat.format(DATASET_RECORD_COUNT, resourceId)
         try {
             def value = new URL(url).getText("UTF-8")
-            if(value && value.toInteger() > 0){
+            if(value && value.toInteger() > 0) {
                 true
             } else {
                 false
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             log.error("Problem calling the dataset count service for ${resourceId}", e)
             false
         }
@@ -503,7 +503,7 @@ class GbifService {
      * @param password  The password for the GBIF user.
      * @return The downloadId used to monitor when the download has been completed
      */
-    def startGBIFDownload(String resourceId, String username, String password){
+    def startGBIFDownload(String resourceId, String username, String password) {
         try {
             log.debug("[startGBIFDownload] Initialising download..... ")
 
@@ -531,7 +531,7 @@ class GbifService {
             post.addHeader("Content-Type", "application/json; charset=UTF-8")
 
             HttpResponse response = http.execute(post)
-            if(response.getStatusLine().getStatusCode() in [200,201,202] ){
+            if(response.getStatusLine().getStatusCode() in [200,201,202] ) {
                 ByteArrayOutputStream bos = new ByteArrayOutputStream()
                 response.getEntity().writeTo(bos)
                 String downloadId = bos.toString()
@@ -541,7 +541,7 @@ class GbifService {
                 log.error("Response code was " + response.getStatusLine().getStatusCode())
                 null
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace()
             null
         }
@@ -584,42 +584,42 @@ class GbifService {
      * @param password      The gbif.org password
      * @return
      */
-    def getGbifDataset(String datasetKey, String username, String password){
+    def getGbifDataset(String datasetKey, String username, String password) {
         GBIFActiveLoad l = new GBIFActiveLoad()
         l.gbifResourceUid = datasetKey
         def reloadExisting = true
         log.debug("Started Gbif Dataset")
         //check to see if a load is already running. We can only have one at a time
-        if (!loading){
+        if (!loading) {
             log.debug("Loading resources from GBIF: ")
             loading = true
             loadMap[datasetKey] = l
 
             //at this point we need to return to the user and perform remaining tasks asynchronously
-            pool.submit(new Runnable(){
-                public void run(){
+            pool.submit(new Runnable() {
+                public void run() {
 
                     def defer = { c -> pool.submit(c as Callable) }
 
                         defer {
                             Boolean skipReload = false
                             def existingDataResource = DataResource.findByGuid(l.gbifResourceUid)
-                            if(!reloadExisting){
+                            if(!reloadExisting) {
                                 log.info("Reload existing resources set to false. Checking for " + l.gbifResourceUid)
-                                if(existingDataResource){
+                                if(existingDataResource) {
                                     skipReload = true
                                 }
                             }
 
                             // is data available
-                            if(!isDataAvailableForResource(l.gbifResourceUid)){
+                            if(!isDataAvailableForResource(l.gbifResourceUid)) {
                                 l.phase = "Data is currently not available for this resource through GBIF"
                                 loading = false
                                 l.setCompleted()
                                 return null
                             }
 
-                            if(skipReload){
+                            if(skipReload) {
                                 l.phase = "Resource is already loaded. To reload check the reload existing resource checkbox"
                                 loading = false
                                 l.dataResourceUid = existingDataResource.uid
@@ -707,7 +707,7 @@ class GbifService {
      * @param datasetKey
      * @return
      */
-    def getDatasetKeyStatusInfoFor(String datasetKey){
+    def getDatasetKeyStatusInfoFor(String datasetKey) {
         return loadMap[datasetKey]
     }
 
