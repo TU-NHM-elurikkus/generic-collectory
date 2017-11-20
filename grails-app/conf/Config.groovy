@@ -237,15 +237,7 @@ hibernate = "off"
 \******************************************************************************/
 auditLog {
     actorClosure = { request, session ->
-        def cas = session?.getAttribute("_const_cas_assertion_")
-        def actor = cas?.getPrincipal()?.getName()
-        if (!actor) {
-            actor = request.getUserPrincipal()?.attributes?.email
-        }
-        if (!actor) {
-            actor = session.username  // injected by data controller for web services
-        }
-        return actor ?: "anonymous"
+        org.apache.shiro.SecurityUtils.getSubject()?.getPrincipal()
     }
     TRUNCATE_LENGTH = 2048
 }
@@ -331,3 +323,6 @@ log4j = {
             "grails.app",
             "grails.app.service.org.grails.plugin.au.org.ala"
 }
+
+// Added by the Audit-Logging plugin:
+auditLog.auditDomainClassName = 'au.org.ala.audit.AuditLogEvent'

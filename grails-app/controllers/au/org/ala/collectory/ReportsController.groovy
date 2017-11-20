@@ -1,8 +1,9 @@
 package au.org.ala.collectory
 
 import grails.converters.JSON
-import org.codehaus.groovy.grails.plugins.orm.auditable.AuditLogEvent
 import grails.converters.XML
+
+import au.org.ala.audit.AuditLogEvent
 
 class ReportsController {
 

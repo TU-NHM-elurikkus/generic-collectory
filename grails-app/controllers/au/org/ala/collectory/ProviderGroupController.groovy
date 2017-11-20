@@ -9,8 +9,9 @@ import org.apache.tools.zip.ZipFile
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.multipart.MultipartFile
 import grails.util.Holders
-import org.codehaus.groovy.grails.plugins.orm.auditable.AuditLogEvent
 import org.codehaus.groovy.grails.plugins.orm.auditable.AuditLogListener
+
+import au.org.ala.audit.AuditLogEvent
 
 /**
  * This is a base class for all provider group entities types.
