@@ -4,6 +4,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="${grailsApplication.config.skin.layout}" />
+
         <title>
             <g:message code="collection.base.label" />
         </title>
@@ -25,7 +26,9 @@
 
         <div id="baseForm" class="body">
             <g:if test="${message}">
-                <div class="message">${message}</div>
+                <div class="message">
+                    ${message}
+                </div>
             </g:if>
 
             <g:hasErrors bean="${command}">
@@ -60,10 +63,10 @@
                                 <td valign="top" class="value ${hasErrors(bean: command, field: 'geographicDescription', 'errors')}">
                                     <g:textField name="geographicDescription" class="input-xxlarge" value="${command?.geographicDescription}" />
 
-                                    <cl:helpText code="collection.geographicDescription"/>
+                                    <cl:helpText code="collection.geographicDescription" />
                                 </td>
 
-                                <cl:helpTD/>
+                                <cl:helpTD />
                             </tr>
 
                             <tr class="prop">
@@ -76,10 +79,10 @@
                                 <td valign="top" class="value ${hasErrors(bean: command, field: 'states', 'errors')}">
                                     <g:textField name="states" value="${command?.states}" />
 
-                                    <cl:helpText code="collection.states"/>
+                                    <cl:helpText code="collection.states" />
                                 </td>
 
-                                <cl:helpTD/>
+                                <cl:helpTD />
                             </tr>
 
                             <tr class="prop">
@@ -98,10 +101,10 @@
                                 <td valign="top" class="value ${hasErrors(bean: command, field: 'eastCoordinate', 'errors')}">
                                     <g:textField name="eastCoordinate" value="${cl.showDecimal(value: command.eastCoordinate)}" />
 
-                                    <cl:helpText code="collection.eastCoordinate"/>
+                                    <cl:helpText code="collection.eastCoordinate" />
                                 </td>
 
-                                <cl:helpTD/>
+                                <cl:helpTD />
                             </tr>
 
                             <tr class="prop">
@@ -113,10 +116,10 @@
                                 <td valign="top" class="value ${hasErrors(bean: command, field: 'westCoordinate', 'errors')}">
                                     <g:textField name="westCoordinate" value="${cl.showDecimal(value: command.westCoordinate)}" />
 
-                                    <cl:helpText code="collection.westCoordinate"/>
+                                    <cl:helpText code="collection.westCoordinate" />
                                 </td>
 
-                                <cl:helpTD/>
+                                <cl:helpTD />
                             </tr>
 
                             <tr class="prop">
@@ -132,12 +135,14 @@
                                     <cl:helpText code="collection.northCoordinate" />
                                 </td>
 
-                                <cl:helpTD/>
+                                <cl:helpTD />
                             </tr>
 
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="southCoordinate"><g:message code="collection.range.label07" /></label>
+                                    <label for="southCoordinate">
+                                        <g:message code="collection.range.label07" />
+                                    </label>
                                 </td>
 
                                 <td valign="top" class="value ${hasErrors(bean: command, field: 'southCoordinate', 'errors')}">
@@ -145,7 +150,7 @@
                                     <cl:helpText code="collection.southCoordinate" />
                                 </td>
 
-                                <cl:helpTD/>
+                                <cl:helpTD />
                             </tr>
 
                             <!-- taxonomic range -->
@@ -169,7 +174,7 @@
                                     <cl:helpText code="collection.kingdomCoverage" />
                                 </td>
 
-                                <cl:helpTD/>
+                                <cl:helpTD />
                             </tr>
 
                             <tr class="prop">
@@ -184,7 +189,7 @@
                                     <cl:helpText code="collection.scientificNames" />
                                 </td>
 
-                                <cl:helpTD/>
+                                <cl:helpTD />
                             </tr>
 
                             <!-- stats -->
@@ -208,7 +213,7 @@
                                     <cl:helpText code="collection.numRecords" />
                                 </td>
 
-                                <cl:helpTD/>
+                                <cl:helpTD />
                             </tr>
 
                             <tr class="prop">
@@ -223,7 +228,7 @@
                                     <cl:helpText code="collection.numRecordsDigitised" />
                                 </td>
 
-                                <cl:helpTD/>
+                                <cl:helpTD />
                             </tr>
                         </tbody>
                     </table>
@@ -231,11 +236,11 @@
 
                 <div class="buttons">
                     <span class="button">
-                        <input type="submit" name="_action_updateRange" value="${message(code:"collection.button.update")}" class="save btn">
+                        <input type="submit" name="_action_updateRange" value="${message(code:"collection.button.update")}" class="save btn" />
                     </span>
 
                     <span class="button">
-                        <input type="submit" name="_action_cancel" value="${message(code:"collection.button.cancel")}" class="cancel btn">
+                        <input type="submit" name="_action_cancel" value="${message(code:"collection.button.cancel")}" class="cancel btn" />
                     </span>
                 </div>
             </g:form>
