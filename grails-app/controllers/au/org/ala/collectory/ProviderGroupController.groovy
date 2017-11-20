@@ -804,11 +804,11 @@ abstract class ProviderGroupController {
         return param.join(' ')
     }
 
-    def auditLog(ProviderGroup pg, String eventName, String property, String oldValue, String newValue, Object persistedObject) {
+    def auditLog(String pgUid, String pgClassName, String eventName, String property, String oldValue, String newValue, Object persistedObject) {
         def audit = new AuditLogEvent(
                   actor: username(),
-                  uri: pg.uid,   /* MEW repurposing of uri */
-                  className: pg.getClass().name,
+                  uri: pgUid,   /* MEW repurposing of uri */
+                  className: pgClassName,
                   eventName: eventName,
                   persistedObjectId: persistedObject.id?.toString(),
                   persistedObjectVersion: persistedObject.version,

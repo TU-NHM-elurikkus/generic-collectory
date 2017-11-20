@@ -1,17 +1,24 @@
 <%@ page import="au.org.ala.collectory.ProviderGroup" %>
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="${grailsApplication.config.skin.layout}" />
+
         <g:set var="entityName" value="${message(code: 'collection.label')}" />
-        <title><g:message code="general.list.label" args="[entityName]" /></title>
+
+        <title>
+            <g:message code="general.list.label" args="[entityName]" />
+        </title>
     </head>
 
     <body>
         <div class="nav">
             <ul>
                 <li>
-                    <span class="menuButton"><cl:homeLink/></span>
+                    <span class="menuButton">
+                        <cl:homeLink />
+                    </span>
                 </li>
 
                 <li>

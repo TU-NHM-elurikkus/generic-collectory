@@ -87,74 +87,78 @@
                 <!-- base attributes -->
                 <div class="show-section well titleBlock">
 
-                <!-- Name --><!-- Acronym -->
-                <h1>
-                    ${fieldValue(bean: instance, field: "name")}<cl:valueOrOtherwise value="${instance.acronym}"> (${fieldValue(bean: instance, field: "acronym")})</cl:valueOrOtherwise>
-                </h1>
+                    <!-- Name --><!-- Acronym -->
+                    <h1>
+                        ${fieldValue(bean: instance, field: "name")}
+                        <cl:valueOrOtherwise value="${instance.acronym}">
+                            (${fieldValue(bean: instance, field: "acronym")})
+                        </cl:valueOrOtherwise>
+                    </h1>
 
-                <!-- Institution --><!-- ALA Partner -->
-                <h2 style="display:inline">
-                    <g:link controller="institution" action="show" id="${instance.institution?.uid}">
-                        ${instance.institution?.name}
-                    </g:link>
-                </h2>
+                    <!-- Institution --><!-- ALA Partner -->
+                    <h2 style="display:inline">
+                        <g:link controller="institution" action="show" id="${instance.institution?.uid}">
+                            ${instance.institution?.name}
+                        </g:link>
+                    </h2>
 
-                <cl:partner test="${instance.institution?.isALAPartner}" />
+                    <cl:partner test="${instance.institution?.isALAPartner}" />
 
-                <br />
+                    <br />
 
-                <div class="card card-body">
-                    <!-- GUID    -->
-                    <p>
-                        <span class="category">
-                            <g:message code="collection.show.span.lsid" />:
-                        </span>
-                        <cl:guid target="_blank" guid='${fieldValue(bean: instance, field: "guid")}' />
-                    </p>
-
-                    <!-- UID    -->
-                    <p>
-                        <span class="category">
-                            <g:message code="collection.show.span.uid" />:
-                        </span>
-                        ${fieldValue(bean: instance, field: "uid")}
-                    </p>
-
-                    <!-- Web site -->
-                    <p>
-                        <span class="category">
-                            <g:message code="collection.show.span.cw" />:
-                        </span>
-                        <cl:externalLink href="${fieldValue(bean:instance, field:'websiteUrl')}" />
-                    </p>
-
-                    <!-- Networks -->
-                    <g:if test="${instance.networkMembership}">
+                    <div class="card card-body">
+                        <!-- GUID    -->
                         <p>
-                            <cl:membershipWithGraphics coll="${instance}" />
+                            <span class="category">
+                                <g:message code="collection.show.span.lsid" />:
+                            </span>
+                            <cl:guid target="_blank" guid='${fieldValue(bean: instance, field: "guid")}' />
                         </p>
-                    </g:if>
 
-                    <!-- Notes -->
-                    <g:if test="${instance.notes}">
+                        <!-- UID    -->
                         <p>
-                            <cl:formattedText>
-                                ${fieldValue(bean: instance, field: "notes")}
-                            </cl:formattedText>
+                            <span class="category">
+                                <g:message code="collection.show.span.uid" />:
+                            </span>
+                            ${fieldValue(bean: instance, field: "uid")}
                         </p>
-                    </g:if>
 
-                    <!-- last edit -->
-                    <p>
-                        <span class="category">
-                            Last change:
-                        </span>
-                        ${fieldValue(bean: instance, field: "userLastModified")} on ${fieldValue(bean: instance, field: "lastUpdated")}
-                    </p>
+                        <!-- Web site -->
+                        <p>
+                            <span class="category">
+                                <g:message code="collection.show.span.cw" />:
+                            </span>
+                            <cl:externalLink href="${fieldValue(bean:instance, field:'websiteUrl')}" />
+                        </p>
 
-                    <cl:editButton uid="${instance.uid}" page="/shared/base" notAuthorisedMessage="Not authorised to edit." />
+                        <!-- Networks -->
+                        <g:if test="${instance.networkMembership}">
+                            <p>
+                                <cl:membershipWithGraphics coll="${instance}" />
+                            </p>
+                        </g:if>
+
+                        <!-- Notes -->
+                        <g:if test="${instance.notes}">
+                            <p>
+                                <cl:formattedText>
+                                    ${fieldValue(bean: instance, field: "notes")}
+                                </cl:formattedText>
+                            </p>
+                        </g:if>
+
+                        <!-- last edit -->
+                        <p>
+                            <span class="category">
+                                Last change:
+                            </span>
+                            ${fieldValue(bean: instance, field: "userLastModified")} on ${fieldValue(bean: instance, field: "lastUpdated")}
+                        </p>
+
+                        <cl:editButton uid="${instance.uid}" page="/shared/base" notAuthorisedMessage="Not authorised to edit." />
+                    </div>
                 </div>
-            </div> <!-- dialog -->
+            </div>
 
             <!-- collection description -->
             <div class="show-section">
@@ -167,20 +171,26 @@
                     </div>
 
                     <div class="card-body">
-                        <span class="category"><g:message code="collection.show.span04" /></span>
+                        <span class="category">
+                            <g:message code="collection.show.span04" />
+                        </span>
 
                         <br />
 
                         <cl:formattedText body="${instance.pubDescription}" />
 
                         <!-- Tech Desc -->
-                        <span class="category"><g:message code="collection.show.span05" /></span>
+                        <span class="category">
+                            <g:message code="collection.show.span05" />
+                        </span>
 
                         <br />
 
                         <cl:formattedText body="${instance.techDescription}" />
 
-                        <span class="category"><g:message code="collection.show.span06" /></span>
+                        <span class="category">
+                            <g:message code="collection.show.span06" />
+                        </span>
 
                         <g:if test="${instance.startDate || instance.endDate}">
                             <p>

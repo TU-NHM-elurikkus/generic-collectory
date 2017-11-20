@@ -9,10 +9,8 @@ grails.appName = "${appName}"
 
 default_config = "/data/${appName}/config/${appName}-config.properties"
 commons_config = "/data/commons/config/commons-config.properties"
-env_config = "conf/${Environment.current.name}/Config.groovy"
 
 grails.config.locations = [
-    "file:${env_config}",
     "file:${commons_config}",
     "file:${default_config}"
 ]
@@ -26,12 +24,9 @@ try {
     prop.load(new FileInputStream(fileLocation))
     rollbarServerKey = prop.getProperty("rollbar.postServerKey") ?: ""
 } catch(IOException e) {
-    e.printStackTrace()
+    // e.printStackTrace()
 }
 
-if(!new File(env_config).exists()) {
-    println "ERROR - [${appName}] Couldn't find environment specific configuration file: ${env_config}"
-}
 if(!new File(default_config).exists()) {
     println "ERROR - [${appName}] No external configuration file defined. ${default_config}"
 }
@@ -48,8 +43,8 @@ println "[${appName}] (*) grails.config.locations = ${grails.config.locations}"
 *  SKINNING
 \******************************************************************************/
 if (!skin.layout) {
-    //skin.layout = 'ala2'
-    skin.layout = 'generic'
+    //skin.layout = "ala2"
+    skin.layout = "generic"
 }
 if (!skin.orgNameShort) {
     skin.orgNameShort = "eElurikkus"
@@ -78,7 +73,7 @@ if (!bie.searchPath) {
 if (!biocacheUiURL) {
     biocacheUiURL = "http://biocache.ala.org.au"
 }
-if(!biocacheServicesUrl){
+if(!biocacheServicesUrl) {
     biocacheServicesUrl = "http://biocache.ala.org.au/ws"
 }
 if (!spatial.baseURL) {
@@ -90,20 +85,20 @@ if (!ala.baseURL) {
 if (!headerAndFooter.baseURL) {
     headerAndFooter.baseURL = "http://www2.ala.org.au/commonui"
 }
-if(!alertUrl){
+if(!alertUrl) {
     alertUrl = "http://alerts.ala.org.au/"
 }
-if(!speciesListToolUrl){
+if(!speciesListToolUrl) {
     speciesListToolUrl = "http://lists.ala.org.au/speciesListItem/list/"
 }
 
-if(!alertResourceName){
+if(!alertResourceName) {
     alertResourceName = "eElurikkus"
 }
-if(!uploadFilePath){
+if(!uploadFilePath) {
     uploadFilePath = "/data/${appName}/upload/"
 }
-if(!uploadExternalUrlPath){
+if(!uploadExternalUrlPath) {
     uploadExternalUrlPath = "/upload/"
 }
 /******************************************************************************\
@@ -118,13 +113,13 @@ reloadable.cfgs = ["file:" + default_config, "file:" + commons_config]
 *  TEMPLATES
 \******************************************************************************/
 if (!citation.template) {
-    citation.template = 'Records provided by @entityName@, accessed through eElurikkus website.'
+    citation.template = "Records provided by @entityName@, accessed through eElurikkus website."
 }
 if (!citation.link.template) {
-    citation.link.template = 'For more information: @link@'
+    citation.link.template = "For more information: @link@"
 }
 if (!citation.rights.template) {
-    citation.rights.template = ''
+    citation.rights.template = ""
 }
 if (!resource.publicArchive.url.template) {
     resource.publicArchive.url.template = "${biocacheUiURL}/archives/@UID@/@UID@_ror_dwca.zip"
@@ -132,70 +127,71 @@ if (!resource.publicArchive.url.template) {
 /******************************************************************************\
 *  ADDITIONAL CONFIG
 \******************************************************************************/
-if(!projectNameShort){
+if(!projectNameShort) {
     projectNameShort="eElurikkus"
 }
-if(!projectName){
+if(!projectName) {
     projectName="eElurikkus"
 }
-if(!regionName){
+if(!regionName) {
     regionName="Estonia"
 }
-if(!collectionsMap.centreMapLon){
-    collectionsMap.centreMapLon = '58.3735552'
+if(!collectionsMap.centreMapLon) {
+    collectionsMap.centreMapLon = "58.3735552"
 }
-if(!collectionsMap.centreMapLat){
-    collectionsMap.centreMapLat = '26.7169192'
+if(!collectionsMap.centreMapLat) {
+    collectionsMap.centreMapLat = "26.7169192"
 }
-if(!collectionsMap.defaultZoom){
-    collectionsMap.defaultZoom = '2'
+if(!collectionsMap.defaultZoom) {
+    collectionsMap.defaultZoom = "2"
 }
-if(!eml.organizationName){
+if(!eml.organizationName) {
     eml.organizationName="eElurikkus"
 }
-if(!eml.deliveryPoint){
+if(!eml.deliveryPoint) {
     eml.deliveryPoint="Vanemuise 46"
 }
-if(!eml.city){
+if(!eml.city) {
     eml.city="Tartu"
 }
-if(!eml.administrativeArea){
+if(!eml.administrativeArea) {
     eml.administrativeArea="Tartumaa"
 }
-if(!eml.postalCode){
+if(!eml.postalCode) {
     eml.postalCode="51014"
 }
-if(!eml.country){
+if(!eml.country) {
     eml.country="Estonia"
 }
-if(!eml.electronicMailAddress){
+if(!eml.electronicMailAddress) {
     eml.electronicMailAddress = "info@elurikkus.ut.ee"
 }
-//
-///******* standard grails **********/
-grails.project.groupId = 'au.org.ala' // change this to alter the default package name and Maven publishing destination
+
+
+grails.project.groupId = "au.org.ala" // change this to alter the default package name and Maven publishing destination
 grails.mime.file.extensions = true // enables the parsing of file extensions from URLs into the request format
 grails.mime.use.accept.header = true
-grails.mime.types = [ html: ['text/html','application/xhtml+xml'],
-                      xml: ['text/xml', 'application/xml'],
-                      text: 'text/plain',
-                      js: 'text/javascript',
-                      rss: 'application/rss+xml',
-                      atom: 'application/atom+xml',
-                      css: 'text/css',
-                      csv: 'text/csv',
-                      tsv: 'text/tsv',
-                      all: '*/*',
-                      json: ['application/json','text/json'],
-                      form: 'application/x-www-form-urlencoded',
-                      multipartForm: 'multipart/form-data'
+grails.mime.types = [
+    html: ["text/html","application/xhtml+xml"],
+    xml: ["text/xml", "application/xml"],
+    text: "text/plain",
+    js: "text/javascript",
+    rss: "application/rss+xml",
+    atom: "application/atom+xml",
+    css: "text/css",
+    csv: "text/csv",
+    tsv: "text/tsv",
+    all: "*/*",
+    json: ["application/json","text/json"],
+    form: "application/x-www-form-urlencoded",
+    multipartForm: "multipart/form-data"
 ]
 // URL Mapping Cache Max Size, defaults to 5000
 //grails.urlmapping.cache.maxsize = 1000
 
 // What URL patterns should be processed by the resources plugin
-//grails.resources.uri.prefix = ''
-grails.resources.adhoc.patterns = ['/img/**', '/images/**', '/data/*', '/css/*', '/js/*', '/plugins/**']
+//grails.resources.uri.prefix = ""
+grails.resources.adhoc.patterns = ["/img/**", "/images/**", "/data/*", "/css/*", "/js/*", "/plugins/**"]
 grails.resources.resourceLocatorEnabled = true
 
 // The default codec used to encode data with ${}
@@ -205,7 +201,7 @@ grails.converters.encoding="UTF-8"
 // enable Sitemesh preprocessing of GSP pages
 grails.views.gsp.sitemesh.preprocess = true
 // scaffolding templates configuration
-grails.scaffolding.templates.domainSuffix = 'Instance'
+grails.scaffolding.templates.domainSuffix = "Instance"
 
 grails.plugins.cookie.cookieage.default = 86400 // if not specified default in code is 30 days
 
@@ -218,7 +214,7 @@ grails.logging.jul.usebridge = true
 // packages to include in Spring bean scanning
 grails.spring.bean.packages = []
 // MEW tell the framework which packages to search for @Validateable classes
-grails.validateable.packages = ['au.org.ala.collectory']
+grails.validateable.packages = ["au.org.ala.collectory"]
 
 /******* location of images **********/
 // default location for images
@@ -303,53 +299,30 @@ log4j = {
     }
 
     root {
-        error "tomcatLog", "rollbar"
+        error "rollbar"
         warn "tomcatLog"
+        info "stdout"
     }
 
-    error   'org.codehaus.groovy.grails.web.servlet',        // controllers
-            'org.codehaus.groovy.grails.web.pages',          // GSP
-            'org.codehaus.groovy.grails.web.sitemesh',       // layouts
-            'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
-            'org.codehaus.groovy.grails.web.mapping',        // URL mapping
-            'org.codehaus.groovy.grails.commons',            // core / classloading
-            'org.codehaus.groovy.grails.plugins',            // plugins
-            'org.codehaus.groovy.grails.orm.hibernate',      // hibernate integration
-            'org.springframework',
-            'org.hibernate',
-            'net.sf.ehcache.hibernate',
-            'grails.app.service.org.grails.plugin.resource.ResourceTagLib',
-            'grails.app.services.org.grails.plugin.resource',
-            'grails.app.taglib.org.grails.plugin.resource',
-            'grails.app.resourceMappers.org.grails.plugin.resource'
-    debug   'au.org.ala.collectory',
-            'grails.app',
-            'grails.app.service.org.grails.plugin.au.org.ala'
+    error   "org.codehaus.groovy.grails.web.servlet",        // controllers
+            "org.codehaus.groovy.grails.web.pages",          // GSP
+            "org.codehaus.groovy.grails.web.sitemesh",       // layouts
+            "org.codehaus.groovy.grails.web.mapping.filter", // URL mapping
+            "org.codehaus.groovy.grails.web.mapping",        // URL mapping
+            "org.codehaus.groovy.grails.commons",            // core / classloading
+            "org.codehaus.groovy.grails.plugins",            // plugins
+            "org.codehaus.groovy.grails.orm.hibernate",      // hibernate integration
+            "org.springframework",
+            "org.hibernate",
+            "net.sf.ehcache.hibernate",
+            "grails.app.service.org.grails.plugin.resource.ResourceTagLib",
+            "grails.app.services.org.grails.plugin.resource",
+            "grails.app.taglib.org.grails.plugin.resource",
+            "grails.app.resourceMappers.org.grails.plugin.resource"
+    debug   "au.org.ala.collectory",
+            "grails.app",
+            "grails.app.service.org.grails.plugin.au.org.ala"
 }
-// Uncomment and edit the following lines to start using Grails encoding & escaping improvements
-
-/* remove this line
-// GSP settings
-grails {
-    views {
-        gsp {
-            encoding = 'UTF-8'
-            htmlcodec = 'xml' // use xml escaping instead of HTML4 escaping
-            codecs {
-                expression = 'html' // escapes values inside null
-                scriptlet = 'none' // escapes output from scriptlets in GSPs
-                taglib = 'none' // escapes output from taglibs
-                staticparts = 'none' // escapes output from static template parts
-            }
-        }
-        // escapes all not-encoded output at final stage of outputting
-        filteringCodecForContentType {
-            //'text/html' = 'html'
-        }
-    }
-}
-remove this line */
-
 
 // Added by the Audit-Logging plugin:
 auditLog.auditDomainClassName = 'au.org.ala.audit.AuditLogEvent'
