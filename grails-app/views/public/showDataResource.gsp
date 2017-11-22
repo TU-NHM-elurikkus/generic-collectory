@@ -1,7 +1,7 @@
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="${grailsApplication.config.skin.layout}" />
+
         <title>
             ${instance.name}
         </title>
@@ -19,9 +19,6 @@
     <body class="nav-datasets">
         <div id="content">
             <div id="header" class="page-header">
-                <%-- XXX MAGIC. TODO: place it. --%>
-                <cl:pageOptionsPopup instance="${instance}" />
-
                 <h1 class="page-header__title">
                     ${instance.name}
                 </h1>
