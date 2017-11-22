@@ -1,6 +1,5 @@
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="${grailsApplication.config.skin.layout}" />
 
         <asset:stylesheet src="map3.css" />
@@ -56,77 +55,74 @@
                         <div class="section">
                             <div class="filter-button-container">
                                 <button type="button" class="filter-button all selected" id="all" onclick="toggleButton(this);">
-                                    <h2 class="filter-button__title">
+                                    <span class="filter-button__title">
                                         <g:message code="public.map3.link.allcollections" />
-                                    </h2>
+                                    </span>
 
-                                    <div class="filter-button__body">
-                                        <span id="collections-total">
-                                            <%-- XXX NOT USED! OR RATHER: OVERWRITTEN BY JS. --%>
-                                            <g:message code="public.map3.link.showall" />
-                                            <collections></collections>
-                                        </span>
-                                    </div>
+                                    <span class="filter-button__body" id="collections-total">
+                                        <%-- XXX NOT USED! OR RATHER: OVERWRITTEN BY JS. --%>
+                                        <g:message code="public.map3.link.showall" />
+                                    </span>
                                 </button>
                             </div>
 
                             <div class="filter-button-container">
                                 <button type="button" class="filter-button fauna" id="fauna" onclick="toggleButton(this);">
-                                    <h2 class="filter-button__title">
+                                    <span class="filter-button__title">
                                         <g:message code="public.map3.link.animals" />
-                                    </h2>
+                                    </span>
 
-                                    <div class="filter-button__body">
+                                    <span class="filter-button__body">
                                         <g:message code="public.map3.link.animalsDescription" />
-                                    </div>
+                                    </span>
                                 </button>
                             </div>
 
                             <div class="filter-button-container">
                                 <button type="button" class="filter-button insects" id="entomology" onclick="toggleButton(this);">
-                                    <h2 class="filter-button__title">
+                                    <span class="filter-button__title">
                                         <g:message code="public.map3.link.insects" />
-                                    </h2>
+                                    </span>
 
-                                    <div class="filter-button__body">
+                                    <span class="filter-button__body">
                                         <g:message code="public.map3.link.insectsDescription" />.
-                                    </div>
+                                    </span>
                                 </button>
                             </div>
 
                             <div class="filter-button-container">
                                 <button type="button" class="filter-button fungi" id="fungi" onclick="toggleButton(this);">
-                                    <h2 class="filter-button__title">
+                                    <span class="filter-button__title">
                                         <g:message code="public.map3.link.fungi" />
-                                    </h2>
+                                    </span>
 
-                                    <div class="filter-button__body">
+                                    <span class="filter-button__body">
                                         <g:message code="public.map3.link.fungiDescription" />.
-                                    </div>
+                                    </span>
                                 </button>
                             </div>
 
                             <div class="filter-button-container">
                                 <button type="button" class="filter-button microbes" id="microbes" onclick="toggleButton(this);">
-                                    <h2 class="filter-button__title">
+                                    <span class="filter-button__title">
                                         <g:message code="public.map3.link.microorganisms" />
-                                    </h2>
+                                    </span>
 
-                                    <div class="filter-button__body">
+                                    <span class="filter-button__body">
                                         <g:message code="public.map3.link.microorganismsDescription" />.
-                                    </div>
+                                    </span>
                                 </button>
                             </div>
 
                             <div class="filter-button-container">
                                 <button type="button" class="filter-button plants" id="plants" onclick="toggleButton(this);">
-                                    <h2 class="filter-button__title">
+                                    <span class="filter-button__title">
                                         <g:message code="public.map3.link.plants" />
-                                    </h2>
+                                    </span>
 
-                                    <div class="filter-button__body">
+                                    <span class="filter-button__body">
                                         <g:message code="public.map3.link.plantsDescription" />.
-                                    </div>
+                                    </span>
                                 </button>
                             </div>
                         </div>
@@ -160,7 +156,7 @@
                                     <div class="section">
                                         <div id="map_canvas"></div>
                                         <p class="vertical-block">
-                                            <img src="${resource(dir:'images', file:'markermultiple.png')}" class="map-legend-img" />
+                                            <img src="${resource(dir:'images', file:'markermultiple.png')}" class="map-legend-img" alt="legend" />
                                             <g:message code="public.map3.maplistcol.des02" />.
                                         </p>
                                     </div>

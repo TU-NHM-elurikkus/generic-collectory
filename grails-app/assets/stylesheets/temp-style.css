@@ -60,10 +60,13 @@
 
 .filter-button__title {
     color: #0587aa; /* eElurikkus blue */
+    font-size: 20px;
     font-weight: normal;
+    line-height: 24px;
 }
 
 .filter-button__body {
+    display: block;
     /* Stay clear from the background image on the right hand side. */
     width: 75%;
 }
