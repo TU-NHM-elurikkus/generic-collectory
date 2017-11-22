@@ -2,15 +2,16 @@
 
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="${grailsApplication.config.skin.layout}" />
+
         <title>
             ${instance.name}
         </title>
-        <script type="text/javascript" language="javascript" src="https://www.google.com/jsapi"></script>
 
         <asset:stylesheet src="public-show.css" />
         <asset:javascript src="public-show.js" />
+
+        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
         <script type="text/javascript">
             biocacheServicesUrl = "${grailsApplication.config.biocacheServicesUrl}";
@@ -90,12 +91,13 @@
                     <div class="col">
                         <div class="float-right">
                             <p>
-                            <a href="${grailsApplication.config.loggerURL}/reasonBreakdownCSV?eventId=1002&entityUid=${instance.uid}">
-                                <button class="erk-button erk-button--light">
+                                <a
+                                    href="${grailsApplication.config.loggerURL}/reasonBreakdownCSV?eventId=1002&entityUid=${instance.uid}"
+                                    class="erk-button erk-button--light erk-button-link"
+                                >
                                     <span class="fa fa-download"></span>&nbsp;
                                     <g:message code="dataAccess.download.stats" />
-                                </button>
-                            </a>
+                                </a>
                             </p>
                         </div>
                     </div>
