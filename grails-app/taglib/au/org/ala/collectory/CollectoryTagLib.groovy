@@ -1497,7 +1497,7 @@ class CollectoryTagLib {
     def pageOptionsPopup = {attrs ->
         out << """<div style="display:none; text-align: left;">\n"""
         out << """<div id="optionsText" style="text-align: left;">\n"""
-        out << """<p class='pageOptions' width="100%" style="color:#666;padding-bottom:5px;text-align:center">Page options</p>\n"""
+        out << """<p class='pageOptions' style="color:#666;padding-bottom:5px;text-align:center">Page options</p>\n"""
         out << """<p class='editLink' style="padding-left:30px;text-indent:-30px;">\n"""
         out << "<img class='editImg' style='margin-right:5px;vertical-align:middle' src='${resource(dir:'assets/ala',file:'edit.png')}'/>\n"
         out << link(controller:attrs.instance.urlForm(), action:'show', id:attrs.instance.uid) {"Edit metadata"}
