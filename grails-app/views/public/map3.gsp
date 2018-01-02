@@ -11,7 +11,7 @@
     </head>
 
     <body>
-        <div id="page-collections-map" class="nav-datasets">
+        <div class="nav-datasets">
             <div id="content">
                 <div id="header" class="page-header">
                     <h1 class="page-header__title">
