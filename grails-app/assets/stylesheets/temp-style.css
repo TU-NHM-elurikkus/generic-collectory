@@ -1,16 +1,8 @@
 /* THIS NEEDS TO BE REPLACED WITH STRUCTURED STYLES LATER ON. KEEP IT FOR NOW TO KEEP EVERYTHING MORE OR LESS TOGETHER. */
 
-/* temporary styling for map */
-#page-collections-map #map_canvas {
+#map_canvas {
     width: 100%;
     height: 470px;
-    border: 1px solid #e8eace;
-}
-
-#page-collections-map #map_canvas {
-    width: 100%;
-    height: 470px;
-    border: 1px solid #333 !important;
 }
 
 .map-footer {

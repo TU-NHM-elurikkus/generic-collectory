@@ -1,4 +1,4 @@
-//= require leaflet/leaflet-1.2.0
+//= require leaflet-1.2.0/leaflet-src
 //= require leaflet-marker-cluster/leaflet.markercluster
 
 var altMap; // Populated by some of the templates
