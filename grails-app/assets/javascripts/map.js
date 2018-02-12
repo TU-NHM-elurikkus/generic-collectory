@@ -85,7 +85,7 @@ function updateMap(filters) {
         iconSize: [25, 25]
     });
 
-    var queryUrl = COLLECTORY_CONF.alaRoot + '/public/mapFeatures?filters=' + filters;
+    var queryUrl = COLLECTORY_CONF.alaRoot + COLLECTORY_CONF.contextPath + '/public/mapFeatures?filters=' + filters;
 
     clusterMarkers = L.markerClusterGroup({
         showCoverageOnHover: false,
@@ -170,7 +170,7 @@ function findSelected(features) {
 * Regenerate list of collections - update total number
 */
 function updateList(filters) {
-    var queryUrl = COLLECTORY_CONF.alaRoot + '/public/mapFeatures?filters=' + filters
+    var queryUrl = COLLECTORY_CONF.alaRoot + COLLECTORY_CONF.contextPath + '/public/mapFeatures?filters=' + filters;
     $.get(queryUrl, function(data) {
         var features = data.features;
 
