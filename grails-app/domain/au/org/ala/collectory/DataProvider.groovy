@@ -46,11 +46,10 @@ class DataProvider extends ProviderGroup implements Serializable {
             def list = []
             def unused = resources.toString()  // workaround for odd problem where resources don't seem
                                                // to exist unless they are touched directly - lazy loading??
+                                               // update: it's not odd problem - you just can't program correctly
             resources.each { res ->
                 if (res.hasProperty('uid')) {
                     list << [res.uid, res.name]
-                } else {
-                    log.error("problem accessing resources for uid = " + uid)
                 }
             }
             dps.resources = list
