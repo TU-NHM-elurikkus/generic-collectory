@@ -566,6 +566,18 @@ abstract class ProviderGroup implements Serializable {
         DataLink.findAllByProvider(this.uid).collect {it.consumer}
     }
 
+    def listMemberInstitutions() {
+        return []
+    }
+
+    def listMemberCollections() {
+        return []
+    }
+
+    def listMemberDataResources() {
+        return []
+    }
+
     /**
      * Returns taxonomy hints as a list of maps where each contains a rank and a name.
      *
