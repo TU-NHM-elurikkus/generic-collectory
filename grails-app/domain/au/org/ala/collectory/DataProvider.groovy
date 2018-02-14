@@ -69,6 +69,18 @@ class DataProvider extends ProviderGroup implements Serializable {
         return dps
     }
 
+    def listMemberInstitutions() {
+        return []
+    }
+
+    def listMemberCollections() {
+        return []
+    }
+
+    def listMemberDataResources() {
+        return []
+    }
+
     /**
      * Return the first related institution address if the provider does not have one.
      * @return
