@@ -311,27 +311,27 @@ class DataController {
         } else {
             def urlForm = params.entity
             def clazz = capitalise(urlForm)
+            response.setCharacterEncoding("UTF-8")
+            response.setContentType("application/json")
             if (params.pg) {
                 // return specified entity
                 addContentLocation "/ws/${urlForm}/${params.pg.uid}"
                 def eTag = (params.pg.uid + ":" + params.pg.lastUpdated).encodeAsMD5()
                 def entityInJson = crudService."read${clazz}"(params.pg)
                 entityInJson = metadataService.convertAnyLocalPaths(entityInJson)
-                response.setContentType("application/json")
-                response.setCharacterEncoding("UTF-8")
                 cacheAwareRender entityInJson, params.pg.lastUpdated, eTag
             } else {
                 // return list of entities
                 addContentLocation "/ws/${urlForm}"
                 def domain = grailsApplication.getClassForName("au.org.ala.collectory.${clazz}")
-                def list = domain.list([sort:'name'])
+                if(!domain) {
+                    return render(text:"{}")
+                }
                 list = filter(list)
                 def last = latestModified(list)
                 def detail = params.summary ? summary : brief
                 def summaries = list.collect(detail)
                 def eTag = summaries.toString().encodeAsMD5()
-//                response.setCharacterEncoding("UTF-8")
-                response.setContentType("application/json")
                 renderAsJson summaries, last, eTag
             }
         }
