@@ -327,7 +327,7 @@ class DataController {
                 if(!domain) {
                     return render(text:"{}")
                 }
-                list = filter(list)
+                def list = filter(domain.list([sort:'name']))
                 def last = latestModified(list)
                 def detail = params.summary ? summary : brief
                 def summaries = list.collect(detail)

@@ -35,7 +35,7 @@ class UrlMappings {
         "/feed(.$format)?" (controller:'dataFeeds',action:'rssFeed')
 
         // temporary mock notification service
-        "/ws/notify" (controller:'data', action:'notify')
+        "/ws/notify" (controller: 'data', action:'notify')
 
         "/lookup/inst/$inst/coll/$coll(.$format)?"(controller:'lookup',action:'collection')
         "/ws/lookup/inst/$inst/coll/$coll(.$format)?"(controller:'lookup',action:'collection')
@@ -51,20 +51,20 @@ class UrlMappings {
         "/datasets" (controller: 'public', action: 'dataSets')
 
         // data services
-        "/ws/$entity/count/$groupBy?" (controller:'data', action: 'count') {
+        "/ws/$entity/count/$groupBy?" (controller: 'data', action: 'count') {
             constraints {
                 entity(inList:['collection','institution','dataProvider','dataResource','tempDataResource','dataHub'])
             }
         }
 
-        "/ws/$entity/$uid?(.$format)?" (controller:'data') {
+        "/ws/$entity/$uid?(.$format)?" (controller: 'data') {
             action = [HEAD: 'head', GET:'getEntity', PUT:'saveEntity', DELETE:'delete', POST:'saveEntity']
             constraints {
                 entity(inList:['collection','institution','dataProvider','dataResource','tempDataResource','dataHub'])
             }
         }
 
-        "/ws/$entity/summary(.$format)?" (controller:'data') {
+        "/ws/$entity/summary(.$format)?" (controller: 'data') {
             action = [HEAD: 'head', GET:'getEntity', PUT:'saveEntity', DELETE:'delete', POST:'saveEntity']
             constraints {
                 entity(inList:['collection','institution','dataProvider','dataResource','tempDataResource','dataHub'])
@@ -73,13 +73,13 @@ class UrlMappings {
         }
 
         // data resource harvesting parameters
-        "/ws/dataResource/$uid/connectionParameters(.$format)?" (controller:'data', action:'connectionParameters')
+        "/ws/dataResource/$uid/connectionParameters(.$format)?" (controller: 'data', action:'connectionParameters')
 
         // raw contact data
         //"/ws/contacts/$id?" (controller: 'data', action: 'contacts')
         "/ws/contacts/email/$email?" (controller: 'data', action: 'getContactByEmail')
 
-        "/ws/contacts/$id(.$format)?" (controller:'data') {
+        "/ws/contacts/$id(.$format)?" (controller: 'data') {
             action = [GET:'contacts', PUT:'updateContact', DELETE:'deleteContact', POST:'updateContact']
         }
 
@@ -150,9 +150,9 @@ class UrlMappings {
         "/ws/downloadLimits" (controller:'lookup', action:'downloadLimits')
 
         // eml
-        "/eml/$id?" (controller:'data',action:'eml')
+        "/eml/$id?" (controller: 'data',action:'eml')
         // preferred
-        "/ws/eml/$id?" (controller:'data',action:'eml')
+        "/ws/eml/$id?" (controller: 'data',action:'eml')
 
         // GBIF IPT
         "/ws/ipt/scan/$uid(.$format)?" (controller: 'ipt', action: 'scan')
@@ -162,20 +162,20 @@ class UrlMappings {
 
         "/lookup/summary/$id(.$format)?" (controller:'lookup',action:'summary')
 
-        "/ws/collection/contacts/$uid(.$format)?" (controller:'data',action:'contactsForCollections')
-        "/ws/institution/contacts/$uid(.$format)?" (controller:'data',action:'contactsForInstitutions')
-        "/ws/dataProvider/contacts/$uid(.$format)?" (controller:'data',action:'contactsForDataProviders')
-        "/ws/dataResource/contacts/$uid(.$format)?" (controller:'data',action:'contactsForDataResources')
-        "/ws/dataHub/contacts/$uid(.$format)?" (controller:'data',action:'contactsForDataHubs')
-        "/ws" (controller:'data',action:'catalogue')
+        "/ws/collection/contacts/$uid(.$format)?" (controller: 'data',action:'contactsForCollections')
+        "/ws/institution/contacts/$uid(.$format)?" (controller: 'data',action:'contactsForInstitutions')
+        "/ws/dataProvider/contacts/$uid(.$format)?" (controller: 'data',action:'contactsForDataProviders')
+        "/ws/dataResource/contacts/$uid(.$format)?" (controller: 'data',action:'contactsForDataResources')
+        "/ws/dataHub/contacts/$uid(.$format)?" (controller: 'data',action:'contactsForDataHubs')
+        "/ws" (controller: 'data',action:'catalogue')
         "/showConsumers/$id(.$format)?" (controller:'entity',action:'showConsumers')
         "/showProviders/$id(.$format)?" (controller:'entity',action:'showProviders')
 
-        "/ws/codeMapDump" (controller:'data', action:'codeMapDump')
+        "/ws/codeMapDump" (controller: 'data', action:'codeMapDump')
 
         "/ws/dataResource/harvesting(.$format)?" (controller:'reports', action: 'harvesters')
 
-        "/ws/$entity?(.$format)?" (controller:'data', action:[GET:'getEntity', POST: 'saveEntity',  PUT:'saveEntity', DELETE: 'delete'])
+        "/ws/$entity?(.$format)?" (controller: 'data', action:[GET:'getEntity', POST: 'saveEntity',  PUT:'saveEntity', DELETE: 'delete'])
 
         "/public/resources(.$format)"(controller:'public', action:'resources')
 		"/public/reason-breakdown/"(controller:'public', action:'getReasonBreakdown')
