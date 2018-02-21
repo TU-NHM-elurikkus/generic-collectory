@@ -548,10 +548,6 @@
                 $(this).error(function() {
                     $(this).attr('src',"${resource(dir:'images/map',file:'single-occurrences.png')}");
                 });
-                // IE hack as IE doesn't trigger the error handler
-                /*if($.browser.msie && !n.complete) {
-                    $(this).attr('src',"${resource(dir:'images/map',file:'single-occurrences.png')}");
-                }*/
             });
 
             /************************************************************\

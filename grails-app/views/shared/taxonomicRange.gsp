@@ -187,14 +187,6 @@
                             }
                         });
 
-                        if(jQuery.browser.msie) {
-                            var version = parseInt(jQuery.browser.version,10);
-
-                            if (version === 9 || version === 8 || version === 7) {
-                                $tree.jstree('open_all', -1, false);
-                            }
-                        }
-
                         updateSelectedList();
                     }
 
@@ -217,18 +209,6 @@
 
                 // init help link
                 $('a#helpLink').overlay();
-                // flag possible problem in IE 7, 8, 9
-                /*
-                if(jQuery.browser.msie) {
-                    var version = parseInt(jQuery.browser.version,10);
-
-                    if(version === 9 || version === 8 || version === 7) {
-                        $('.potential-problem span').html(" " + version);
-                        $('.potential-problem').css('display','block');
-                        // open all nodes so it is at least consistent
-                    }
-                }
-                */
             }
 
             function updateSelectedList() {
