@@ -10,8 +10,6 @@
         <asset:javascript src="public-show-data-resource.js" />
 
         <script>
-            // define biocache server
-            bieUrl = "${grailsApplication.config.bie.serviceURL}";
             loadLoggerStats = ${!grailsApplication.config.disableLoggerLinks.toBoolean()};
         </script>
     </head>
@@ -361,8 +359,6 @@
                                 </p>
                             </g:if>
 
-                            <div id="pagesContributed"></div>
-
                             <g:if test="${instance.resourceType == 'website' && (instance.lastChecked || instance.dataCurrency)}">
                                 <h3>
                                     <g:message code="public.sdr.content.label08" />
@@ -454,7 +450,6 @@
             var CHARTS_CONFIG = {
                 biocacheServicesUrl: "${grailsApplication.config.biocacheServicesUrl}",
                 biocacheWebappUrl: "${grailsApplication.config.biocacheUiURL}",
-                bieWebappUrl: "${grailsApplication.config.bie.baseURL}",
                 collectionsUrl: "${grailsApplication.config.grails.serverURL}"
             };
 
@@ -485,7 +480,6 @@
                 biocacheServicesUrl: CHARTS_CONFIG.biocacheServicesUrl,
                 /* base url of the biocache webapp*/
                 biocacheWebappUrl: CHARTS_CONFIG.biocacheWebappUrl,
-                bieWebappUrl: CHARTS_CONFIG.bieWebappUrl,
                 /* the id of the div to create the charts in - defaults is 'charts' */
                 targetDivId: "tree",
                 /* a uid or list of uids to chart - either this or query must be present */
@@ -517,22 +511,6 @@
                         loadDownloadStats("${grailsApplication.config.grails.serverURL}", "${instance.uid}","${instance.name}", "1002");
                     }
                 }
-
-                // species pages
-                $.ajax({
-                    url: bieUrl + "/search.json?q=*&fq=uid:${instance.uid}",
-                    dataType: 'jsonp',
-                    success: function(data) {
-                        var pages = data.searchResults.totalRecords;
-
-                        if(pages) {
-                            var $contrib = $('#pagesContributed');
-                            $contrib.append($('<h3>Contribution to the Atlas</h3><p>This resource has contributed to <strong>' +
-                                pages + '</strong> pages of taxa. ' +
-                                '<a href="' + CHARTS_CONFIG.bieWebappUrl  + '/search?q=*&fq=uid:' + "${instance.uid}" + '">View a list</a></p>'));
-                        }
-                    }
-                });
 
                 // records
                 if (${instance.resourceType == 'records'}) {

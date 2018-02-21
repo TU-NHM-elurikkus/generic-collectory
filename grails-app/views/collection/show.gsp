@@ -551,33 +551,33 @@
 
         <script type="text/javascript">
             var initial = -120;
-            var imageWidth=240;
-            var eachPercent = (imageWidth/2)/100;
+            var imageWidth = 240;
+            var eachPercent = (imageWidth / 2) / 100;
 
             function onLoadCallback() {
-              // summary biocache data
-              var biocacheRecordsUrl = "${Holders.config.grails.context}/public/biocacheRecords.json?uid=${instance.uid}";
+                // summary biocache data
+                var biocacheRecordsUrl = "${Holders.config.grails.context}/public/biocacheRecords.json?uid=${instance.uid}";
 
-              $.get(biocacheRecordsUrl, {}, biocacheRecordsHandler);
+                $.get(biocacheRecordsUrl, {}, biocacheRecordsHandler);
             }
 
             function biocacheRecordsHandler(response) {
-              setNumbers(response.totalRecords, ${instance.numRecords});
+                setNumbers(response.totalRecords, ${instance.numRecords});
             }
 
             function setNumbers(totalBiocacheRecords, totalRecords) {
-                var recordsClause = "";
+                var recordsClause = '';
 
-                switch (totalBiocacheRecords) {
-                    case 0: recordsClause = "No records"; break;
-                    case 1: recordsClause = "1 record"; break;
-                    default: recordsClause = addCommas(totalBiocacheRecords) + " records";
+                switch(totalBiocacheRecords) {
+                    case 0: recordsClause = 'No records'; break;
+                    case 1: recordsClause = '1 record'; break;
+                    default: recordsClause = addCommas(totalBiocacheRecords) + ' records';
                 }
 
                 $('#numBiocacheRecords').html(recordsClause);
 
-                if (totalRecords > 0) {
-                    var percent = totalBiocacheRecords/totalRecords * 100;
+                if(totalRecords > 0) {
+                    var percent = totalBiocacheRecords / totalRecords * 100;
 
                     setProgress(percent);
                 } else {
@@ -587,25 +587,25 @@
             }
 
             function setProgress(percentage) {
-                var captionText = "";
+                var captionText = '';
 
-                if (${instance.numRecords < 1}) {
-                    captionText = "There is no estimate of the total number<br/>of specimens in this collection.";
-                } else if (percentage == 0) {
-                    captionText = "No records are available for viewing in the Atlas.";
+                if(${instance.numRecords < 1}) {
+                    captionText = 'There is no estimate of the total number<br/>of specimens in this collection.';
+                } else if(percentage == 0) {
+                    captionText = 'No records are available for viewing in the Atlas.';
                 } else {
                     var displayPercent = percentage.toFixed(1);
 
-                    if (percentage < 0.1) {displayPercent = percentage.toFixed(2)}
-                    if (percentage > 20) {displayPercent = percentage.toFixed(0)}
-                    if (percentage > 100) {displayPercent = "over 100"}
+                    if(percentage < 0.1) { displayPercent = percentage.toFixed(2) }
+                    if(percentage > 20) { displayPercent = percentage.toFixed(0) }
+                    if(percentage > 100) { displayPercent = 'over 100' }
 
-                    captionText = "Records for " + displayPercent + "% of specimens are<br/>available for viewing in the Atlas.";
+                    captionText = 'Records for ' + displayPercent + '% of specimens are<br/>available for viewing in the Atlas.';
                 }
 
                 $('#speedoCaption').html(captionText);
 
-                if (percentage > 100) {
+                if(percentage > 100) {
                     $('#progressBar').removeClass('percentImage1');
                     $('#progressBar').addClass('percentImage4');
 
@@ -613,9 +613,9 @@
                 }
 
                 var percentageWidth = eachPercent * percentage;
-                var newProgress = eval(initial)+eval(percentageWidth)+'px';
+                var newProgress = eval(initial) + eval(percentageWidth) + 'px';
 
-                $('#progressBar').css('backgroundPosition',newProgress+' 0');
+                $('#progressBar').css('backgroundPosition', newProgress + ' 0');
             }
 
             function addCommas(nStr) {

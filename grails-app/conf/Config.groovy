@@ -64,32 +64,8 @@ skin.fluidLayout=false
 /******************************************************************************\
 *  EXTERNAL SERVERS
 \******************************************************************************/
-if (!bie.baseURL) {
-    bie.baseURL = "http://bie.ala.org.au/"
-}
 if (!bie.searchPath) {
     bie.searchPath = "/search"
-}
-if (!biocacheUiURL) {
-    biocacheUiURL = "http://biocache.ala.org.au"
-}
-if(!biocacheServicesUrl) {
-    biocacheServicesUrl = "http://biocache.ala.org.au/ws"
-}
-if (!spatial.baseURL) {
-    spatial.baseURL = "http://spatial.ala.org.au/"
-}
-if (!ala.baseURL) {
-    ala.baseURL = "http://www.ala.org.au"
-}
-if (!headerAndFooter.baseURL) {
-    headerAndFooter.baseURL = "http://www2.ala.org.au/commonui"
-}
-if(!alertUrl) {
-    alertUrl = "http://alerts.ala.org.au/"
-}
-if(!speciesListToolUrl) {
-    speciesListToolUrl = "http://lists.ala.org.au/speciesListItem/list/"
 }
 
 if(!alertResourceName) {
@@ -107,7 +83,7 @@ if(!uploadExternalUrlPath) {
 //reloadable.cfgPollingFrequency = 1000 * 60 * 60 // 1 hour
 //reloadable.cfgPollingRetryAttempts = 5
 //reloadable.cfgs = ["file:/data/collectory/config/Collectory-config.properties"]
-reloadable.cfgs = ["file:" + default_config, "file:" + commons_config]
+// reloadable.cfgs = ["file:" + default_config, "file:" + commons_config]
 
 /******************************************************************************\
 *  TEMPLATES
@@ -195,9 +171,9 @@ grails.resources.adhoc.patterns = ["/img/**", "/images/**", "/data/*", "/css/*",
 grails.resources.resourceLocatorEnabled = true
 
 // The default codec used to encode data with ${}
-grails.views.default.codec="html" // none, html, base64
-grails.views.gsp.encoding="UTF-8"
-grails.converters.encoding="UTF-8"
+grails.views.default.codec = "html" // none, html, base64
+grails.views.gsp.encoding = "UTF-8"
+grails.converters.encoding = "UTF-8"
 // enable Sitemesh preprocessing of GSP pages
 grails.views.gsp.sitemesh.preprocess = true
 // scaffolding templates configuration
@@ -206,7 +182,7 @@ grails.scaffolding.templates.domainSuffix = "Instance"
 grails.plugins.cookie.cookieage.default = 86400 // if not specified default in code is 30 days
 
 // Set to false to use the new Grails 1.2 JSONBuilder in the render method
-grails.json.legacy.builder=false
+grails.json.legacy.builder = false
 // enabled native2ascii conversion of i18n properties files
 grails.enable.native2ascii = true
 // whether to install the java.util.logging bridge for sl4j. Disable fo AppEngine!
