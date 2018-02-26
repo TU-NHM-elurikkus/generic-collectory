@@ -1,4 +1,3 @@
-//= require jquery-ui
 //= require jquery-migration-plugins
 
 /* holds full list of resources */
