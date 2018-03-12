@@ -4,12 +4,12 @@
         <meta name="layout" content="${grailsApplication.config.skin.layout}" />
         <title><g:message code="collection.base.label" default="Edit taxonomy hints" /></title>
 
-        <asset:javascript src="jstree.js" />
+        <asset:javascript src="jquery-plugins/jquery.jstree.js" />
     </head>
 
     <body>
-        <div class="title-bar">
-            <h1>
+        <div class="page-header">
+            <h1 class="page-header__title">
                 <g:message code="shared.title.editing" />: ${command.name}
             </h1>
         </div>
@@ -34,11 +34,11 @@
                     <g:hiddenField name="range" value="${command.listTaxonomicRange() ? command.listTaxonomicRange().join(',') : ''}" />
 
                     <div>
-                        <h2>
+                        <h3>
                             <g:message code="shared.tr.title01" />.
-                        </h2>
+                        </h3>
 
-                        <p class="lead">
+                        <p>
                             <g:message code="shared.tr.des01" />.
                         </p>
 
@@ -62,17 +62,12 @@
 
                                 <ul></ul>
 
-                                <button type="button" class="btn" id="clear">
+                                <button type="button" class="erk-button erk-button--light" id="clear">
                                     <g:message code="shared.tr.btn.clearall" />
                                 </button>
 
-                                <span class="button">
-                                    <input type="submit" name="_action_updateTaxonomicRange" value="${message(code:"shared.button.update")}" class="save btn" />
-                                </span>
-
-                                <span class="button">
-                                    <input type="submit" name="_action_cancel" value="${message(code:"shared.button.cancel")}" class="cancel btn" />
-                                </span>
+                                <input type="submit" name="_action_updateTaxonomicRange" value="${message(code:"shared.button.update")}" class="erk-button erk-button--light erk-button-link" />
+                                <input type="submit" name="_action_cancel" value="${message(code:"shared.button.cancel")}" class="erk-button erk-button--light erk-button-link" />
                             </div>
                         </div>
                     </div>
@@ -208,7 +203,7 @@
                 });
 
                 // init help link
-                $('a#helpLink').overlay();
+                // $('a#helpLink').overlay();
             }
 
             function updateSelectedList() {
