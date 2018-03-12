@@ -9,3 +9,8 @@
 .admin-multi-select {
     height: 100px
 }
+
+/* XXX A hack for foul Bootstrap card stacking. */
+.card {
+    margin-bottom: 1.5rem;
+}
