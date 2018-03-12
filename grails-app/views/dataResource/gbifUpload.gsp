@@ -5,7 +5,7 @@
     <meta name="layout" content="${grailsApplication.config.skin.layout}" />
 
     <title><g:message code="upload.gbif.archive" /></title>
-    <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.3&sensor=false"></script>
+    <script type="text/javascript" src="https://maps.google.com/maps/api/js?v=3.3&sensor=false"></script>
 
     <assets:javascript src="bootstrap.js" />
     <assets:javascript src="bootstrap-fileupload.min.js" />

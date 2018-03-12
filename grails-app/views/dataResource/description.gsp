@@ -257,8 +257,12 @@
                 removeFromList($(obj).html());
             }
             function getSelectedList() {
-                var list = $.parseJSON($('input#contentTypes').val());
-                return list == undefined ? [] : list
+                var list = $('input#contentTypes').val();
+                if(list) {
+                    return $.parseJSON(list);
+                } else {
+                    return [];
+                }
             }
             function addToList(ct) {
                 var list = getSelectedList();
@@ -284,7 +288,7 @@
                     $.each(list, function(index, value) {
                         str += '"' + value + '",';
                     })
-                    str = (str.length > 1 ? str.substr(0,str.length-1) : str) + "]";
+                    str = (str.length > 1 ? str.substr(0, str.length-1) : str) + "]";
                     return str;
                 }
             }
