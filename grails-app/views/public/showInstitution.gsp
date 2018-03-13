@@ -11,7 +11,9 @@
         <asset:stylesheet src="public-show.css" />
         <asset:javascript src="public-show.js" />
 
-        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+        <g:if test="${grailsApplication.config.google.apikey}">
+            <script src="https://maps.googleapis.com/maps/api/js?key=${grailsApplication.config.google.apikey}" type="text/javascript"></script>
+        </g:if>
 
         <script type="text/javascript">
             biocacheServicesUrl = "${grailsApplication.config.biocacheServicesUrl}";

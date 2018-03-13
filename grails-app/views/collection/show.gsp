@@ -10,7 +10,10 @@
         <title>
             <g:message code="general.show.label" args="[entityName]" />
         </title>
-        <script type="text/javascript" src="https://maps.google.com/maps/api/js?v=3.3&key=${Holders.config.google.apikey}"></script>
+
+        <g:if test="${grailsApplication.config.google.apikey}">
+            <script src="https://maps.googleapis.com/maps/api/js?key=${grailsApplication.config.google.apikey}" type="text/javascript"></script>
+        </g:if>
 
         <asset:javascript src="collectory.js" />
         <asset:stylesheet src="collectory.css" />
@@ -85,79 +88,74 @@
 
             <div class="dialog emulate-public">
                 <!-- base attributes -->
-                <div class="show-section well titleBlock">
+                <div class="show-section page-header">
 
                     <!-- Name --><!-- Acronym -->
-                    <h1>
+                    <h1 class="page-header__title">
                         ${fieldValue(bean: instance, field: "name")}
                         <cl:valueOrOtherwise value="${instance.acronym}">
                             (${fieldValue(bean: instance, field: "acronym")})
                         </cl:valueOrOtherwise>
                     </h1>
 
-                    <!-- Institution --><!-- ALA Partner -->
-                    <h2 style="display:inline">
-                        <g:link controller="institution" action="show" id="${instance.institution?.uid}">
+                    <div class="page-header-links">
+                        <g:link controller="institution" action="show" id="${instance.institution?.uid}" class="page-header-links__link">
                             ${instance.institution?.name}
                         </g:link>
-                    </h2>
-
-                    <cl:partner test="${instance.institution?.isALAPartner}" />
-
-                    <br />
-
-                    <div class="card card-body">
-                        <!-- GUID    -->
-                        <p>
-                            <span class="category">
-                                <g:message code="collection.show.span.lsid" />:
-                            </span>
-                            <cl:guid target="_blank" guid='${fieldValue(bean: instance, field: "guid")}' />
-                        </p>
-
-                        <!-- UID    -->
-                        <p>
-                            <span class="category">
-                                <g:message code="collection.show.span.uid" />:
-                            </span>
-                            ${fieldValue(bean: instance, field: "uid")}
-                        </p>
-
-                        <!-- Web site -->
-                        <p>
-                            <span class="category">
-                                <g:message code="collection.show.span.cw" />:
-                            </span>
-                            <cl:externalLink href="${fieldValue(bean:instance, field:'websiteUrl')}" />
-                        </p>
-
-                        <!-- Networks -->
-                        <g:if test="${instance.networkMembership}">
-                            <p>
-                                <cl:membershipWithGraphics coll="${instance}" />
-                            </p>
-                        </g:if>
-
-                        <!-- Notes -->
-                        <g:if test="${instance.notes}">
-                            <p>
-                                <cl:formattedText>
-                                    ${fieldValue(bean: instance, field: "notes")}
-                                </cl:formattedText>
-                            </p>
-                        </g:if>
-
-                        <!-- last edit -->
-                        <p>
-                            <span class="category">
-                                Last change:
-                            </span>
-                            ${fieldValue(bean: instance, field: "userLastModified")} on ${fieldValue(bean: instance, field: "lastUpdated")}
-                        </p>
-
-                        <cl:editButton uid="${instance.uid}" page="/shared/base" notAuthorisedMessage="Not authorised to edit." />
                     </div>
                 </div>
+            </div>
+
+            <div class="card card-body">
+                <!-- GUID    -->
+                <p>
+                    <span class="category">
+                        <g:message code="collection.show.span.lsid" />:
+                    </span>
+                    <cl:guid target="_blank" guid='${fieldValue(bean: instance, field: "guid")}' />
+                </p>
+
+                <!-- UID    -->
+                <p>
+                    <span class="category">
+                        <g:message code="collection.show.span.uid" />:
+                    </span>
+                    ${fieldValue(bean: instance, field: "uid")}
+                </p>
+
+                <!-- Web site -->
+                <p>
+                    <span class="category">
+                        <g:message code="collection.show.span.cw" />:
+                    </span>
+                    <cl:externalLink href="${fieldValue(bean:instance, field:'websiteUrl')}" />
+                </p>
+
+                <!-- Networks -->
+                <g:if test="${instance.networkMembership}">
+                    <p>
+                        <cl:membershipWithGraphics coll="${instance}" />
+                    </p>
+                </g:if>
+
+                <!-- Notes -->
+                <g:if test="${instance.notes}">
+                    <p>
+                    <cl:formattedText>
+                        ${fieldValue(bean: instance, field: "notes")}
+                    </cl:formattedText>
+                    </p>
+                </g:if>
+
+                <!-- last edit -->
+                <p>
+                    <span class="category">
+                        Last change:
+                    </span>
+                    ${fieldValue(bean: instance, field: "userLastModified")} on ${fieldValue(bean: instance, field: "lastUpdated")}
+                </p>
+
+                <cl:editButton uid="${instance.uid}" page="/shared/base" notAuthorisedMessage="Not authorised to edit." />
             </div>
 
             <!-- collection description -->
@@ -538,7 +536,7 @@
 
                     <span class="button">
                         <g:actionSubmit
-                            class="delete erk-button erk-button--dark"
+                            class="delete erk-button erk-button--dark erk-button-link"
                             action="delete"
                             value="${message(code: 'general.button.delete.label')}"
                             onclick="return confirm('${message(code: 'general.button.delete.confirm.message')}');"

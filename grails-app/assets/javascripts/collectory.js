@@ -101,6 +101,12 @@ function sendEmail(strEncoded) {
 
 function initializeLocationMap(canBeMapped, lat, lng) {
     var map;
+
+    // No map, go home.
+    if(!this.google) {
+        return;
+    }
+
     if(canBeMapped) {
         if(!lat || lat === 0 || lat === -1) {
             lat = -35.294325779329654;
