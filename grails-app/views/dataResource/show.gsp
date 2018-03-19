@@ -11,7 +11,7 @@
         <title>
             <g:message code="general.show.label" args="[entityName]" />
         </title>
-        <script type="text/javascript" src="https://maps.google.com/maps/api/js?v=3.3&key=${Holders.config.google.apikey}"></script>
+        <script type="text/javascript" language="javascript" src="https://www.google.com/jsapi"></script>
     </head>
 
     <body onload="initializeLocationMap('${instance.canBeMapped()}',${instance.latitude},${instance.longitude});">

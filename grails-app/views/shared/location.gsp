@@ -12,7 +12,7 @@
             <g:message code="collection.base.label" default="Edit ${entityNameLower} metadata" />
         </title>
 
-        <script src="https://maps.googleapis.com/maps/api/js?key=${grailsApplication.config.google?.apikey}" type="text/javascript"></script>
+        <script type="text/javascript" language="javascript" src="https://www.google.com/jsapi"></script>
     </head>
 
     <body>

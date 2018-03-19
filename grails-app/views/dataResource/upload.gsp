@@ -11,7 +11,7 @@
             <g:message code="general.show.label" args="[entityName]" />
         </title>
 
-        <script type="text/javascript" src="https://maps.google.com/maps/api/js?v=3.3&sensor=false"></script>
+        <script type="text/javascript" language="javascript" src="https://www.google.com/jsapi"></script>
 
         <asset:javascript src="fileupload.js" />
         <asset:stylesheet src="fileupload.css" />

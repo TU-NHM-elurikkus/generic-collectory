@@ -1,11 +1,14 @@
-<%@ page import="grails.converters.JSON; au.org.ala.collectory.ProviderGroup; au.org.ala.collectory.DataProvider" %>
+<%@ page import="grails.converters.JSON" %>
+<%@ page import="au.org.ala.collectory.ProviderGroup" %>
+<%@ page import="au.org.ala.collectory.DataProvider" %>
+
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="layout" content="${grailsApplication.config.skin.layout}" />
 
     <title><g:message code="upload.gbif.archive" /></title>
-    <script type="text/javascript" src="https://maps.google.com/maps/api/js?v=3.3&sensor=false"></script>
+    <script type="text/javascript" language="javascript" src="https://www.google.com/jsapi"></script>
 
     <assets:javascript src="bootstrap.js" />
     <assets:javascript src="bootstrap-fileupload.min.js" />

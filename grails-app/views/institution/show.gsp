@@ -1,14 +1,13 @@
+<%@ page import="au.org.ala.collectory.ProviderGroup" %>
+<%@ page import="au.org.ala.collectory.Institution" %>
 
-<%@ page import="au.org.ala.collectory.ProviderGroup; au.org.ala.collectory.Institution" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="${grailsApplication.config.skin.layout}" />
         <g:set var="entityName" value="${message(code: 'institution.label', default: 'Institution')}" />
         <title><g:message code="general.show.label" args="[entityName]" /></title>
-        <script async defer
-                src="https://maps.googleapis.com/maps/api/js?key=${grailsApplication.config.google?.apikey}"
-                type="text/javascript"></script>
+        <script type="text/javascript" language="javascript" src="https://www.google.com/jsapi"></script>
 
         <asset:javascript src="collectory.js" />
         <asset:stylesheet src="collectory.css" />

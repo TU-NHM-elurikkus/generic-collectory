@@ -1,4 +1,6 @@
-<%@ page import="au.org.ala.collectory.ProviderGroup; au.org.ala.collectory.DataProvider" %>
+<%@ page import="au.org.ala.collectory.ProviderGroup" %>
+<%@ page import?"au.org.ala.collectory.DataProvider" %>
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -6,9 +8,7 @@
         <g:set var="entityName" value="${instance.ENTITY_TYPE}" />
         <g:set var="entityNameLower" value="${cl.controller(type: instance.ENTITY_TYPE)}"/>
         <title><g:message code="general.show.label" args="[entityName]" /></title>
-        <script async defer
-                src="https://maps.googleapis.com/maps/api/js?key=${grailsApplication.config.google?.apikey}"
-                type="text/javascript"></script>
+        <script type="text/javascript" language="javascript" src="https://www.google.com/jsapi"></script>
     </head>
     <body onload="initializeLocationMap('${instance.canBeMapped()}',${instance.latitude},${instance.longitude});">
     <style>
