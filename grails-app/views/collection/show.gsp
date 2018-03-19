@@ -11,9 +11,7 @@
             <g:message code="general.show.label" args="[entityName]" />
         </title>
 
-        <g:if test="${grailsApplication.config.google.apikey}">
-            <script src="https://maps.googleapis.com/maps/api/js?key=${grailsApplication.config.google.apikey}" type="text/javascript"></script>
-        </g:if>
+        <script type="text/javascript" language="javascript" src="https://www.google.com/jsapi"></script>
 
         <asset:javascript src="collectory.js" />
         <asset:stylesheet src="collectory.css" />
