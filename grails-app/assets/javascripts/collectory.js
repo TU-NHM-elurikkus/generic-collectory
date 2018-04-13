@@ -93,8 +93,8 @@ function sendEmail(strEncoded) {
     strAddress = strEncoded.split(strEncodedAtSign);
     strAddress = strAddress.join('@');
     window.location.href = 'mailto:' + strAddress;
-    if(event) {
-        event.cancelBubble = true;
+    if(this.event) {
+        this.event.cancelBubble = true;
     }
     return false;
 }
