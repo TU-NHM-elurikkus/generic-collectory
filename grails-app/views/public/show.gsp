@@ -83,7 +83,7 @@
                 <div class="page-header-links">
                     <a href="${request.contextPath}/" class="page-header-links__link">
                         <span class="fa fa-arrow-left"></span>
-                        <g:message code="page.navigation.collections" />
+                        <g:message code="general.collections" />
                     </a>
 
                     <a href="${request.contextPath}/public/show/${instance.institution.uid}" class="page-header-links__link">

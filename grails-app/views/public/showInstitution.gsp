@@ -75,7 +75,7 @@
                 <div class="page-header-links">
                     <a href="${request.contextPath}/" class="page-header-links__link">
                         <span class="fa fa-arrow-left"></span>
-                        <g:message code="page.navigation.collections" />
+                        <g:message code="general.collections" />
                     </a>
 
                     <%-- TODO SHOULD BE A BUTTON
@@ -262,7 +262,7 @@
                     <div class="card detached-card">
                         <div class="card-header">
                             <h4>
-                                <g:message code="public.si.content.label03" />
+                                <g:message code="general.collections" />
                             </h4>
                         </div>
 

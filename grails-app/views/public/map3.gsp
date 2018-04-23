@@ -6,7 +6,7 @@
         <asset:javascript src="map.js" />
 
         <title>
-            <g:message code="public.map3.title" />
+            <g:message code="general.collections" />
         </title>
     </head>
 
@@ -15,7 +15,7 @@
             <div id="content">
                 <div id="header" class="page-header">
                     <h1 class="page-header__title">
-                        <g:message code="public.map3.title" />
+                        <g:message code="general.collections" />
                     </h1>
 
                     <div class="page-header__subtitle">
