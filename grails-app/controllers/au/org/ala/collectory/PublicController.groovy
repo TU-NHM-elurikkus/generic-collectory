@@ -17,6 +17,7 @@ import java.text.ParseException
 class PublicController {
 
     def collectoryAuthService
+    def grailsApplication
 
     def delay = 3000    // testing delay for responses
 
@@ -88,8 +89,8 @@ class PublicController {
     def biocacheRecords = {
         def uid = params.uid
 
-        def url = grailsApplication.config.biocacheServicesUrl + "/occurrences/search?q=" +
-             uid.tokenize(',').collect({ fieldNameForSearch(it) + ":" + it}).join(' OR '.encodeAsURL())
+        def url = "${grailsApplication.config.biocacheService.internal.url}/occurrences/search?q=" +
+                  uid.tokenize(",").collect({ fieldNameForSearch(it) + ":" + it}).join(" OR ".encodeAsURL())
 
         def conn = new URL(url).openConnection()
         try {
@@ -131,7 +132,7 @@ class PublicController {
 
     def getRecordsSummary(uid) {
         // lookup number of biocache records
-        def url = "http://ala-bie1.vm.csiro.au:8080/biocache-service/occurrences/institutions/${uid}.json?pageSize=0"
+        def url = "${grailsApplication.config.biocacheService.internal.url}/occurrences/institutions/${uid}.json?pageSize=0"
 
         def conn = new URL(url).openConnection()
         try {
@@ -159,13 +160,6 @@ class PublicController {
             def result = []
             def institutions = [
                     [uid:'in4',name:'Australian Museum',acronym:'AM',label:"Aust Museum"],
-                    [uid:'in16',name:'Museum Victoria',acronym:'NMV',label:"Museum Victoria"],
-                    [uid:'in34',name:'Western Australian Museum',acronym:'WAM',label:"WA Museum"],
-                    [uid:'in22',name:'South Australian Museum',acronym:'SAM',label:"SA Museum"],
-                    [uid:'in17',name:'Northern Territory Museum and Art Gallery',acronym:'MAGNT',label:"MAGNT"],
-                    [uid:'in13',name:'Queen Victoria Museum Art Gallery',acronym:'QVMAG',label:"QVMAG"],
-                    [uid:'in15',name:'Queensland Museum',acronym:'QM',label:"Qld Museum"],
-                    [uid:'in25',name:'Tasmanian Museum and Art Gallery',acronym:'TMAG',label:"TMAG"],
                     [uid:'co16',name:'Australian National Wildlife Collection',acronym:'ANWC',label:"ANWC"]
             ]
             institutions.each {
@@ -201,7 +195,7 @@ class PublicController {
     }
 
     def newBiocacheBreakdown = {
-        def url = "http://ala-bie1.vm.csiro.au:8080/biocache-service/occurrences/search.json?q=*:*&pageSize=0";
+        def url = "${grailsApplication.config.biocacheService.internal.url}/occurrences/search.json?q=*:*&pageSize=0";
         def conn = new URL(url).openConnection()
         conn.setConnectTimeout 1500
         def dataTable = null
@@ -219,7 +213,7 @@ class PublicController {
     }
 
     def serviceRedirect = {
-        def url = "http://ala-bie1.vm.csiro.au:8080/biocache-service/breakdown/institutions/in4/rank/${params.rank}";
+        def url = "${grailsApplication.config.biocacheService.internal.url}/breakdown/institutions/in4/rank/${params.rank}";
         if (params.name) {
             url += "/name/${params.name}"
         }
@@ -257,7 +251,7 @@ class PublicController {
             render error as JSON
         } else {
             /* get decade breakdown */
-            def decadeUrl = Holders.config.biocacheServicesUrl+ "/breakdown/collection/decades/${instance.generatePermalink()}.json";
+            def decadeUrl = "${grailsApplication.config.biocacheService.internal.url}/breakdown/collection/decades/${instance.generatePermalink()}.json";
             //println decadeUrl
             def conn = new URL(decadeUrl).openConnection()
             conn.setConnectTimeout 1500
@@ -307,7 +301,7 @@ class PublicController {
         response.addHeader("Cache-Control", "no-store")
         def threshold = params.threshold ?: 20
         /* get taxon breakdown */
-        def taxonUrl = Holders.config.biocacheServicesUrl + "/breakdown/{entity}/{uid}?max=" + threshold
+        def taxonUrl = "${grailsApplication.config.biocacheService.internal.url}/breakdown/{entity}/{uid}?max=${threshold}"
         taxonUrl = taxonUrl.replaceFirst(/\{uid\}/, params.id ?: '')
         taxonUrl = taxonUrl.replaceFirst(/\{entity\}/, wsEntityForBreakdown(params.id))
         //println "taxonUrl: " + taxonUrl
@@ -360,7 +354,7 @@ class PublicController {
         response.setHeader("Cache-Control", "no-cache")
         response.addHeader("Cache-Control", "no-store")
         /* get rank breakdown */
-        def rankUrl = grailsApplication.config.biocacheServicesUrl + "/breakdown/{entity}/{uid}?rank=${params.rank}&name=${params.name}"
+        def rankUrl = "${grailsApplication.config.biocacheService.internal.url}/breakdown/{entity}/{uid}?rank=${params.rank}&name=${params.name}"
         def conn = new URL(rankUrl).openConnection()
         def dataTable = null
         def json
@@ -542,7 +536,7 @@ class PublicController {
     }
 
     def getReasonBreakdown = {
-        def url = "${grailsApplication.config.loggerURL}/logger/reasons"
+        def url = "${grailsApplication.config.loggerService.internal.url}/service/logger/reasons"
         def urlObj = new java.net.URL(url)
         def connection = urlObj.openConnection()
         connection.setRequestProperty('Accept', 'application/json')
@@ -556,7 +550,7 @@ class PublicController {
         }
         labels["unclassified"] = message(code: "download.form.reason.unclassified").capitalize()
 
-        url = "${grailsApplication.config.loggerURL}/reasonBreakdown.json?${request.queryString}"
+        url = "${grailsApplication.config.loggerService.internal.url}/service/reasonBreakdown.json?${request.queryString}"
         urlObj = new java.net.URL(url)
         connection = urlObj.openConnection()
         connection.setRequestProperty('Accept', 'application/json')
