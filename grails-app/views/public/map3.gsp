@@ -177,7 +177,7 @@
         </div>
 
         <g:javascript>
-            var baseUrl = "${grailsApplication.config.grails.serverURL}";
+            var baseUrl = "${grailsApplication.config.collectory.ui.url}";
         </g:javascript>
     </body>
 </html>

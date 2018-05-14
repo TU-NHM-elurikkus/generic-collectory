@@ -9,7 +9,7 @@
             $(document).ready(function() {
                 $('#nav-tabs > ul').tabs();
 
-                loadResources("${grailsApplication.config.grails.serverURL}","${grailsApplication.config.biocacheUiURL}");
+                loadResources("${grailsApplication.config.collectory.ui.url}","${grailsApplication.config.occurrences.ui.url}");
 
                 $('select#per-page').change(onPageSizeChange);
                 $('select#sort').change(onSortChange);

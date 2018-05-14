@@ -14,8 +14,8 @@
         <script type="text/javascript" language="javascript" src="https://www.google.com/jsapi"></script>
 
         <script type="text/javascript">
-            biocacheServicesUrl = "${grailsApplication.config.biocacheServicesUrl}";
-            biocacheWebappUrl = "${grailsApplication.config.biocacheUiURL}";
+            biocacheServicesUrl = "${grailsApplication.config.biocacheService.ui.url}";
+            biocacheWebappUrl = "${grailsApplication.config.occurrences.ui.url}";
             loadLoggerStats = ${!grailsApplication.config.disableLoggerLinks.toBoolean()};
         </script>
     </head>
@@ -86,13 +86,13 @@
                 </div>
             </div>  <%-- /header --%>
 
-            <g:if test="${!grailsApplication.config.disableLoggerLinks.toBoolean() && grailsApplication.config.loggerURL}">
+            <g:if test="${!grailsApplication.config.disableLoggerLinks.toBoolean() && grailsApplication.config.loggerService.ui.url}">
                 <div class="row">
                     <div class="col">
                         <div class="float-right">
                             <p>
                                 <a
-                                    href="${grailsApplication.config.loggerURL}/reasonBreakdownCSV?eventId=1002&entityUid=${instance.uid}"
+                                    href="${grailsApplication.config.loggerService.ui.url}/service/reasonBreakdownCSV?eventId=1002&entityUid=${instance.uid}"
                                     class="erk-button erk-button--light erk-button-link"
                                 >
                                     <span class="fa fa-download"></span>&nbsp;
@@ -332,7 +332,7 @@
         <script type="text/javascript">
               var taxonomyChartOptions = {
                   /* base url of the collectory */
-                  collectionsUrl: "${grailsApplication.config.grails.serverURL}",
+                  collectionsUrl: "${grailsApplication.config.collectory.ui.url}",
                   /* base url of the biocache ws*/
                   biocacheServicesUrl: biocacheServicesUrl,
                   /* base url of the biocache webapp*/
@@ -352,7 +352,7 @@
 
               // stats
               if(loadLoggerStats){
-                loadDownloadStats("${grailsApplication.config.grails.serverURL}", "${instance.uid}","${instance.name}", "1002");
+                loadDownloadStats("${grailsApplication.config.collectory.ui.url}", "${instance.uid}","${instance.name}", "1002");
               }
 
               // records

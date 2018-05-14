@@ -8,8 +8,8 @@
 
     <script type="text/javascript">
         // define biocache server
-        biocacheServicesUrl = "${grailsApplication.config.biocacheServicesUrl}";
-        biocacheWebappUrl = "${grailsApplication.config.biocacheUiURL}";
+        biocacheServicesUrl = "${grailsApplication.config.biocacheService.ui.url}";
+        biocacheWebappUrl = "${grailsApplication.config.occurrences.ui.url}";
         loadLoggerStats = ${!grailsApplication.config.disableLoggerLinks.toBoolean()};
     </script>
 
@@ -180,7 +180,7 @@
     function onLoadCallback() {
         // stats
         if(loadLoggerStats) {
-            loadDownloadStats("${grailsApplication.config.grails.serverURL}", "${instance.uid}", "${instance.name}", "1002");
+            loadDownloadStats("${grailsApplication.config.collectory.ui.url}", "${instance.uid}", "${instance.name}", "1002");
         }
     }
 

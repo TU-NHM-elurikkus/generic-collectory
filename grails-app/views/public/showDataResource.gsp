@@ -448,9 +448,9 @@
 
         <script type="text/javascript">
             var CHARTS_CONFIG = {
-                biocacheServicesUrl: "${grailsApplication.config.biocacheServicesUrl}",
-                biocacheWebappUrl: "${grailsApplication.config.biocacheUiURL}",
-                collectionsUrl: "${grailsApplication.config.grails.serverURL}"
+                biocacheServicesUrl: "${grailsApplication.config.biocacheService.ui.url}",
+                biocacheWebappUrl: "${grailsApplication.config.occurrences.ui.url}",
+                collectionsUrl: "${grailsApplication.config.collectory.ui.url}"
             };
 
             // configure the charts
@@ -506,9 +506,9 @@
                 // stats
                 if(loadLoggerStats) {
                     if (${instance.resourceType == 'website'}) {
-                        loadDownloadStats("${grailsApplication.config.grails.serverURL}", "${instance.uid}","${instance.name}", "2000");
+                        loadDownloadStats("${grailsApplication.config.collectory.ui.url}", "${instance.uid}","${instance.name}", "2000");
                     } else if (${instance.resourceType == 'records'}) {
-                        loadDownloadStats("${grailsApplication.config.grails.serverURL}", "${instance.uid}","${instance.name}", "1002");
+                        loadDownloadStats("${grailsApplication.config.collectory.ui.url}", "${instance.uid}","${instance.name}", "1002");
                     }
                 }
 

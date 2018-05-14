@@ -9,8 +9,8 @@
     <asset:javacsript src="public-show-datahub.js" />
 
     <script type="text/javascript">
-      biocacheServicesUrl = "${grailsApplication.config.biocacheServicesUrl}";
-      biocacheWebappUrl = "${grailsApplication.config.biocacheUiURL}";
+      biocacheServicesUrl = "${grailsApplication.config.biocacheService.ui.url}";
+      biocacheWebappUrl = "${grailsApplication.config.occurrences.ui.url}";
     </script>
   </head>
   <body class="two-column-right">
@@ -64,7 +64,7 @@
 
         <h2><g:message code="public.sdh.co.label03" /></h2>
         <p><g:message code="public.sdh.co.des01" /> <span id="totalRecords"><g:message code="public.usage.des" />...</span> <g:message code="public.sdh.co.des03" />.
-            <a href="${grailsApplication.config.biocacheUiURL}/occurrences/search?q=data_hub_uid:${instance.uid}" class="btn"><g:message code="public.sdh.co.allrecords" /></a>
+            <a href="${grailsApplication.config.occurrences.ui.url}/occurrences/search?q=data_hub_uid:${instance.uid}" class="btn"><g:message code="public.sdh.co.allrecords" /></a>
             %{--&nbsp;&nbsp;&nbsp;<button type=button id="showTimings">Show timings</button>--}%
         </p>
         <div id="charts" class="section vertical-charts">
@@ -152,11 +152,11 @@ $.ajaxSetup({cache: true});
 var facetChartOptions = {
     backgroundColor: "${grailsApplication.config.chartsBgColour}",
     /* base url of the collectory */
-    collectionsUrl: "${grailsApplication.config.grails.serverURL}",
+    collectionsUrl: "${grailsApplication.config.collectory.ui.url}",
     /* base url of the biocache ws*/
     biocacheServicesUrl: "${grailsApplication.config.biocacheServicesUrl}",
     /* base url of the biocache webapp*/
-    biocacheWebappUrl: "${grailsApplication.config.biocacheUiURL}",
+    biocacheWebappUrl: "${grailsApplication.config.occurrences.ui.url}",
     /* support click-thru to records subset - default is true */
     clickThru: true,
     /* a uid or list of uids to chart - either this or query must be present */
@@ -176,10 +176,10 @@ var facetChartOptions = {
 var taxonomyChartOptions = {
     backgroundColor: "${grailsApplication.config.chartsBgColour}",
     /* base url of the collectory */
-    collectionsUrl: "${grailsApplication.config.grails.serverURL}",
+    collectionsUrl: "${grailsApplication.config.collectory.ui.url}",
     /* base url of the biocache ws*/
-    biocacheServicesUrl: "${grailsApplication.config.biocacheServicesUrl}",
-    biocacheWebappUrl: "${grailsApplication.config.biocacheUiURL}",
+    biocacheServicesUrl: "${grailsApplication.config.biocacheService.ui.url}",
+    biocacheWebappUrl: "${grailsApplication.config.occurrences.ui.url}",
     /* support click-thru to records subset - default is true */
     clickThru: true,
     /* support drill down into chart - default is false */

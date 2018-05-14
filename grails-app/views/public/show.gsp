@@ -14,8 +14,8 @@
         <asset:stylesheet src="public-show" />
 
         <script type="text/javascript">
-            biocacheServicesUrl = "${grailsApplication.config.biocacheServicesUrl}";
-            biocacheWebappUrl = "${grailsApplication.config.biocacheUiURL}";
+            biocacheServicesUrl = "${grailsApplication.config.biocacheService.ui.url}";
+            biocacheWebappUrl = "${grailsApplication.config.occurrences.ui.url}";
             loadLoggerStats = ${!grailsApplication.config.disableLoggerLinks.toBoolean()};
 
             $(document).ready(function() {
@@ -519,7 +519,7 @@
         <script type="text/javascript">
             var taxonomyChartOptions = {
                 /* base url of the collectory */
-                collectionsUrl: "${grailsApplication.config.grails.serverURL}",
+                collectionsUrl: "${grailsApplication.config.collectory.ui.url}",
                 /* base url of the biocache */
                 biocacheServicesUrl: biocacheServicesUrl,
                 /* base url of the biocache webapp*/
@@ -555,7 +555,7 @@
             \************************************************************/
             function onLoadCallback() {
                 if(loadLoggerStats) {
-                    loadDownloadStats("${grailsApplication.config.grails.serverURL}", "${instance.uid}","${instance.name}", "1002");
+                    loadDownloadStats("${grailsApplication.config.collectory.ui.url}", "${instance.uid}","${instance.name}", "1002");
                 }
 
                 // records

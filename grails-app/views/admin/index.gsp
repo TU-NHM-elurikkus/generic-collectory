@@ -24,7 +24,7 @@
             <div class="homeCell">
               <h4 class="inline"><g:message code="admin.notlogin.title" /></h4>
                 <span class="buttons" style="float: right;">
-                  <a href="${grailsApplication.config.security.cas.loginUrl}?service=${grailsApplication.config.grails.serverURL}/admin">&nbsp;<g:message code="admin.notlogin.link" />&nbsp;</a>
+                  <a href="${grailsApplication.config.security.cas.loginUrl}?service=${grailsApplication.config.collectory.ui.url}/admin">&nbsp;<g:message code="admin.notlogin.link" />&nbsp;</a>
                 </span>
               <p><g:message code="admin.notlogin.des" /></p>
             </div>
