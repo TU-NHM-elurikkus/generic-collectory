@@ -148,7 +148,7 @@ function appendResource(value) {
                 '<a href="' + biocacheUrl + '/occurrences/search?q=data_resource_uid:' + value.uid + '">' +
                     '<span class="fa fa-list"></span>' +
                     '&nbsp;' +
-                    $.i18n.prop('general.btn.viewRecords') + ' (' + value.recordsCount + ')' +
+                    $.i18n.prop('general.btn.viewRecords') + ' (' + value.recordsCount.toLocaleString(GLOBAL_LOCALE_CONF.locale) + ')' +
                 '</a>' +
             '</span>'
         );
