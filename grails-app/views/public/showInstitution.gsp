@@ -77,12 +77,6 @@
                         <span class="fa fa-arrow-left"></span>
                         <g:message code="general.collections" />
                     </a>
-
-                    <%-- TODO SHOULD BE A BUTTON
-                    <cl:pageOptionsLink>
-                        ${fieldValue(bean:instance,field:'name')}
-                    </cl:pageOptionsLink>
-                    --%>
                 </div>
             </div>  <%-- /header --%>
 
