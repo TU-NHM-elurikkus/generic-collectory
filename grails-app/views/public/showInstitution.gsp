@@ -23,7 +23,6 @@
     <body>
         <div id="content">
             <div id="header" class="page-header">
-                <cl:pageOptionsPopup instance="${instance}" />
 
                 <h1 class="page-header__title">
                     ${instance.name}
