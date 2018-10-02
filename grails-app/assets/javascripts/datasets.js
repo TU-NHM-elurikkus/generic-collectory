@@ -34,7 +34,7 @@ var tooltipOptions = {
 function loadResources(serverUrl, biocacheRecordsUrl) {
     baseUrl = serverUrl;
     biocacheUrl = biocacheRecordsUrl;
-    $.getJSON(baseUrl + '/public/resources.json', function(data) {
+    $.getJSON(baseUrl + '/public/resources', function(data) {
         allResources = data;
         // no filtering at this stage
         resources = allResources;
@@ -148,7 +148,7 @@ function appendResource(value) {
                 '<a href="' + biocacheUrl + '/occurrences/search?q=data_resource_uid:' + value.uid + '">' +
                     '<span class="fa fa-list"></span>' +
                     '&nbsp;' +
-                    $.i18n.prop('general.btn.viewRecords') +
+                    $.i18n.prop('general.btn.viewRecords') + ' (' + value.recordsCount.toLocaleString(GLOBAL_LOCALE_CONF.locale) + ')' +
                 '</a>' +
             '</span>'
         );

@@ -519,18 +519,37 @@ class PublicController {
     }
 
     def resources = {
-        cache shared:true, validFor: 3600*24
-        def drs = DataResource.findAllByStatusNotEqual('declined', [sort: 'name']).collect {
-        //def drs = DataResource.list([sort:'name']).collect {
-            def pdesc = it.pubDescription ? cl.formattedText(dummy:'1',limit(it.pubDescription,1000)) : ""
-            def tdesc = it.techDescription ? cl.formattedText(dummy:'1',limit(it.techDescription,1000)) : ""
+        cache shared: true, validFor: 3600 * 24
+
+        // Get record counts
+        def response = new URL("${grailsApplication.config.biocacheService.internal.url}/occurrences/search?facets=data_resource&pageSize=0").getText()
+        def jsoneResponse = new groovy.json.JsonSlurper().parseText(response)
+
+        def recordCounts = [:]
+        for(dr in jsoneResponse.facetResults[0].fieldResult) {
+            recordCounts[dr.label] = dr.count
+        }
+
+        def drs = DataResource.findAllByStatusNotEqual("declined", [sort: "name"]).collect {
+            def pdesc = it.pubDescription ? cl.formattedText(dummy: "1", limit(it.pubDescription, 1000)) : ""
+            def tdesc = it.techDescription ? cl.formattedText(dummy: "1", limit(it.techDescription, 1000)) : ""
             def inst = it.institution
             def instName = (inst && inst.name.size() > 36 && inst.acronym) ? inst.acronym : inst?.name
 
-            [name: it.name, resourceType: it.resourceType, licenseType: it.licenseType,
-             licenseVersion: it.licenseVersion, pubDescription: pdesc, techDescription: tdesc,
-             uid: it.uid, status: it.status, websiteUrl: it.websiteUrl, contentTypes: it.contentTypes,
-             institution: instName]
+            [
+                name: it.name,
+                resourceType: it.resourceType,
+                licenseType: it.licenseType,
+                licenseVersion: it.licenseVersion,
+                pubDescription: pdesc,
+                techDescription: tdesc,
+                uid: it.uid,
+                status: it.status,
+                websiteUrl: it.websiteUrl,
+                contentTypes: it.contentTypes,
+                recordsCount: recordCounts[it.name],
+                institution: instName
+            ]
         }
         render drs as JSON
     }
