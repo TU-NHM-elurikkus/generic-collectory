@@ -239,7 +239,12 @@ function drawTaxonomyChart(data, chartOptions, query) {
     if(clickThru || drillDown) {
         google.visualization.events.addListener(chart, 'select', function() {
             // find out what they clicked
-            var name = dataTable.getValue(chart.getSelection()[0].row, 0);
+            var selection = chart.getSelection();
+            if(selection.length === 0) {
+                return;
+            }
+
+            var name = dataTable.getValue(selection[0].row, 0);
 
             if(name === 'Unknown') {
                 var fq = '-' + data.rank + ':*';
