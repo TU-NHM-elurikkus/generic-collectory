@@ -41,40 +41,6 @@
                     </g:if>
                 </div>
 
-                <%-- TODO --%>
-                <span style="display: none;">
-                    <cl:valueOrOtherwise value="${instance.acronym}">
-                        <span class="acronym">
-                            <g:message code="public.show.header.acronym" />: ${fieldValue(bean: instance, field: "acronym")}
-                        </span>
-                    </cl:valueOrOtherwise>
-
-                    <span class="lsid">
-                        <a href="#lsidText" id="lsid" class="local" title="Life Science Identifier (pop-up)">
-                            <g:message code="public.lsid" />
-                        </a>
-                    </span>
-                </span>
-
-                <%-- TODO the hell is this? --%>
-                <div style="display:none; text-align: left;">
-                    <div id="lsidText" style="text-align: left;">
-                        <b>
-                            <a class="external_icon" href="http://lsids.sourceforge.net/" target="_blank">
-                                <g:message code="public.lsidtext.link" />:
-                            </a>
-                        </b>
-
-                        <p style="margin: 10px 0;">
-                            <cl:guid target="_blank" guid="${fieldValue(bean: instance, field: "guid")}" />
-                        </p>
-
-                        <p style="font-size: 12px;">
-                            <g:message code="public.lsidtext.des" />.&nbsp;
-                        </p>
-                    </div>
-                </div>
-
                 <div class="page-header-links">
                     <a href="${request.contextPath}/" class="page-header-links__link">
                         <span class="fa fa-arrow-left"></span>
@@ -97,21 +63,6 @@
                                 alt="${fieldValue(bean: instance, field: "imageRef.file")}"
                                 class="sidebar-image"
                             />
-                            <%-- Not sure whether or not we want to display this information
-                            <cl:formattedText pClass="caption">
-                                ${fieldValue(bean: instance, field: "imageRef.caption")}
-                            </cl:formattedText>
-                            <cl:valueOrOtherwise value="${instance.imageRef?.attribution}">
-                                <p class="caption">
-                                    ${fieldValue(bean: instance, field: "imageRef.attribution")}
-                                </p>
-                            </cl:valueOrOtherwise>
-                            <cl:valueOrOtherwise value="${instance.imageRef?.copyright}">
-                                <p class="caption">
-                                    ${fieldValue(bean: instance, field: "imageRef.copyright")}
-                                </p>
-                            </cl:valueOrOtherwise>
-                            --%>
                         </div>
                     </g:if>
 
