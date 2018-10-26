@@ -38,12 +38,12 @@
                     <ul>
                         <li>
                             If DWC-A doesn't have eml.xml file <br />
-                            ALA fills Data Resource Metadata from eml file. If there's dataset file, copy the xml file
-                            with dataset's hash as name to DWC-A root level and rename it to "eml.xml". Else if there's
-                            a metadata.xml in DWC-A root level, make a copy of it named "eml.xml"
+                            ALA fills Data Resource Metadata from eml file. If there's dataset dir, copy the xml file
+                            with dataset's hash as name from it to DWC-A root level and rename it to "eml.xml".
+                            Else if there's a metadata.xml in DWC-A root level, make a copy of it named "eml.xml"
                         </li>
                         <li>
-                            When uploading DWC-A, unique separator is probably <b>"gbifID"</b>
+                            Unique identifier is probably <b>"gbifID"</b>
                         </li>
                         <li>
                             If biocache ingest command fails, try manually calling
