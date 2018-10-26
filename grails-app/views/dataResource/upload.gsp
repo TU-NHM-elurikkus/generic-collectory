@@ -31,9 +31,40 @@
                     </g:link>
                 </h1>
 
-                <div class="page-header__subtitle">
-                    <g:message code="dataresource.upload.des" />
+                <div class="submenu__title">
+                    NB! WHen using DWC-A from GBIF
                 </div>
+                <div class="page-header__subtitle">
+                    <ul>
+                        <li>
+                            If DWC-A doesn't have eml.xml file <br />
+                            ALA fills Data Resource Metadata from eml file. If there's dataset file, copy the xml file
+                            with dataset's hash as name to DWC-A root level and rename it to "eml.xml". Else if there's
+                            a metadata.xml in DWC-A root level, make a copy of it named "eml.xml"
+                        </li>
+                        <li>
+                            When uploading DWC-A, unique separator is probably <b>"gbifID"</b>
+                        </li>
+                        <li>
+                            If biocache ingest command fails, try manually calling
+                            <ul>
+                                <li>
+                                    load-dwca drID
+                                </li>
+                                <li>
+                                    process -dr drID
+                                </li>
+                                <li>
+                                    sample -dr drID
+                                </li>
+                                <li>
+                                    index -dr drID
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
             </div>
 
             <div class="tab-pane">
