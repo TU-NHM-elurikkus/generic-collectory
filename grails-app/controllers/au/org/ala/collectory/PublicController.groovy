@@ -1,10 +1,14 @@
 package au.org.ala.collectory
-import au.com.bytecode.opencsv.CSVWriter
-import grails.converters.JSON
-import grails.util.Holders
 
 import java.text.NumberFormat
 import java.text.ParseException
+
+import grails.converters.JSON
+import grails.util.Holders
+import grails.plugin.cache.Cacheable
+
+import au.com.bytecode.opencsv.CSVWriter
+
 /**
  * Handles all the public pages generated from the collectory.
  *
@@ -518,9 +522,8 @@ class PublicController {
         render drs as JSON
     }
 
-    def resources = {
-        cache shared: true, validFor: 3600 * 24
-
+    @Cacheable("collectoryCache")
+    def resources() {
         // Get record counts
         def response = new URL("${grailsApplication.config.biocacheService.internal.url}/occurrences/search?facets=data_resource&pageSize=0").getText()
         def jsoneResponse = new groovy.json.JsonSlurper().parseText(response)
@@ -547,7 +550,7 @@ class PublicController {
                 status: it.status,
                 websiteUrl: it.websiteUrl,
                 contentTypes: it.contentTypes,
-                recordsCount: recordCounts[it.name],
+                recordsCount: recordCounts.get(it.name, 0),
                 institution: instName
             ]
         }

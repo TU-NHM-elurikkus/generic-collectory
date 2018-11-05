@@ -2,17 +2,17 @@ package au.org.ala.collectory
 
 import grails.converters.JSON
 import grails.util.Holders
-import au.com.bytecode.opencsv.CSVReader
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver
-//import org.codehaus.groovy.grails.plugins.reloadableconfig.ConfigurationResourceListener
-
 import grails.web.JSONBuilder
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver
+
+import au.com.bytecode.opencsv.CSVReader
+
 
 class AdminController {
 
     def dataLoaderService, idGeneratorService, collectoryAuthService, metadataService
     def grailsApplication
-    //static defaultAction = "home"
+    def grailsCacheAdminService
 
 /*
  * Access control
@@ -434,5 +434,14 @@ class AdminController {
             g.put 'children', ch
         }
         return g
+    }
+
+    def clearCache() {
+        // clear the cache used by the blocks tag…
+        grailsCacheAdminService.clearBlocksCache()
+        // clear the cache used by the render tag…
+        grailsCacheAdminService.clearTemplatesCache()
+        grailsCacheAdminService.clearAllCaches()
+        render "Cache cleared"
     }
 }
