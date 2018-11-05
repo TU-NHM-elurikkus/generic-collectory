@@ -40,7 +40,9 @@
                             If DWC-A doesn't have eml.xml file <br />
                             ALA fills Data Resource Metadata from eml file. If there's dataset dir, copy the xml file
                             with dataset's hash as name from it to DWC-A root level and rename it to "eml.xml".
-                            Else if there's a metadata.xml in DWC-A root level, make a copy of it named "eml.xml"
+                            Else if there's a metadata.xml in DWC-A root level, make a copy of it named "eml.xml".
+                            This is needed for the initial upload and later eml.xml should be removed from archives
+                            as it overwrites manual changes.
                         </li>
                         <li>
                             Unique identifier is probably <b>"gbifID"</b>
