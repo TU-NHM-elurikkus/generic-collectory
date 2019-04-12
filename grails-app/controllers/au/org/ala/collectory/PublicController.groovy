@@ -62,8 +62,6 @@ class PublicController {
         // is it a UID
         if (params.id instanceof String && params.id.startsWith(Institution.ENTITY_PREFIX)) {
             forward(action: 'showInstitution', params: params)
-        } else if (params.id instanceof String && params.id.startsWith('dp')) {
-            forward(action: 'showDataProvider', params: params)
         } else if (params.id instanceof String && params.id.startsWith('drt')) {
             forward(action: 'showTempDataResource', params: params)
         } else if (params.id instanceof String && params.id.startsWith('dr')) {
@@ -439,20 +437,6 @@ class PublicController {
 
             ActivityLog.log collectoryAuthService?.username(), collectoryAuthService?.isAdmin(), institution.uid, Action.VIEW
             [instance: institution, exceptions: recordExceptions]
-        }
-    }
-
-    /**
-     * Shows the public page for a data provider.
-     */
-    def showDataProvider = {
-        def instance = ProviderGroup._get(params.id)
-        if (!instance) {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'dataProvider.label', default: 'Data provider'), params.code ? params.code : params.id])}"
-            redirect(controller: "public", action: "map")
-        } else {
-            ActivityLog.log collectoryAuthService?.username(), collectoryAuthService?.userInRole(ProviderGroup.ROLE_ADMIN), instance.uid, Action.VIEW
-            [instance: instance]
         }
     }
 
