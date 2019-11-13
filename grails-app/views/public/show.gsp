@@ -144,7 +144,7 @@
                             <g:if test="${instance.institution?.websiteUrl}">
                                 <div class="webSite">
                                     <a class='external' rel='nofollow' target="_blank" href="${instance.institution?.websiteUrl}">
-                                        <g:message code="public.show.obs.institutionLink" args="[cl.institutionType(inst: instance.institution)]" />
+                                        <g:message code="public.show.obs.institutionLink" />
                                     </a>
                                 </div>
                             </g:if>
