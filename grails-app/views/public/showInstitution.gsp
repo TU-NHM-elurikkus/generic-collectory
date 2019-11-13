@@ -183,9 +183,7 @@
 
                             <div class="webSite">
                                 <a class='external' target="_blank" href="${instance.websiteUrl}">
-                                    <g:message code="public.si.website.link01" />
-                                    <cl:institutionType inst="${instance}" />
-                                    <g:message code="public.si.website.link02" />
+                                    <g:message code="public.show.obs.institutionLink" />
                                 </a>
                             </div>
                         </div>

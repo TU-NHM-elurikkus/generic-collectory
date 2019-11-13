@@ -1,4 +1,9 @@
-<%@ page import="au.org.ala.collectory.ContactFor; grails.converters.deep.JSON; java.text.DecimalFormat; au.org.ala.collectory.Collection; au.org.ala.collectory.Institution" %>
+<%@ page import="au.org.ala.collectory.ContactFor" %>
+<%@ page import="grails.converters.deep.JSON" %>
+<%@ page import="java.text.DecimalFormat" %>
+<%@ page import="au.org.ala.collectory.Collection" %>
+<%@ page import="au.org.ala.collectory.Institution" %>
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
